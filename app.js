@@ -56,3 +56,4 @@ require('./routes/auth')(app, controllers);
 http.createServer(app).listen(app.get('port'), function () {
     app.log.info('Express server listening on port ' + app.get('port'));
 });
+
