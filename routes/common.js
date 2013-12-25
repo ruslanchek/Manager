@@ -1,4 +1,4 @@
-module.exports = function(app, express){
+module.exports = function(app, controllers){
     /**
      * Get routes
      * */

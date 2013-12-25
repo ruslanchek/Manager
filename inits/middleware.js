@@ -19,17 +19,21 @@ module.exports = function(app, express){
     /**
      * HTTP errors
      * */
-    app.use(function(req, res, next){
-        res.status(404);
-        app.log.debug('Not found URL: %s', req.url);
-        res.render('httperror', { code: '404' });
-        return;
-    });
+    if ('development' != app.get('env')) {
+        app.use(function(req, res, next){
+            res.status(404);
+            app.log.debug('Not found URL: %s', req.url);
+            res.render('404', { code: '404' });
+            return;
+        });
 
-    app.use(function(err, req, res, next){
-        res.status(err.status || 500);
-        app.log.error('Internal error(%d): %s', res.statusCode, err.message);
-        res.render('httperror', { code: res.statusCode, message: err.message });
-        return;
-    });
+        app.use(function(err, req, res, next){
+            res.status(err.status || 500);
+            app.log.error('Internal error(%d): %s', res.statusCode, err.message);
+            res.render('500', { code: res.statusCode, message: err.message });
+            return;
+        });
+    }else{
+        app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
+    }
 }

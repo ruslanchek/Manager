@@ -2,7 +2,7 @@ var FacebookStrategy    = require('passport-facebook').Strategy,
     TwitterStrategy     = require('passport-twitter').Strategy,
     LocalStrategy       = require('passport-local').Strategy;
 
-module.exports = function(app, express){
+module.exports = function(app, controllers){
     /**
      * Passport inits
      * */

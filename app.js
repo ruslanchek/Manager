@@ -40,14 +40,14 @@ controllers.user = require('./controllers/user')(app, models);
  * */
 require('./inits/environment')(app, express);
 require('./inits/middleware')(app, express);
-require('./inits/passport_strategies')(app, express);
+require('./inits/passport_strategies')(app, controllers);
 
 
 /**
  * Routes
  * */
-require('./routes/common')(app, express);
-require('./routes/auth')(app, express);
+require('./routes/common')(app, controllers);
+require('./routes/auth')(app, controllers);
 
 
 /**
