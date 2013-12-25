@@ -15,12 +15,11 @@ var http = require('http');
 var app = bootable(express());
 
 app.phase(bootable.initializers('./models'));
+//app.phase(bootable.initializers('./controllers'));
 app.phase(bootable.initializers('./inits'));
 
 app.phase(bootable.routes('./routes/common'));
 app.phase(bootable.routes('./routes/auth'));
-
-console.log(this.abc)
 
 app.boot(function(err) {
     if (err) { throw err; }

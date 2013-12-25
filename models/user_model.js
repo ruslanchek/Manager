@@ -1,5 +1,5 @@
-var UserModel = {
-
+module.exports = function(){
+    this.userModel = {
+        a: 'b'
+    };
 };
-
-module.exports = UserModel;
