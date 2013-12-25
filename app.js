@@ -14,7 +14,9 @@ var http = require('http');
  * */
 var app = bootable(express());
 
+app.phase(bootable.initializers('./models'));
 app.phase(bootable.initializers('./inits'));
+
 app.phase(bootable.routes('./routes/common'));
 app.phase(bootable.routes('./routes/auth'));
 
@@ -24,7 +26,7 @@ app.boot(function(err) {
     /**
      * Server
      * */
-    http.createServer(app).listen(2000, function () {
-        log.info('Express server listening on port ' + 2000);
+    http.createServer(app).listen(app.get('port'), function () {
+        log.info('Express server listening on port ' + app.get('port'));
     });
 });
