@@ -19,6 +19,7 @@
     "winston": "~0.7.2",
     "nconf": "~0.6.9",
     "crypto": "0.0.3",
-    "password-generator": "~0.2.1"
+    "password-generator": "~0.2.1",
+    "bootable": "~0.2.2"
   }
 }
