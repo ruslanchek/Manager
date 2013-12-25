@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        title Test
+    body
+        ul
+            if !user
+                li
+                    a(href="/") Home
+                li
+                    a(href="/login") Log In
+            else
+                li
+                    a(href="/") Home
+                li
+                    a(href="/account") Account
+                li
+                    a(href="/logout") Log Out
+
+        block content

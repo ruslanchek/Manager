@@ -1,0 +1,19 @@
+{
+    "port" : 2000,
+    "mongoose": {
+        "uri": "mongodb://localhost/manager"
+    },
+    "oauth" : {
+        "site_uri": "http://manager.cartrek.ru:2000",
+
+        "facebook" : {
+            "clientID" : "376331375837378",
+            "clientSecret" : "985e868833e17b228090904536c23576"
+        },
+
+        "twitter" : {
+            "consumerKey" : "KGrtpNFTY6llYyFRl2LKg",
+            "consumerSecret" : "IKKE5cPUPmtD1bPaC8DJwi9VyU7Z8xDz51nCtpZyeo"
+        }
+    }
+}
