@@ -1,23 +1,26 @@
 /**
  * Requires
  * */
-var mongoose    = require('mongoose'),
-    log         = require('./log')(module),
-    config      = require('./config');
+var mongoose = require('mongoose');
 
-/**
- * Connect
- * */
-mongoose.connect(config.get('mongoose:uri'));
+module.exports = function(app){
+    /**
+     * Connect
+     * */
+    mongoose.connect(app.config.get('mongoose:uri'));
 
-var db = mongoose.connection;
+    var db = mongoose.connection;
 
-db.on('error', function (err) {
-    log.error('Mongoose connection error:', err.message);
-});
+    db.on('error', function (err) {
+        app.log.error('Mongoose connection error:', err.message);
+    });
 
-db.once('open', function callback () {
-    log.info("Mongoose connected to DB!");
-});
+    db.once('open', function callback () {
+        app.log.info("Mongoose connected to DB!");
+    });
 
-exports.Schema = mongoose.Schema;
+    this.Schema      = mongoose.Schema;
+    this.mongoose    = mongoose;
+
+    return this;
+}

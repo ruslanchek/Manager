@@ -1,33 +1,58 @@
 /**
  * Requires
  */
-var config = require('./libs/config');
-var log = require('./libs/log')(module);
-
-var bootable = require('bootable');
-var express = require('express');
-var http = require('http');
-
+var express = require('express'),
+    http = require('http');
 
 /**
  * App init
  * */
-var app = bootable(express());
+var app             = express(),
+    models          = {},
+    controllers     = {};
 
-app.phase(bootable.initializers('./models'));
-//app.phase(bootable.initializers('./controllers'));
-app.phase(bootable.initializers('./inits'));
 
-app.phase(bootable.routes('./routes/common'));
-app.phase(bootable.routes('./routes/auth'));
+/**
+ * Variables
+ * */
+app.passport        = require('passport');
 
-app.boot(function(err) {
-    if (err) { throw err; }
+app.config          = require('./libs/config');
+app.log             = require('./libs/log')(module);
+app.utils           = require('./libs/utils');
+app.mongoose        = require('./libs/mongoose')(app);
 
-    /**
-     * Server
-     * */
-    http.createServer(app).listen(app.get('port'), function () {
-        log.info('Express server listening on port ' + app.get('port'));
-    });
+
+/**
+ * Models
+ * */
+models.user = require('./models/user')(app).model;
+
+
+/**
+ * Controllers
+ * */
+controllers.user = require('./controllers/user')(app, models);
+
+
+/**
+ * Inits
+ * */
+require('./inits/environment')(app, express);
+require('./inits/middleware')(app, express);
+require('./inits/passport_strategies')(app, express);
+
+
+/**
+ * Routes
+ * */
+require('./routes/common')(app, express);
+require('./routes/auth')(app, express);
+
+
+/**
+ * Server
+ * */
+http.createServer(app).listen(app.get('port'), function () {
+    app.log.info('Express server listening on port ' + app.get('port'));
 });

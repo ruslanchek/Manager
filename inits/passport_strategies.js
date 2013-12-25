@@ -1,18 +1,16 @@
-var config              = require('../libs/config'),
-    passport            = require('passport'),
-    FacebookStrategy    = require('passport-facebook').Strategy,
+var FacebookStrategy    = require('passport-facebook').Strategy,
     TwitterStrategy     = require('passport-twitter').Strategy,
     LocalStrategy       = require('passport-local').Strategy;
 
-module.exports = function(){
+module.exports = function(app, express){
     /**
      * Passport inits
      * */
-    passport.serializeUser(function(user, done) {
+    app.passport.serializeUser(function(user, done) {
         done(null, user);
     });
 
-    passport.deserializeUser(function(obj, done) {
+    app.passport.deserializeUser(function(obj, done) {
         done(null, obj);
     });
 
@@ -20,11 +18,11 @@ module.exports = function(){
     /**
      * Passport for Facebook init
      * */
-    passport.use(
+    app.passport.use(
         new FacebookStrategy({
-                clientID: config.get('oauth:facebook:clientID'),
-                clientSecret: config.get('oauth:facebook:clientSecret'),
-                callbackURL: config.get('oauth:site_uri') + "/auth/facebook/callback"
+                clientID: app.config.get('oauth:facebook:clientID'),
+                clientSecret: app.config.get('oauth:facebook:clientSecret'),
+                callbackURL: app.config.get('oauth:site_uri') + "/auth/facebook/callback"
             },
             function (accessToken, refreshToken, profile, done) {
                 Users.findOrCreate('facebook', profile, function (err, user) {
@@ -40,11 +38,11 @@ module.exports = function(){
     /**
      * Passport for Twitter init
      * */
-    passport.use(
+    app.passport.use(
         new TwitterStrategy({
-                consumerKey: config.get('oauth:twitter:consumerKey'),
-                consumerSecret: config.get('oauth:twitter:consumerSecret'),
-                callbackURL: config.get('oauth:site_uri') + "/auth/twitter/callback"
+                consumerKey: app.config.get('oauth:twitter:consumerKey'),
+                consumerSecret: app.config.get('oauth:twitter:consumerSecret'),
+                callbackURL: app.config.get('oauth:site_uri') + "/auth/twitter/callback"
             },
             function(token, tokenSecret, profile, done) {
                 Users.findOrCreate('twitter', profile, function (err, user) {
@@ -62,7 +60,7 @@ module.exports = function(){
     /**
      * Passport for Local auth
      * */
-    passport.use(
+    app.passport.use(
         new LocalStrategy({
                 usernameField: 'username',
                 passwordField: 'password'

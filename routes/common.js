@@ -1,16 +1,16 @@
-module.exports = function(){
+module.exports = function(app, express){
     /**
      * Get routes
      * */
-    this.get('/', function(req, res){
+    app.get('/', function(req, res){
         res.render('index', { user: req.user });
     });
 
-    this.get('/account', this.ensureAuthenticated, function(req, res){
+    app.get('/account', app.ensureAuthenticated, function(req, res){
         res.render('account', { user: req.user });
     });
 
-    this.get('/login', function(req, res){
+    app.get('/login', function(req, res){
         res.render('login', { user: req.user });
     });
 };
