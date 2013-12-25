@@ -1,3 +1,5 @@
-module.exports = function(){
-    this.abc = 'saa';
+var UserModel = {
+
 };
+
+module.exports = UserModel;
