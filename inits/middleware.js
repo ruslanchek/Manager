@@ -8,7 +8,7 @@ module.exports = function(app, express){
     app.use(express.cookieParser());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(express.session({ secret: 'keyboard cat' }));
+    app.use(express.session({ secret: app.config.get('session_secret') }));
 
     app.use(app.passport.initialize());
     app.use(app.passport.session());

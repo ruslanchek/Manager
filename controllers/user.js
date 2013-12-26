@@ -5,17 +5,38 @@ module.exports = function(app, models){
         var conditions,
             create_data;
 
-        if (!profile.id || !profile.displayName) { return done(err); }
+        if (!profile.id || (!profile.username && !profile.displayName)) {
+            return done('NO_ID_RECEIVED');
+        }
+
+        if (!profile.username) {
+            profile.username = app.utils.translit(profile.displayName.toLowerCase());
+        }
 
         switch(provider){
             case 'facebook' : {
                 conditions = { facebook_id: profile.id };
-                create_data = { facebook_id: profile.id, displayName: profile.displayName, username: profile.username };
+                create_data = { facebook_id: profile.id, display_name: profile.displayName, username: profile.username };
             } break;
 
             case 'twitter' : {
                 conditions = { twitter_id: profile.id };
-                create_data = { twitter_id: profile.id, displayName: profile.displayName, username: profile.username };
+                create_data = { twitter_id: profile.id, display_name: profile.displayName, username: profile.username };
+            } break;
+
+            case 'google' : {
+                conditions = { google_id: profile.id };
+                create_data = { google_id: profile.id, display_name: profile.displayName, username: profile.username };
+            } break;
+
+            case 'vk' : {
+                conditions = { vk_id: profile.id };
+                create_data = { vk_id: profile.id, display_name: profile.displayName, username: profile.username };
+            } break;
+
+            case 'yandex' : {
+                conditions = { yandex_id: profile.id };
+                create_data = { yandex_id: profile.id, display_name: profile.displayName, username: profile.username };
             } break;
         }
 
@@ -27,16 +48,14 @@ module.exports = function(app, models){
 
             }else{
                 var user = new models.user(
-                    app.utils.extend(
-                        {
-                            password: generatePassword(12, false)
-                        },
-                        create_data
-                    )
+                    app.utils.extend({ password: generatePassword(12, false) }, create_data)
                 );
 
                 user.save(function(err, user) {
-                    if (err) { return done(err); }
+                    if (err) {
+                        return done(err);
+                    }
+
                     done(null, user);
 
                     app.log.info("User created: ", user.username);
@@ -46,10 +65,14 @@ module.exports = function(app, models){
     }
 
     this.findOne = function (username, password, done) {
-        models.user.findOne({username: username}, null, null, function(err, user) {
-            if (err) { return done(err); }
+        models.user.findOne({ username: username }, null, null, function(err, user) {
+            if (err) {
+                return done(err);
+            }
 
-            if (!user.checkPassword(password)) { return done(null, false); }
+            if (!user || !user.checkPassword(password)) {
+                return done(null, false);
+            }
 
             if (user) {
                 done(null, user);

@@ -13,11 +13,16 @@ module.exports = function(app){
             index: true
         },
 
-        displayName: {
+        email: {
+            type: String,
+            index: true
+        },
+
+        display_name: {
             type: String
         },
 
-        hashedPassword: {
+        hashed_password: {
             type: String,
             required: true
         },
@@ -38,6 +43,18 @@ module.exports = function(app){
 
         facebook_id: {
             type: String
+        },
+
+        google_id: {
+            type: String
+        },
+
+        vk_id: {
+            type: String
+        },
+
+        yandex_id: {
+            type: String
         }
     });
 
@@ -46,12 +63,12 @@ module.exports = function(app){
      * */
     User.virtual('password')
         .set(function(password) {
-            this._plainPassword = password;
+            this._plain_password = password;
             this.salt = crypto.randomBytes(32).toString('base64');
             //more secure - this.salt = crypto.randomBytes(128).toString('base64'); //TODO: try more secure
-            this.hashedPassword = this.encryptPassword(password);
+            this.hashed_password = this.encryptPassword(password);
         })
-        .get(function() { return this._plainPassword; });
+        .get(function() { return this._plain_password; });
 
     User.virtual('userId')
         .get(function () {
@@ -67,7 +84,7 @@ module.exports = function(app){
     };
 
     User.methods.checkPassword = function(password) {
-        return this.encryptPassword(password) === this.hashedPassword;
+        return this.encryptPassword(password) === this.hashed_password;
     };
 
     this.model = app.mongoose.mongoose.model('User', User);
