@@ -1,7 +1,7 @@
 app.auth = {
     logOut: function () {
         $.ajax({
-            url: '/logout',
+            url: '/auth/logout',
             type: 'get',
             success: function (data) {
                 if(data && data.success === true){
@@ -22,7 +22,7 @@ app.auth = {
 
         new app.FormController({
             form_selector: '#form-login',
-            url: '/login',
+            url: '/auth/login',
             fields: {
                 username: '#username',
                 password: '#password'

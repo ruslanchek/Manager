@@ -15,7 +15,7 @@ this.extend = function (target) {
 /**
  * Translit str
  * */
-this.translit = function (str){
+this.translitStr = function (str){
     var tr = [
         ['А', 'a'],
         ['Б', 'b'],
@@ -98,7 +98,7 @@ this.translit = function (str){
 /**
  * Sanity from symbols
  * */
-this.sanity = function (str){
+this.sanityStr = function (str){
     var reg = new RegExp('/[^a-zA-Z0-9-\?]/', "g");
     str = str.replace(reg, "-", str);
 
@@ -113,5 +113,21 @@ this.sanity = function (str){
 
     str = str.toLowerCase();
 
-    return translit(str);
+    return this.translitStr(str);
+}
+
+
+/**
+ * Find in object of array
+ * */
+this.findInObjOfArray = function(arr, key, val){
+    if(arr && arr.length > 0 && key && val){
+        for(var i = 0, l = arr.length; i < l; i++){
+            if(arr[i][key] == val){
+                return arr[i];
+            }
+        }
+    }
+
+    return false;
 }

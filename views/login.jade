@@ -9,7 +9,7 @@ block content
                     small Demo App
 
             .login-form
-                form#form-login(action='/login', method='post')
+                form#form-login(action='/auth/login', method='post')
                     .form-message
 
                     .form-group
@@ -22,8 +22,8 @@ block content
                     input.btn.btn-primary.btn-lg.btn-block(type='submit', value='Login')
 
                     div.login-links
-                        a.login-link(href='/password-recovery') Lost password?
-                        a.login-link.label.label-primary(href='/sign-up') Sign up
+                        a.login-link(href='/auth/password-recovery') Lost password?
+                        a.login-link(href='/auth/sign-up') Sign up by e-mail
 
                     .divider
 

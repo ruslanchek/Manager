@@ -6,7 +6,7 @@ module.exports = function (app, controllers) {
 
     app.get(
         '/auth/facebook/callback',
-        app.passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' })
+        app.passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/auth/login' })
     );
 
 
@@ -17,7 +17,7 @@ module.exports = function (app, controllers) {
 
     app.get(
         '/auth/twitter/callback',
-        app.passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' })
+        app.passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/auth/login' })
     );
 
 
@@ -28,7 +28,7 @@ module.exports = function (app, controllers) {
 
     app.get(
         '/auth/google/return',
-        app.passport.authenticate('google', { successRedirect: '/', failureRedirect: '/login' })
+        app.passport.authenticate('google', { successRedirect: '/', failureRedirect: '/auth/login' })
     );
 
 
@@ -39,7 +39,7 @@ module.exports = function (app, controllers) {
 
     app.get(
         '/auth/vkontakte/callback',
-        app.passport.authenticate('vkontakte', { successRedirect: '/', failureRedirect: '/login' })
+        app.passport.authenticate('vkontakte', { successRedirect: '/', failureRedirect: '/auth/login' })
     );
 
 
@@ -49,14 +49,14 @@ module.exports = function (app, controllers) {
     app.get('/auth/yandex', app.passport.authenticate('yandex'));
 
     app.get('/auth/yandex/callback',
-        app.passport.authenticate('yandex', { successRedirect: '/', failureRedirect: '/login' })
+        app.passport.authenticate('yandex', { successRedirect: '/', failureRedirect: '/auth/login' })
     );
 
 
     /**
      * Post for logging in
      * */
-    app.post('/login', function (req, res) {
+    app.post('/auth/login', function (req, res) {
         app.passport.authenticate('local', function (err, user) {
             if (req.xhr) {
                 if (err) {
@@ -82,16 +82,16 @@ module.exports = function (app, controllers) {
                 });
             } else {
                 if (err) {
-                    return res.redirect('/login');
+                    return res.redirect('/auth/login');
                 }
 
                 if (!user) {
-                    return res.redirect('/login');
+                    return res.redirect('/auth/login');
                 }
 
                 req.login(user, {}, function (err) {
                     if (err) {
-                        return res.redirect('/login');
+                        return res.redirect('/auth/login');
                     }
                     return res.redirect('/');
                 });
@@ -101,9 +101,25 @@ module.exports = function (app, controllers) {
 
 
     /**
+     * Route for login page
+     * */
+    app.get('/auth/login', app.ensureNotAuthenticated, function(req, res){
+        res.render('login');
+    });
+
+
+    /**
+     * Route for register page
+     * */
+    app.get('/auth/register', app.ensureNotAuthenticated, function(req, res){
+        res.render('register', { user: req.user });
+    });
+
+
+    /**
      * Route for logging out
      * */
-    app.get('/logout', function (req, res) {
+    app.get('/auth/logout', function (req, res) {
         req.logout();
 
         if (req.xhr) {
