@@ -18,10 +18,21 @@ module.exports = function(app, express){
     }
 
     /**
-     * Misc auth settings
+     * Misc auth methods
      * */
     app.ensureAuthenticated = function(req, res, next) {
-        if (req.isAuthenticated()) { return next(); }
-        res.redirect('/login')
+        if (req.isAuthenticated()) {
+            return next();
+        } else {
+            res.redirect('/login')
+        }
+    }
+
+    app.ensureNotAuthenticated = function(req, res, next) {
+        if (req.isAuthenticated()) {
+            res.redirect('/');
+        } else {
+            return next();
+        }
     }
 }

@@ -1,25 +1,39 @@
 extends layout
 
 block content
-    ul
-        li
-            a(href='/auth/facebook', target="_blank") Login with Facebook
-        li
-            a(href='/auth/twitter', target="_blank") Login with Twitter
-        li
-            a(href='/auth/google', target="_blank") Sign In with Google
-        li
-            a(href='/auth/vkontakte', target="_blank") Login with VK
-        li
-            a(href='/auth/yandex', target="_blank") Login with Yandex
+    .login
+        .login-screen
+            .login-icon
+                img(src='/flat-ui/images/icons/box.svg', alt='Welcome to App')
+                h4 Welcome to
+                    small Demo App
 
+            .login-form
+                form#form-login(action='/login', method='post')
+                    .form-message
 
-    form(action='/login', method='post')
-        div
-            label Username:
-            input(type='text', name='username')
-            div
-                label Password:
-                input(type='password', name='password')
-            div
-                input(type='submit', value='Log In')
+                    .form-group
+                        input#username.form-control.login-field(type='text', name='username', value='', placeholder='Enter your name')
+                        label.login-field-icon.fui-user(for='username')
+                    .form-group
+                        input#password.form-control.login-field(type='password', name='password', value='', placeholder='Password')
+                        label.login-field-icon.fui-lock(for='password')
+
+                    input.btn.btn-primary.btn-lg.btn-block(type='submit', value='Login')
+                    a.login-link(href='#') Lost your password?
+
+                    .divider
+
+                    .social
+                        a.btn.btn-social-facebook(href='/auth/facebook', title='Login with Facebook')
+                            i.fui-facebook
+
+                        a.btn.btn-social-twitter(href='/auth/twitter', title='Login with Twitter')
+                            i.fui-twitter
+
+                        a.btn.btn-social-pinterest(href='/auth/google', title='Login with Google')
+                            i.fui-googleplus
+
+                        a.btn.btn-.btn-info(href='/auth/vkontakte', title='Login with VK') VK
+
+                        a.btn.btn-small.btn-danger(href='/auth/yandex', title='Login with Yandex') Ya

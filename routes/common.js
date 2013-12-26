@@ -2,7 +2,7 @@ module.exports = function(app, controllers){
     /**
      * Get routes
      * */
-    app.get('/', function(req, res){
+    app.get('/', app.ensureAuthenticated, function(req, res){
         res.render('index', { user: req.user });
     });
 
@@ -10,7 +10,7 @@ module.exports = function(app, controllers){
         res.render('account', { user: req.user });
     });
 
-    app.get('/login', function(req, res){
+    app.get('/login', app.ensureNotAuthenticated, function(req, res){
         res.render('login', { user: req.user });
     });
 };
