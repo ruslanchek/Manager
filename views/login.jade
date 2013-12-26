@@ -20,7 +20,10 @@ block content
                         label.login-field-icon.fui-lock(for='password')
 
                     input.btn.btn-primary.btn-lg.btn-block(type='submit', value='Login')
-                    a.login-link(href='#') Lost your password?
+
+                    div.login-links
+                        a.login-link(href='/password-recovery') Lost password?
+                        a.login-link.label.label-primary(href='/sign-up') Sign up
 
                     .divider
 

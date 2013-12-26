@@ -70,6 +70,12 @@ module.exports = function(app){
         })
         .get(function() { return this._plain_password; });
 
+    User.virtual('username')
+        .set(function(username){
+            this._plain_username = username;
+        })
+        .get(function() { return this._plain_username; });
+
     User.virtual('userId')
         .get(function () {
             return this.id;

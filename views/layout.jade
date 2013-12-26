@@ -13,6 +13,7 @@ html
         //if lt IE 9
         script(src='/flat-ui/js/html5shiv.js')
     body
+        #loading-global
         block content
 
         script(src='http://code.jquery.com/jquery-2.0.3.min.js')
@@ -30,6 +31,7 @@ html
 
         // Important! Do not change the order!
         script(src='/javascripts/app.js')
+        script(src='/javascripts/extensions/app.loading.js')
         script(src='/javascripts/extensions/app.templates.js')
         script(src='/javascripts/extensions/app.form.js')
         script(src='/javascripts/extensions/app.auth.js')
