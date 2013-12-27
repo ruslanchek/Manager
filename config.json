@@ -1,4 +1,6 @@
 {
+    "protocol": "http",
+    "domain_name": "manager.cartrek.ru",
     "port": 2000,
     "session_secret": "sadkj3l439Kjn3lk4nlJn",
 
@@ -6,8 +8,6 @@
         "uri": "mongodb://localhost/manager"
     },
     "oauth": {
-        "site_uri": "http://manager.cartrek.ru:2000",
-
         "facebook": {
             "clientID": "376331375837378",
             "clientSecret": "985e868833e17b228090904536c23576"

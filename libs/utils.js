@@ -131,3 +131,16 @@ this.findInObjOfArray = function(arr, key, val){
 
     return false;
 }
+
+
+/**
+ * Test for regex pattern
+ * */
+this.matchPatternStr = function(str, type){
+    switch (type){
+        case 'email' : {
+            var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return pattern.test(str);
+        } break;
+    }
+}

@@ -26,7 +26,7 @@ module.exports = function (app, controllers) {
             {
                 clientID: app.config.get('oauth:facebook:clientID'),
                 clientSecret: app.config.get('oauth:facebook:clientSecret'),
-                callbackURL: app.config.get('oauth:site_uri') + "/auth/facebook/callback"
+                callbackURL: app.get('project_uri') + "/auth/facebook/callback"
             },
             function (accessToken, refreshToken, profile, done) {
                 controllers.user.findOrCreate('facebook', profile, function (err, user) {
@@ -49,7 +49,7 @@ module.exports = function (app, controllers) {
             {
                 consumerKey     : app.config.get('oauth:twitter:consumerKey'),
                 consumerSecret  : app.config.get('oauth:twitter:consumerSecret'),
-                callbackURL     : app.config.get('oauth:site_uri') + "/auth/twitter/callback"
+                callbackURL     : app.get('project_uri') + "/auth/twitter/callback"
             },
             function (token, tokenSecret, profile, done) {
                 controllers.user.findOrCreate('twitter', profile, function (err, user) {
@@ -70,8 +70,8 @@ module.exports = function (app, controllers) {
     app.passport.use(
         new GoogleStrategy(
             {
-                returnURL   : app.config.get('oauth:site_uri') + '/auth/google/return',
-                realm       : app.config.get('oauth:site_uri')
+                returnURL   : app.get('project_uri') + '/auth/google/return',
+                realm       : app.get('project_uri')
             },
             function (identifier, profile, done) {
                 profile = app.utils.extend({id: identifier}, profile);
@@ -91,7 +91,7 @@ module.exports = function (app, controllers) {
         {
             clientID        : app.config.get('oauth:vk:clientID'),
             clientSecret    : app.config.get('oauth:vk:clientSecret'),
-            callbackURL     : app.config.get('oauth:site_uri') + '/auth/vkontakte/callback'
+            callbackURL     : app.get('project_uri') + '/auth/vkontakte/callback'
         },
         function(accessToken, refreshToken, profile, done) {
             controllers.user.findOrCreate('vk', profile, function (err, user) {
@@ -109,7 +109,7 @@ module.exports = function (app, controllers) {
             {
                 clientID        : app.config.get('oauth:yandex:clientID'),
                 clientSecret    : app.config.get('oauth:yandex:clientSecret'),
-                callbackURL     : app.config.get('oauth:site_uri') + '/auth/yandex/callback'
+                callbackURL     : app.get('project_uri') + '/auth/yandex/callback'
             },
             function(accessToken, refreshToken, profile, done) {
                 controllers.user.findOrCreate('yandex', profile, function (err, user) {

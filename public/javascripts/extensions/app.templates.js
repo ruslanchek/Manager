@@ -1,4 +1,6 @@
 app.templates = {
+    templates_stack: {},
+
     registerHelpers: function(){
         // Link
         Handlebars.registerHelper('link', function(text, url) {
@@ -23,12 +25,26 @@ app.templates = {
     },
 
     getTemplateHTML: function(name, done){
+        if(this.templates_stack[name]){
+            return done(this.templates_stack[name]);
+        }
+
         $.ajax({
             url: '/templates/' + name,
             type: 'get',
             dataType: 'html',
+            beforeSend: function(){
+                app.loading.setGlobalLoading('app.template.getTemplateHTML.' + name);
+            },
             success: function(data){
+                app.loading.unSetGlobalLoading('app.template.getTemplateHTML.' + name);
+
+                app.templates.templates_stack[name] = data;
+
                 done(data);
+            },
+            error: function(){
+                app.loading.unSetGlobalLoading('app.template.getTemplateHTML.' + name);
             }
         });
     },

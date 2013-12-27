@@ -1,6 +1,6 @@
 var crypto = require('crypto');
 
-module.exports = function(app){
+module.exports = function (app) {
     /**
      * Schema
      * */
@@ -17,6 +17,14 @@ module.exports = function(app){
             index: true,
             unique: true,
             sparse: true
+        },
+
+        restore_date: {
+            type: Date
+        },
+
+        restore_hash: {
+            type: String
         },
 
         display_name: {
@@ -76,20 +84,22 @@ module.exports = function(app){
     schema.path('email').validate(function (email) {
         var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return pattern.test(email);
-    }, 'TEMPLATE_MISSMATCH');
+    }, 'PATTERN_MISSMATCH');
 
 
     /**
      * Virtual
      * */
     schema.virtual('password')
-        .set(function(password) {
+        .set(function (password) {
             this._plain_password = password;
             this.salt = crypto.randomBytes(32).toString('base64');
             //this.salt = crypto.randomBytes(128).toString('base64'); //TODO: try more secure
             this.hashed_password = this.encryptPassword(password);
         })
-        .get(function() { return this._plain_password; });
+        .get(function () {
+            return this._plain_password;
+        });
 
 
     schema.virtual('userId')
@@ -101,12 +111,12 @@ module.exports = function(app){
     /**
      * Methods
      * */
-    schema.methods.encryptPassword = function(password) {
+    schema.methods.encryptPassword = function (password) {
         return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
         //return crypto.pbkdf2Sync(password, this.salt, 10000, 512); //TODO: try more secure
     };
 
-    schema.methods.checkPassword = function(password) {
+    schema.methods.checkPassword = function (password) {
         return this.encryptPassword(password) === this.hashed_password;
     };
 

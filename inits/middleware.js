@@ -6,7 +6,6 @@ module.exports = function(app, express){
     app.use(express.json());
     app.use(express.urlencoded());
     app.use(express.cookieParser());
-    app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.session({ secret: app.config.get('session_secret') }));
 

@@ -27,12 +27,21 @@ app.auth = {
                 username: '#username',
                 password: '#password'
             },
-            success_message: 'Authentication success!',
-            fail_message: 'Authentication failed!',
             onSuccess: function(data){
                 setTimeout(function(){
                     location.href = '/';
                 }, 200);
+            }
+        });
+
+        new app.FormController({
+            form_selector: '#form-password-recovery',
+            url: '/auth/password-recovery',
+            fields: {
+                email: '#email'
+            },
+            onSuccess: function(data){
+
             }
         });
     }

@@ -38,7 +38,9 @@ controllers.user = require('./controllers/user')(app, models);
 /**
  * Inits
  * */
+
 require('./inits/environment')(app, express);
+require('./inits/extensions')(app, express);
 require('./inits/middleware')(app, express);
 require('./inits/passport_strategies')(app, controllers);
 
@@ -56,4 +58,3 @@ require('./routes/auth')(app, controllers);
 http.createServer(app).listen(app.get('port'), function () {
     app.log.info('Express server listening on port ' + app.get('port'));
 });
-

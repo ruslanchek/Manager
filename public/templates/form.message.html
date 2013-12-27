@@ -1,4 +1,10 @@
 <div class="alert alert-danger">
     <button data-dismiss="alert" class="close fui-cross"></button>
+    {{#if success}}
+    OK:
+    {{else}}
+    ERROR:
+    {{/if}}
+
     {{message}}
 </div>

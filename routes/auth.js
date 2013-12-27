@@ -54,6 +54,14 @@ module.exports = function (app, controllers) {
 
 
     /**
+     * Route for login page
+     * */
+    app.get('/auth/login', app.ensureNotAuthenticated, function(req, res){
+        res.render('auth.login.jade');
+    });
+
+
+    /**
      * Post for logging in
      * */
     app.post('/auth/login', function (req, res) {
@@ -61,23 +69,29 @@ module.exports = function (app, controllers) {
             if (req.xhr) {
                 if (err) {
                     return res.json({
-                        success: false
+                        success: false,
+                        message: 'SERVER_ERROR'
                     });
                 }
 
                 if (!user) {
-                    return res.json({ success: false });
+                    return res.json({
+                        success: false,
+                        message: 'INVALID_CREDENTIALS'
+                    });
                 }
 
                 req.login(user, {}, function (err) {
                     if (err) {
                         return res.json({
-                            success: false
+                            success: false,
+                            message: 'SERVER_ERROR'
                         });
                     }
 
                     return res.json({
-                        success: true
+                        success: true,
+                        message: 'OK'
                     });
                 });
             } else {
@@ -101,18 +115,38 @@ module.exports = function (app, controllers) {
 
 
     /**
-     * Route for login page
+     * Route for password recovery page
      * */
-    app.get('/auth/login', app.ensureNotAuthenticated, function(req, res){
-        res.render('login');
+    app.get('/auth/password-recovery', app.ensureNotAuthenticated, function(req, res){
+        res.render('auth.password-recovery.jade');
+    });
+
+
+    /**
+     * Route for password recovery code page
+     * */
+    app.get('/auth/password-recovery/:hash', app.ensureNotAuthenticated, function(req, res){
+        controllers.user.passwordRecoveryCheckCode(req.params.hash, function(result){
+            res.render('auth.password-recovery-code.jade', {result: result});
+        });
+    });
+
+
+    /**
+     * Post for password recovery
+     * */
+    app.post('/auth/password-recovery', function(req, res){
+        controllers.user.passwordRecovery(req.body.email, function(result){
+            res.json(result);
+        });
     });
 
 
     /**
      * Route for register page
      * */
-    app.get('/auth/register', app.ensureNotAuthenticated, function(req, res){
-        res.render('register', { user: req.user });
+    app.get('/auth/sign-up', app.ensureNotAuthenticated, function(req, res){
+        res.render('auth.sign-up.jade');
     });
 
 
