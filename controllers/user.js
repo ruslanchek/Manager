@@ -210,7 +210,7 @@ module.exports = function (app, models) {
      var user = new models.user({
      username: 'test',
      password: '123',
-     email: 'ruslanchek@yandex.ru'
+     email: 'ruslanchek@me.com'
      });
 
      user.save(function(err, user) {
@@ -224,7 +224,7 @@ module.exports = function (app, models) {
 
      app.log.info('User created: ', user.username);
      });
-     */
+*/     
 
     return this;
 };

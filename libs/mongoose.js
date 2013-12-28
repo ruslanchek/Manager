@@ -7,7 +7,15 @@ module.exports = function(app){
     /**
      * Connect
      * */
-    mongoose.connect(app.config.get('mongoose:uri'));
+	var link;
+	
+	if(app.get('env') == 'development'){
+		link = app.config.get('mongoose:development');
+	}else{
+		link = app.config.get('mongoose:production');
+	}
+	
+    mongoose.connect(link);
 
     var db = mongoose.connection;
 

@@ -5,8 +5,10 @@
     "session_secret": "sadkj3l439Kjn3lk4nlJn",
 
     "mongoose": {
-        "uri": "mongodb://localhost/manager"
+        "development": "mongodb://localhost/manager",
+		"production": "mongodb://localhost/manager"
     },
+	
     "oauth": {
         "facebook": {
             "clientID": "376331375837378",

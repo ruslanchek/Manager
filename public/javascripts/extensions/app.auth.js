@@ -30,7 +30,7 @@ app.auth = {
             onSuccess: function(data){
                 setTimeout(function(){
                     location.href = '/';
-                }, 200);
+                }, 400);
             }
         });
 

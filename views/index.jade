@@ -1,8 +1,12 @@
 extends layout
 
 block content
-    if !user
-        p
-            a(href='/login') Please log in
-    else
-        h2 Hello, #{user.username}
+	.app
+		header
+			a.logo(href="/") Logo
+			nav.top-menu
+			
+		.left
+			nav.left-menu
+			
+		footer
