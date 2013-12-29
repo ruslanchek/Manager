@@ -142,5 +142,20 @@ this.matchPatternStr = function(str, type){
             var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             return pattern.test(str);
         } break;
+
+        case 'username' : {
+            var pattern = /^[a-zA-Z0-9-]{3,64}$/;
+            return pattern.test(str);
+        } break;
+
+        case 'password' : {
+            var pattern = /^[a-zA-Z0-9-]{3,32}$/;
+            return pattern.test(str);
+        } break;
+
+        case 'md5' : {
+            var pattern = /^[a-zA-Z0-9]{32}$/;
+            return pattern.test(str);
+        } break;
     }
 }

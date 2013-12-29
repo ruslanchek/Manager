@@ -77,7 +77,8 @@ module.exports = function (app, controllers) {
                 if (!user) {
                     return res.json({
                         success: false,
-                        message: 'INVALID_CREDENTIALS'
+                        message: 'INVALID_CREDENTIALS',
+                        fields: ['username', 'password']
                     });
                 }
 
@@ -143,10 +144,20 @@ module.exports = function (app, controllers) {
 
 
     /**
-     * Route for register page
+     * Route for sign up page
      * */
     app.get('/auth/sign-up', app.ensureNotAuthenticated, function(req, res){
         res.render('auth.sign-up.jade');
+    });
+
+
+    /**
+     * Post for sign up
+     * */
+    app.post('/auth/sign-up', function (req, res) {
+        controllers.user.signUp(req.body.email, req.body.username, req.body.password, function(result){
+            res.json(result);
+        });
     });
 
 

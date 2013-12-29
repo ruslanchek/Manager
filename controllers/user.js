@@ -23,6 +23,8 @@ module.exports = function (app, models) {
 
         models.user.findOne(conditions, function (err, user) {
             if (err) {
+                app.log.error('findOne error', err);
+
                 return done(err);
             }
 
@@ -48,6 +50,8 @@ module.exports = function (app, models) {
 
                     new_user.save(function (err, user) {
                         if (err) {
+                            app.log.error('User save error', err);
+
                             return done(err);
                         }
 
@@ -61,8 +65,24 @@ module.exports = function (app, models) {
     }
 
     this.findOne = function (username, password, done) {
+        if (!username || !app.utils.matchPatternStr(username, 'username')) {
+            return done({
+                success: false,
+                message: 'USERNAME_DOES_NOT_MATCH_PATTERN'
+            });
+        }
+
+        if (!password || !app.utils.matchPatternStr(password, 'password')) {
+            return done({
+                success: false,
+                message: 'PASSWORD_DOES_NOT_MATCH_PATTERN'
+            });
+        }
+
         models.user.findOne({ username: username }, function (err, user) {
             if (err) {
+                app.log.error('findOne error', err);
+
                 return done(err);
             }
 
@@ -80,19 +100,23 @@ module.exports = function (app, models) {
         if (!email) {
             return done({
                 success: false,
-                message: 'EMAIL_EMPTY'
+                message: 'EMAIL_EMPTY',
+                fields: ['email']
             });
         } else {
             if (!app.utils.matchPatternStr(email, 'email')) {
                 return done({
                     success: false,
-                    message: 'EMAIL_DOES_NOT_MATCH_PATTERN'
+                    message: 'EMAIL_DOES_NOT_MATCH_PATTERN',
+                    fields: ['email']
                 });
             }
         }
 
         models.user.findOne({ email: email }, function (err, user) {
             if (err) {
+                app.log.error('findOne error', err);
+
                 return done({
                     success: false,
                     message: 'SERVER_ERROR'
@@ -112,6 +136,8 @@ module.exports = function (app, models) {
 
                 models.user.findOneAndUpdate({ _id: user._id }, { $set: { restore_date: new Date(), restore_hash: restore_hash }}, function(err, user){
                     if (err) {
+                        app.log.error('findOneAndUpdate error', err);
+
                         return done({
                             success: false,
                             message: 'SERVER_ERROR'
@@ -152,8 +178,17 @@ module.exports = function (app, models) {
 
 
     this.passwordRecoveryCheckCode = function (hash, done) {
+        if (!hash || !app.utils.matchPatternStr(hash, 'hash')) {
+            return done({
+                success: false,
+                message: 'CODE_DOES_NOT_MATCH_PATTERN'
+            });
+        }
+
         models.user.findOne({ restore_hash: hash }, function(err, user){
             if (err) {
+                app.log.error('findOne error', err);
+
                 return done({
                     success: false,
                     message: 'SERVER_ERROR'
@@ -169,6 +204,8 @@ module.exports = function (app, models) {
 
                 user.save(function (err, user) {
                     if (err) {
+                        app.log.error('User save error', err);
+
                         return done({
                             success: false,
                             message: 'SERVER_ERROR'
@@ -193,7 +230,7 @@ module.exports = function (app, models) {
 
                         return done({
                             success: true,
-                            message: 'Your password has been reset successfully, check your e-mail!'
+                            message: 'OK'
                         });
                     });
                 });
@@ -201,6 +238,135 @@ module.exports = function (app, models) {
                 return done({
                     success: false,
                     message: 'CODE_IS_WRONG'
+                });
+            }
+        });
+    }
+
+
+    this.signUp = function(email, username, password, done){
+        if (!email) {
+            return done({
+                success: false,
+                message: 'EMAIL_EMPTY',
+                fields: ['email']
+            });
+        } else {
+            if (!app.utils.matchPatternStr(email, 'email')) {
+                return done({
+                    success: false,
+                    message: 'EMAIL_DOES_NOT_MATCH_PATTERN',
+                    fields: ['email']
+                });
+            }
+        }
+
+        if (!username || !app.utils.matchPatternStr(username, 'username')) {
+            return done({
+                success: false,
+                message: 'USERNAME_DOES_NOT_MATCH_PATTERN',
+                fields: ['email']
+            });
+        }
+
+        if (!username) {
+            return done({
+                success: false,
+                message: 'USERNAME_EMPTY',
+                fields: ['username']
+            });
+        } else {
+            if (!app.utils.matchPatternStr(username, 'username')) {
+                return done({
+                    success: false,
+                    message: 'USERNAME_DOES_NOT_MATCH_PATTERN',
+                    fields: ['username']
+                });
+            }
+        }
+
+        if (!password) {
+            return done({
+                success: false,
+                message: 'PASSWORD_EMPTY',
+                fields: ['password']
+            });
+        } else {
+            if (!app.utils.matchPatternStr(password, 'password')) {
+                return done({
+                    success: false,
+                    message: 'PASSWORD_DOES_NOT_MATCH_PATTERN',
+                    fields: ['password']
+                });
+            }
+        }
+
+        models.user.findOne({ $or: [ { email: email }, { username: username} ] }, function(err, user){
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (user) {
+                if(email == user.email){
+                    return done({
+                        success: false,
+                        message: 'EMAIL_USED',
+                        fields: ['email']
+                    });
+                }
+
+                if(username == user.username){
+                    return done({
+                        success: false,
+                        message: 'USERNAME_USED',
+                        fields: ['username']
+                    });
+                }
+            } else {
+                var new_user = new models.user({
+                    email: email,
+                    username: username,
+                    password: password
+                });
+
+                new_user.save(function (err, user) {
+                    if (err) {
+                        app.log.error('User save error', err);
+
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    app.log.info('User created: ', user.username);
+
+                    app.mailer.send('mailer/auth.sign-up.jade', {
+                        to: user.email,
+                        subject: 'New password',
+                        email: user.email,
+                        username: user.username,
+                        password: password
+                    }, function (err) {
+                        if (err) {
+                            app.log.error('Sending email error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK'
+                        });
+                    });
                 });
             }
         });
@@ -224,7 +390,7 @@ module.exports = function (app, models) {
 
      app.log.info('User created: ', user.username);
      });
-*/     
+*/
 
     return this;
 };

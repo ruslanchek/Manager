@@ -8,18 +8,36 @@ header {
 	color: #fff;
 }
 
+.alert {
+    text-align: center;
+}
+
 .login {
     height: 100%;
     color: #ffffff;
     background-color: #1abc9c;
 }
 
+.login .social {
+    background: #ddd;
+    padding: 20px;
+    width: 336px;
+    display: block;
+    margin-left: -23px;
+    margin-top: 10px;
+    margin-bottom: -20px;
+    -webkit-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+}
+
 .login .social .btn {
-    height: 35px;
+    height: 50px;
     width: 50px;
-    margin: 0 10px 0 0;
-    line-height: 35px;
+    margin: 0 11px 0 0;
+    line-height: 50px;
     padding: 0 10px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .login .social .btn:last-of-type {
@@ -96,6 +114,10 @@ header {
     border-color: transparent;
     font-size: 17px;
     text-indent: 3px;
+}
+
+.login-form .form-group.has-error .login-field {
+    border-color: #e74c3c;
 }
 
 .login-form .login-field:focus {
