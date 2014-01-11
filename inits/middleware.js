@@ -14,13 +14,12 @@ module.exports = function(app, express){
 
     app.use(app.passport.initialize());
     app.use(app.passport.session());
-
     app.use(app.router);
 
     app.use(lessMiddleware({
         dest: '/stylesheets',
         src: '/less',
-        compress: true,
+        compress: (app.get('env') == 'development') ? false : true,
         root: path.join(__dirname, '../public')
     }));
 

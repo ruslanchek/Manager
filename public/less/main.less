@@ -1,0 +1,130 @@
+@import 'login';
+
+// Variables
+@base-font-size: 14px;
+
+@ui-panel-bg: #1C1A22;
+@ui-panel-color: #fff;
+@ui-panel-header-height: 80px;
+@ui-panel-side-padding: 30px;
+@ui-panel-active-menu-bg: #28B591;
+@ui-panel-hover-menu-bg: rgba(255, 255, 255, 0.2);
+@ui-panel-left-width: 220px;
+@color-header-text: #59575E;
+@color-light-gray: #F2F1F5;
+
+// Base
+body, html {
+  height: 100%;
+  font-size: @base-font-size;
+}
+
+// App
+.app {
+  height: 100%;
+}
+
+// Loading
+#loading-global {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: red;
+  opacity: 0;
+  display: block;
+}
+
+// Header
+header {
+  background: @ui-panel-bg;
+  height: @ui-panel-header-height;
+  line-height: @ui-panel-header-height;
+  color: @ui-panel-color;
+  position: relative;
+  z-index: 2;
+}
+
+header .logo {
+  color: #fff !important;
+  height: @ui-panel-header-height;
+  line-height: @ui-panel-header-height;
+  padding: 0 @ui-panel-side-padding;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+// Left side
+.left {
+  background: #1C1A22;
+  width: @ui-panel-left-width;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+// Left menu
+.left nav.left-menu {
+  position: relative;
+  top: @ui-panel-header-height;
+}
+
+.left nav.left-menu a {
+  padding: 1em @ui-panel-side-padding 1em @ui-panel-side-padding + 45px;
+  position: relative;
+  display: block;
+  color: @ui-panel-color;
+}
+
+.left nav.left-menu a i {
+  position: absolute;
+  margin-right: @ui-panel-side-padding;
+  font-size: 1.65em;
+  margin-bottom: -2px;
+  left: @ui-panel-side-padding;
+  top: 50%;
+  margin-top: -0.85em;
+}
+
+.left nav.left-menu a:hover {
+  background: @ui-panel-hover-menu-bg;
+}
+
+.left nav.left-menu a.active {
+  background: @ui-panel-active-menu-bg;
+}
+
+// Footer
+footer {
+  background: @color-light-gray;
+  height: 56px;
+  margin-top: -56px;
+}
+
+// Content
+.content {
+  margin-top: -@ui-panel-header-height;
+  height: 100%;
+  margin-left: @ui-panel-left-width;
+  position: relative;
+}
+
+.content .top-line {
+  background: @color-light-gray;
+  position: relative;
+  top: 80px;
+  padding: 16px @ui-panel-side-padding;
+}
+
+.content .top-line h1 {
+  font-size: 1.8em;
+  margin: 0;
+  font-weight: normal;
+  color: @color-header-text;
+}
+
+.content .maiv-view {
+  position: relative;
+  top: @ui-panel-header-height;
+  padding: 22px @ui-panel-side-padding;
+}
