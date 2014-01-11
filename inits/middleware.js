@@ -1,4 +1,5 @@
-var path = require('path');
+var path = require('path'),
+    lessMiddleware = require('less-middleware');
 
 module.exports = function(app, express){
     app.use(express.favicon());
@@ -7,12 +8,22 @@ module.exports = function(app, express){
     app.use(express.urlencoded());
     app.use(express.cookieParser());
     app.use(express.methodOverride());
-    app.use(express.session({ secret: app.config.get('session_secret') }));
+    app.use(express.session({
+        secret: app.config.get('session_secret')
+    }));
 
     app.use(app.passport.initialize());
     app.use(app.passport.session());
 
     app.use(app.router);
+
+    app.use(lessMiddleware({
+        dest: '/stylesheets',
+        src: '/less',
+        compress: true,
+        root: path.join(__dirname, '../public')
+    }));
+
     app.use(express.static(path.join(__dirname, '../public')));
 
     /**

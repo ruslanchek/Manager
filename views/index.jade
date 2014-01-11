@@ -1,12 +1,34 @@
 extends layout
 
 block content
-	.app
-		header
-			a.logo(href="/") Logo
-			nav.top-menu
-			
-		.left
-			nav.left-menu
-			
-		footer
+    .app
+        header
+            a.logo(href="/") Project
+            nav.top-menu
+
+        .left
+            nav.left-menu
+                a(href="#")
+                    i.fui-mail
+                    | New section
+
+                a.active(href="#")
+                    i.fui-new
+                    | New section
+
+                a(href="#")
+                    i.fui-new
+                    | New section
+
+                a(href="#")
+                    i.fui-new
+                    | New section
+
+        .content
+            .top-line
+                h1 Top line header content
+
+            .maiv-view
+                | xxx
+
+        footer
