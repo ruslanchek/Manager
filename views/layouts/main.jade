@@ -1,0 +1,18 @@
+doctype html
+
+html
+    head
+        include ../includes/head
+    body
+        #loading-global
+
+        .wrap
+            .app
+                include ../includes/header
+                include ../includes/nav-top
+                block content
+
+        include ../includes/scripts
+
+        footer
+            include ../includes/footer
