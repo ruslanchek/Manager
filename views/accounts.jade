@@ -1,0 +1,18 @@
+extends layouts/main
+
+block content
+    table.width-100.table-striped.table-bordered.table-hovered
+        tr
+            th №
+            th Номер счета
+            th Дата
+            th Сумма
+            th Контрагент
+
+        each val in data
+            tr
+                td #{val.name}
+                td
+                td
+                td
+                td

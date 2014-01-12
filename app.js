@@ -27,12 +27,14 @@ app.mongoose        = require('./libs/mongoose')(app);
  * Models
  * */
 models.user = require('./models/user')(app).model;
+models.account = require('./models/account')(app).model;
 
 
 /**
  * Controllers
  * */
 controllers.user = require('./controllers/user')(app, models);
+controllers.account = require('./controllers/account')(app, models);
 
 
 /**
@@ -50,6 +52,7 @@ require('./inits/passport_strategies')(app, controllers);
  * */
 require('./routes/common')(app, controllers);
 require('./routes/auth')(app, controllers);
+require('./routes/accounts')(app, controllers);
 
 
 /**

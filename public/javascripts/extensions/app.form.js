@@ -66,8 +66,6 @@ app.form = {
 
             $.extend(messages, app.form.messages, this.options.messages);
 
-            console.log(this.options.messages)
-
             if(messages[message_code]){
                 return messages[message_code];
             } else {

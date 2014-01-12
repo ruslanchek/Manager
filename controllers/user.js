@@ -50,6 +50,7 @@ module.exports = function (app, models) {
 
                     new_user.save(function (err, user) {
                         if (err) {
+                            console.log(err)
                             app.log.error('User save error', err);
 
                             return done(err);
@@ -175,7 +176,6 @@ module.exports = function (app, models) {
             }
         });
     }
-
 
     this.passwordRecoveryCheckCode = function (hash, done) {
         if (!hash || !app.utils.matchPatternStr(hash, 'hash')) {
