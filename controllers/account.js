@@ -15,7 +15,7 @@ module.exports = function (app, models) {
     }
 
     this.addItem = function(user, data, done){
-        models.account.find({ _user_id: user._id }, function (err, item) {
+        models.account.findOne({ _user_id: user._id }, function (err, item) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -29,6 +29,11 @@ module.exports = function (app, models) {
                 return done({
                     success: false,
                     message: 'COLLECTION_HAS_AN_ITEM_WITH_SAME_NAME'
+                });
+            }else{
+                return done({
+                    success: true,
+                    message: 'OK'
                 });
             }
         });

@@ -35,6 +35,35 @@ body {
   font-size: @base-font-size;
 }
 
+// Modal
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  -moz-border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  border-radius: @ui-border-radius;
+
+  .header {
+    padding: 20px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+}
+
+// Loading
+#loading-global {
+  background: red;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+}
+
 // Typographics
 h1 {
   font-size: 1.8em;
