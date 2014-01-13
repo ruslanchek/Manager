@@ -4,4 +4,18 @@ module.exports = function(app, controllers){
             res.render('accounts', { err: err, data: data });
         });
     });
+
+    app.post('/accounts:action', app.ensureAuthenticated, function(req, res){
+        switch(req.params.action){
+            case 'add' : {
+                controllers.account.addItem(req.user, req.body, function(result){
+                    res.json(result);
+                });
+            } break;
+        }
+
+        controllers.account.findItems(req.user, function(err, data){
+            res.render('accounts', { err: err, data: data });
+        });
+    });
 };

@@ -372,26 +372,6 @@ module.exports = function (app, models) {
         });
     }
 
-    /*
-     var user = new models.user({
-     username: 'test',
-     password: '123',
-     email: 'ruslanchek@me.com'
-     });
-
-     user.save(function(err, user) {
-     console.log(user)
-
-     if (err) {
-     console.log(err)
-
-     return;
-     }
-
-     app.log.info('User created: ', user.username);
-     });
-*/
-
     return this;
 };
 
