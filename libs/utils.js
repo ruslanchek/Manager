@@ -149,7 +149,7 @@ this.matchPatternStr = function(str, type){
         } break;
 
         case 'name' : {
-            var pattern = /^[a-zA-Z0-9АЯа-я-]{3,64}$/;
+            var pattern = /^[a-zA-Z0-9А-Яа-я-]{3,64}$/;
             return pattern.test(str);
         } break;
 

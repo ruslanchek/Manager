@@ -1,0 +1,11 @@
+extends layouts/main
+
+block content
+    h1 Счета / Новый счет
+
+    .section-tools
+
+    form#form-add-account(action='')
+        .form-message
+        input#number(type='text', placeholder='Номер счета')
+        input(type='submit', value='Создать счет')

@@ -5,6 +5,10 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.get('/accounts/add', app.ensureAuthenticated, function(req, res){
+        res.render('accounts.add.jade', { user: req.user });
+    });
+
     app.post('/accounts/:action', app.ensureAuthenticated, function(req, res){
         switch(req.params.action){
             case 'add' : {
