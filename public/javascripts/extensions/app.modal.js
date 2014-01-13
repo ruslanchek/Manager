@@ -1,18 +1,41 @@
 app.modal = {
+    overlayDraw: function(){
+        var $overlay = $('<div>').addClass('modal-overlay animation-300-easeInOutQuart');
+
+        $('body').append($overlay);
+
+        setTimeout(function(){
+            $overlay.addClass('ready');
+        }, 50);
+    },
+
+    overlayHide: function(){
+        if($('.modal:visible').length > 0){
+            $('.modal-overlay').removeClass('ready');
+
+            setTimeout(function(){
+                $('.modal-overlay').remove();
+            }, 300);
+        }
+    },
+
     ModalController: function(options){
         this.$modal = null;
+        this.opened = false;
+        this.id = (Math.random() * 10).toString();
 
         this.options = {
             title: 'Title',
             content: 'Content',
-            onShow: function($modal){
+            onShow: function(controller){
 
             },
             onClose: function(){
 
             },
             width: 600,
-            animation_time: 400
+            animation_time: 300,
+            draggable: true
         };
 
         $.extend(this.options, options);
@@ -22,44 +45,88 @@ app.modal = {
         this.position = function(){
             this.$modal.css({
                 width: this.options.width,
-                marginLeft: -this.options.width / 2
-            });
-        };
-
-        this.generateHtml = function(){
-            app.templates.render('modal.window.html', { title: this.title, content: this.content }, function(html){
-                _this.$modal = $(html);
-
-                $('body').append(_this.$modal);
-                _this.position();
-
-                _this.$modal.addClass('ready');
-                _this.options.onShow(_this.$modal);
+                marginLeft: -this.options.width / 2,
+                marginTop: -this.$modal.height() / 2
             });
         };
 
         this.open = function(){
-            this.generateHtml();
+            this.close(function(){
+                app.templates.render('modal.window.html', { title: _this.options.title, content: _this.options.content }, function(html){
+                    app.modal.overlayDraw();
+
+                    var $body = $('body');
+
+                    _this.$modal = $(html);
+
+                    $body.append(_this.$modal);
+
+                    _this.position();
+
+                    setTimeout(function(){
+                        _this.$modal.addClass('ready');
+                    }, 50);
+
+                    _this.opened = true;
+
+                    _this.options.onShow(_this);
+
+                    if(_this.options.draggable === true){
+                        setTimeout(function(){
+                        _this.$modal.addClass('draggable');
+                        }, _this.options.animation_time);
+                        _this.$modal.draggable({
+                            addClasses: false
+                        });
+                    }
+
+                    $body.off('keyup.modal_' + _this.id).on('keyup.modal_' + _this.id, function(e){
+                        if(e.keyCode == 27){
+                            _this.close(false);
+                        }
+                    });
+
+                    _this.$modal.find('.close-window').on('click', function(){
+                        _this.close(false);
+                    });
+                });
+            });
         };
 
-        this.close = function(){
-            if(this.$modal !== null){
-                this.$modal.removeClass('ready');
+        this.close = function(done){
+            if(this.$modal !== null || this.opened === true){
+                this.$modal.removeClass('ready draggable');
 
                 setTimeout(function(){
                     _this.$modal.remove();
                     _this.$modal = null;
+                    _this.opened = false;
+
                     _this.options.onClose();
+
+                    $('body').off('keyup.modal' + _this.id);
+
+                    if(done){
+                        done();
+                    }
                 }, this.options.animation_time);
+
+                app.modal.overlayHide();
+            } else {
+                _this.opened = false;
+
+                if(done){
+                    done();
+                }
             }
         };
 
         this.setLoading = function(){
-
+            this.$modal.find('.header').addClass('loading');
         };
 
         this.unSetLoading = function(){
-
+            this.$modal.find('.header').removeClass('loading');
         };
     }
 }

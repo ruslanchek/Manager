@@ -5,10 +5,9 @@ module.exports = function (app) {
     var schema = new app.mongoose.Schema({
         _user_id : { type: String, ref: 'User' },
 
-        name: {
+        number: {
             type: String,
             index: true,
-            unique: true,
             required: true
         },
 

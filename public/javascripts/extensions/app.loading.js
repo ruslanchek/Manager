@@ -19,9 +19,10 @@ app.loading = {
             }
 
             $('#loading-global').animate({
+                top: -6,
                 opacity: 0
             }, {
-                duration: 200,
+                duration: 150,
                 complete: function(){
                     if (app.loading.global_loading_interval) {
                         clearInterval(app.loading.global_loading_interval);
@@ -37,9 +38,10 @@ app.loading = {
         }
 
         $('#loading-global').animate({
+            top: 0,
             opacity: 1
         }, {
-            duration: 200
+            duration: 150
         });
     }
 }

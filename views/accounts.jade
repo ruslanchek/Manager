@@ -1,18 +1,30 @@
 extends layouts/main
 
 block content
-    table.width-100.table-striped.table-bordered.table-hovered
-        tr
-            th №
-            th Номер счета
-            th Дата
-            th Сумма
-            th Контрагент
+    h1 Счета
 
-        each val in data
+    .section-tools
+        a#add.action-button.green(href="#")
+            i.icon-plus
+            | Создать
+
+        a#add.action-button.warning(href="#")
+            i.icon-cancel
+            | Удалить
+
+    .table-container
+        table.width-100.table-striped.table-bordered.table-hovered
             tr
-                td #{val.name}
-                td
-                td
-                td
-                td
+                th №
+                th Номер счета
+                th Дата
+                th Сумма
+                th Контрагент
+
+            each val in data
+                tr
+                    td #{val.number}
+                    td
+                    td #{val.date}
+                    td
+                    td

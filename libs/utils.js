@@ -148,6 +148,11 @@ this.matchPatternStr = function(str, type){
             return pattern.test(str);
         } break;
 
+        case 'name' : {
+            var pattern = /^[a-zA-Z0-9АЯа-я-]{3,64}$/;
+            return pattern.test(str);
+        } break;
+
         case 'password' : {
             var pattern = /^[a-zA-Z0-9-]{3,32}$/;
             return pattern.test(str);

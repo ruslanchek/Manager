@@ -3,4 +3,6 @@ $(function(){
     app.auth.init();
 
     app.init();
+
+    app.sections.accounts.init();
 });

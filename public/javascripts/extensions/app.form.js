@@ -30,6 +30,8 @@ app.form = {
             onSuccess: function(data){},
             onFail: function(){},
 
+            from_modal: false,
+            modal_controller: null,
             fields: {},
             url: '',
             form_selector: '',
@@ -73,6 +75,22 @@ app.form = {
             }
         };
 
+        this.setLoading = function(){
+            if(this.options.from_modal === true && this.options.modal_controller){
+                this.options.modal_controller.setLoading();
+            }else{
+                app.loading.setGlobalLoading('app.form.FormController.' + this.options.form_selector);
+            }
+        };
+
+        this.unSetLoading = function(){
+            if(this.options.from_modal === true && this.options.modal_controller){
+                this.options.modal_controller.unSetLoading();
+            }else{
+                app.loading.unSetGlobalLoading('app.form.FormController.' + this.options.form_selector);
+            }
+        };
+
         this.processForm = function(){
             var data = {};
 
@@ -93,8 +111,7 @@ app.form = {
                         .prop('disabled', true);
 
                     _this.unSetFieldsErrors();
-
-                    app.loading.setGlobalLoading('app.form.FormController.' + _this.options.form_selector);
+                    _this.setLoading();
 
                     if(_this.$form.find('.form-message').is(':visible')){
                         _this.$form.find('.form-message').slideUp(_this.options.message_animation_time, function(){
@@ -106,7 +123,7 @@ app.form = {
                 },
                 success: function (data) {
                     setTimeout(function(){
-                        app.loading.unSetGlobalLoading('app.form.FormController.' + _this.options.form_selector);
+                        _this.unSetLoading();
 
                         if(data && data.success === true){
                             app.templates.render('form.message.html', { message: _this.parseServerMessage(data.message) }, function(html){
@@ -119,7 +136,7 @@ app.form = {
                                 _this.$form.find('input[type="submit"]')
                                     .removeAttr('disabled', 'disabled')
                                     .removeProp('disabled');
-                            });
+                            }, function(){ _this.setLoading(); }, function(){ _this.unSetLoading(); });
                         }else{
                             app.templates.render('form.message.html', { message: _this.parseServerMessage(data.message) }, function(html){
                                 _this.$form.find('.form-message')
@@ -137,14 +154,14 @@ app.form = {
                                 _this.$form.find('input[type="submit"]')
                                     .removeAttr('disabled', 'disabled')
                                     .removeProp('disabled');
-                            });
+                            }, function(){ _this.setLoading(); }, function(){ _this.unSetLoading(); });
                         }
 
                     }, _this.options.message_animation_time * 1.5);
                 },
                 error: function(){
                     setTimeout(function(){
-                        app.loading.unSetGlobalLoading('app.form.FormController.' + _this.options.form_selector);
+                        _this.unSetLoading();
 
                         app.templates.render('form.message.html', { success: false, message: _this.parseServerMessage('SERVER_ERROR') }, function(html){
                             _this.$form.find('.form-message')
@@ -156,7 +173,7 @@ app.form = {
                             _this.$form.find('input[type="submit"]')
                                 .removeAttr('disabled', 'disabled')
                                 .removeProp('disabled');
-                        });
+                        }, function(){ _this.setLoading(); }, function(){ _this.unSetLoading(); });
                     }, _this.options.message_animation_time * 1.5);
                 }
             });

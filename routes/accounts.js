@@ -5,7 +5,7 @@ module.exports = function(app, controllers){
         });
     });
 
-    app.post('/accounts:action', app.ensureAuthenticated, function(req, res){
+    app.post('/accounts/:action', app.ensureAuthenticated, function(req, res){
         switch(req.params.action){
             case 'add' : {
                 controllers.account.addItem(req.user, req.body, function(result){
@@ -13,9 +13,5 @@ module.exports = function(app, controllers){
                 });
             } break;
         }
-
-        controllers.account.findItems(req.user, function(err, data){
-            res.render('accounts', { err: err, data: data });
-        });
     });
 };

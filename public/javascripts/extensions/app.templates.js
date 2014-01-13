@@ -24,7 +24,7 @@ app.templates = {
         });
     },
 
-    getTemplateHTML: function(name, done){
+    getTemplateHTML: function(name, done, setLoading, unSetLoading){
         if(this.templates_stack[name]){
             return done(this.templates_stack[name]);
         }
@@ -34,22 +34,34 @@ app.templates = {
             type: 'get',
             dataType: 'html',
             beforeSend: function(){
-                app.loading.setGlobalLoading('app.template.getTemplateHTML.' + name);
+                if(setLoading){
+                    setLoading();
+                }else{
+                    app.loading.setGlobalLoading('app.template.getTemplateHTML.' + name);
+                }
             },
             success: function(data){
-                app.loading.unSetGlobalLoading('app.template.getTemplateHTML.' + name);
+                if(unSetLoading){
+                    unSetLoading();
+                }else{
+                    app.loading.unSetGlobalLoading('app.template.getTemplateHTML.' + name);
+                }
 
                 app.templates.templates_stack[name] = data;
 
                 done(data);
             },
             error: function(){
-                app.loading.unSetGlobalLoading('app.template.getTemplateHTML.' + name);
+                if(unSetLoading){
+                    unSetLoading();
+                }else{
+                    app.loading.unSetGlobalLoading('app.template.getTemplateHTML.' + name);
+                }
             }
         });
     },
 
-    render: function(name, context, done){
+    render: function(name, context, done, setLoading, unSetLoading){
         this.getTemplateHTML(name, function(data){
             var template = Handlebars.compile(data),
                 html = template(context);
@@ -57,7 +69,7 @@ app.templates = {
             if(done){
                 done(html);
             }
-        });
+        }, setLoading, unSetLoading);
     },
 
     init: function(){
