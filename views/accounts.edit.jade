@@ -1,0 +1,34 @@
+extends layouts/main
+
+block content
+    h1
+        a(href="/accounts") Счета
+        span.color-gray-light &nbsp;/&nbsp;
+        span#header-item-name Счет №#{data.number}
+        |&nbsp;
+        span#header-item-date.color-gray-light от #{data.date}
+
+    .section-tools
+        a#download.action-button(href="#")
+            i.icon-doc-inv
+            |Скачать PDF
+
+        a#print.action-button(href="#")
+            i.icon-print
+            |Напечатать
+
+        a#send.action-button(href="#")
+            i.icon-export-alt
+            |Отправить
+
+        a#delete.action-button.warning(href="#")
+            i.icon-cancel
+            |Удалить
+
+    form#form-edit-account.form(action='')
+        .form-message
+        input#number(type='text', placeholder='Номер счета', value=data.number)
+        input.button.blue(type='submit', value='Сохранить счет')
+
+    script.
+        app.sections.accounts.edit('!{data.id}');

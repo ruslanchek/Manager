@@ -33,14 +33,16 @@ models.account = require('./models/account')(app).model;
 /**
  * Controllers
  * */
-controllers.user = require('./controllers/user')(app, models);
-controllers.account = require('./controllers/account')(app, models);
+var UserController = require('./controllers/user');
+var AccountController = new require('./controllers/account');
+
+controllers.user = new UserController(app, models);
+controllers.account = new AccountController(app, models);
 
 
 /**
  * Inits
  * */
-
 require('./inits/environment')(app, express);
 require('./inits/extensions')(app, express);
 require('./inits/middleware')(app, express);

@@ -3,7 +3,11 @@ module.exports = function (app) {
      * Schema
      * */
     var schema = new app.mongoose.Schema({
-        _user_id : { type: String, ref: 'User' },
+        _user_id : {
+            type: String,
+            ref: 'User',
+            required: true
+        },
 
         number: {
             type: String,
@@ -16,6 +20,16 @@ module.exports = function (app) {
             required: true,
             index: true,
             default: Date.now
+        },
+
+        sum: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+
+        items: {
+            type: Array
         }
     });
 

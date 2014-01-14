@@ -19,7 +19,7 @@ app.loading = {
             }
 
             $('#loading-global').animate({
-                top: -6,
+                top: -5,
                 opacity: 0
             }, {
                 duration: 150,

@@ -1,11 +1,15 @@
 extends layouts/main
 
 block content
-    h1 Счета / Новый счет
+    h1
+        a(href="/accounts") Счета
+        span.color-gray-light &nbsp;/&nbsp;
+        span#header-item-name Новый счет
 
-    .section-tools
-
-    form#form-add-account(action='')
+    form#form-add-account.form(action='')
         .form-message
         input#number(type='text', placeholder='Номер счета')
         input(type='submit', value='Создать счет')
+
+    script.
+        app.sections.accounts.add();

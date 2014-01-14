@@ -1,8 +1,13 @@
 header
-    .units-row-end
-        .unit-70
-            a.logo(href="/")
-                i
-                | Manager
-        .unit-30
-            span User: #{user.username}
+    a.logo(href="/")
+        i
+        | Менеджер
+    .user-params
+        a.action-button(href="/user")
+            i.icon-user-female
+            if user.display_name
+                | #{user.display_name}
+            else
+                | #{user.username}
+        a.action-button.red.logout(href="#")
+            |Выйти

@@ -13,7 +13,9 @@ app.auth = {
 
     bindControls: function(){
         $('.logout').off('click').on('click', function(){
-            app.auth.logOut();
+            if(confirm('Выйти?')){
+                app.auth.logOut();
+            }
         });
     },
 

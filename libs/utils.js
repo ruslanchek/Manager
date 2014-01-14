@@ -1,3 +1,31 @@
+var numeral = require('numeral');
+
+numeral.language('ru', {
+    delimiters: {
+        thousands: ' ',
+        decimal: ','
+    },
+    abbreviations: {
+        thousand: 'тыс.',
+        million: 'млн.',
+        billion: 'млрд.',
+        trillion: 'трлд.'
+    },
+    ordinal: function (number) {
+        return number === 1 ? 'er' : 'ème';
+    },
+    currency: {
+        symbol: 'руб.'
+    }
+});
+
+numeral.language('ru');
+
+
+this.priceFormat = function (num) {
+    return numeral(num).format('0,0.00');
+};
+
 /**
  * Merge two or more objects
  * */

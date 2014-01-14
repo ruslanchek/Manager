@@ -1,10 +1,10 @@
 nav.top-menu
     .links
-        a(href="/accounts") Счета
-        a(href="#") Накладные
-        a(href="#") Коммерческие предложения
-        a(href="#") Номенклатура
-        a(href="#") Контрагенты
+        a(href="/accounts", class=(section=='accounts' ? 'active' : '')) Счета
+        a(href="/waybills", class=(section=='waybills' ? 'active' : '')) Накладные
+        a(href="/offers", class=(section=='offers' ? 'active' : '')) Коммерческие предложения
+        a(href="/nomenclature", class=(section=='nomenclature' ? 'active' : '')) Номенклатура
+        a(href="/contracting-parties", class=(section=='contracting-parties' ? 'active' : '')) Контрагенты
     .tools
         a(href="#")
             i.icon-cog

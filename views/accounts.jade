@@ -13,18 +13,28 @@ block content
             | Удалить
 
     .table-container
-        table.width-100.table-striped.table-bordered.table-hovered
+        table.width-100.table-striped.table-bordered
             tr
-                th №
+                th(width="1%")
+                    input(type="checkbox")
                 th Номер счета
                 th Дата
                 th Сумма
                 th Контрагент
+                th(width="1%")
+                    span.status-label(title="Оплачен")
+                        i.icon-rouble
 
             each val in data
                 tr
-                    td #{val.number}
                     td
+                        input(type="checkbox")
+                    td
+                        a(href="/accounts/edit/#{val._id}") #{val.number}
                     td #{val.date}
+                    td #{utils.priceFormat(val.sum)}&nbsp;
+                        span.rub &#8399;
                     td
                     td
+                        span.status-label(title="Оплачен")
+                            i.icon-rouble
