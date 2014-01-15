@@ -6,7 +6,7 @@ block content
         span.color-gray-light &nbsp;/&nbsp;
         span#header-item-name Счет №#{data.number}
         |&nbsp;
-        span#header-item-date.color-gray-light от #{data.date}
+        span#header-item-date.color-gray-light от #{utils.humanizeDate(data.date)}
 
     .section-tools
         a#download.action-button(href="#")

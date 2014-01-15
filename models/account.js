@@ -28,8 +28,18 @@ module.exports = function (app) {
             default: 0
         },
 
+        status: {
+            type: Boolean,
+            default: 0
+        },
+
         items: {
-            type: Array
+            type: Array,
+            default: []
+        },
+
+        requisites: {
+            default: {}
         }
     });
 

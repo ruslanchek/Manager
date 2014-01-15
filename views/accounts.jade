@@ -13,28 +13,34 @@ block content
             | Удалить
 
     .table-container
-        table.width-100.table-striped.table-bordered
-            tr
-                th(width="1%")
-                    input(type="checkbox")
-                th Номер счета
-                th Дата
-                th Сумма
-                th Контрагент
-                th(width="1%")
-                    span.status-label(title="Оплачен")
-                        i.icon-rouble
-
-            each val in data
+        table.width-100.table-striped.table-bordered.table-sort
+            thead
                 tr
-                    td
+                    th(width="1%")
                         input(type="checkbox")
-                    td
-                        a(href="/accounts/edit/#{val._id}") #{val.number}
-                    td #{val.date}
-                    td #{utils.priceFormat(val.sum)}&nbsp;
-                        span.rub &#8399;
-                    td
-                    td
+                    th(data-sort="string") Номер счета
+                    th(data-sort="string") Дата
+                        i.arrow.icon-down-dir
+                    th(data-sort="string") Сумма
+                    th(data-sort="string") Контрагент
+                    th(data-sort="string", width="1%")
                         span.status-label(title="Оплачен")
                             i.icon-rouble
+            tbody
+                each val in data
+                    tr
+                        td
+                            input(type="checkbox")
+                        td
+                            a(href="/accounts/edit/#{val._id}") #{val.number}
+                        td #{utils.humanizeDate(val.date)}
+                        td #{utils.priceFormat(val.sum)}&nbsp;
+                            span.rub &#8399;
+                        td
+                        td
+                            if val.status == 1
+                                span.status-label.active(title="Оплачен")
+                                    i.icon-rouble
+                            else
+                                span.status-label(title="Не оплачен")
+                                    i.icon-rouble

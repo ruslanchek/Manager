@@ -97,7 +97,7 @@ app.sections.accounts = {
                 onSuccess: function(data){
                     if(data.data && data.data._id){
                         $('#header-item-name').html('Счет №' + data.data.number);
-                        $('#header-item-date').html(data.data.date);
+                        $('#header-item-date').html('от ' + app.utils.humanizeDate(new Date(data.data.date)));
                     }
                 }
             });

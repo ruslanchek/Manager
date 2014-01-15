@@ -71,7 +71,7 @@ h1 {
 
 // Loading
 #loading-global {
-  background: url(../images/global-loading.png) 0 0;
+  background: url(../images/global-loading-1.png) 0 0;
   position: fixed;
   width: @app-width + 60;
   margin-left: -@app-width / 2 - 30;
@@ -301,7 +301,7 @@ h1 {
     color: #fff;
   }
 
-  .action-button.warning {
+  .action-button.warning i {
     color: @color-red;
   }
 
@@ -309,6 +309,9 @@ h1 {
     background: @color-red-dark;
     border-color: @color-red-dark;
     color: #fff;
+   i {
+     color: #fff;
+   }
   }
 
   // Table
@@ -335,6 +338,7 @@ h1 {
         border-width: 2px;
         border-right: none;
         border-left: none;
+        cursor: pointer;
 
         .status-label {
           color: inherit;
@@ -386,8 +390,8 @@ h1 {
   }
 
   .status-label.active {
-    border-color: @color-green;
-    color: @color-green;
+    border-color: #59575E;
+    color: #59575E;
   }
 
   // Form
@@ -411,6 +415,9 @@ h1 {
       height: 110px;
       background: @panel-bg-light;
       border-radius: @ui-border-radius;
+
+      border-bottom: 3px solid #DDDDDD;
+
       -webkit-border-radius: @ui-border-radius;
       -moz-border-radius: @ui-border-radius;
 
