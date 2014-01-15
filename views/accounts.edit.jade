@@ -36,7 +36,7 @@ block content
 
                 p
                     label(for="date") Дата
-                    input#date.width-100(type='text', data-metatype='date', value=data.date)
+                    input#date.width-100(type='text', data-metatype='date', value=utils.stringifyDate(data.date))
 
                 p
                     label(for="contractor") Контрагент

@@ -24,10 +24,10 @@ app.form = {
 
         this.options = {
             setFieldError: function($field){
-                $field.parent('div.form-group').addClass('has-error');
+                $field.addClass('input-error');
             },
             unSetFieldError: function($field){
-                $field.parent('div.form-group').removeClass('has-error');
+                $field.removeClass('input-error');
             },
             beforeSend: function(){},
             onSuccess: function(data){},
@@ -51,6 +51,16 @@ app.form = {
         }
 
         this.$form.find('.form-message').hide();
+
+        this.clearErrorsBinder = function(fields){
+            $.each(fields, function(key, val){
+                $(val).off('focus.ce change.ce keyup.ce').on('focus.ce change.ce keyup.ce', function(){
+                    _this.options.unSetFieldError($(this));
+                });
+            });
+        };
+
+        this.clearErrorsBinder(this.options.fields);
 
         this.setFieldsErrors = function(fields){
             if(fields){

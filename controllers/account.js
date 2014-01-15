@@ -98,7 +98,7 @@ module.exports = function (app, models) {
                     }
 
                     item.number = data.number;
-                    item.date = data.date;
+                    item.date = app.utils.parseDate(data.date);
                     item.contractor = data.contractor;
                     item.company = data.company;
                     item.comment = data.comment;
@@ -152,7 +152,7 @@ module.exports = function (app, models) {
 
                 new_item._user_id = user._id;
                 new_item.number = data.number;
-                new_item.date = data.date;
+                new_item.date = app.utils.parseDate(data.date);;
                 new_item.contractor = data.contractor;
                 new_item.company = data.company;
                 new_item.comment = data.comment;

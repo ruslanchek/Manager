@@ -221,6 +221,37 @@ this.findInObjOfArray = function(arr, key, val){
 
 
 /**
+ * Make Date object from pattern dd-mm-yyyy
+ */
+this.parseDate = function(str){
+    var date = new Date();
+
+    date.setDate(str.substr(0, 2));
+    date.setMonth(parseInt(str.substr(3, 2)) - 1);
+    date.setYear(str.substr(6, 4));
+    date.setSeconds(0);
+    date.setHours(0);
+    date.setMinutes(0);
+
+    return date;
+}
+
+
+/**
+ * Make pattern dd-mm-yyyy from Date object
+ */
+this.stringifyDate = function(date){
+    var m = parseInt(date.getMonth()) + 1;
+
+    if(m < 10){
+        m = '0' + m.toString();
+    }
+
+    return date.getDate() + '-' + m + '-' + date.getFullYear();
+}
+
+
+/**
  * Test for regex pattern
  * */
 this.matchPatternStr = function(str, type){
@@ -248,7 +279,7 @@ this.matchPatternStr = function(str, type){
         } break;
 
         case 'date' : {
-            var pattern = /\d{2}-\d{2}-\d{4}/;
+            var pattern = /^((((0[1-9]|[12][0-8])-(0[1-9]|1[012]))|((29|30|31)-(0[13578]|1[02]))|((29|30)-(0[4,6,9]|11)))-(19|[2-9][0-9])\d\d$)|(^29-02-(19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96))$/;
         }
     }
 

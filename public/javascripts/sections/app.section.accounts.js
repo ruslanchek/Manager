@@ -110,7 +110,7 @@ app.sections.accounts = {
 
     add: {
         init: function(){
-            this.controller = new app.form.FormController({
+            this.form_controller = new app.form.FormController({
                 form_selector: '#form-add-account',
                 url: '/accounts/add',
                 fields: app.sections.accounts.fields,
@@ -127,6 +127,10 @@ app.sections.accounts = {
                         }, 300);
                     }
                 }
+            });
+
+            this.datepicker_controller = new app.datepicker.DatepickerController({
+                input_selector: '#date'
             });
 
             $('#number').focus();
@@ -195,7 +199,7 @@ app.sections.accounts = {
         init: function(id){
             this.id = id;
 
-            this.controller = new app.form.FormController({
+            this.form_controller = new app.form.FormController({
                 form_selector: '#form-edit-account',
                 url: '/accounts/edit/' + id,
                 fields: app.sections.accounts.fields,
@@ -211,6 +215,10 @@ app.sections.accounts = {
                         $('#header-item-date').html('от ' + app.utils.humanizeDate(new Date(data.data.date)));
                     }
                 }
+            });
+
+            this.datepicker_controller = new app.datepicker.DatepickerController({
+                input_selector: '#date'
             });
 
             this.binds();
