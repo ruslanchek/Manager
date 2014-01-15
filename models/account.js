@@ -38,8 +38,16 @@ module.exports = function (app) {
             default: []
         },
 
-        requisites: {
-            default: {}
+        comment: {
+            type: String
+        },
+
+        company: {
+            type: String
+        },
+
+        contractor: {
+            type: String
         }
     });
 

@@ -8,39 +8,48 @@ block content
             i.icon-plus
             | Создать
 
-        a#add.action-button.warning(href="#")
+        a#delete.multi-action.action-button.warning(href="#")
             i.icon-cancel
             | Удалить
 
-    .table-container
-        table.width-100.table-striped.table-bordered.table-sort
-            thead
-                tr
-                    th(width="1%")
-                        input(type="checkbox")
-                    th(data-sort="string") Номер счета
-                    th(data-sort="string") Дата
-                        i.arrow.icon-down-dir
-                    th(data-sort="string") Сумма
-                    th(data-sort="string") Контрагент
-                    th(data-sort="string", width="1%")
-                        span.status-label(title="Оплачен")
-                            i.icon-rouble
-            tbody
-                each val in data
+    if data.length > 0
+        .table-container
+            table#items-table.width-100.table-striped.table-bordered.table-sort
+                thead
                     tr
-                        td
-                            input(type="checkbox")
-                        td
-                            a(href="/accounts/edit/#{val._id}") #{val.number}
-                        td #{utils.humanizeDate(val.date)}
-                        td #{utils.priceFormat(val.sum)}&nbsp;
-                            span.rub &#8399;
-                        td
-                        td
-                            if val.status == 1
-                                span.status-label.active(title="Оплачен")
-                                    i.icon-rouble
-                            else
-                                span.status-label(title="Не оплачен")
-                                    i.icon-rouble
+                        th(width="1%")
+                            input.cb-all(type="checkbox")
+                        th(data-sort="string") Номер счета
+                        th(data-sort="string") Датаs
+                            i.arrow.icon-down-dir
+                        th(data-sort="string") Сумма
+                        th(data-sort="string") Контрагент
+                        th(data-sort="string", width="1%")
+                            span.status-label(title="Оплачен")
+                                i.icon-rouble
+                tbody
+                    each val in data
+                        tr(data-id="#{val._id}")
+                            td
+                                input.cb-item(type="checkbox", data-id="#{val._id}")
+                            td
+                                a(href="/accounts/edit/#{val._id}") #{val.number}
+                            td #{utils.humanizeDate(val.date)}
+                            td #{utils.priceFormat(val.sum)}&nbsp;
+                                span.rub &#8399;
+                            td
+                            td
+                                if val.status == 1
+                                    span.status-label.active(title="Оплачен")
+                                        i.icon-rouble
+                                else
+                                    span.status-label(title="Не оплачен")
+                                        i.icon-rouble
+
+    - var list_empty = ((data.length > 0) ? false : true)
+
+    div.table-empty(style=(list_empty===true ? 'display: block' : 'display: none')) У вас нет ни одного счета,&nbsp;
+        a(href="/accounts/add") создайте новый
+
+    script.
+        app.sections.accounts.list.init();

@@ -30,18 +30,28 @@ module.exports = function(app, controllers){
         );
     });
 
+    app.post('/accounts/delete', app.ensureAuthenticated, function(req, res){
+        controllers.account.deleteItems(req.user, req.body.ids, function(result){
+            res.json(result);
+        });
+    });
+
     app.get('/accounts/edit/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.findOne(req.user, req.params.id, function(err, data){
-            var params = app.utils.extend(common, {
-                err: err,
-                data: data,
-                user: req.user
-            });
+            if(err === true){
+                res.redirect('/404');
+            }else{
+                var params = app.utils.extend(common, {
+                    err : err,
+                    data: data,
+                    user: req.user
+                });
 
-            res.render(
-                'accounts.edit.jade',
-                params
-            );
+                res.render(
+                    'accounts.edit.jade',
+                    params
+                );
+            }
         });
     });
 

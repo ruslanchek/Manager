@@ -13,7 +13,10 @@ app.form = {
         USERNAME_USED                       : 'Имя пользователя уже используется',
 
         PASSWORD_EMPTY                      : 'Пароль обязателен',
-        PASSWORD_DOES_NOT_MATCH_PATTERN     : 'Пароль &mdash; только латинские символы, цифры и дефисы'
+        PASSWORD_DOES_NOT_MATCH_PATTERN     : 'Пароль &mdash; только латинские символы, цифры и дефисы',
+
+        DATE_EMPTY                          : 'Не введена дата',
+        DATE_DOES_NOT_MATCH_PATTERN         : 'Неправильная дата'
     },
 
     FormController: function(options){

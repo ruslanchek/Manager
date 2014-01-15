@@ -25,9 +25,30 @@ block content
             i.icon-cancel
             |Удалить
 
-    form#form-edit-account.form(action='')
+    form#form-edit-account.form.forms.forms-columnar(action='')
         .form-message
-        input#number(type='text', placeholder='Номер счета', value=data.number)
+
+        .units-row-end
+            .unit-50
+                p
+                    label(for="number") Номер счета
+                    input#number.width-100(type='text', value=data.number)
+
+                p
+                    label(for="date") Дата
+                    input#date.width-100(type='text', data-metatype='date', value=data.date)
+
+                p
+                    label(for="contractor") Контрагент
+                    select#contractor
+                        option(value="1") ООО &laquo;Системы и сервисы&raquo;
+
+            .unit-50
+                p
+                    label(for="comment") Комментарий
+                    textarea#comment.width-100(style="height: 81px") #{data.comment}
+
+
         input.button.blue(type='submit', value='Сохранить счет')
 
     script.

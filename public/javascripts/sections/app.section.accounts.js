@@ -1,12 +1,119 @@
 app.sections.accounts = {
+    fields: {
+        number      : '#number',
+        date        : '#date',
+        comment     : '#comment',
+        company     : 'A',
+        contractor  : '#contractor'
+    },
+
+    delete: function(ids, done){
+        $.ajax({
+            url: '/accounts/delete',
+            data: {
+                ids: ids
+            },
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function(){
+                app.loading.setGlobalLoading('app.sections.accounts.delete');
+            },
+            success: function(data){
+                app.loading.unSetGlobalLoading('app.sections.accounts.delete');
+
+                if(data.success == true){
+                    if(done){
+                        done(ids);
+                    }
+                }
+            },
+            error: function(){
+                app.loading.unSetGlobalLoading('app.sections.accounts.delete');
+            }
+        });
+    },
+
+    list: {
+        all_selected: false,
+        selected: [],
+
+        selectAllToggle: function(){
+            if($('.cb-all').prop('checked') === true){
+                $('.cb-item').attr('checked', 'checked').prop('checked', true);
+            }else{
+                $('.cb-item').removeAttr('checked').prop('checked', false);
+            }
+
+            this.processCheckboxes();
+        },
+
+        processCheckboxes: function(){
+            var _this = this;
+            this.selected = [];
+
+            $('.cb-item').each(function(){
+                if($(this).prop('checked') === true){
+                    _this.selected.push($(this).data('id'));
+                }
+            });
+
+            if(this.selected.length > 0){
+                $('.multi-action').addClass('show');
+            } else {
+                $('.multi-action').removeClass('show');
+            }
+        },
+
+        delete: function(){
+            if(confirm('Удалить выбранные счета?')){
+                app.sections.accounts.delete(this.selected, function(ids){
+                    var ids_selectors = '',
+                        $table = $('table#items-table');
+
+                    for(var i = 0, l = ids.length; i < l; i++){
+                        ids_selectors += 'tr[data-id="' + ids[i] + '"],';
+                    }
+
+                    ids_selectors = ids_selectors.substr(0, ids_selectors.length - 1);
+
+                    $table.find(ids_selectors).remove();
+
+                    if($table.find('tr').length <= 1){
+                        $('.table-container').hide();
+                        $('.table-empty').show();
+                    }
+                });
+            }
+        },
+
+        binds: function(){
+            var _this = this;
+
+            $('.cb-all').on('change', function(){
+                _this.selectAllToggle();
+            });
+
+            $('.cb-item').on('change', function(){
+                _this.processCheckboxes();
+            });
+
+            $('#delete').on('click', function(e){
+                _this.delete();
+                e.preventDefault();
+            });
+        },
+
+        init: function(){
+            this.binds();
+        }
+    },
+
     add: {
         init: function(){
             this.controller = new app.form.FormController({
                 form_selector: '#form-add-account',
                 url: '/accounts/add',
-                fields: {
-                    number: '#number'
-                },
+                fields: app.sections.accounts.fields,
                 messages: {
                     OK: 'Документ создан',
                     NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
@@ -17,12 +124,12 @@ app.sections.accounts = {
                     if(data.data && data.data._id){
                         setTimeout(function(){
                             document.location.href = '/accounts/edit/' + data.data._id;
-                        }, 600);
+                        }, 300);
                     }
                 }
             });
 
-            this.binds();
+            $('#number').focus();
         }
     },
 
@@ -52,7 +159,13 @@ app.sections.accounts = {
         },
 
         delete: function(){
-
+            if(confirm('Удалить счет?')){
+                app.sections.accounts.delete([this.id], function(ids){
+                    setTimeout(function(){
+                        document.location.href = '/accounts';
+                    }, 300);
+                });
+            }
         },
 
         binds: function(){
@@ -85,9 +198,7 @@ app.sections.accounts = {
             this.controller = new app.form.FormController({
                 form_selector: '#form-edit-account',
                 url: '/accounts/edit/' + id,
-                fields: {
-                    number: '#number'
-                },
+                fields: app.sections.accounts.fields,
                 messages: {
                     OK: 'Изменения сохранены',
                     NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',

@@ -10,7 +10,7 @@ module.exports = function (app, models) {
                 done(false, data);
             }
         });
-    }
+    };
 
     this.findOne = function (user, id, done) {
         models.account.find({ _user_id: user._id, _id: id }, function (err, data) {
@@ -21,9 +21,11 @@ module.exports = function (app, models) {
 
             if (data[0]) {
                 done(false, data[0]);
+            }else{
+                return done(true);
             }
         });
-    }
+    };
 
     this.validateInputs = function(data){
         if(!data.number || data.number == ''){
@@ -42,10 +44,26 @@ module.exports = function (app, models) {
             };
         }
 
-        return true;
-    }
+        if(!data.date || data.date == ''){
+            return {
+                success: false,
+                message: 'DATE_EMPTY',
+                fields: ['date']
+            };
+        }
 
-    this.editItem = this.addItem = function(user, id, data, done){
+        if (!app.utils.matchPatternStr(data.date, 'date')) {
+            return {
+                success: false,
+                message: 'DATE_DOES_NOT_MATCH_PATTERN',
+                fields: ['date']
+            };
+        }
+
+        return true;
+    };
+
+    this.editItem = function(user, id, data, done){
         var validate = this.validateInputs(data);
 
         if(this.validateInputs(data) !== true){
@@ -80,6 +98,10 @@ module.exports = function (app, models) {
                     }
 
                     item.number = data.number;
+                    item.date = data.date;
+                    item.contractor = data.contractor;
+                    item.company = data.company;
+                    item.comment = data.comment;
 
                     item.save(function (err, data) {
                         if (err) {
@@ -100,7 +122,7 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
+    };
 
     this.addItem = function(user, data, done){
         var validate = this.validateInputs(data);
@@ -126,10 +148,14 @@ module.exports = function (app, models) {
                     fields: ['number']
                 });
             }else{
-                var new_item = new models.account({
-                    _user_id: user._id,
-                    number: data.number
-                });
+                var new_item = new models.account();
+
+                new_item._user_id = user._id;
+                new_item.number = data.number;
+                new_item.date = data.date;
+                new_item.contractor = data.contractor;
+                new_item.company = data.company;
+                new_item.comment = data.comment;
 
                 new_item.save(function (err, data) {
                     if (err) {
@@ -149,7 +175,31 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
+    };
+
+    this.deleteItems = function(user, ids, done){
+        models.account.find({ _user_id: user._id, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                for(var i = 0, l = data.length; i < l; i++){
+                    data[i].remove();
+                }
+
+                return done({
+                    success: true,
+                    message: 'OK'
+                });
+            }
+        });
+    };
 
     return this;
 };

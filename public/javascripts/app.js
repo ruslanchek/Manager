@@ -13,7 +13,13 @@ var app = {
         });
     },
 
+    maskedInput: function(){
+        $('input[type="tel"]').mask("+9 (999) 999-99-99");
+        $('input[data-metatype="date"]').mask("99-99-9999");
+    },
+
     init: function(){
         this.tableSorting();
+        this.maskedInput();
     }
 };

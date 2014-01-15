@@ -224,30 +224,35 @@ this.findInObjOfArray = function(arr, key, val){
  * Test for regex pattern
  * */
 this.matchPatternStr = function(str, type){
+    var pattern = null;
+
     switch (type){
         case 'email' : {
             var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            return pattern.test(str);
         } break;
 
         case 'username' : {
             var pattern = /^[a-zA-Z0-9-]{3,64}$/;
-            return pattern.test(str);
         } break;
 
         case 'name' : {
             var pattern = /^[a-zA-Z0-9А-Яа-я-]{3,64}$/;
-            return pattern.test(str);
         } break;
 
         case 'password' : {
             var pattern = /^[a-zA-Z0-9-]{3,32}$/;
-            return pattern.test(str);
         } break;
 
         case 'md5' : {
             var pattern = /^[a-zA-Z0-9]{32}$/;
-            return pattern.test(str);
         } break;
+
+        case 'date' : {
+            var pattern = /\d{2}-\d{2}-\d{4}/;
+        }
+    }
+
+    if(pattern){
+        return pattern.test(str);
     }
 }
