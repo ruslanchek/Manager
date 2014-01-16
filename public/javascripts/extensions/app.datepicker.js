@@ -1,5 +1,5 @@
 app.datepicker = {
-    DatepickerController: function(options){
+    DatepickerController: function (options) {
         var _this = this;
 
         this.id = (Math.random() * 10).toString();
@@ -12,7 +12,7 @@ app.datepicker = {
 
         this.$input = $(this.options.input_selector);
 
-        if(this.$input.length <= 0){
+        if (this.$input.length <= 0) {
             return;
         }
 
@@ -21,15 +21,15 @@ app.datepicker = {
         this.opened = false;
 
         this.$input.wrap('<div class="date-control"></div>');
-        this.$input.after('<a href="#" class="action-button picker"><i class="icon-calendar"></i></a><div class="widget animation-300-easeInOutQuart"></div>');
-        this.$picker = this.$input.parent().find('a.picker');
-        this.$widget_container = this.$input.parent().find('.widget');
+        this.$input.after('<a href="#" class="action-button datepicker-picker"><i class="icon-calendar"></i></a><div class="datepicker-widget animation-300-easeInOutQuart"></div>');
+        this.$picker = this.$input.parent().find('a.datepicker-picker');
+        this.$widget_container = this.$input.parent().find('.datepicker-widget');
 
         this.$widget_container.datepicker({
-            onSelect: function(text, obj){
+            onSelect: function (text, obj) {
                 _this.$input.val(text);
 
-                setTimeout(function(){
+                setTimeout(function () {
                     _this.hide();
                 }, 100);
             },
@@ -45,40 +45,52 @@ app.datepicker = {
             monthNamesShort: [ "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря" ]
         });
 
-        this.$input.on('blur.dp keyup.dp', function(){
+        this.$input.on('blur.dp keyup.dp', function () {
             _this.$widget_container.datepicker('setDate', _this.$input.val());
         });
 
         this.$widget_container.prepend('<i class="arrow"></i>');
 
-        this.$picker.on('click', function(e){
+        this.$picker.on('click', function (e) {
             e.preventDefault();
 
-            if(_this.opened == true){
+            if (_this.opened == true) {
                 _this.hide();
-
-
-            }else{
+            } else {
                 _this.show();
             }
         });
 
-        this.show = function(){
+        this.show = function () {
             this.opened = true;
             this.$widget_container.addClass('show');
 
-            $('body').on('keyup.dp' + this.id, function(e){
-                if(e.keyCode == 27){
+            $('body').on('keyup.dp' + this.id, function (e) {
+                if (e.keyCode == 27) {
+                    _this.hide();
+                }
+            });
+
+            $('html').on('click.dp' + this.id, function (e) {
+                var classname = $(e.target).attr('class');
+
+                console.log(classname);
+
+                if (
+                    classname != 'action-button datepicker-picker' &&
+                    classname != ''
+                ){
                     _this.hide();
                 }
             });
         }
 
-        this.hide = function(){
+        this.hide = function () {
             this.opened = false;
             this.$widget_container.removeClass('show');
 
             $('body').off('keyup.dp' + this.id);
+            $('html').on('click.dp' + this.id);
         }
     }
 }

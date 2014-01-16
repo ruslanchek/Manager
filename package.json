@@ -24,6 +24,8 @@
     "express-mailer": "~0.2.0",
     "nodemailer": "~0.5.15",
     "less-middleware": "~0.1.14",
-    "numeral": "~1.5.3"
+    "numeral": "~1.5.3",
+    "connect-redis": "~1.4.6",
+    "redis": "~0.10.0"
   }
 }

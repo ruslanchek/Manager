@@ -20,13 +20,15 @@ block content
                         th(width="1%")
                             input.cb-all(type="checkbox")
                         th(data-sort="string") Номер счета
-                        th(data-sort="string") Датаs
+                            i.arrow
+                        th(data-sort="string") Дата
                             i.arrow.icon-down-dir
                         th(data-sort="string") Сумма
+                            i.arrow
                         th(data-sort="string") Контрагент
-                        th(data-sort="string", width="1%")
-                            span.status-label(title="Оплачен")
-                                i.icon-rouble
+                            i.arrow
+                        th(data-sort="string", width="1%") Статус
+                            i.arrow
                 tbody
                     each val in data
                         tr(data-id="#{val._id}")
@@ -40,11 +42,14 @@ block content
                             td
                             td
                                 if val.status == 1
-                                    span.status-label.active(title="Оплачен")
-                                        i.icon-rouble
+                                    span.status-label.active
+                                        i.icon-ok
+                                        |&nbsp;Оплачен
+
                                 else
-                                    span.status-label(title="Не оплачен")
-                                        i.icon-rouble
+                                    span.status-label
+                                        i.icon-circle-empty
+                                        |&nbsp;Не оплачен
 
     - var list_empty = ((data.length > 0) ? false : true)
 

@@ -380,6 +380,16 @@ header {
       border-left: none;
       cursor: pointer;
 
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      -o-user-select: none;
+
+      .arrow {
+        display: inline-block;
+        width: 20px;
+      }
+
       .status-label {
         color: inherit;
         border-color: #59575E;
@@ -417,21 +427,20 @@ header {
 
 // Labels
 .status-label {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ddd;
-  display: block;
-  border-radius: @ui-border-radius * 5;
-  -webkit-border-radius: @ui-border-radius * 5;
-  -moz-border-radius: @ui-border-radius * 5;
-  color: #ddd;
-  text-align: center;
-  line-height: 24px;
+  color: #999;
+  white-space: nowrap;
+
+  i {
+    color: #ccc;
+  }
 }
 
 .status-label.active {
-  border-color: #59575E;
-  color: #59575E;
+  color: @color-green;
+
+  i {
+    color: inherit;
+  }
 }
 
 // Date control
@@ -439,7 +448,7 @@ header {
   padding-right: 40px;
   position: relative;
 
-  .picker {
+  .datepicker-picker {
     position: absolute;
     right: 3px;
     top: 0;
@@ -451,7 +460,7 @@ header {
     }
   }
 
-  .widget {
+  .datepicker-widget {
     background: #fff;
     width: 240px;
     position: absolute;
@@ -497,7 +506,7 @@ header {
     }
   }
 
-  .widget.show {
+  .datepicker-widget.show {
     opacity: 1;
 
     @scale: scale(1);

@@ -15,21 +15,22 @@ module.exports = function (app) {
             required: true
         },
 
+        /*
+         * <select name="legal_type_id">
+         *     <option value="1" selected="">ООО</option>
+         *     <option value="2">ЗАО</option>
+         *     <option value="3">ОАО</option>
+         *     <option value="4">ИП</option> ОГРНИП
+         *     <option value="5">ПБЮЛ</option>
+         *     <option value="6">ГУП</option>
+         *     <option value="7">МУП</option>
+         *     <option value="8">НП</option>
+         *     <option value="9">АНО</option>
+         *     <option value="10">Другое</option>
+         * </select>
+         * */
+
         type: {
-            /*
-            * <select name="legal_type_id">
-            *     <option value="1" selected="">ООО</option>
-            *     <option value="2">ЗАО</option>
-            *     <option value="3">ОАО</option>
-            *     <option value="4">ИП</option> ОГРНИП
-            *     <option value="5">ПБЮЛ</option>
-            *     <option value="6">ГУП</option>
-            *     <option value="7">МУП</option>
-            *     <option value="8">НП</option>
-            *     <option value="9">АНО</option>
-            *     <option value="10">Другое</option>
-            * </select>
-            * */
             type: Number,
             required: true,
             default: 1
@@ -39,7 +40,7 @@ module.exports = function (app) {
             type: String
         },
 
-        orgnip: {
+        ogrnip: {
             type: String
         },
 
@@ -96,7 +97,7 @@ module.exports = function (app) {
         }
     });
 
-    this.model = app.mongoose.mongoose.model('Company', schema);
+    this.model = app.mongoose.mongoose.model('Contractor', schema);
 
     return this;
 };

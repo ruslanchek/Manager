@@ -29,18 +29,21 @@ app.mongoose        = require('./libs/mongoose')(app);
 models.user = require('./models/user')(app).model;
 models.account = require('./models/account')(app).model;
 models.company = require('./models/company')(app).model;
+models.contractor = require('./models/contractor')(app).model;
 
 
 /**
  * Controllers
  * */
 var UserController = require('./controllers/user');
-var AccountController = new require('./controllers/account');
-var CompanyController = new require('./controllers/company');
+var AccountController = require('./controllers/account');
+var CompanyController = require('./controllers/company');
+var ContractorController = require('./controllers/contractor');
 
 controllers.user = new UserController(app, models);
 controllers.account = new AccountController(app, models);
 controllers.company = new CompanyController(app, models);
+controllers.contractor = new ContractorController(app, models);
 
 
 /**
@@ -58,6 +61,7 @@ require('./inits/passport_strategies')(app, controllers);
 require('./routes/common')(app, controllers);
 require('./routes/auth')(app, controllers);
 require('./routes/accounts')(app, controllers);
+require('./routes/settings')(app, controllers);
 
 
 /**

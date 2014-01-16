@@ -1,7 +1,10 @@
 var path = require('path'),
-    lessMiddleware = require('less-middleware');
+    lessMiddleware = require('less-middleware'),
+    redis = require('redis').createClient();
 
 module.exports = function(app, express){
+    var RedisStore = require('connect-redis')(express);
+
     app.use(express.favicon());
     app.use(express.logger('dev'));
     app.use(express.json());
@@ -9,7 +12,9 @@ module.exports = function(app, express){
     app.use(express.cookieParser());
     app.use(express.methodOverride());
     app.use(express.session({
-        secret: app.config.get('session_secret')
+        secret: app.config.get('session_secret'),
+        maxAge: new Date(Date.now() + parseInt(app.config.get('session_time'))),
+        store: new RedisStore({ client: redis })
     }));
 
     app.use(app.passport.initialize());

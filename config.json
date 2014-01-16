@@ -3,6 +3,7 @@
     "domain_name": "localhost",
     "port": 2000,
     "session_secret": "sadkj3l439Kjn3lk4nlJn",
+    "session_time": 36000000,
 
     "mongoose": {
         "development": "mongodb://localhost/manager",

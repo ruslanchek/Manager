@@ -17,13 +17,13 @@ module.exports = function(app){
 	
     mongoose.connect(link);
 
-    var db = mongoose.connection;
+    this.db = mongoose.connection;
 
-    db.on('error', function (err) {
+    this.db.on('error', function (err) {
         app.log.error('Mongoose connection error:', err.message);
     });
 
-    db.once('open', function callback () {
+    this.db.once('open', function callback () {
         app.log.info("Mongoose connected to DB!");
     });
 

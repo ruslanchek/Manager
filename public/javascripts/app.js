@@ -6,10 +6,11 @@ var app = {
 
         table.bind('aftertablesort', function (event, data) {
             var th = $(this).find('th');
-            th.find('.arrow').remove();
+            th.find('.arrow').attr('class', 'arrow');
 
             var arrow = data.direction === 'asc' ? 'icon-up-dir' : 'icon-down-dir';
-            th.eq(data.column).append('<i class="arrow ' + arrow + '"></i>');
+
+            th.eq(data.column).find('.arrow').addClass(arrow);
         });
     },
 
