@@ -9,25 +9,25 @@ module.exports = function(app, controllers){
             var params = app.utils.extend(common, {
                 err: err,
                 data: data,
-                user: req.user
+                user: req.user,
+                metadata: {
+                    title: 'Счета'
+                }
             });
 
-            res.render(
-                'accounts',
-                params
-            );
+            res.render('accounts', params);
         });
     });
 
     app.get('/accounts/add', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
-            user: req.user
+            user: req.user,
+            metadata: {
+                title: 'Новый счет'
+            }
         });
 
-        res.render(
-            'accounts.add.jade',
-            params
-        );
+        res.render('accounts.add.jade', params);
     });
 
     app.post('/accounts/delete', app.ensureAuthenticated, function(req, res){
@@ -44,13 +44,13 @@ module.exports = function(app, controllers){
                 var params = app.utils.extend(common, {
                     err : err,
                     data: data,
-                    user: req.user
+                    user: req.user,
+                    metadata: {
+                        title: 'Редактирование счета'
+                    }
                 });
 
-                res.render(
-                    'accounts.edit.jade',
-                    params
-                );
+                res.render('accounts.edit.jade', params);
             }
         });
     });

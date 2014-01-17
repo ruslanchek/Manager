@@ -115,7 +115,7 @@ app.sections.accounts = {
                 url: '/accounts/add',
                 fields: app.sections.accounts.fields,
                 messages: {
-                    OK: 'Документ создан',
+                    OK: 'Счет создан',
                     NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
                     NUMBER_EMPTY: 'Не введен номер счета',
                     DUBLICATE_NUMBER_FOUND: 'Счет с таким номером уже существует'
@@ -219,6 +219,10 @@ app.sections.accounts = {
 
             this.datepicker_controller = new app.datepicker.DatepickerController({
                 input_selector: '#date'
+            });
+
+            this.items_selector_controller = new app.items_selector.ItemsSelectorController({
+                container_selector: '#items-selector'
             });
 
             this.binds();

@@ -6,7 +6,10 @@ module.exports = function(app, controllers){
 
     app.get('/settings', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
-            user: req.user
+            user: req.user,
+            metadata: {
+                title: 'Настройка'
+            }
         });
 
         res.render(

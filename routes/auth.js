@@ -1,4 +1,8 @@
 module.exports = function (app, controllers) {
+    var common = {
+        utils: app.utils
+    };
+
     /**
      * Routes for Facebook auth
      * */
@@ -57,7 +61,14 @@ module.exports = function (app, controllers) {
      * Route for login page
      * */
     app.get('/auth/login', app.ensureNotAuthenticated, function(req, res){
-        res.render('auth.login.jade');
+        var params = app.utils.extend(common, {
+            user: req.user,
+            metadata: {
+                title: 'Авторизация'
+            }
+        });
+
+        res.render('auth.login.jade', params);
     });
 
 
@@ -119,7 +130,14 @@ module.exports = function (app, controllers) {
      * Route for password recovery page
      * */
     app.get('/auth/password-recovery', app.ensureNotAuthenticated, function(req, res){
-        res.render('auth.password-recovery.jade');
+        var params = app.utils.extend(common, {
+            user: req.user,
+            metadata: {
+                title: 'Восстановление пароля'
+            }
+        });
+
+        res.render('auth.password-recovery.jade', params);
     });
 
 
@@ -128,7 +146,15 @@ module.exports = function (app, controllers) {
      * */
     app.get('/auth/password-recovery:hash', app.ensureNotAuthenticated, function(req, res){
         controllers.user.passwordRecoveryCheckCode(req.params.hash, function(result){
-            res.render('auth.password-recovery-code.jade', {result: result});
+            var params = app.utils.extend(common, {
+                user: req.user,
+                result: result,
+                metadata: {
+                    title: 'Восстановление пароля'
+                }
+            });
+
+            res.render('auth.password-recovery-code.jade', params);
         });
     });
 
@@ -147,7 +173,14 @@ module.exports = function (app, controllers) {
      * Route for sign up page
      * */
     app.get('/auth/sign-up', app.ensureNotAuthenticated, function(req, res){
-        res.render('auth.sign-up.jade');
+        var params = app.utils.extend(common, {
+            user: req.user,
+            metadata: {
+                title: 'Регистрация'
+            }
+        });
+
+        res.render('auth.sign-up.jade', params);
     });
 
 

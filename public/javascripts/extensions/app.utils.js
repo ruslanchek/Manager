@@ -49,5 +49,9 @@ app.utils = {
         }
 
         return h_date;
+    },
+
+    humanizePrice: function(price){
+        return numeral(price).format('0,0.00');
     }
 }

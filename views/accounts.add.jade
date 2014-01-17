@@ -11,20 +11,20 @@ block content
 
         .units-row-end
             .unit-50
-                p
+                .form-item
                     label(for="number") Номер счета
                     input#number.width-100(type='text')
-                p
+                .form-item
                     label(for="date") Дата
                     input#date.width-100(type='text', data-metatype='date', value=utils.stringifyDate(new Date()))
-                p
+                .form-item
                     label(for="contractor") Контрагент
                     select#contractor
                         option(value="ABC1") ООО &laquo;Системы и сервисы&raquo;
             .unit-50
-                p
+                .form-item
                     label(for="comment") Комментарий
-                    textarea#comment.width-100(style="height: 81px")
+                    textarea#comment.width-100(style="height: 82px")
 
         input.button.blue(type='submit', value='Создать счет')
 

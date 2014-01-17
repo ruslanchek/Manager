@@ -100,9 +100,14 @@ fieldset.forms-row {
 .forms-columnar select[multiple="multiple"] {
 	display: inline-block;
 }
-.forms-columnar p {
+.forms-columnar p,
+.forms-columnar .form-item {
 	position: relative;
 	padding-left: @columnarWidth + @columnarMargin;
+    margin-bottom: 1.7em;
+}
+.forms-columnar .form-item.no-margin {
+margin-bottom: 0;
 }
 .forms-columnar label  {
 	float: left;

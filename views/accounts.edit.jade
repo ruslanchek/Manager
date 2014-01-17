@@ -30,26 +30,39 @@ block content
 
         .units-row-end
             .unit-50
-                p
+                .form-item
+                    label(for="status") Оплачен
+                    input#status(type="checkbox")
+
+                .form-item
                     label(for="number") Номер счета
                     input#number.width-100(type='text', value=data.number)
 
-                p
+                .form-item
                     label(for="date") Дата
                     input#date.width-100(type='text', data-metatype='date', value=utils.stringifyDate(data.date))
 
-                p
+                .form-item
                     label(for="contractor") Контрагент
                     select#contractor
                         option(value="1") ООО &laquo;Системы и сервисы&raquo;
 
             .unit-50
-                p
+                .form-item
                     label(for="comment") Комментарий
-                    textarea#comment.width-100(style="height: 81px") #{data.comment}
+                    textarea#comment.width-100(style="height: 82px") #{data.comment}
 
+        .units-row-end
+            .unit-100
+                .form-item
+                    label(for="comment") Позиции
+                    #items-selector
 
-        input.button.blue(type='submit', value='Сохранить счет')
+        .units-row-end
+            .unit-100
+                .form-item.no-margin
+                    input.button.blue(type='submit', value='Сохранить счет')
+                    a.button(href="#") Посмотреть счет
 
     script.
         app.sections.accounts.edit.init('!{data.id}');

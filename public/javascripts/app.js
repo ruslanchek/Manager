@@ -20,5 +20,26 @@ var app = {
 
     init: function(){
         this.tableSorting();
+
+        numeral.language('ru', {
+            delimiters: {
+                thousands: ' ',
+                decimal: ','
+            },
+            abbreviations: {
+                thousand: 'тыс.',
+                million: 'млн.',
+                billion: 'млрд.',
+                trillion: 'трлн.'
+            },
+            ordinal : function (number) {
+                return number === 1 ? 'er' : 'ème';
+            },
+            currency: {
+                symbol: 'руб.'
+            }
+        });
+
+        numeral.language('ru');
     }
 };

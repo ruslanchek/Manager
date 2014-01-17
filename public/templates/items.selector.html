@@ -1,0 +1,37 @@
+<div class="items-selector">
+    <div class="items">
+        <table>
+            <thead>
+                <tr>
+                    <th width="1%">№</th>
+                    <th width="50%">Наименование</th>
+                    <th width="23%">Цена</th>
+                    <th width="1%">Количество</th>
+                    <th width="25%">Стоимость</th>
+                    <th width="1%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="new-item-row">
+                    <td><span class="new-item-number">1</span></td>
+                    <td><input autocomplete="off" type="text" class="new-item-name width-100"></td>
+                    <td><input autocomplete="off" type="text" class="new-item-price width-100" max="20" maxlength="20" value="0"></td>
+                    <td>
+                        <input autocomplete="off" type="text" class="new-item-count" id="new-item-count" value="1" max="5" maxlength="5">
+                    </td>
+                    <td><span class="new-item-sum price">0,00</span>&nbsp;<span class="rub">&#8399;</span></td>
+                    <td><a class="new-item-add action-button green" href="#"><i class="icon-plus"></i></a></td>
+                </tr>
+                <tr class="total-row">
+                    <td></td>
+                    <td><a href="#" class="action-button add-from-db"><i class="icon-menu"></i>Выбрать из номенклатуры</a></td>
+                    <td></td>
+                    <td style="text-align: right">Итого:&nbsp;</td>
+                    <td><strong><span class="total-sum">0,00</span>&nbsp;<span class="rub">&#8399;</span></strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tools"></div>
+</div>

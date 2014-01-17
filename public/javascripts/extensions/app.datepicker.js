@@ -70,19 +70,6 @@ app.datepicker = {
                     _this.hide();
                 }
             });
-
-            $('html').on('click.dp' + this.id, function (e) {
-                var classname = $(e.target).attr('class');
-
-                console.log(classname);
-
-                if (
-                    classname != 'action-button datepicker-picker' &&
-                    classname != ''
-                ){
-                    _this.hide();
-                }
-            });
         }
 
         this.hide = function () {

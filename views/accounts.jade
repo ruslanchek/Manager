@@ -42,14 +42,10 @@ block content
                             td
                             td
                                 if val.status == 1
-                                    span.status-label.active
-                                        i.icon-ok
-                                        |&nbsp;Оплачен
+                                    span.status-label.active Оплачен
 
                                 else
-                                    span.status-label
-                                        i.icon-circle-empty
-                                        |&nbsp;Не оплачен
+                                    span.status-label Не оплачен
 
     - var list_empty = ((data.length > 0) ? false : true)
 

@@ -11,9 +11,6 @@ numeral.language('ru', {
         billion: 'млрд.',
         trillion: 'трлд.'
     },
-    ordinal: function (number) {
-        return number === 1 ? 'er' : 'ème';
-    },
     currency: {
         symbol: 'руб.'
     }

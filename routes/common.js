@@ -1,8 +1,20 @@
 module.exports = function(app, controllers){
+    var common = {
+        utils: app.utils
+    };
+
     /**
      * Get routes
      * */
     app.get('/', app.ensureAuthenticated, function(req, res){
-        res.render('main', { user: req.user });
+        var params = app.utils.extend(common, {
+            user: req.user,
+            section: 'main',
+            metadata: {
+                title: 'Менеджер'
+            }
+        });
+
+        res.render('main', params);
     });
 };

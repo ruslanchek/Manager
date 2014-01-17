@@ -208,18 +208,18 @@ header {
 
 // Main view
 .main-view {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 // Buttons
 .button {
   background: #D7DCDE;
   display: inline-block;
-  padding: 4px 15px;
+  padding: 10px 15px;
   margin: 0 25px 0 0;
-  height: 34px;
-  line-height: 20px;
-  font-size: 1em;
+  line-height: normal;
+  font-size: 15px !important;
+  font-family: inherit;
   color: #59575E;
   border: none;
   border-radius: @ui-border-radius + 1;
@@ -240,6 +240,7 @@ header {
 
 .button:hover {
   background: #c4cacd;
+  color: #59575E;
 }
 
 .button.blue {
@@ -443,6 +444,124 @@ header {
   }
 }
 
+// Number input
+.number-input {
+  position: relative;
+  padding-right: 44px;
+  background: #ddd;
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+
+  .change-up,
+  .change-down {
+    position: absolute;
+    display: block;
+    top: 0;
+    width: 22px;
+    height: 29px;
+    line-height: 29px;
+    text-align: center;
+    color: #59575E;
+  }
+
+  .change-up:hover,
+  .change-down:hover {
+    color: #fff;
+  }
+
+  .change-up {
+    right: 22px;
+  }
+
+  .change-down {
+    right: 0px;
+  }
+
+  input {
+    width: 40px;
+  }
+}
+
+// Items selector
+.items-selector {
+  background: #fff;
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin-right: 4px;
+
+  .add-from-db {
+    padding: 1px 10px !important;
+    margin-left: -6px;
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 0;
+
+    th {
+      font-weight: bold;
+      padding-left: 0;
+    }
+
+    td {
+      vertical-align: top;
+      padding-left: 0;
+
+      input {
+        margin-left: -6px;
+      }
+
+      .price {
+        white-space: nowrap;
+      }
+    }
+
+    .new-item-row {
+      background: #F6F6F6;
+    }
+
+    .total-row {
+      td {
+        border-bottom: none;
+      }
+    }
+
+    .new-item-row,
+    .total-row {
+      td {
+        vertical-align: middle;
+        position: relative;
+      }
+    }
+
+    th:first-of-type,
+    td:first-of-type {
+      padding-left: 10px;
+    }
+
+
+    tr:last-of-type td:first-of-type {
+      border-radius: @ui-border-radius-bottom-left;
+      -webkit-border-radius: @ui-border-radius-bottom-left;
+      -moz-border-radius: @ui-border-radius-bottom-left;
+    }
+
+    tr:last-of-type td:last-of-type {
+      border-radius: @ui-border-radius-bottom-right;
+      -webkit-border-radius: @ui-border-radius-bottom-right;
+      -moz-border-radius: @ui-border-radius-bottom-right;
+    }
+
+    .action-button {
+      padding: 0 2px 0 8px;
+    }
+  }
+}
+
 // Date control
 .date-control {
   padding-right: 40px;
@@ -588,11 +707,50 @@ textarea {
 
 // Footer
 footer {
-  width: @app-width;
+  width: @app-width + 60;
   margin: -100px auto 0;
   height: 100px;
   background: @panel-bg-light;
-  border-radius: @ui-border-radius-top;
-  -webkit-border-radius: @ui-border-radius-top;
-  -moz-border-radius: @ui-border-radius-top;
+}
+
+// Checkbox
+input[type=checkbox], input[type=radio] {
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: inset 0px 0px 0px 1px #e6e6e6;
+  border-radius: 15px;
+  background-color: #fff;
+  padding: 0px;
+  display: inline-block;
+  width: 39px;
+  padding-top: 1px;
+  height: 18px;
+  position: relative;
+  cursor: pointer;
+  transition: all .3s ease-out;
+  margin: 0px 0 -4px;
+  transform: scale(1);
+  -webkit-transform: scale(1); /* Adjust size here */
+}
+
+input[type=checkbox]:checked,
+input[type=radio]:checked {
+  box-shadow: inset 0px 0px 0px 20px @color-green-dark;
+}
+
+input[type=checkbox]:after, input[type=radio]:after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 15px;
+  box-shadow: 0px 2px 2px 1px rgba(0,0,0,.2);
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.1s ease-in .1s;
+}
+
+input[type="checkbox"]:checked:after,
+input[type="radio"]:checked:after {
+  left: 22px;
 }
