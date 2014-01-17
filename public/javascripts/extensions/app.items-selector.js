@@ -20,7 +20,7 @@ app.items_selector = {
 
         this.resetForm = function(){
             this.$container.find('.new-item-name').val('');
-            this.$container.find('.new-item-price').val(0);
+            this.$container.find('.new-item-price').val('');
             this.$container.find('.new-item-count').val(1);
             this.recountNewItem();
             this.$container.find('.new-item-name').focus();

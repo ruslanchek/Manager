@@ -26,8 +26,10 @@ app.docview = {
                         '<div class="tools-bar-content">' +
                             '<h1>' + this.options.title + '</h1>' +
                             '<div class="tools">' +
-                                '<a href="#" class="action-button"><i class="icon-print"></i> Напечатать</a>' +
-                                '<a href="#" class="action-button warning close-docview" title="Закрыть просмотр (Esc)"><i class="icon-cancel"></i> Закрыть</a>' +
+                                '<a href="#" class="action-button action-download"><i class="icon-doc-inv"></i> Скачать PDF</a>' +
+                                '<a href="#" class="action-button action-print"><i class="icon-print"></i> Напечатать</a>' +
+                                '<a href="#" class="action-button action-send"><i class="icon-export-alt"></i> Отправить</a>' +
+                                '<a href="#" class="action-button action-delete warning close-docview" title="Закрыть просмотр (Esc)"><i class="icon-cancel"></i> Закрыть</a>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -43,11 +45,11 @@ app.docview = {
                 _this.close();
             });
 
-            $('body').on('keyup.docview', function(e){
+            /*$('body').on('keyup.docview', function(e){
                 if(e.keyCode == 27){
                     _this.close();
                 }
-            });
+            });*/
 
             $('body, html').animate({
                 scrollTop: 0

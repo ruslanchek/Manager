@@ -238,13 +238,18 @@ this.parseDate = function(str){
  * Make pattern dd-mm-yyyy from Date object
  */
 this.stringifyDate = function(date){
-    var m = parseInt(date.getMonth()) + 1;
+    var m = parseInt(date.getMonth()) + 1,
+        d = parseInt(date.getDate());
 
     if(m < 10){
         m = '0' + m.toString();
     }
 
-    return date.getDate() + '-' + m + '-' + date.getFullYear();
+    if(d < 10){
+        d = '0' + d.toString();
+    }
+
+    return d + '.' + m + '.' + date.getFullYear();
 }
 
 

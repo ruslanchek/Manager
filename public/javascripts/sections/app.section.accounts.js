@@ -190,22 +190,22 @@ app.sections.accounts = {
         binds: function(){
             var _this = this;
 
-            $('#download').on('click', function(e){
+            $('body').on('click.action-download', '.action-download', function(e){
                 _this.download();
                 e.preventDefault();
             });
 
-            $('#print').on('click', function(e){
+            $('body').on('click.action-print', '.action-print', function(e){
                 _this.print();
                 e.preventDefault();
             });
 
-            $('#send').on('click', function(e){
+            $('body').on('click.action-send', '.action-send', function(e){
                 _this.send();
                 e.preventDefault();
             });
 
-            $('#delete').on('click', function(e){
+            $('body').on('click.action-delete', '.action-delete', function(e){
                 _this.delete();
                 e.preventDefault();
             });

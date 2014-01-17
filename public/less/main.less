@@ -359,7 +359,7 @@ header {
 .table-container {
   width: auto;
   background: #DDDDDD;
-  padding: 1px 3px;
+  padding: 0 2px;
   border-radius: @ui-border-radius;
   -webkit-border-radius: @ui-border-radius;
   -moz-border-radius: @ui-border-radius;
@@ -367,6 +367,12 @@ header {
   .action-button {
     margin: 0 5px;
     height: 1.5em;
+  }
+
+  .items-table {
+    th {
+      white-space: nowrap;
+    }
   }
 
   table {
@@ -412,6 +418,10 @@ header {
 
   .action-button {
     margin-right: 10px;
+  }
+
+  .action-button.warning {
+    margin-left: 10px;
   }
 }
 
@@ -639,9 +649,8 @@ header {
 // Form
 .form {
   @form-color: #DDDDDD;
-
   border: 2px solid @form-color;
-  background: @form-color + 25;
+  background: @form-color + 23;
   padding: 20px;
   border-radius: @ui-border-radius + 1;
   -webkit-border-radius: @ui-border-radius + 1;
@@ -716,7 +725,7 @@ textarea {
     overflow: hidden;
 
     .tools-bar-content {
-      background: rgba(255,255,255,0.9);
+      background: rgba(253,253,255,0.9);
       box-shadow: 0 1px 3px 0 rgba(175,180,182,0.65);
       padding: 15px 30px 10px;
       height: 35px;
