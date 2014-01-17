@@ -1,6 +1,15 @@
 var path = require('path'),
-    lessMiddleware = require('less-middleware'),
-    redis = require('redis').createClient();
+    lessMiddleware = require('less-middleware');
+
+// Heroku Redis
+if (process.env.REDISTOGO_URL) {
+    var rtg   = require("url").parse(process.env.REDISTOGO_URL);
+    var redis = require("redis").createClient(rtg.port, rtg.hostname);
+
+    redis.auth(rtg.auth.split(":")[1]);
+} else {
+    var redis = require("redis").createClient();
+}
 
 module.exports = function(app, express){
     var RedisStore = require('connect-redis')(express);
