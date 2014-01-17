@@ -12,7 +12,7 @@ module.exports = function(app){
 	if(app.get('env') == 'development'){
 		link = app.config.get('mongoose:development');
 	}else{
-		link = process.env.MONGOHQ_URL;
+		link = app.config.get('mongoose:production');
 	}
 	
     mongoose.connect(link);
