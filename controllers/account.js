@@ -12,6 +12,7 @@ module.exports = function (app, models) {
         });
     };
 
+
     this.findOne = function (user, id, done) {
         models.account.find({ _user_id: user._id, _id: id }, function (err, data) {
             if (err) {
