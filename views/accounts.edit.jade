@@ -31,10 +31,6 @@ block content
         .units-row-end
             .unit-50
                 .form-item
-                    label(for="status") Оплачен
-                    input#status(type="checkbox")
-
-                .form-item
                     label(for="number") Номер счета
                     input#number.width-100(type='text', value=data.number)
 
@@ -49,6 +45,10 @@ block content
 
             .unit-50
                 .form-item
+                    label(for="status") Оплачен
+                    input#status.stylish(type="checkbox", checked=(data.status===true ? 'checked' : undefined))
+
+                .form-item
                     label(for="comment") Комментарий
                     textarea#comment.width-100(style="height: 82px") #{data.comment}
 
@@ -62,7 +62,7 @@ block content
             .unit-100
                 .form-item.no-margin
                     input.button.blue(type='submit', value='Сохранить счет')
-                    a.button(href="#") Посмотреть счет
+                    a.button.view-invoice(href="#") Посмотреть счет
 
     script.
         app.sections.accounts.edit.init('!{data.id}');

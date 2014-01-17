@@ -109,7 +109,17 @@ app.form = {
 
             for (var key in _this.options.fields) {
                 if (_this.options.fields.hasOwnProperty(key)) {
-                    data[key] = _this.$form.find(_this.options.fields[key]).val();
+                    var $field = _this.$form.find(_this.options.fields[key]);
+
+                    if($field.attr('type') == 'checkbox'){
+                        if($field.prop('checked') === true){
+                            data[key] = 1;
+                        }else{
+                            data[key] = 0;
+                        }
+                    }else{
+                        data[key] = $field.val();
+                    }
                 }
             }
 

@@ -102,6 +102,7 @@ module.exports = function (app, models) {
                     item.contractor = data.contractor;
                     item.company = data.company;
                     item.comment = data.comment;
+                    item.status = data.status;
 
                     item.save(function (err, data) {
                         if (err) {
@@ -156,6 +157,7 @@ module.exports = function (app, models) {
                 new_item.contractor = data.contractor;
                 new_item.company = data.company;
                 new_item.comment = data.comment;
+                new_item.status = data.status;
 
                 new_item.save(function (err, data) {
                     if (err) {

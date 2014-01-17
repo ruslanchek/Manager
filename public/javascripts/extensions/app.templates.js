@@ -24,8 +24,8 @@ app.templates = {
         });
     },
 
-    getTemplateHTML: function(name, done, setLoading, unSetLoading){
-        if(this.templates_stack[name]){
+    getTemplateHTML: function(cache, name, done, setLoading, unSetLoading){
+        if(this.templates_stack[name] && cache === true){
             return done(this.templates_stack[name]);
         }
 
@@ -33,6 +33,7 @@ app.templates = {
             url: '/templates/' + name,
             type: 'get',
             dataType: 'html',
+            cache: cache,
             beforeSend: function(){
                 if(setLoading){
                     setLoading();
@@ -62,7 +63,18 @@ app.templates = {
     },
 
     render: function(name, context, done, setLoading, unSetLoading){
-        this.getTemplateHTML(name, function(data){
+        this.getTemplateHTML(true, name, function(data){
+            var template = Handlebars.compile(data),
+                html = template(context);
+
+            if(done){
+                done(html);
+            }
+        }, setLoading, unSetLoading);
+    },
+
+    renderForced: function(name, context, done, setLoading, unSetLoading){
+        this.getTemplateHTML(false, name, function(data){
             var template = Handlebars.compile(data),
                 html = template(context);
 

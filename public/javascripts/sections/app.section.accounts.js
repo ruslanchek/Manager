@@ -3,8 +3,23 @@ app.sections.accounts = {
         number      : '#number',
         date        : '#date',
         comment     : '#comment',
-        company     : 'A',
-        contractor  : '#contractor'
+        contractor  : '#contractor',
+        status      : '#status'
+    },
+
+    viewDocument: function(){
+        var data = {};
+
+        $.each(this.fields, function(key, val){
+            data[key] = $(val).val();
+        });
+
+        app.templates.renderForced('blank.invoice.html', data, function(html){
+            new app.docview.DocviewController({
+                title: 'Просмотр счета',
+                content: html
+            }).open();
+        });
     },
 
     delete: function(ids, done){
@@ -192,6 +207,11 @@ app.sections.accounts = {
 
             $('#delete').on('click', function(e){
                 _this.delete();
+                e.preventDefault();
+            });
+
+            $('.view-invoice').on('click', function(e){
+                app.sections.accounts.viewDocument();
                 e.preventDefault();
             });
         },

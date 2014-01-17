@@ -34,8 +34,11 @@ app.modal = {
 
             },
             width: 600,
+            fixed: true,
             animation_time: 300,
-            draggable: true
+            draggable: true,
+            scrollable: false,
+            max_height: 500
         };
 
         $.extend(this.options, options);
@@ -43,11 +46,33 @@ app.modal = {
         var _this = this;
 
         this.position = function(){
+            var position = 'fixed';
+
+            if(this.options.fixed !== true){
+                position = 'absolute';
+            }
+
+            if(this.options.scrollable === true){
+                this.$modal.find('.content').wrap('<div class="modal_scrollable_content"></div>');
+                this.$modal.find('.modal_scrollable_content').css({
+                    maxHeight: this.options.max_height
+                });
+            }
+
             this.$modal.css({
+                position: position,
                 width: this.options.width,
                 marginLeft: -this.options.width / 2,
                 marginTop: -this.$modal.height() / 2
             });
+
+            if(this.$modal.height() > $('body').height()){
+                this.$modal.css({
+                    top: 0,
+                    marginTop: 20,
+                    marginBottom: 20
+                });
+            }
         };
 
         this.open = function(){

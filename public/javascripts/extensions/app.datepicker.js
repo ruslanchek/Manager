@@ -16,7 +16,7 @@ app.datepicker = {
             return;
         }
 
-        $(this.$input).mask("99-99-9999");
+        $(this.$input).mask("99.99.9999");
 
         this.opened = false;
 
@@ -35,7 +35,7 @@ app.datepicker = {
             },
             defaultDate: this.$input.val(),
             firstDay: 1,
-            dateFormat: 'dd-mm-yy',
+            dateFormat: 'dd.mm.yy',
             prevText: 'Назад',
             nextText: 'Вперед',
             dayNames: [ "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" ],
