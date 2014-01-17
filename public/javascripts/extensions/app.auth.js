@@ -3,16 +3,26 @@ app.auth = {
         $.ajax({
             url: '/auth/logout',
             type: 'get',
+            beforeSend: function(){
+                app.loading.setGlobalLoading('logout');
+            },
             success: function (data) {
+                app.loading.unSetGlobalLoading('logout');
+
                 if(data && data.success === true){
                     document.location.href = '/';
                 }
+            },
+            error: function(){
+                app.loading.unSetGlobalLoading('logout');
             }
         })
     },
 
     bindControls: function(){
-        $('.logout').off('click').on('click', function(){
+        $('.logout').off('click').on('click', function(e){
+            e.preventDefault();
+
             if(confirm('Выйти?')){
                 app.auth.logOut();
             }
