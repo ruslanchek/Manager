@@ -1,6 +1,6 @@
 {
   "name": "Manager",
-  "version": "0.0.1",
+  "version": "0.0.1-2",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -30,6 +30,6 @@
   },
   "subdomain": "manager",
   "engines": {
-    "node": "0.10.24"
+    "node": "0.10.x"
   }
 }

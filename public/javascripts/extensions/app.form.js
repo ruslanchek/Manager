@@ -94,6 +94,10 @@ app.form = {
             }else{
                 app.loading.setGlobalLoading('app.form.FormController.' + this.options.form_selector);
             }
+
+            this.$form.find('input[type="submit"]')
+                .attr('disabled', 'disabled')
+                .prop('disabled', true);
         };
 
         this.unSetLoading = function(){
@@ -102,6 +106,10 @@ app.form = {
             }else{
                 app.loading.unSetGlobalLoading('app.form.FormController.' + this.options.form_selector);
             }
+
+            this.$form.find('input[type="submit"]')
+                .removeAttr('disabled', 'disabled')
+                .removeProp('disabled');
         };
 
         this.processForm = function(){
@@ -129,10 +137,6 @@ app.form = {
                 data: data,
                 dataType: 'json',
                 beforeSend: function(){
-                    _this.$form.find('input[type="submit"]')
-                        .attr('disabled', 'disabled')
-                        .prop('disabled', true);
-
                     _this.unSetFieldsErrors();
                     _this.setLoading();
 
@@ -156,9 +160,7 @@ app.form = {
 
                                 _this.options.onSuccess(data);
 
-                                _this.$form.find('input[type="submit"]')
-                                    .removeAttr('disabled', 'disabled')
-                                    .removeProp('disabled');
+
                             }, function(){ _this.setLoading(); }, function(){ _this.unSetLoading(); });
                         }else{
                             app.templates.render('form.message.html', { message: _this.parseServerMessage(data.message) }, function(html){
@@ -174,9 +176,6 @@ app.form = {
                                     _this.options.onFail();
                                 }
 
-                                _this.$form.find('input[type="submit"]')
-                                    .removeAttr('disabled', 'disabled')
-                                    .removeProp('disabled');
                             }, function(){ _this.setLoading(); }, function(){ _this.unSetLoading(); });
                         }
 
@@ -193,9 +192,6 @@ app.form = {
 
                             _this.$form.find('.form-message').html(html);
 
-                            _this.$form.find('input[type="submit"]')
-                                .removeAttr('disabled', 'disabled')
-                                .removeProp('disabled');
                         }, function(){ _this.setLoading(); }, function(){ _this.unSetLoading(); });
                     }, _this.options.message_animation_time * 1.5);
                 }
