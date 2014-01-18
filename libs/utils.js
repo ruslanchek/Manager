@@ -272,6 +272,10 @@ this.matchPatternStr = function(str, type){
             var pattern = /^[a-zA-Z0-9А-Яа-я-]{3,64}$/;
         } break;
 
+        case 'name_min' : {
+            var pattern = /^[a-zA-Z0-9А-Яа-я-]{1,64}$/;
+        } break;
+
         case 'password' : {
             var pattern = /^[a-zA-Z0-9-]{3,32}$/;
         } break;

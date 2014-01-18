@@ -50,7 +50,7 @@ module.exports = function (app) {
         }
     });
 
-    this.model = app.mongoose.mongoose.model('Account', schema);
+    this.model = app.mongoose.mongoose.model('Nomenclature', schema);
 
     return this;
 };

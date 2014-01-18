@@ -7,11 +7,26 @@ module.exports = function (app, models) {
             }
 
             if (data) {
-                done(false, data);
+                return done(false, data);
             }
+
+            return done(false, false);
         });
     };
 
+    this.countAll = function(user, done){
+        models.account.count({ _user_id: user._id }, function(err, data){
+            if (err) {
+                return done(data);
+            }
+
+            if (data) {
+                return done(data);
+            }
+
+            return done(false);
+        });
+    };
 
     this.findOne = function (user, id, done) {
         models.account.find({ _user_id: user._id, _id: id }, function (err, data) {
@@ -21,7 +36,7 @@ module.exports = function (app, models) {
             }
 
             if (data[0]) {
-                done(false, data[0]);
+                return done(false, data[0]);
             }else{
                 return done(true);
             }
@@ -37,7 +52,7 @@ module.exports = function (app, models) {
             };
         }
 
-        if (!app.utils.matchPatternStr(data.number, 'name')) {
+        if (!app.utils.matchPatternStr(data.number, 'name_min')) {
             return {
                 success: false,
                 message: 'NUMBER_DOES_NOT_MATCH_PATTERN',
@@ -201,6 +216,11 @@ module.exports = function (app, models) {
                     message: 'OK'
                 });
             }
+
+            return done({
+                success: false,
+                message: 'SERVER_ERROR'
+            });
         });
     };
 

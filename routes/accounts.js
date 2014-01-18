@@ -20,14 +20,17 @@ module.exports = function(app, controllers){
     });
 
     app.get('/accounts/add', app.ensureAuthenticated, function(req, res){
-        var params = app.utils.extend(common, {
-            user: req.user,
-            metadata: {
-                title: 'Новый счет'
-            }
-        });
+        controllers.account.countAll(req.user, function(data){
+            var params = app.utils.extend(common, {
+                user: req.user,
+                number: (data >= 0) ? data+1 : '',
+                metadata: {
+                    title: 'Новый счет'
+                }
+            });
 
-        res.render('accounts.add.jade', params);
+            res.render('accounts.add.jade', params);
+        });
     });
 
     app.post('/accounts/delete', app.ensureAuthenticated, function(req, res){

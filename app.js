@@ -30,6 +30,7 @@ models.user = require('./models/user')(app).model;
 models.account = require('./models/account')(app).model;
 models.company = require('./models/company')(app).model;
 models.contractor = require('./models/contractor')(app).model;
+models.nomenclature = require('./models/nomenclature')(app).model;
 
 
 /**
@@ -39,11 +40,13 @@ var UserController = require('./controllers/user');
 var AccountController = require('./controllers/account');
 var CompanyController = require('./controllers/company');
 var ContractorController = require('./controllers/contractor');
+var NomenclatureController = require('./controllers/nomenclature');
 
 controllers.user = new UserController(app, models);
 controllers.account = new AccountController(app, models);
 controllers.company = new CompanyController(app, models);
 controllers.contractor = new ContractorController(app, models);
+controllers.nomenclature = new NomenclatureController(app, models);
 
 
 /**

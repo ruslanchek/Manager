@@ -13,7 +13,7 @@ block content
             .unit-50
                 .form-item
                     label(for="number") Номер счета
-                    input#number.width-100(type='text')
+                    input#number.width-100(type='text', value=number)
                 .form-item
                     label(for="date") Дата
                     input#date.width-100(type='text', data-metatype='date', value=utils.stringifyDate(new Date()))

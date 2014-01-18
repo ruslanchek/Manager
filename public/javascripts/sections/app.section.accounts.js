@@ -97,6 +97,8 @@ app.sections.accounts = {
                         $('.table-container').hide();
                         $('.table-empty').show();
                     }
+
+                    $('.multi-action').removeClass('show');
                 });
             }
         },
