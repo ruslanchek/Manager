@@ -76,6 +76,17 @@ module.exports = function (app, models) {
             };
         }
 
+        if(data.items){
+            try{
+                JSON.parse(decodeURIComponent(data.items));
+            }catch(e){
+                return {
+                    success: false,
+                    message: 'SERVER_ERROR'
+                };
+            }
+        }
+
         return true;
     };
 
@@ -84,6 +95,22 @@ module.exports = function (app, models) {
 
         if(this.validateInputs(data) !== true){
             return done(validate);
+        }
+
+        var items = [],
+            count = 0,
+            sum = 0;
+
+        try{
+            items = JSON.parse(decodeURIComponent(data.items));
+            count = items.length;
+            sum = 0;
+
+            for(var i = 0; i < count; i++){
+                sum = sum + parseFloat(items[i].price) * parseInt(items[i].count);
+            }
+        }catch(e){
+
         }
 
         models.account.findOne({ _user_id: user._id, number: data.number, _id: { $ne: id } }, function (err, item) {
@@ -113,12 +140,14 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    item.number = data.number;
-                    item.date = app.utils.parseDate(data.date);
+                    item.number     = data.number;
+                    item.date       = app.utils.parseDate(data.date);
                     item.contractor = data.contractor;
-                    item.company = data.company;
-                    item.comment = data.comment;
-                    item.status = data.status;
+                    item.comment    = data.comment;
+                    item.status     = data.status;
+                    item.items      = items;
+                    item.sum        = sum;
+                    item.count      = count;
 
                     item.save(function (err, data) {
                         if (err) {
@@ -148,6 +177,22 @@ module.exports = function (app, models) {
             return done(validate);
         }
 
+        var items = [],
+            count = 0,
+            sum = 0;
+
+        try{
+            items = JSON.parse(decodeURIComponent(data.items));
+            count = items.length;
+            sum = 0;
+
+            for(var i = 0; i < count; i++){
+                sum = sum + parseFloat(items[i].price) * parseInt(items[i].count);
+            }
+        }catch(e){
+
+        }
+
         models.account.findOne({ _user_id: user._id, number: data.number }, function (err, item) {
             if (err) {
                 app.log.error('findOne error', err);
@@ -169,11 +214,13 @@ module.exports = function (app, models) {
 
                 new_item._user_id = user._id;
                 new_item.number = data.number;
-                new_item.date = app.utils.parseDate(data.date);;
+                new_item.date = app.utils.parseDate(data.date);
                 new_item.contractor = data.contractor;
-                new_item.company = data.company;
                 new_item.comment = data.comment;
                 new_item.status = data.status;
+                new_item.items = items;
+                new_item.sum = sum;
+                new_item.count = count;
 
                 new_item.save(function (err, data) {
                     if (err) {

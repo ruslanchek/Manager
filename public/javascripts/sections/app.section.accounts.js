@@ -4,7 +4,8 @@ app.sections.accounts = {
         date        : '#date',
         comment     : '#comment',
         contractor  : '#contractor',
-        status      : '#status'
+        status      : '#status',
+        items       : '#items'
     },
 
     viewDocument: function(){
@@ -150,6 +151,13 @@ app.sections.accounts = {
                 input_selector: '#date'
             });
 
+            this.items_selector_controller = new app.items_selector.ItemsSelectorController({
+                container_selector: '#items-selector',
+                onChange: function(data){
+                    $('#items').val(encodeURIComponent(JSON.stringify(data)));
+                }
+            });
+
             $('#number').focus();
         }
     },
@@ -244,7 +252,11 @@ app.sections.accounts = {
             });
 
             this.items_selector_controller = new app.items_selector.ItemsSelectorController({
-                container_selector: '#items-selector'
+                container_selector: '#items-selector',
+                data: JSON.parse(decodeURIComponent($('#items').val())),
+                onChange: function(data){
+                    $('#items').val(encodeURIComponent(JSON.stringify(data)));
+                }
             });
 
             this.binds();

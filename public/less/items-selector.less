@@ -1,0 +1,77 @@
+// Items selector
+.items-selector {
+  background: #fff;
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin-right: 4px;
+
+  .add-from-db {
+    padding: 1px 10px !important;
+    margin-left: -6px;
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 0;
+
+    th {
+      font-weight: bold;
+      padding-left: 0;
+    }
+
+    td {
+      vertical-align: top;
+      padding-left: 0;
+
+      input {
+        margin-left: -6px;
+      }
+
+      .price {
+        white-space: nowrap;
+      }
+    }
+
+    .new-item-row {
+      background: #F6F6F6;
+    }
+
+    .total-row {
+      td {
+        border-bottom: none;
+      }
+    }
+
+    .new-item-row,
+    .total-row {
+      td {
+        vertical-align: middle;
+        position: relative;
+      }
+    }
+
+    th:first-of-type,
+    td:first-of-type {
+      padding-left: 10px;
+    }
+
+    tr:last-of-type td:first-of-type {
+      border-radius: @ui-border-radius-bottom-left;
+      -webkit-border-radius: @ui-border-radius-bottom-left;
+      -moz-border-radius: @ui-border-radius-bottom-left;
+    }
+
+    tr:last-of-type td:last-of-type {
+      border-radius: @ui-border-radius-bottom-right;
+      -webkit-border-radius: @ui-border-radius-bottom-right;
+      -moz-border-radius: @ui-border-radius-bottom-right;
+    }
+
+    .action-button {
+      padding: 0 2px 0 8px;
+    }
+  }
+}

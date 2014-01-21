@@ -34,36 +34,95 @@ app.number = {
         this.$down = this.$input_wrapper.find('.change-down');
 
         this.$down.on('click', function(e){
-            _this.up();
+            var m = 1;
+
+            if(e.shiftKey == true){
+                m = 10;
+            }
+
+            _this.up(m);
             e.preventDefault();
         });
 
         this.$up.on('click', function(e){
-            _this.down();
+            var m = 1;
+
+            if(e.shiftKey == true){
+                m = 10;
+            }
+
+            _this.down(m);
             e.preventDefault();
         });
 
-        this.up = function(){
+        this.$input.on('focus.number', function(){
+            _this.$input.on('keyup.number', function(e){
+                var m = 1;
+
+                if(e.shiftKey == true){
+                    m = 10;
+                }
+
+                if(e.keyCode == 38 || e.keyCode == 39){
+                    _this.up(m);
+                }
+
+                if(e.keyCode == 40 || e.keyCode == 37){
+                    _this.down(m);
+                }
+            });
+        });
+
+        this.$input.on('blur.number', function(){
+            _this.$input.off('keyup.number');
+        });
+
+        this.$input.on('keypress.numbervalidate', function(e){
+            e = e || window.event;
+
+            var sender = e.target || e.srcElement,
+                isIE = document.all,
+                pattern = /\d/;
+
+            if (sender.tagName.toUpperCase()=='INPUT')
+            {
+                var keyPress = isIE ? e.keyCode : e.which;
+
+                if (keyPress < 32 || e.altKey || e.ctrlKey){
+                    return true;
+                }
+
+                var symbPress = String.fromCharCode(keyPress);
+
+                if (!pattern.test(symbPress)){
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        this.up = function(multiplier){
             var value = parseInt(this.$input.val());
 
             if(!value){
                 value = 0;
             }
 
-            value++;
+            value = value + multiplier;
 
             this.$input.val(value);
             this.options.onChange(value);
-        }
+        };
 
-        this.down = function(){
+        this.down = function(multiplier){
             var value = parseInt(this.$input.val());
 
             if(!value){
                 value = 0;
             }
 
-            value--;
+            value = value - multiplier;
 
             if(value < this.options.minimum){
                 value = this.options.minimum;
@@ -71,6 +130,6 @@ app.number = {
 
             this.$input.val(value);
             this.options.onChange(value);
-        }
+        };
     }
 }

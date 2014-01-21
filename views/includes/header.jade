@@ -3,11 +3,15 @@ header
         i
         | Менеджер
     .user-params
+        strong ИП Шашков Руслан Александрович
+
         a.action-button(href="/user")
             i.icon-user-female
+
             if user.display_name
                 | #{user.display_name}
             else
                 | #{user.username}
+
         a.action-button.red.logout(href="#")
             |Выйти

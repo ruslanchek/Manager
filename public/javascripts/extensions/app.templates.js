@@ -84,6 +84,12 @@ app.templates = {
         }, setLoading, unSetLoading);
     },
 
+    renderFromVar: function(template, context){
+        var t = Handlebars.compile(template);
+
+        return t(context);
+    },
+
     init: function(){
         this.registerHelpers();
     }

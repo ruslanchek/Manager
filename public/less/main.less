@@ -6,6 +6,11 @@
 @import 'modal';
 @import 'animation';
 @import 'datepicker';
+@import 'checkbox';
+@import 'items-selector';
+@import 'docview';
+@import 'meow';
+@import 'blank';
 
 // Vars
 @app-width: 1000px;
@@ -64,9 +69,12 @@ body {
 }
 
 // Typographics
+h1, h2, h3, h4 {
+  color: @color-header;
+}
+
 h1 {
   font-size: 1.8em;
-  color: @color-header;
   margin-bottom: 20px;
 
   a {
@@ -139,6 +147,11 @@ header {
       top: 0;
       left: 0;
     }
+  }
+
+  strong {
+    margin-right: 10px;
+    color: #777;
   }
 }
 
@@ -493,159 +506,6 @@ header {
   }
 }
 
-// Items selector
-.items-selector {
-  background: #fff;
-  border-radius: @ui-border-radius;
-  -webkit-border-radius: @ui-border-radius;
-  -moz-border-radius: @ui-border-radius;
-  border: 1px solid #ccc;
-  padding: 0;
-  margin-right: 4px;
-
-  .add-from-db {
-    padding: 1px 10px !important;
-    margin-left: -6px;
-  }
-
-  table {
-    width: 100%;
-    margin-bottom: 0;
-
-    th {
-      font-weight: bold;
-      padding-left: 0;
-    }
-
-    td {
-      vertical-align: top;
-      padding-left: 0;
-
-      input {
-        margin-left: -6px;
-      }
-
-      .price {
-        white-space: nowrap;
-      }
-    }
-
-    .new-item-row {
-      background: #F6F6F6;
-    }
-
-    .total-row {
-      td {
-        border-bottom: none;
-      }
-    }
-
-    .new-item-row,
-    .total-row {
-      td {
-        vertical-align: middle;
-        position: relative;
-      }
-    }
-
-    th:first-of-type,
-    td:first-of-type {
-      padding-left: 10px;
-    }
-
-    tr:last-of-type td:first-of-type {
-      border-radius: @ui-border-radius-bottom-left;
-      -webkit-border-radius: @ui-border-radius-bottom-left;
-      -moz-border-radius: @ui-border-radius-bottom-left;
-    }
-
-    tr:last-of-type td:last-of-type {
-      border-radius: @ui-border-radius-bottom-right;
-      -webkit-border-radius: @ui-border-radius-bottom-right;
-      -moz-border-radius: @ui-border-radius-bottom-right;
-    }
-
-    .action-button {
-      padding: 0 2px 0 8px;
-    }
-  }
-}
-
-// Date control
-.date-control {
-  padding-right: 40px;
-  position: relative;
-
-  .datepicker-picker {
-    position: absolute;
-    right: 3px;
-    top: 0;
-    padding: 1px 5px;
-    text-align: center;
-
-    i {
-      margin: 0;
-    }
-  }
-
-  .datepicker-widget {
-    background: #fff;
-    width: 240px;
-    position: absolute;
-    top: -7px;
-    right: -250px;
-    opacity: 0;
-    padding: 0 0 3px;
-    z-index: 10;
-
-    @scale: scale(0);
-
-    -moz-transform: @scale;
-    -webkit-transform: @scale;
-    -o-transform: @scale;
-    transform: @scale;
-
-    border-radius: @ui-border-radius + 1;
-    -webkit-border-radius: @ui-border-radius + 1;
-    -moz-border-radius: @ui-border-radius + 1;
-
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-
-    i.arrow {
-      position: absolute;
-      top: 13px;
-      left: -10px;
-      width: 0px;
-      height: 0px;
-      border-style: solid;
-      border-width: 8px 10px 8px 0;
-      border-color: transparent #fff transparent transparent;
-    }
-
-    table {
-      border: none;
-      margin: 0;
-
-      th, td {
-        padding: 0;
-        width: 0;
-        text-align: center;
-      }
-    }
-  }
-
-  .datepicker-widget.show {
-    opacity: 1;
-
-    @scale: scale(1);
-
-    -moz-transform: @scale;
-    -webkit-transform: @scale;
-    -o-transform: @scale;
-    transform: @scale;
-  }
-}
-
 // Form
 .form {
   @form-color: #DDDDDD;
@@ -655,6 +515,10 @@ header {
   border-radius: @ui-border-radius + 1;
   -webkit-border-radius: @ui-border-radius + 1;
   -moz-border-radius: @ui-border-radius + 1;
+
+  textarea.width-full-size {
+    width: 97.76%;
+  }
 }
 
 label {
@@ -713,94 +577,10 @@ textarea {
   }
 }
 
-// Docview
-.docview {
-  .tools-bar {
-    position: fixed;
-    height: 65px;
-    top: 0;
-    left: 50%;
-    margin-left: -530px;
-    width: 1060px;
-    overflow: hidden;
-
-    .tools-bar-content {
-      background: rgba(253,253,255,0.9);
-      box-shadow: 0 1px 3px 0 rgba(175,180,182,0.65);
-      padding: 15px 30px 10px;
-      height: 35px;
-
-      .action-button {
-        margin-left: 10px;
-      }
-
-      .close-docview {
-        margin-left: 20px;
-      }
-
-      h1 {
-        float: left;
-        margin: 0;
-      }
-
-      .tools {
-        float: right;
-      }
-    }
-  }
-
-  .content {
-    padding: 80px 0 50px;
-  }
-}
-
 // Footer
 footer {
   width: @app-width + 60;
   margin: -100px auto 0;
   height: 100px;
   background: @panel-bg-light;
-}
-
-// Checkbox
-input[type=checkbox].stylish,
-input[type=radio].stylish {
-  appearance: none;
-  -webkit-appearance: none;
-  box-shadow: inset 0px 0px 0px 1px #ccc;
-  border-radius: 15px;
-  background-color: #fff;
-  display: inline-block;
-  width: 39px;
-  padding: 1px 1px 0;
-  height: 18px;
-  position: relative;
-  cursor: pointer;
-  transition: all .3s ease-out;
-  margin: 0px 0 -4px;
-  transform: scale(1);
-  -webkit-transform: scale(1);
-}
-
-input[type=checkbox].stylish:checked,
-input[type=radio].stylish:checked {
-  box-shadow: inset 0px 0px 0px 20px @color-green-dark;
-}
-
-input[type=checkbox].stylish:after,
-input[type=radio].stylish:after {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 15px;
-  box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, .2);
-  cursor: pointer;
-  background-color: #fff;
-  transition: all 0.1s ease-in .1s;
-}
-
-input[type="checkbox"].stylish:checked:after,
-input[type="radio"].stylish:checked:after {
-  left: 22px;
 }

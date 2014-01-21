@@ -38,25 +38,28 @@ block content
                     label(for="date") Дата
                     input#date.width-100(type='text', data-metatype='date', value=utils.stringifyDate(data.date))
 
-                .form-item
-                    label(for="contractor") Контрагент
-                    select#contractor
-                        option(value="1") ООО &laquo;Системы и сервисы&raquo;
-
             .unit-50
                 .form-item
                     label(for="status") Оплачен
                     input#status.stylish(type="checkbox", checked=(data.status===true ? 'checked' : undefined))
 
                 .form-item
-                    label(for="comment") Комментарий
-                    textarea#comment.width-100(style="height: 82px") #{data.comment}
+                    label(for="contractor") Контрагент
+                    select#contractor
+                        option(value="1") ООО &laquo;Системы и сервисы&raquo;
 
         .units-row-end
             .unit-100
                 .form-item
+                    input#items(type='hidden', value=JSON.stringify(data.items))
                     label(for="comment") Позиции
                     #items-selector
+
+        .units-row-end
+            .unit-100
+                .form-item
+                    label(for="comment") Комментарий
+                    textarea#comment.width-full-size #{data.comment}
 
         .units-row-end
             .unit-100

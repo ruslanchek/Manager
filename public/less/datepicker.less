@@ -98,3 +98,78 @@
   padding: 10px;
 }
 
+
+// Date control
+.date-control {
+  padding-right: 40px;
+  position: relative;
+
+  .datepicker-picker {
+    position: absolute;
+    right: 3px;
+    top: 0;
+    padding: 1px 5px;
+    text-align: center;
+
+    i {
+      margin: 0;
+    }
+  }
+
+  .datepicker-widget {
+    background: #fff;
+    width: 240px;
+    position: absolute;
+    top: -7px;
+    right: -250px;
+    opacity: 0;
+    padding: 0 0 3px;
+    z-index: 10;
+
+    @scale: scale(0);
+
+    -moz-transform: @scale;
+    -webkit-transform: @scale;
+    -o-transform: @scale;
+    transform: @scale;
+
+    border-radius: @ui-border-radius + 1;
+    -webkit-border-radius: @ui-border-radius + 1;
+    -moz-border-radius: @ui-border-radius + 1;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+    i.arrow {
+      position: absolute;
+      top: 13px;
+      left: -10px;
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 8px 10px 8px 0;
+      border-color: transparent #fff transparent transparent;
+    }
+
+    table {
+      border: none;
+      margin: 0;
+
+      th, td {
+        padding: 0;
+        width: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  .datepicker-widget.show {
+    opacity: 1;
+
+    @scale: scale(1);
+
+    -moz-transform: @scale;
+    -webkit-transform: @scale;
+    -o-transform: @scale;
+    transform: @scale;
+  }
+}

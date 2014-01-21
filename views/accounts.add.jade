@@ -17,16 +17,34 @@ block content
                 .form-item
                     label(for="date") Дата
                     input#date.width-100(type='text', data-metatype='date', value=utils.stringifyDate(new Date()))
+
+            .unit-50
+                .form-item
+                    label(for="status") Оплачен
+                    input#status.stylish(type="checkbox")
                 .form-item
                     label(for="contractor") Контрагент
                     select#contractor
                         option(value="ABC1") ООО &laquo;Системы и сервисы&raquo;
-            .unit-50
+
+        .units-row-end
+            .unit-100
+                .form-item
+                    input#items(type='hidden')
+                    label(for="comment") Позиции
+                    #items-selector
+
+        .units-row-end
+            .unit-100
                 .form-item
                     label(for="comment") Комментарий
-                    textarea#comment.width-100(style="height: 82px")
+                    textarea#comment.width-full-size
+                        |Внимание! Оплата данного счета означает согласие с условиями поставки товара. Уведомление об оплате  обязательно, в противном случае не гарантируется наличие товара на складе. Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.Внимание! Оплата данного счета означает согласие с условиями поставки товара. Уведомление об оплате  обязательно, в противном случае не гарантируется наличие товара на складе. Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.
 
-        input.button.blue(type='submit', value='Создать счет')
+            .unit-100
+                .form-item.no-margin
+                    input.button.blue(type='submit', value='Создать счет')
+                    a.button.view-invoice(href="#") Посмотреть счет
 
     script.
         app.sections.accounts.add.init();

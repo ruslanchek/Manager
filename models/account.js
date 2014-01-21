@@ -29,6 +29,12 @@ module.exports = function (app) {
             default: 0
         },
 
+        count: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+
         status: {
             type: Boolean,
             default: 0
@@ -40,10 +46,6 @@ module.exports = function (app) {
         },
 
         comment: {
-            type: String
-        },
-
-        company: {
             type: String
         },
 
