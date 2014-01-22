@@ -2,8 +2,6 @@ extends layouts/view
 
 block content
     .blank-print
-        br
-
         p #{data.comment}
 
         h3 Образец заполнения платежного поручения
@@ -16,7 +14,7 @@ block content
                     td(width='25%') ИНН #{user.cc_inn}
                     td(width='25%') КПП #{user.cc_kpp}
 
-                td.valign_bottom(width='25%', rowspan='2') Сч. №
+                td.valign_bottom(width='25%', rowspan='2') Расчетный счет
                 td.valign_bottom(width='25%', rowspan='2') #{user.bank_pay_account}
             tr
                 td(colspan='2')
@@ -28,18 +26,15 @@ block content
                     p
                         small Банк получателя
                     | #{user.bank_name}
-                td.valign_middle
-                    | БИК #{user.bank_bik}
-                td.valign_bottom(rowspan='2')
-                    | #{user.bank_corr_account}
+                td.valign_bottom
+                    | БИК
+                td.valign_bottom
+                    | #{user.bank_bik}
             tr
-                td.valign_bottom Сч. №
-
-        br
+                td.valign_bottom Корр. счет
+                td.valign_bottom #{user.bank_corr_account}
 
         h1 Счет №#{data.number} от #{utils.stringifyDate(data.date)}
-
-        hr
 
         p
             |Поставщик:&nbsp;
@@ -63,3 +58,8 @@ block content
                     td #{item.price}
                     td #{item.count}
                     td #{item.sum}
+
+        p Всего #{utils.numberToWords(data.items.length, 'neuter')} #{utils.pluralForm(data.items.length, 'наименование', 'наименования', 'наименований')} на сумму #{utils.priceFormat(data.sum)} руб.
+            br
+            strong #{utils.priceToWords(data.sum)}
+

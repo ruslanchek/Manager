@@ -14,7 +14,11 @@ app.sections.accounts = {
         $.each(this.fields, function(key, val){
             switch(key){
                 case 'items' : {
-                    data[key] = JSON.parse(decodeURIComponent($(val).val()));
+                    try{
+                        data[key] = JSON.parse(decodeURIComponent($(val).val()));
+                    }catch(e){
+                        data[key] = [];
+                    }
 
                     for(var i = 0, l = data[key].length; i < l; i++){
                         data[key][i].sum = data[key][i].price * data[key][i].count;
@@ -31,6 +35,7 @@ app.sections.accounts = {
 
         new app.docview.DocviewController({
             title: 'Просмотр счета',
+            tools: false,
             post: data,
             url: '/accounts/view'
         }).open();
@@ -140,6 +145,13 @@ app.sections.accounts = {
     },
 
     add: {
+        binds: function(){
+            $('.view-invoice').on('click', function(e){
+                app.sections.accounts.viewDocument();
+                e.preventDefault();
+            });
+        },
+
         init: function(){
             this.form_controller = new app.form.FormController({
                 form_selector: '#form-add-account',
@@ -172,6 +184,8 @@ app.sections.accounts = {
             });
 
             $('#number').focus();
+
+            this.binds();
         }
     },
 
@@ -211,24 +225,25 @@ app.sections.accounts = {
         },
 
         binds: function(){
-            var _this = this;
+            var _this = this,
+                $body = $('body');
 
-            $('body').on('click.action-download', '.action-download', function(e){
+            $body.on('click.action-download', '.action-download', function(e){
                 _this.download();
                 e.preventDefault();
             });
 
-            $('body').on('click.action-print', '.action-print', function(e){
+            $body.on('click.action-print', '.action-print', function(e){
                 _this.print();
                 e.preventDefault();
             });
 
-            $('body').on('click.action-send', '.action-send', function(e){
+            $body.on('click.action-send', '.action-send', function(e){
                 _this.send();
                 e.preventDefault();
             });
 
-            $('body').on('click.action-delete', '.action-delete', function(e){
+            $body.on('click.action-delete', '.action-delete', function(e){
                 _this.delete();
                 e.preventDefault();
             });
@@ -271,6 +286,8 @@ app.sections.accounts = {
                     $('#items').val(encodeURIComponent(JSON.stringify(data)));
                 }
             });
+
+            $('#number').focus();
 
             this.binds();
         }

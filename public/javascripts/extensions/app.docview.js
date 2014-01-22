@@ -9,6 +9,7 @@ app.docview = {
             title: 'Title',
             url: '',
             post: {},
+            tools: true,
             onShow: function(controller){
 
             },
@@ -20,16 +21,23 @@ app.docview = {
         $.extend(this.options, options);
 
         this.open = function(){
+            var tools = '';
+
+            if(this.options.tools === true){
+                tools = '<a href="#" class="action-button action-download"><i class="icon-doc-inv"></i> Скачать PDF</a>' +
+                        '<a href="#" class="action-button action-print"><i class="icon-print"></i> Напечатать</a>' +
+                        '<a href="#" class="action-button action-send"><i class="icon-export-alt"></i> Отправить</a>';
+            }
+
             $('.app, footer').hide();
+
             $('.wrap').append(
                 '<div class="docview">' +
                     '<div class="tools-bar">' +
                         '<div class="tools-bar-content">' +
                             '<h1>' + this.options.title + '</h1>' +
                             '<div class="tools">' +
-                                '<a href="#" class="action-button action-download"><i class="icon-doc-inv"></i> Скачать PDF</a>' +
-                                '<a href="#" class="action-button action-print"><i class="icon-print"></i> Напечатать</a>' +
-                                '<a href="#" class="action-button action-send"><i class="icon-export-alt"></i> Отправить</a>' +
+                                tools +
                                 '<a href="#" class="action-button action-delete warning close-docview" title="Закрыть просмотр (Esc)"><i class="icon-cancel"></i> Закрыть</a>' +
                             '</div>' +
                         '</div>' +
@@ -56,6 +64,18 @@ app.docview = {
                 _this.close();
             });
 
+            this.resize = function(){
+                $('.docview .content').css({
+                    height: $('body').height() - 64
+                });
+            };
+
+            $(window).off('resize.docview').on('resize.docview', function(){
+                _this.resize();
+            });
+
+            this.resize();
+
             /*$('body').on('keyup.docview', function(e){
                 if(e.keyCode == 27){
                     _this.close();
@@ -74,6 +94,8 @@ app.docview = {
             $('body, html').animate({
                 scrollTop: 0
             }, 200);
+
+            $(window).off('resize.docview');
         }
     }
 }
