@@ -212,6 +212,13 @@ app.items_selector = {
                     }
                 });
 
+                new app.field.FieldController({
+                    input_selector: '.new-item-price',
+                    types: [
+                        {name: 'digits'}
+                    ]
+                });
+
                 _this.nomenclature_controller = new app.nomenclature.NMWindowController({
 
                 });

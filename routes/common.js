@@ -1,3 +1,7 @@
+var wkhtmltopdf = require('wkhtmltopdf'),
+    fs = require('fs'),
+    path = require('path');
+
 module.exports = function(app, controllers){
     var common = {
         utils: app.utils
@@ -16,5 +20,10 @@ module.exports = function(app, controllers){
         });
 
         res.render('main', params);
+    });
+
+    app.get('/pdf', function(req, res){
+        wkhtmltopdf('http://apple.com/', { output: '../out.pdf' });
+        res.end();
     });
 };

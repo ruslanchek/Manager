@@ -1,0 +1,65 @@
+extends layouts/view
+
+block content
+    .blank-print
+        br
+
+        p #{data.comment}
+
+        h3 Образец заполнения платежного поручения
+
+        table.table.table-bordered.width-100
+            tr
+                if user.cc_type == 4
+                    td(width='50%', colspan='2') ИНН #{user.cc_inn}
+                else
+                    td(width='25%') ИНН #{user.cc_inn}
+                    td(width='25%') КПП #{user.cc_kpp}
+
+                td.valign_bottom(width='25%', rowspan='2') Сч. №
+                td.valign_bottom(width='25%', rowspan='2') #{user.bank_pay_account}
+            tr
+                td(colspan='2')
+                    p
+                        small Получатель
+                    | #{utils.getCompanyTypeName(user.cc_type)} &laquo;#{user.cc_name}&raquo;
+            tr
+                td(colspan='2', rowspan='2')
+                    p
+                        small Банк получателя
+                    | #{user.bank_name}
+                td.valign_middle
+                    | БИК #{user.bank_bik}
+                td.valign_bottom(rowspan='2')
+                    | #{user.bank_corr_account}
+            tr
+                td.valign_bottom Сч. №
+
+        br
+
+        h1 Счет №#{data.number} от #{utils.stringifyDate(data.date)}
+
+        hr
+
+        p
+            |Поставщик:&nbsp;
+            strong #{utils.getCompanyTypeName(user.cc_type)} &laquo;#{user.cc_name}&raquo;
+            br
+            |Покупатель:
+            strong #{data.buyer}
+
+        table.table.table-bordered.width-100
+            tr
+                th(width='1%') №
+                th(width='58%') Наименование
+                th(width='20%') Цена
+                th(width='1%') Количество
+                th(width='20%') Сумма
+
+            - each item in data.items
+                tr
+                    td #{item.number}
+                    td #{item.name}
+                    td #{item.price}
+                    td #{item.count}
+                    td #{item.sum}

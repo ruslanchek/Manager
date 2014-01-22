@@ -58,6 +58,61 @@ app.sections.settings = {
             index: '#cc_index'
         });
 
+        new app.field.FieldController({
+            input_selector: '#cc_index',
+            types: [
+                {name: 'digits'},
+                {name: 'length', param: 6}
+            ]
+        });
+
+        new app.field.FieldController({
+            input_selector: '#bank_pay_account',
+            types: [
+                {name: 'digits'},
+                {name: 'length', param: 20}
+            ]
+        });
+
+        new app.field.FieldController({
+            input_selector: '#bank_corr_account',
+            types: [
+                {name: 'digits'},
+                {name: 'length', param: 20}
+            ]
+        });
+
+        new app.field.FieldController({
+            input_selector: '#cc_inn',
+            types: [
+                {name: 'digits'},
+                {name: 'length', param: 12}
+            ]
+        });
+
+        new app.field.FieldController({
+            input_selector: '#bank_bik',
+            types: [
+                {name: 'digits'}
+            ]
+        });
+
+        new app.field.FieldController({
+            input_selector: '#cc_ogrn',
+            types: [
+                {name: 'digits'},
+                {name: 'length', param: 13}
+            ]
+        });
+
+        new app.field.FieldController({
+            input_selector: '#cc_kpp',
+            types: [
+                {name: 'digits'},
+                {name: 'length', param: 9}
+            ]
+        });
+
         this.binds();
     }
 };

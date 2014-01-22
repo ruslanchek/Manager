@@ -26,7 +26,8 @@
     "less-middleware": "~0.1.14",
     "numeral": "~1.5.3",
     "connect-redis": "~1.4.6",
-    "redis": "~0.10.0"
+    "redis": "~0.10.0",
+    "wkhtmltopdf": "~0.1.4"
   },
   "subdomain": "manager",
   "engines": {

@@ -234,7 +234,7 @@ this.parseDate = function(str){
 };
 
 /**
- * Make pattern dd-mm-yyyy from Date object
+ * Make pattern dd.mm.yyyy from Date object
  */
 this.stringifyDate = function(date){
     var m = parseInt(date.getMonth()) + 1,

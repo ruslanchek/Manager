@@ -13,35 +13,6 @@ script(src='/javascripts/plugins/kladr/jquery.kladr.min.js')
 // Important! Do not change the order!
 script(src='/javascripts/app.js')
 
-
-// Company
-if user
-    script.
-        app.company = {
-            cc_type: '#{user.cc_type}',
-            cc_type_name: '#{utils.getCompanyTypeName(user.cc_type)}',
-            cc_name: '#{user.cc_name}',
-            cc_inn: '#{user.cc_inn}',
-            cc_kpp: '#{user.cc_kpp}',
-            cc_ogrn: '#{user.cc_ogrn}',
-            cc_city: '#{user.cc_city}',
-            cc_street: '#{user.cc_street}',
-            cc_house: '#{user.cc_house}',
-            cc_index: '#{user.cc_index}',
-            cc_phone: '#{user.cc_phone}',
-            cc_fax: '#{user.cc_fax}',
-            cc_ceo_type: '#{user.cc_ceo_type}',
-            cc_ceo_type_name: '#{utils.getCEOType(user.cc_ceo_type)}',
-            cc_ceo_name: '#{user.cc_fax}',
-            cc_accountant_type: '#{user.cc_ceo_type}',
-            cc_accountant_type_name: '#{utils.getAccountantType(user.cc_accountant_type)}',
-            cc_accountant_name: '#{user.cc_accountant_name}',
-            bank_bik: '#{user.bank_bik}',
-            bank_name: '#{user.bank_name}',
-            bank_pay_account: '#{user.bank_pay_account}',
-            bank_corr_account: '#{user.bank_corr_account}'
-        };
-
 // App extensions
 script(src='/javascripts/extensions/app.utils.js')
 script(src='/javascripts/extensions/app.loading.js')
@@ -49,12 +20,14 @@ script(src='/javascripts/extensions/app.templates.js')
 script(src='/javascripts/extensions/app.modal.js')
 script(src='/javascripts/extensions/app.docview.js')
 script(src='/javascripts/extensions/app.form.js')
+script(src='/javascripts/extensions/app.field.js')
 script(src='/javascripts/extensions/app.datepicker.js')
 script(src='/javascripts/extensions/app.number.js')
 script(src='/javascripts/extensions/app.items-selector.js')
 script(src='/javascripts/extensions/app.auth.js')
 script(src='/javascripts/extensions/app.nomenclature.js')
 script(src='/javascripts/extensions/app.kladr-address.js')
+script(src='/javascripts/extensions/app.pdf.js')
 
 // Sections
 script(src='/javascripts/sections/app.section.accounts.js')

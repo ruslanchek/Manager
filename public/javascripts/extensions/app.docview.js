@@ -7,7 +7,8 @@ app.docview = {
 
         this.options = {
             title: 'Title',
-            content: 'Content',
+            url: '',
+            post: {},
             onShow: function(controller){
 
             },
@@ -33,12 +34,22 @@ app.docview = {
                             '</div>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="content">' + this.options.content + '</div>' +
+                    '<div class="content"><iframe name="docview_iframe"></iframe></div>' +
                 '</div>'
             );
 
             this.$docview = $('.docview');
             this.options.onShow(this);
+
+            var fields = '';
+
+            $.each(this.options.post, function(key, val){
+                fields += '<input type="hidden" name="' + key + '" value="' + val + '">';
+            });
+
+            this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
+
+            this.$docview.find('.docview-form').submit();
 
             this.$docview.find('.close-docview').on('click', function(e){
                 e.preventDefault();

@@ -9,26 +9,31 @@ app.sections.accounts = {
     },
 
     viewDocument: function(){
-        var data = app.getCompanyData();
+        var data = {};
 
         $.each(this.fields, function(key, val){
-            if(key == 'items'){
-                data[key] = JSON.parse($(val).val());
+            switch(key){
+                case 'items' : {
+                    data[key] = JSON.parse(decodeURIComponent($(val).val()));
 
-                for(var i = 0, l = data[key].length; i < l; i++){
-                    data[key][i].sum = data[key][i].price * data[key][i].count;
-                }
-            }else{
-                data[key] = $(val).val();
+                    for(var i = 0, l = data[key].length; i < l; i++){
+                        data[key][i].sum = data[key][i].price * data[key][i].count;
+                    }
+
+                    data[key] = encodeURIComponent(JSON.stringify(data[key]));
+                } break;
+
+                default : {
+                    data[key] = $(val).val();
+                } break;
             }
         });
 
-        app.templates.renderForced('blank.invoice.html', data, function(html){
-            new app.docview.DocviewController({
-                title: 'Просмотр счета',
-                content: html
-            }).open();
-        });
+        new app.docview.DocviewController({
+            title: 'Просмотр счета',
+            post: data,
+            url: '/accounts/view'
+        }).open();
     },
 
     delete: function(ids, done){

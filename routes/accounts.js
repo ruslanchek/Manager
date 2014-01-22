@@ -58,6 +58,40 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.get('/accounts/view/:id', app.ensureAuthenticated, function(req, res){
+        controllers.account.findOne(req.user, req.params.id, function(err, data){
+            if(err === true){
+                res.redirect('/404');
+            }else{
+                var params = app.utils.extend(common, {
+                    err : err,
+                    data: data,
+                    user: req.user,
+                    metadata: {
+                        title: 'Просмотр счета'
+                    }
+                });
+
+                res.render('accounts.view.jade', params);
+            }
+        });
+    });
+
+    app.post('/accounts/view', app.ensureAuthenticated, function(req, res){
+        var params = app.utils.extend(common, {
+            data: req.body,
+            user: req.user,
+            metadata: {
+                title: 'Просмотр счета'
+            }
+        });
+
+        params.data.date = app.utils.parseDate(params.data.date);
+        params.data.items = JSON.parse(decodeURIComponent(params.data.items));
+
+        res.render('accounts.view.jade', params);
+    });
+
     app.post('/accounts/add', app.ensureAuthenticated, function(req, res){
         controllers.account.addItem(req.user, req.body, function(result){
             res.json(result);
