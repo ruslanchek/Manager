@@ -8,8 +8,10 @@ app.sections.accounts = {
         items       : '#items'
     },
 
-    viewDocument: function(){
-        var data = {};
+    viewDocument: function(docview_tools_show){
+        var data = {
+                sum: 0
+            };
 
         $.each(this.fields, function(key, val){
             switch(key){
@@ -22,6 +24,8 @@ app.sections.accounts = {
 
                     for(var i = 0, l = data[key].length; i < l; i++){
                         data[key][i].sum = data[key][i].price * data[key][i].count;
+
+                        data.sum += parseFloat(data[key][i].price * data[key][i].count);
                     }
 
                     data[key] = encodeURIComponent(JSON.stringify(data[key]));
@@ -35,7 +39,7 @@ app.sections.accounts = {
 
         new app.docview.DocviewController({
             title: 'Просмотр счета',
-            tools: false,
+            tools: docview_tools_show,
             post: data,
             url: '/accounts/view'
         }).open();
@@ -147,7 +151,7 @@ app.sections.accounts = {
     add: {
         binds: function(){
             $('.view-invoice').on('click', function(e){
-                app.sections.accounts.viewDocument();
+                app.sections.accounts.viewDocument(false);
                 e.preventDefault();
             });
         },
@@ -249,7 +253,7 @@ app.sections.accounts = {
             });
 
             $('.view-invoice').on('click', function(e){
-                app.sections.accounts.viewDocument();
+                app.sections.accounts.viewDocument(true);
                 e.preventDefault();
             });
         },

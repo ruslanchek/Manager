@@ -1,6 +1,6 @@
 module.exports = function (app, models) {
     this.findItems = function (user, done) {
-        models.account.find({ _user_id: user._id }, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).sort({date: -1}).exec(function (err, data) {
+        models.account.find({ _user_id: user._id }, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).sort({number: -1}).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);

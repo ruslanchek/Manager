@@ -23,7 +23,7 @@ app.docview = {
         this.open = function(){
             var tools = '';
 
-            if(this.options.tools === true){
+            if(this.options.tools == true){
                 tools = '<a href="#" class="action-button action-download"><i class="icon-doc-inv"></i> Скачать PDF</a>' +
                         '<a href="#" class="action-button action-print"><i class="icon-print"></i> Напечатать</a>' +
                         '<a href="#" class="action-button action-send"><i class="icon-export-alt"></i> Отправить</a>';

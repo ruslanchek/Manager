@@ -13,16 +13,16 @@ block content
             | Удалить
 
     if data.length > 0
-        .table-container
+        .table-container.table-container-with-tools
             table.items-table.width-100.table-bordered.table-sort.table-hovered
                 thead
                     tr
                         th(width="1%")
                             input.cb-all(type="checkbox")
                         th(data-sort="string") Номер счета
-                            i.arrow
-                        th(data-sort="string") Дата
                             i.arrow.icon-down-dir
+                        th(data-sort="string") Дата
+                            i.arrow
                         th(data-sort="string") Сумма
                             i.arrow
                         th(data-sort="string") Контрагент
@@ -49,7 +49,7 @@ block content
 
     - var list_empty = ((data.length > 0) ? false : true)
 
-    div.table-empty(style=(list_empty===true ? 'display: block' : 'display: none')) У вас нет ни одного счета,&nbsp;
+    div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none')) У вас нет ни одного счета,&nbsp;
         a(href="/accounts/add") создайте новый
 
     script.

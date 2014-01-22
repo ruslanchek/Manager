@@ -3,7 +3,7 @@ extends layouts/main
 block content
     h1
         a(href="/accounts") Счета
-        span.color-gray-light &nbsp;/&nbsp;
+        span &nbsp;/&nbsp;
         span#header-item-name Новый счет
 
     form#form-add-account.form.forms.forms-columnar(action='')
@@ -46,7 +46,7 @@ block content
             .unit-100
                 .form-item.no-margin
                     input.button.blue(type='submit', value='Создать счет')
-                    a.button.view-invoice(href="#") Посмотреть счет
+                    input.button.view-invoice(type='button', value='Посмотреть счет')
 
     script.
         app.sections.accounts.add.init();

@@ -3,10 +3,10 @@ extends layouts/main
 block content
     h1
         a(href="/accounts") Счета
-        span.color-gray-light &nbsp;/&nbsp;
+        span &nbsp;/&nbsp;
         span#header-item-name Счет №#{data.number}
         |&nbsp;
-        span#header-item-date.color-gray-light от #{utils.humanizeDate(data.date)}
+        span#header-item-date от #{utils.humanizeDate(data.date)}
 
     .section-tools
         a.action-download.action-button(href="#")
@@ -25,7 +25,7 @@ block content
             i.icon-cancel
             |Удалить
 
-    form#form-edit-account.form.forms.forms-columnar(action='')
+    form#form-edit-account.form.form-with-tools.forms.forms-columnar(action='')
         .form-message
 
         .units-row-end
@@ -66,7 +66,7 @@ block content
             .unit-100
                 .form-item.no-margin
                     input.button.blue(type='submit', value='Сохранить счет')
-                    a.button.view-invoice(href="#") Посмотреть счет
+                    input.button.view-invoice(type='button', value='Посмотреть счет')
 
     script.
         app.sections.accounts.edit.init('!{data.id}');
