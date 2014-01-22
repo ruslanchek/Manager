@@ -1,6 +1,5 @@
 var path = require('path'),
-    lessMiddleware = require('less-middleware'),
-    redis = require('redis').createClient();
+    lessMiddleware = require('less-middleware');
 
 module.exports = function(app, express){
     var RedisStore = require('connect-redis')(express);
@@ -14,7 +13,9 @@ module.exports = function(app, express){
     app.use(express.session({
         secret: app.config.get('session_secret'),
         maxAge: new Date(Date.now() + parseInt(app.config.get('session_time'))),
-        store: new RedisStore({ client: redis })
+        store: new RedisStore({
+            client: app.redis.client
+        })
     }));
 
     app.use(app.passport.initialize());
@@ -24,7 +25,7 @@ module.exports = function(app, express){
     app.use(lessMiddleware({
         dest: '/stylesheets',
         src: '/less',
-        compress: (app.get('env') == 'development') ? false : true,
+        compress: (app.get('env') != 'development'),
         root: path.join(__dirname, '../public')
     }));
 
@@ -50,4 +51,4 @@ module.exports = function(app, express){
     }else{
         app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
     }
-}
+};

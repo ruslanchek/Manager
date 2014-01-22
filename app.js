@@ -21,6 +21,7 @@ app.config          = require('./libs/config');
 app.log             = require('./libs/log')(module);
 app.utils           = require('./libs/utils');
 app.mongoose        = require('./libs/mongoose')(app);
+app.redis           = require('./libs/redis')(app);
 
 
 /**

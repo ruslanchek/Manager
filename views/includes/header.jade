@@ -1,17 +1,21 @@
 header
     a.logo(href="/")
         i
-        | Менеджер
+        |Менеджер
     .user-params
-        strong ИП Шашков Руслан Александрович
+        strong
+            span#global-company-type #{utils.getCompanyTypeName(user.cc_type)}
+            |&nbsp;&laquo;
+            span#global-company-name #{user.cc_name}
+            |&raquo;
 
         a.action-button(href="/user")
             i.icon-user-female
 
             if user.display_name
-                | #{user.display_name}
+                |#{user.display_name}
             else
-                | #{user.username}
+                |#{user.username}
 
         a.action-button.red.logout(href="#")
             |Выйти

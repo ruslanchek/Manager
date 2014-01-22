@@ -2,7 +2,7 @@ var generatePassword = require('password-generator'),
     crypto = require('crypto');
 
 module.exports = function (app, models) {
-    this.findOrCreate = function (provider, profile, done) {
+    this.findOrCreate = function(provider, profile, done) {
         if (!profile.id || (!profile.username && !profile.displayName)) {
             return done('NO_ID_RECEIVED');
         }
@@ -63,9 +63,9 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
+    };
 
-    this.findOne = function (username, password, done) {
+    this.findOne = function(username, password, done) {
         if (!username || !app.utils.matchPatternStr(username, 'username')) {
             return done({
                 success: false,
@@ -95,9 +95,9 @@ module.exports = function (app, models) {
                 done(null, user);
             }
         });
-    }
+    };
 
-    this.passwordRecovery = function (email, done) {
+    this.passwordRecovery = function(email, done) {
         if (!email) {
             return done({
                 success: false,
@@ -175,9 +175,9 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
+    };
 
-    this.passwordRecoveryCheckCode = function (hash, done) {
+    this.passwordRecoveryCheckCode = function(hash, done) {
         if (!hash || !app.utils.matchPatternStr(hash, 'hash')) {
             return done({
                 success: false,
@@ -241,8 +241,7 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
-
+    };
 
     this.signUp = function(email, username, password, done){
         if (!email) {
@@ -370,7 +369,43 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
+    };
+
+    this.edit = function(req, done){
+        var data = req.body,
+            user = req.user,
+            session = req.session;
+
+        if(data._id){
+            data._id = user._id;
+        }
+
+        models.user.findOneAndUpdate({ _id: user._id }, data, function (err, item) {
+            if (err) {
+                app.log.error('findOneAndUpdate error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if(session && session.passport && session.passport.user){
+                Object.keys(data).forEach(function(key) {
+                    if(session.passport.user[key]){
+                        session.passport.user[key] = item[key];
+                    }
+                });
+
+                session.save();
+            }
+
+            return done({
+                success: true,
+                message: 'OK'
+            });
+        });
+    };
 
     return this;
 };

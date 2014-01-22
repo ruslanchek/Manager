@@ -262,4 +262,4 @@ app.sections.accounts = {
             this.binds();
         }
     }
-}
+};

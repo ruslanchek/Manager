@@ -20,7 +20,7 @@ numeral.language('ru');
 
 
 /**
- * Merge two or more objects
+ * Humanize price
  * */
 this.priceFormat = function (num) {
     return numeral(num).format('0,0.00');
@@ -94,7 +94,7 @@ this.extend = function (target) {
     });
 
     return target;
-}
+};
 
 /**
  * Translit str
@@ -173,7 +173,7 @@ this.translitStr = function (str){
         var reg = new RegExp(tr[i][0], "g");
 
         str = str.replace(reg, tr[i][1]);
-    };
+    }
 
     return str;
 };
@@ -198,7 +198,7 @@ this.sanityStr = function (str){
     str = str.toLowerCase();
 
     return this.translitStr(str);
-}
+};
 
 
 /**
@@ -214,7 +214,7 @@ this.findInObjOfArray = function(arr, key, val){
     }
 
     return false;
-}
+};
 
 
 /**
@@ -231,8 +231,7 @@ this.parseDate = function(str){
     date.setMinutes(0);
 
     return date;
-}
-
+};
 
 /**
  * Make pattern dd-mm-yyyy from Date object
@@ -250,7 +249,7 @@ this.stringifyDate = function(date){
     }
 
     return d + '.' + m + '.' + date.getFullYear();
-}
+};
 
 
 /**
@@ -292,4 +291,49 @@ this.matchPatternStr = function(str, type){
     if(pattern){
         return pattern.test(str);
     }
-}
+};
+
+
+/**
+ * Get Company type by id
+ * */
+this.getCompanyTypeName = function(id){
+    switch (parseInt(id)) {
+        case 1 : { return 'ООО' } break;
+        case 2 : { return 'ЗАО' } break;
+        case 3 : { return 'ОАО' } break;
+        case 4 : { return 'ИП' } break;
+        case 5 : { return 'ГУП' } break;
+        case 6 : { return 'МУП' } break;
+        case 7 : { return 'НП' } break;
+        case 8 : { return 'АНО' } break;
+        default : { return 'Другое' } break;
+    }
+};
+
+
+/**
+ * Get Company type by id
+ * */
+this.getCEOType = function(id){
+    switch (parseInt(id)) {
+        case 1 : { return 'Директор' } break;
+        case 2 : { return 'Генеральный директор' } break;
+        case 3 : { return 'Председатель' } break;
+        case 4 : { return 'Другое' } break;
+        case 5 : { return 'Не подписывает' } break;
+    }
+};
+
+
+/**
+ * Get Accountant type by id
+ * */
+this.getAccountantType = function(id){
+    switch (parseInt(id)) {
+        case 1 : { return 'Главный бухгалтер' } break;
+        case 2 : { return 'Бухгалтер' } break;
+        case 3 : { return 'Другое' } break;
+        case 4 : { return 'Не подписывает' } break;
+    }
+};

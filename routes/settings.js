@@ -17,4 +17,10 @@ module.exports = function(app, controllers){
             params
         );
     });
-}
+
+    app.post('/settings/company', app.ensureAuthenticated, function(req, res){
+        controllers.user.edit(req, function(result){
+            res.json(result);
+        });
+    });
+};

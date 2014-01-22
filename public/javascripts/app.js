@@ -1,4 +1,8 @@
 var app = {
+    kladr: {
+        token: '5229b37e31608f6906000000',
+        key: '1c7d3d5d80421d501145e9d2c946148c7e9965ca'
+    },
     sections: {},
 
     tableSorting: function(){
