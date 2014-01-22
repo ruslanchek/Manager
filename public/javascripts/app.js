@@ -1,4 +1,6 @@
 var app = {
+    company: {},
+
     kladr: {
         token: '5229b37e31608f6906000000',
         key: '1c7d3d5d80421d501145e9d2c946148c7e9965ca'
@@ -20,6 +22,19 @@ var app = {
 
     maskedInput: function(){
         $('input[type="tel"]').mask("+9 (999) 999-99-99");
+    },
+
+    getCompanyData: function(){
+        return {
+            cc_full_name: app.company.cc_type_name + ' &laquo;' + app.company.cc_name + '&raquo;',
+            cc_inn: app.company.cc_inn,
+            cc_kpp: app.company.cc_kpp,
+            cc_is_ip: (app.company.cc_type == 4),
+            bank_bik: app.company.bank_bik,
+            bank_name: app.company.bank_name,
+            bank_corr_account: app.company.bank_corr_account,
+            bank_pay_account: app.company.bank_pay_account
+        }
     },
 
     init: function(){

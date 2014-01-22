@@ -52,7 +52,7 @@ block content
             .unit-100
                 .form-item
                     input#items(type='hidden', value=JSON.stringify(data.items))
-                    label(for="comment") Позиции
+                    label(for="items") Позиции
                     #items-selector
 
         .units-row-end
@@ -61,6 +61,7 @@ block content
                     label(for="comment") Комментарий
                     textarea#comment.width-full-size #{data.comment}
 
+        hr
         .units-row-end
             .unit-100
                 .form-item.no-margin

@@ -46,7 +46,6 @@ block content
                     input#cc_ogrn.width-100(type='text', value=user.cc_ogrn)
 
         hr
-
         .units-row-end
             .unit-100
                 .form-item
@@ -74,6 +73,33 @@ block content
                     label(for="cc_index") Почтовый индекс
                     input#cc_index.width-100(type='text', value=user.cc_index)
 
+        hr
+        .units-row-end
+            .unit-100
+                .form-item
+                    h3 Реквизиты банка
+
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="bank_bik") БИК
+                    input#bank_bik.width-100(type='text', value=user.bank_bik)
+            .unit-50
+                .form-item
+                    label(for="bank_name") Название банка
+                    input#bank_name.width-100(type='text', value=user.bank_name)
+
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="bank_pay_account") Расчетный счет
+                    input#bank_pay_account.width-100(type='text', value=user.bank_pay_account)
+            .unit-50
+                .form-item
+                    label(for="bank_corr_account") Корр. счет
+                    input#bank_corr_account.width-100(type='text', value=user.bank_corr_account)
+
+        hr
         .units-row-end
             .unit-100
                 .form-item.no-margin

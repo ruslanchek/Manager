@@ -9,10 +9,18 @@ app.sections.accounts = {
     },
 
     viewDocument: function(){
-        var data = {};
+        var data = app.getCompanyData();
 
         $.each(this.fields, function(key, val){
-            data[key] = $(val).val();
+            if(key == 'items'){
+                data[key] = JSON.parse($(val).val());
+
+                for(var i = 0, l = data[key].length; i < l; i++){
+                    data[key][i].sum = data[key][i].price * data[key][i].count;
+                }
+            }else{
+                data[key] = $(val).val();
+            }
         });
 
         app.templates.renderForced('blank.invoice.html', data, function(html){

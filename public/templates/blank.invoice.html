@@ -5,30 +5,94 @@
         {{comment}}
     </p>
 
-    <h2>Образец заполнения платежного поручения</h2>
+    <h3>Образец заполнения платежного поручения</h3>
 
     <table class="table table-bordered width-100">
         <tr>
-            <td>xxx</td>
-            <td>123</td>
-            <td>444</td>
+            {{#if cc_is_ip}}
+                <td width="50%" colspan="2">
+                    ИНН {{cc_inn}}
+                </td>
+            {{else}}
+                <td width="25%">
+                    ИНН {{cc_inn}}
+                </td>
+
+                <td width="25%">
+                    КПП {{cc_kpp}}
+                </td>
+            {{/if}}
+
+            <td width="25%" rowspan="2" class="valign_bottom">
+                Сч. №
+            </td>
+
+            <td width="25%" rowspan="2" class="valign_bottom">
+                {{bank_pay_account}}
+            </td>
         </tr>
 
         <tr>
+            <td colspan="2">
+                <p>
+                    <small>Получатель</small>
+                </p>
 
+                {{{cc_full_name}}}
+            </td>
         </tr>
 
         <tr>
+            <td colspan="2" rowspan="2">
+                <p>
+                    <small>Банк получателя</small>
+                </p>
 
+                {{{bank_name}}}
+            </td>
+
+            <td class="valign_middle">
+                БИК {{bank_bik}}
+            </td>
+
+            <td rowspan="2" class="valign_bottom">
+                {{bank_corr_account}}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="valign_bottom">Сч. №</td>
         </tr>
     </table>
+
+    <br/>
 
     <h1>Счет №{{number}} от {{date}}</h1>
 
     <hr/>
 
     <p>
-        Поставщик: <strong>{{seller}}</strong><br/>
+        Поставщик: <strong>{{{cc_full_name}}}</strong><br/>
         Покупатель: <strong>{{buyer}}</strong>
     </p>
+
+    <table class="table table-bordered width-100">
+        <tr>
+            <th width="1%">№</th>
+            <th width="58%">Наименование</th>
+            <th width="20%">Цена</th>
+            <th width="1%">Количество</th>
+            <th width="20%">Сумма</th>
+        </tr>
+
+        {{#each items}}
+        <tr>
+            <td>{{this.number}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.count}}</td>
+            <td>{{this.sum}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </div>
