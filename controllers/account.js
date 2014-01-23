@@ -1,12 +1,44 @@
 module.exports = function (app, models) {
-    this.findItems = function (user, done) {
-        models.account.find({ _user_id: user._id }, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).sort({number: -1}).exec(function (err, data) {
+    this.findItems = function (user, filters, done) {
+        var filters_query = {
+            _user_id: user._id
+        };
+
+        if(filters){
+            if(filters.date_from || filters.date_to){
+                filters_query.date = {};
+
+                if(filters.date_from){
+                    var from = app.utils.parseDate(filters.date_from);
+
+                    filters_query.date.$gte = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+                }
+
+                if(filters.date_to){
+                    var to = app.utils.parseDate(filters.date_to);
+
+                    to.setDate(to.getDate() + 1);
+
+                    filters_query.date.$lt = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+                }
+            }
+        }
+
+        models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
             }
 
             if (data) {
+                data.sort(function(a, b) {
+                    if (parseInt(a.number) < parseInt(b.number))
+                        return 1;
+                    if (parseInt(a.number) > parseInt(b.number))
+                        return -1;
+                    return 0;
+                });
+
                 return done(false, data);
             }
 

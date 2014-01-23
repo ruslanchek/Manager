@@ -36,9 +36,9 @@ this.humanizeDate = function (date, output_with_time) {
     }
 
     if (!(Object.prototype.toString.call(date) === "[object Date]")) {
-        var t = date.split(/[- :]/);
+        var t = date.split('.');
 
-        date = new Date(t[0], t[1] - 1, t[2], t[3], t[4], t[5]);
+        date = new Date((t[1] + '-' + t[0] + '-' + t[2]));
     }
 
     var h_date,
@@ -61,7 +61,7 @@ this.humanizeDate = function (date, output_with_time) {
         M = date.getMonth(),
         Y = date.getFullYear();
 
-    h_date = d + ' ' + month_names[M] + ', ' + Y;
+    h_date = d + ' ' + month_names[M] + ' ' + Y;
 
     if (output_with_time === true) {
         var H = date.getHours(),
@@ -81,6 +81,7 @@ this.humanizeDate = function (date, output_with_time) {
 
     return h_date;
 };
+
 
 /**
  * Merge two or more objects
@@ -606,4 +607,18 @@ this.pluralForm = function(i, str1, str3, str5){
         case 1: return str3;
         default: return str5;
     }
-}
+};
+
+
+/**
+ * Zero pad
+ * */
+this.pad = function(number, length) {
+    var str = '' + number;
+
+    while (str.length < length) {
+        str = '0' + str;
+    }
+
+    return str;
+};

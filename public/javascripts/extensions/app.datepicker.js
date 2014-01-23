@@ -21,9 +21,13 @@ app.datepicker = {
         this.opened = false;
 
         this.$input.wrap('<div class="date-control"></div>');
-        this.$input.after('<a href="#" class="action-button datepicker-picker"><i class="icon-calendar"></i></a><div class="datepicker-widget animation-300-easeInOutQuart"></div>');
+        this.$input.after('<a href="#" class="action-button datepicker-picker"><i class="icon-calendar"></i></a><div class="datepicker-widget animation-150-easeInOutQuart"></div>');
         this.$picker = this.$input.parent().find('a.datepicker-picker');
         this.$widget_container = this.$input.parent().find('.datepicker-widget');
+
+        this.$widget_container.css({
+            left: this.$picker.offset().left - this.$widget_container.offset().left + this.$picker.width() / 2
+        });
 
         this.$widget_container.datepicker({
             onSelect: function (text, obj) {

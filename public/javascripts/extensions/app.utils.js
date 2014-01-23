@@ -5,9 +5,9 @@ app.utils = {
         }
 
         if (!(Object.prototype.toString.call(date) === "[object Date]")) {
-            var t = date.split(/[- :]/);
+            var t = date.split('.');
 
-            date = new Date(t[0], t[1] - 1, t[2], t[3], t[4], t[5]);
+            date = new Date((t[1] + '-' + t[0] + '-' + t[2]));
         }
 
         var h_date,
@@ -30,7 +30,7 @@ app.utils = {
             M = date.getMonth(),
             Y = date.getFullYear();
 
-        h_date = d + ' ' + month_names[M] + ', ' + Y;
+        h_date = d + ' ' + month_names[M] + ' ' + Y;
 
         if (output_with_time === true) {
             var H = date.getHours(),

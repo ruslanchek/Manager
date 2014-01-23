@@ -106,7 +106,7 @@ app.sections.accounts = {
             if(confirm('Удалить выбранные счета?')){
                 app.sections.accounts.delete(this.selected, function(ids){
                     var ids_selectors = '',
-                        $table = $('table#items-table');
+                        $table = $('table.items-table');
 
                     for(var i = 0, l = ids.length; i < l; i++){
                         ids_selectors += 'tr[data-id="' + ids[i] + '"],';

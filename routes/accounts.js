@@ -5,11 +5,37 @@ module.exports = function(app, controllers){
     };
 
     app.get('/accounts', app.ensureAuthenticated, function(req, res){
-        controllers.account.findItems(req.user, function(err, data){
+        var filters = {},
+            date_range = '';
+
+        if(req.query.date_from && req.query.date_to){
+            filters.date_from = req.query.date_from;
+            filters.date_to = req.query.date_to;
+
+            date_range = 'range';
+
+        } else if(req.query.date_range) {
+            var from = new Date(),
+                to = new Date();
+
+            switch(req.query.date_range){
+                case 'last_month' : {
+                    date_range = req.query.date_range;
+                    from.setDate(1);
+                } break;
+            }
+
+            filters.date_from = app.utils.pad(from.getDate(), 2) + '.' + app.utils.pad(from.getMonth() + 1, 2) + '.' + from.getFullYear();
+            filters.date_to = app.utils.pad(to.getDate(), 2) + '.' + app.utils.pad(to.getMonth() + 1, 2) + '.' + to.getFullYear();
+        }
+
+        controllers.account.findItems(req.user, filters, function(err, data){
             var params = app.utils.extend(common, {
                 err: err,
                 data: data,
                 user: req.user,
+                filters: filters,
+                date_range: date_range,
                 metadata: {
                     title: 'Счета'
                 }

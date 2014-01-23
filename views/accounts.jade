@@ -1,21 +1,42 @@
 extends layouts/main
 
 block content
-    h1 Счета
+    h1
+        case date_range
+            when 'last_month'
+                |Счета за текущий месяц
+            when 'range'
+                |Счета за выбранный период
+            default
+                |Счета
 
     .section-tools
         a#add.action-button.green(href="/accounts/add")
             i.icon-plus
-            | Создать
+            |Создать
+
+        a#print.multi-action.action-button(href="#")
+            i.icon-print
+            |Напечатать
 
         a#delete.multi-action.action-button.warning(href="#")
             i.icon-cancel
-            | Удалить
+            |Удалить
 
-        .filters
-            div.item
-                input#filter-date-from(type="text")
-                input#filter-date-to(type="text")
+        form.filters
+            .item
+                label За период с
+                input#filter-date-from(type="text", tabindex="1", name="date_from", value=filters.date_from)
+            .item
+                label по
+                input#filter-date-to(type="text", tabindex="2", name="date_to", value=filters.date_to)
+
+            if filters.date_to || filters.date_from
+                .item
+                    a.action-button.only-icon(href="/accounts", title="Отменить фильтр по датам")
+                        i.icon-block
+            .item
+                input.action-button.blue(type="submit", value="Показать")
 
     if data.length > 0
         .table-container.table-container-with-tools
@@ -39,10 +60,10 @@ block content
                         tr(data-id="#{val._id}")
                             td
                                 input.cb-item(type="checkbox", data-id="#{val._id}")
-                            td
+                            td(data-sort-value=val.number)
                                 a(href="/accounts/edit/#{val._id}") #{val.number}
-                            td #{utils.humanizeDate(val.date)}
-                            td #{utils.priceFormat(val.sum)}&nbsp;
+                            td(data-sort-value=val.date) #{utils.humanizeDate(val.date)}
+                            td(data-sort-value=val.sum) #{utils.priceFormat(val.sum)}&nbsp;
                                 span.rub &#8399;
                             td
                             td
@@ -54,8 +75,17 @@ block content
 
     - var list_empty = ((data.length > 0) ? false : true)
 
-    div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none')) У вас нет ни одного счета,&nbsp;
-        a(href="/accounts/add") создайте новый
+    div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
+        if filters.date_from || filters.date_to
+            |Счетов за период с&nbsp;
+            strong #{utils.humanizeDate(filters.date_from)}
+            |&nbsp;по&nbsp;
+            strong #{utils.humanizeDate(filters.date_to)}
+            |&nbsp;нет,&nbsp;
+            a(href="/accounts") посмотрите все
+        else
+            |У вас нет ни одного счета,&nbsp;
+            a(href="/accounts/add") создайте новый
 
     script.
         app.sections.accounts.list.init();

@@ -102,27 +102,73 @@
 
 // Date control
 .date-control {
-  padding-right: 40px;
+  margin-right: 4px;
+  padding-right: 15px;
   position: relative;
+
+  input {
+    border-radius: @ui-border-radius-left !important;
+    -webkit-border-radius: @ui-border-radius-left !important;
+    -moz-border-radius: @ui-border-radius-left !important;
+
+    border-right: none;
+  }
 
   .datepicker-picker {
     position: absolute;
-    right: 5px;
+    z-index: 2;
     top: 0;
-    padding: 3px 5px;
+    width: 30px;
     text-align: center;
+    padding: 3px 0;
+
+    border-radius: @ui-border-radius-right;
+    -webkit-border-radius: @ui-border-radius-right;
+    -moz-border-radius: @ui-border-radius-right;
+
+    background: @panel-bg-light - 40;
+    color: #59575E;
+
+    @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+
+    box-shadow: @box-shadow !important;
+    -webkit-box-shadow: @box-shadow !important;
+    -moz-box-shadow: @box-shadow !important;
+
+    margin-right: 0;
+
+    right: 0;
 
     i {
       margin: 0;
     }
   }
 
+  .datepicker-picker:hover {
+    background: @panel-bg-light - 30;
+    color: #59575E;
+
+    @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+
+    box-shadow: @box-shadow !important;
+    -webkit-box-shadow: @box-shadow !important;
+    -moz-box-shadow: @box-shadow !important;
+  }
+
+  .datepicker-picker:active {
+    @box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
+
+    box-shadow: @box-shadow !important;
+    -webkit-box-shadow: @box-shadow !important;
+    -moz-box-shadow: @box-shadow !important;
+  }
+
   .datepicker-widget {
     background: #fff;
     width: 240px;
     position: absolute;
-    top: -7px;
-    right: -250px;
+    top: 40px;
+    left: 0;
     opacity: 0;
     padding: 0 0 3px;
     z-index: 10;
@@ -142,13 +188,13 @@
 
     i.arrow {
       position: absolute;
-      top: 13px;
-      left: -10px;
+      top: -10px;
+      left: 109px;
       width: 0px;
       height: 0px;
       border-style: solid;
-      border-width: 8px 10px 8px 0;
-      border-color: transparent #fff transparent transparent;
+      border-width: 0 10px 10px 10px;
+      border-color: transparent transparent #fff transparent;
     }
 
     table {
@@ -161,6 +207,10 @@
         text-align: center;
       }
     }
+  }
+
+  .datepicker-widget:hover {
+    z-index: 1000;
   }
 
   .datepicker-widget.show {

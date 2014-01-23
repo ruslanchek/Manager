@@ -28,7 +28,7 @@ app.number = {
         this.$input.wrap('<div class="number-input"></div>');
 
         this.$input_wrapper = this.$input.parent();
-        this.$input_wrapper.append('<div class="buttons"><a href="#" class="change-up"><i class="icon-down-dir"></i></a><a href="#" class="change-down"><i class="icon-up-dir"></i></a></div>');
+        this.$input_wrapper.append('<div class="buttons"><a href="#" class="change-down"><i class="icon-down-dir"></i></a><a href="#" class="change-up"><i class="icon-up-dir"></i></a></div>');
 
         this.$up = this.$input_wrapper.find('.change-up');
         this.$down = this.$input_wrapper.find('.change-down');
@@ -40,7 +40,7 @@ app.number = {
                 m = 10;
             }
 
-            _this.up(m);
+            _this.down(m);
             e.preventDefault();
         });
 
@@ -51,7 +51,7 @@ app.number = {
                 m = 10;
             }
 
-            _this.down(m);
+            _this.up(m);
             e.preventDefault();
         });
 
