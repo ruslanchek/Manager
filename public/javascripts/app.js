@@ -25,6 +25,7 @@ var app = {
     },
 
     init: function(){
+        this.maskedInput();
         this.tableSorting();
 
         numeral.language('ru', {

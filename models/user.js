@@ -122,6 +122,14 @@ module.exports = function (app) {
             type: String
         },
 
+        cc_email: {
+            type: String
+        },
+
+        cc_skype: {
+            type: String
+        },
+
         cc_ceo_name: {
             type: String
         },

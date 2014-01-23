@@ -11,6 +11,8 @@ app.sections.settings = {
         cc_house            : '#cc_house',
         cc_phone            : '#cc_phone',
         cc_fax              : '#cc_fax',
+        cc_email            : '#cc_email',
+        cc_skype            : '#cc_skype',
         cc_ceo_name         : '#cc_ceo_name',
         cc_ceo_type         : '#cc_ceo_type',
         cc_accountant_name  : '#cc_accountant_name',

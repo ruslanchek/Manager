@@ -10,33 +10,16 @@ module.exports = function (app) {
             required: true
         },
 
-        /*_company_id : {
+        _nomgroup_id: {
             type: String,
             index: true,
-            ref: 'Company',
-            required: true
-        },
-
-        _nom_group_id: {
-            type: String,
-         index: true,
             ref: 'Nomgroup'
         },
-        */
 
         article: {
             type: String,
             index: true,
             required: true
-        },
-
-        /*
-        * 1 - service
-        * 2 - item
-        * */
-        type: {
-            type: Number,
-            index: true
         },
 
         price: {

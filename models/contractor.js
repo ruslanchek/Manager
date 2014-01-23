@@ -36,63 +36,90 @@ module.exports = function (app) {
             default: 1
         },
 
-        inn: {
+        // Company credentials
+        cc_name: {
             type: String
         },
 
-        ogrnip: {
+        cc_inn: {
             type: String
         },
 
-        kpp: {
+        cc_kpp: {
             type: String
         },
 
-        city: {
+        cc_ogrn: {
             type: String
         },
 
-        index: {
-            type: String
-        },
-
-        address: {
-            type: String
-        },
-
-        tel: {
-            type: String
-        },
-
-        r_account: {
-            type: String
-        },
-
-        bik: {
-            type: String
-        },
-
-        bank: {
-            type: String
-        },
-
-        k_account: {
-            type: String
-        },
-
-        director_type: {
+        cc_type: {
             type: Number
         },
 
-        director: {
+        cc_city: {
             type: String
         },
 
-        accountant_type: {
+        cc_index: {
+            type: String
+        },
+
+        cc_street: {
+            type: String
+        },
+
+        cc_house: {
+            type: String
+        },
+
+        cc_phone: {
+            type: String
+        },
+
+        cc_fax: {
+            type: String
+        },
+
+        cc_email: {
+            type: String
+        },
+
+        cc_skype: {
+            type: String
+        },
+
+        cc_ceo_name: {
+            type: String
+        },
+
+        cc_ceo_type: {
             type: Number
         },
 
-        accountant: {
+        cc_accountant_name: {
+            type: String
+        },
+
+        cc_accountant_type: {
+            type: Number
+        },
+
+
+        // Bank credentials
+        bank_name: {
+            type: String
+        },
+
+        bank_bik: {
+            type: String
+        },
+
+        bank_pay_account: {
+            type: String
+        },
+
+        bank_corr_account: {
             type: String
         }
     });

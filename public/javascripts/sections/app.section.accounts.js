@@ -144,6 +144,14 @@ app.sections.accounts = {
         },
 
         init: function(){
+            this.dpc_from = new app.datepicker.DatepickerController({
+                input_selector: '#filter-date-from'
+            });
+
+            this.dpc_to = new app.datepicker.DatepickerController({
+                input_selector: '#filter-date-to'
+            });
+
             this.binds();
         }
     },

@@ -73,6 +73,31 @@ block content
                     label(for="cc_index") Почтовый индекс
                     input#cc_index.width-100(type='text', value=user.cc_index)
 
+
+        br
+        .units-row-end
+            .unit-100
+                .form-item
+                    h3 Контактная информация
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="cc_phone") Телефон
+                    input#cc_phone.width-100(type='tel', value=user.cc_phone)
+            .unit-50
+                .form-item
+                    label(for="cc_fax") Факс
+                    input#cc_fax.width-100(type='tel', value=user.cc_fax)
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="cc_email") e-mail
+                    input#cc_email.width-100(type='email', value=user.cc_email)
+            .unit-50
+                .form-item
+                    label(for="cc_skype") Skype
+                    input#cc_skype.width-100(type='text', value=user.cc_skype)
+
         br
         .units-row-end
             .unit-100
