@@ -23,7 +23,7 @@ module.exports = function(app, controllers){
     });
 
     app.get('/pdf', function(req, res){
-        wkhtmltopdf('http://apple.com/', { output: '../out.pdf' });
+        wkhtmltopdf('http://google.com/', { pageSize: 'letter' }).pipe(res);
         res.end();
     });
 };
