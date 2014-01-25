@@ -27,7 +27,7 @@
     "numeral": "~1.5.3",
     "connect-redis": "~1.4.6",
     "redis": "~0.10.0",
-    "wkhtmltopdf": "~0.1.4"
+    "node-wkhtml": "0.1.0-alpha1"
   },
   "subdomain": "manager",
   "engines": {

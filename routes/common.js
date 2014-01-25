@@ -1,7 +1,3 @@
-var wkhtmltopdf = require('wkhtmltopdf'),
-    fs = require('fs'),
-    path = require('path');
-
 module.exports = function(app, controllers){
     var common = {
         utils: app.utils
@@ -22,8 +18,11 @@ module.exports = function(app, controllers){
         res.render('main', params);
     });
 
-    app.get('/pdf', function(req, res){
-        wkhtmltopdf('http://google.com/', { pageSize: 'letter' }).pipe(res);
-        res.end();
+
+    /**
+     * Get routes
+     * */
+    app.get('/pdf', app.ensureAuthenticated, function(req, res){
+        app.utils.generatePDF('ЛОлццуйлоыфв8фы97вфы8в79фы7в9фы87в9', res);
     });
 };

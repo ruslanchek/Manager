@@ -1,4 +1,6 @@
-var numeral = require('numeral');
+var fs = require('fs'),
+    numeral = require('numeral'),
+    exec = require('child_process').exec;
 
 numeral.language('ru', {
     delimiters: {
@@ -622,3 +624,35 @@ this.pad = function(number, length) {
 
     return str;
 };
+
+
+/**
+ * Create pdf
+ * */
+this.generatePDF = function(html, res){
+    var html_filename = 'temp_' + Math.random() + '.html',
+        pdf_filename = 'temp_' + Math.random() + '.pdf';
+
+    fs.writeFile(html_filename, html, function (err) {
+        console.log('x1')
+
+        if (err) {res.writeHead(400); res.end("" + err); return;}
+
+        exec('wkhtmltopdf ' + html_filename + ' ' + pdf_filename, function (err, stdout, stderr) {
+            //if (err) {res.writeHead(400); res.end("" + err); return;}
+
+            console.log('x2')
+
+            fs.unlink(html_filename, function(){
+                if (err) {res.writeHead(400); res.end("" + err); return;}
+
+                fs.readFile(pdf_filename, function (err, data) {
+                    if (err) {res.writeHead(400); res.end("" + err); return;}
+
+                    res.writeHead(200, {"content-type" : "application/pdf"});
+                    res.end(data);
+                });
+            });
+        });
+    });
+}
