@@ -634,20 +634,18 @@ this.generatePDF = function(html, res){
         pdf_filename = 'temp_' + Math.random() + '.pdf';
 
     fs.writeFile(html_filename, html, function (err) {
-        console.log('x1')
-
         if (err) {res.writeHead(400); res.end("" + err); return;}
 
         exec('wkhtmltopdf ' + html_filename + ' ' + pdf_filename, function (err, stdout, stderr) {
-            //if (err) {res.writeHead(400); res.end("" + err); return;}
-
-            console.log('x2')
-
             fs.unlink(html_filename, function(){
                 if (err) {res.writeHead(400); res.end("" + err); return;}
 
                 fs.readFile(pdf_filename, function (err, data) {
                     if (err) {res.writeHead(400); res.end("" + err); return;}
+
+                    fs.unlink(pdf_filename, function(){
+
+                    });
 
                     res.writeHead(200, {"content-type" : "application/pdf"});
                     res.end(data);
