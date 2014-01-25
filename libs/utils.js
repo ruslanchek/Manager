@@ -637,20 +637,18 @@ this.generatePDF = function(html, res){
         if (err) {res.writeHead(400); res.end("" + err); return;}
 
         exec('wkhtmltopdf ' + html_filename + ' ' + pdf_filename, function (err, stdout, stderr) {
-            fs.unlink(html_filename, function(){
+            //fs.unlink(html_filename, function(){
                 if (err) {res.writeHead(400); res.end("" + err); return;}
 
                 fs.readFile(pdf_filename, {encoding: 'utf8'}, function (err, data) {
                     if (err) {res.writeHead(400); res.end("" + err); return;}
 
-                    fs.unlink(pdf_filename, function(){
-
-                    });
+                    /*fs.unlink(pdf_filename, function(){});*/
 
                     res.writeHead(200, {"content-type" : "application/pdf"});
                     res.end(data);
                 });
-            });
+            //});
         });
     });
 }
