@@ -635,7 +635,7 @@ this.generatePDF = function(url, sid, res, fname){
 
     md5.update(sid + '-' + Math.random());
 
-    var pdf_filename = 'generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
+    var pdf_filename = __dirname + '/generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
 
     exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
         fs.readFile(pdf_filename, function (err, data) {
