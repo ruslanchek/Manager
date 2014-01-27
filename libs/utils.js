@@ -635,11 +635,11 @@ this.generatePDF = function(url, sid, res, fname){
 
     md5.update(sid + '-' + Math.random());
 
-    var pdf_filename = __dirname + '../generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
+    var pdf_filename = __dirname + '/../generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
 
     exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
         fs.readFile(pdf_filename, function (err, data) {
-            if (err) {res.writeHead(400); res.end("" + err); return;}
+            if (err) {res.writeHead(400); res.end("" + err); return;} // TODO make here a 500 error (for testing use an wrong var pdf_filename)
 
             fs.unlink(pdf_filename, function(){});
 
