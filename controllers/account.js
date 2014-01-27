@@ -202,7 +202,7 @@ module.exports = function (app, models) {
         });
     };
 
-    this.addItem = function(user, data, done){
+    this.addItem = function(user, data, session, done){
         var validate = this.validateInputs(data);
 
         if(this.validateInputs(data) !== true){
@@ -254,7 +254,7 @@ module.exports = function (app, models) {
                 new_item.sum = sum;
                 new_item.count = count;
 
-                new_item.save(function (err, data) {
+                new_item.save(function (err, account_data) {
                     if (err) {
                         app.log.error('Account create error', err);
 
@@ -264,10 +264,26 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    return done({
-                        success: true,
-                        message: 'OK',
-                        data: data
+                    models.user.findOneAndUpdate({ _id: user._id }, { $inc: { mc_account: 1 } }, function(err, user_data){
+                        if (err) {
+                            app.log.error('findOne error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        if(session && session.passport && session.passport.user){
+                            session.passport.user.mc_account = user_data.mc_account;
+                            session.save();
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: account_data
+                        });
                     });
                 });
             }

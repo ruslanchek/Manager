@@ -46,17 +46,15 @@ module.exports = function(app, controllers){
     });
 
     app.get('/accounts/add', app.ensureAuthenticated, function(req, res){
-        controllers.account.countAll(req.user, function(data){
-            var params = app.utils.extend(common, {
-                user: req.user,
-                number: (data >= 0) ? data+1 : '',
-                metadata: {
-                    title: 'Новый счет'
-                }
-            });
-
-            res.render('accounts.add.jade', params);
+        var params = app.utils.extend(common, {
+            user: req.user,
+            number: (req.user.mc_account >= 0) ? req.user.mc_account + 1 : '',
+            metadata: {
+                title: 'Новый счет'
+            }
         });
+
+        res.render('accounts.add.jade', params);
     });
 
     app.post('/accounts/delete', app.ensureAuthenticated, function(req, res){
@@ -104,7 +102,16 @@ module.exports = function(app, controllers){
     });
 
     app.get('/accounts/pdf/:id', app.ensureAuthenticated, function(req, res){
-        app.utils.generatePDF(app.config.get('protocol') + '://' + app.config.get('host') + ':' + app.config.get('port') + '/accounts/view/' + req.params.id, req.cookies['connect.sid'], res);
+        controllers.account.findOne(req.user, req.params.id, function(err, data){
+            if(err === true){
+                res.redirect('/404');
+            }else{
+                var url = app.config.get('protocol') + '://' + app.config.get('host') + ':' + app.config.get('port') + '/accounts/view/' + req.params.id,
+                    name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
+
+                app.utils.generatePDF(url, req.cookies['connect.sid'], res, name);
+            }
+        });
     });
 
     app.post('/accounts/view', app.ensureAuthenticated, function(req, res){
@@ -123,7 +130,7 @@ module.exports = function(app, controllers){
     });
 
     app.post('/accounts/add', app.ensureAuthenticated, function(req, res){
-        controllers.account.addItem(req.user, req.body, function(result){
+        controllers.account.addItem(req.user, req.body, req.session, function(result){
             res.json(result);
         });
     });

@@ -65,6 +65,7 @@ require('./inits/passport_strategies')(app, controllers);
 require('./routes/common')(app, controllers);
 require('./routes/auth')(app, controllers);
 require('./routes/accounts')(app, controllers);
+require('./routes/nomenclature')(app, controllers);
 require('./routes/settings')(app, controllers);
 
 

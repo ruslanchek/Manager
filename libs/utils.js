@@ -1,6 +1,7 @@
 var fs = require('fs'),
     numeral = require('numeral'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    crypto = require('crypto');
 
 numeral.language('ru', {
     delimiters: {
@@ -629,8 +630,12 @@ this.pad = function(number, length) {
 /**
  * Create pdf
  * */
-this.generatePDF = function(url, sid, res){
-    var pdf_filename = 'temp_' + Math.random() + '.pdf';
+this.generatePDF = function(url, sid, res, fname){
+    var md5 = crypto.createHash('md5');
+
+    md5.update(sid + '-' + Math.random());
+
+    var pdf_filename = 'generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
 
     exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
         fs.readFile(pdf_filename, function (err, data) {
@@ -638,7 +643,9 @@ this.generatePDF = function(url, sid, res){
 
             fs.unlink(pdf_filename, function(){});
 
-            res.writeHead(200, {"content-type" : "application/pdf"});
+            res.setHeader('Content-disposition', 'attachment; filename=' + fname + '.pdf');
+            res.setHeader('Content-type', 'application/pdf');
+
             res.end(data);
         });
     });

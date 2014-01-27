@@ -240,11 +240,6 @@ app.sections.accounts = {
             var _this = this,
                 $body = $('body');
 
-            $body.on('click.action-download', '.action-download', function(e){
-                _this.download();
-                e.preventDefault();
-            });
-
             $body.on('click.action-print', '.action-print', function(e){
                 _this.print();
                 e.preventDefault();
