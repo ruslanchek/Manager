@@ -23,6 +23,6 @@ module.exports = function(app, controllers){
      * Get routes
      * */
     app.get('/pdf', app.ensureAuthenticated, function(req, res){
-        app.utils.generatePDF('http://localhost:2000/accounts/view/52e5bb520a98bf830790dca2', req.cookies['connect.sid'], res);
+        app.utils.generatePDF('http://localhost:2000/accounts/view/52e513bd45cd750f48e09fb7', req.cookies['connect.sid'], res);
     });
 };
