@@ -104,22 +104,7 @@ module.exports = function(app, controllers){
     });
 
     app.get('/accounts/pdf/:id', app.ensureAuthenticated, function(req, res){
-        controllers.account.findOne(req.user, req.params.id, function(err, data){
-            if(err === true){
-                res.redirect('/404');
-            }else{
-                var params = app.utils.extend(common, {
-                    err : err,
-                    data: data,
-                    user: req.user,
-                    metadata: {
-                        title: 'Просмотр счета'
-                    }
-                });
-
-                res.render('accounts.view.jade', params);
-            }
-        });
+        app.utils.generatePDF(app.config.get('protocol') + '://' + app.config.get('host') + ':' + app.config.get('port') + '/accounts/view/' + req.params.id, req.cookies['connect.sid'], res);
     });
 
     app.post('/accounts/view', app.ensureAuthenticated, function(req, res){

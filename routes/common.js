@@ -17,12 +17,4 @@ module.exports = function(app, controllers){
 
         res.render('main', params);
     });
-
-
-    /**
-     * Get routes
-     * */
-    app.get('/pdf', app.ensureAuthenticated, function(req, res){
-        app.utils.generatePDF('http://localhost:2000/accounts/view/52e513bd45cd750f48e09fb7', req.cookies['connect.sid'], res);
-    });
 };
