@@ -638,15 +638,19 @@ this.generatePDF = function(url, sid, res, fname){
     var pdf_filename = __dirname + '/../generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
 
     exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
-        fs.readFile(pdf_filename, function (err, data) {
-            if (err) {res.writeHead(400); res.end("" + err); return;} // TODO make here a 500 error (for testing use an wrong var pdf_filename)
+        if(!err){
+            fs.readFile(pdf_filename, function (err, data) {
+                if (err) {res.writeHead(400); res.end("" + err); return;} // TODO make here a 500 error (for testing use an wrong var pdf_filename)
 
-            fs.unlink(pdf_filename, function(){});
+                fs.unlink(pdf_filename, function(){});
 
-            res.setHeader('Content-disposition', 'attachment; filename=' + fname + '.pdf');
-            res.setHeader('Content-type', 'application/pdf');
+                res.setHeader('Content-disposition', 'attachment; filename=' + fname + '.pdf');
+                res.setHeader('Content-type', 'application/pdf');
 
-            res.end(data);
-        });
+                res.end(data);
+            });
+        }else{
+            res.end('PDF generate error');
+        }
     });
 }
