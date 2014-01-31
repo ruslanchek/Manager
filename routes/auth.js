@@ -77,7 +77,22 @@ module.exports = function (app, controllers) {
      * */
     app.post('/auth/login', function (req, res) {
         app.passport.authenticate('local', function (err, user) {
-            if (req.xhr) {
+            if (err) {
+                return res.json({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (!user) {
+                return res.json({
+                    success: false,
+                    message: 'INVALID_CREDENTIALS',
+                    fields: ['username', 'password']
+                });
+            }
+
+            req.login(user, {}, function (err) {
                 if (err) {
                     return res.json({
                         success: false,
@@ -85,44 +100,14 @@ module.exports = function (app, controllers) {
                     });
                 }
 
-                if (!user) {
-                    return res.json({
-                        success: false,
-                        message: 'INVALID_CREDENTIALS',
-                        fields: ['username', 'password']
-                    });
-                }
-
-                req.login(user, {}, function (err) {
-                    if (err) {
-                        return res.json({
-                            success: false,
-                            message: 'SERVER_ERROR'
-                        });
-                    }
-
-                    return res.json({
-                        success: true,
-                        message: 'OK'
-                    });
+                return res.json({
+                    success: true,
+                    message: 'OK'
                 });
-            } else {
-                if (err) {
-                    return res.redirect('/auth/login');
-                }
-
-                if (!user) {
-                    return res.redirect('/auth/login');
-                }
-
-                req.login(user, {}, function (err) {
-                    if (err) {
-                        return res.redirect('/auth/login');
-                    }
-                    return res.redirect('/');
-                });
-            }
-        })(req, res);
+            });
+        })(req, res, function(result){
+            res.json(result);
+        });
     });
 
 

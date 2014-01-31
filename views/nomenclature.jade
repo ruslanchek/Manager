@@ -3,47 +3,60 @@ extends layouts/main
 block content
     h1 Номенклатура
 
-    .section-tools
-        a#add.action-button.green(href="/accounts/add")
-            i.icon-plus
-            |Создать
+    .units-row-end
+        .unit-25
+            .side-menu
+                a(href="#") Оборудование
+                a(href="#") Запчасти
+                a(href="#") Автомобили
+                a(href="#") Модули
+                a(href="#") Услуги
+                a(href="#") Системы
+                a(href="#") Средства для записи
+                a(href="#") Автоаккумуляторы
 
-        a#print.multi-action.action-button(href="#")
-            i.icon-print
-            |Напечатать
+        .unit-75
+            .section-tools
+                a#add.action-button.green(href="/accounts/add")
+                    i.icon-plus
+                    |Создать
 
-        a#delete.multi-action.action-button.warning(href="#")
-            i.icon-cancel
-            |Удалить
+                a#print.multi-action.action-button(href="#")
+                    i.icon-print
+                    |Напечатать
 
-    if data.length > 0
-        .table-container.table-container-with-tools
-            table.items-table.width-100.table-bordered.table-sort.table-hovered
-                thead
-                    tr
-                        th(width="1%")
-                            input.cb-all(type="checkbox")
-                        th(data-sort="string") Артикул
-                            i.arrow.icon-down-dir
-                        th(data-sort="string") Наименование
-                            i.arrow
-                        th(data-sort="string") Стоимость
-                            i.arrow
-                tbody
-                    each val in data
-                        tr(data-id="#{val._id}")
-                            td
-                                input.cb-item(type="checkbox", data-id="#{val._id}")
-                            td(data-sort-value=val.article) #{val.article}
-                            td(data-sort-value=val.name) #{val.name}
-                            td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
-                                span.rub &#8399;
+                a#delete.multi-action.action-button.warning(href="#")
+                    i.icon-cancel
+                    |Удалить
 
-    - var list_empty = ((data.length > 0) ? false : true)
+            if data.length > 0
+                .table-container.table-container-with-tools
+                    table.items-table.width-100.table-bordered.table-sort.table-hovered
+                        thead
+                            tr
+                                th(width="1%")
+                                    input.cb-all(type="checkbox")
+                                th(data-sort="string") Артикул
+                                    i.arrow.icon-down-dir
+                                th(data-sort="string") Наименование
+                                    i.arrow
+                                th(data-sort="string") Стоимость
+                                    i.arrow
+                        tbody
+                            each val in data
+                                tr(data-id="#{val._id}")
+                                    td
+                                        input.cb-item(type="checkbox", data-id="#{val._id}")
+                                    td(data-sort-value=val.article) #{val.article}
+                                    td(data-sort-value=val.name) #{val.name}
+                                    td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
+                                        span.rub &#8399;
 
-    div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
-        |У вас нет ни одной позиции в номенклатуре,&nbsp;
-        a(href="/accounts/add") создайте новую
+            - var list_empty = ((data.length > 0) ? false : true)
+
+            div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
+                |У вас нет ни одной позиции в номенклатуре,&nbsp;
+                a(href="/accounts/add") создайте новую
 
     //script.
         app.sections.accounts.list.init();

@@ -10,11 +10,11 @@ module.exports = function (app, controllers) {
      * Passport inits
      * */
     app.passport.serializeUser(function (user, done) {
-        done(null, user);
+        return done(null, user);
     });
 
     app.passport.deserializeUser(function (obj, done) {
-        done(null, obj);
+        return done(null, obj);
     });
 
 
@@ -34,7 +34,7 @@ module.exports = function (app, controllers) {
                         return done(err);
                     }
 
-                    done(null, user);
+                    return done(null, user);
                 });
             }
         )
@@ -57,7 +57,7 @@ module.exports = function (app, controllers) {
                         return done(err);
                     }
 
-                    done(null, user);
+                    return done(null, user);
                 });
             }
         )
@@ -77,7 +77,7 @@ module.exports = function (app, controllers) {
                 profile = app.utils.extend({id: identifier}, profile);
 
                 controllers.user.findOrCreate('google', profile, function (err, user) {
-                    done(err, user);
+                    return done(err, user);
                 });
             }
         )
@@ -95,7 +95,7 @@ module.exports = function (app, controllers) {
         },
         function(accessToken, refreshToken, profile, done) {
             controllers.user.findOrCreate('vk', profile, function (err, user) {
-                done(err, user);
+                return done(err, user);
             });
         }
     ));
@@ -113,7 +113,7 @@ module.exports = function (app, controllers) {
             },
             function(accessToken, refreshToken, profile, done) {
                 controllers.user.findOrCreate('yandex', profile, function (err, user) {
-                    done(err, user);
+                    return done(err, user);
                 });
             }
         )
@@ -135,7 +135,7 @@ module.exports = function (app, controllers) {
                         return done(err);
                     }
 
-                    done(null, user);
+                    return done(null, user);
                 });
             }
         )

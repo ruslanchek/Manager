@@ -14,7 +14,7 @@ module.exports = function (app, models) {
         var create_data = {
                 display_name: profile.displayName,
                 username: app.utils.sanityStr(profile.displayName.toLowerCase()) + '-' + provider,
-                password: generatePassword(12, false)
+                password: generatePassword(12, false, /\w/)
             },
             conditions = {};
 
@@ -196,14 +196,14 @@ module.exports = function (app, models) {
             }
 
             if (user) {
-                var new_password = generatePassword(12, false);
+                var new_password = generatePassword(12, false, /\w/);
 
                 user.password = new_password;
                 user.restore_date = new Date();
                 user.restore_hash = '';
 
                 user.save(function (err, user) {
-                    if (err) {
+                if (err) {
                         app.log.error('User save error', err);
 
                         return done({

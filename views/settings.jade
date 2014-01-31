@@ -2,133 +2,138 @@ extends layouts/main
 block content
     h1 Настройка
 
-    form#form-edit-company.form.forms.forms-columnar(action='')
-        .form-message
+    .units-row-end
+        .unit-25
+            .side-menu
+                a(href="#") Данные организации
+                a(href="#") Адрес организации
+                a(href="#") Контактная информация
+                a(href="#") Реквизиты банка
 
-        .units-row-end
-            .unit-100
-                .form-item
-                    h3 Данные организации
+        .unit-75
+            form#form-edit-company.form.forms.forms-columnar(action='')
+                .form-message
 
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="cc_type") Тип
-                    select#cc_type
-                        option(value="1", selected=user.cc_type == 1) #{utils.getCompanyTypeName(1)}
-                        option(value="2", selected=user.cc_type == 2) #{utils.getCompanyTypeName(2)}
-                        option(value="3", selected=user.cc_type == 3) #{utils.getCompanyTypeName(3)}
-                        option(value="4", selected=user.cc_type == 4) #{utils.getCompanyTypeName(4)}
-                        option(value="5", selected=user.cc_type == 5) #{utils.getCompanyTypeName(5)}
-                        option(value="6", selected=user.cc_type == 6) #{utils.getCompanyTypeName(6)}
-                        option(value="7", selected=user.cc_type == 7) #{utils.getCompanyTypeName(7)}
-                        option(value="8", selected=user.cc_type == 8) #{utils.getCompanyTypeName(8)}
-                        option(value="9", selected=user.cc_type == 9) #{utils.getCompanyTypeName(9)}
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_type") Тип
+                            select#cc_type
+                                option(value="1", selected=user.cc_type == 1) #{utils.getCompanyTypeName(1)}
+                                option(value="2", selected=user.cc_type == 2) #{utils.getCompanyTypeName(2)}
+                                option(value="3", selected=user.cc_type == 3) #{utils.getCompanyTypeName(3)}
+                                option(value="4", selected=user.cc_type == 4) #{utils.getCompanyTypeName(4)}
+                                option(value="5", selected=user.cc_type == 5) #{utils.getCompanyTypeName(5)}
+                                option(value="6", selected=user.cc_type == 6) #{utils.getCompanyTypeName(6)}
+                                option(value="7", selected=user.cc_type == 7) #{utils.getCompanyTypeName(7)}
+                                option(value="8", selected=user.cc_type == 8) #{utils.getCompanyTypeName(8)}
+                                option(value="9", selected=user.cc_type == 9) #{utils.getCompanyTypeName(9)}
 
-            .unit-50
-                .form-item
-                    label(for="cc_inn") ИНН
-                    input#cc_inn.width-100(type='text', value=user.cc_inn)
+                        .form-item
+                            label(for="cc_inn") ИНН
+                            input#cc_inn.width-100(type='text', value=user.cc_inn)
 
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="cc_name") Наименование
-                    input#cc_name.width-100(type='text', value=user.cc_name)
+                .units-row-end
+                    .unit-80
+                        .form-item
+                            label(for="cc_name") Наименование
+                            input#cc_name.width-100(type='text', value=user.cc_name)
 
-            .unit-50
-                .form-item#kpp-item(style="display: #{((user.cc_type == 4) ? 'none' : 'block')}")
-                    label(for="cc_kpp") КПП
-                    input#cc_kpp.width-100(type='text', value=user.cc_kpp)
+                .units-row-end
+                    .unit-50
 
-                .form-item
-                    label(for="cc_ogrn") #{((user.cc_type == 4) ? 'ОГРНИП' : 'ОГРН')}
-                    input#cc_ogrn.width-100(type='text', value=user.cc_ogrn)
+                        .form-item#kpp-item(style="display: #{((user.cc_type == 4) ? 'none' : 'block')}")
+                            label(for="cc_kpp") КПП
+                            input#cc_kpp.width-100(type='text', value=user.cc_kpp)
 
-        br
-        .units-row-end
-            .unit-100
-                .form-item
-                    h3 Адрес организации
+                        .form-item
+                            label(for="cc_ogrn") #{((user.cc_type == 4) ? 'ОГРНИП' : 'ОГРН')}
+                            input#cc_ogrn.width-100(type='text', value=user.cc_ogrn)
 
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="cc_city") Населенный пункт
-                    input#cc_city.width-100(type='text', value=user.cc_city)
+                br
+                .units-row-end
+                    .unit-100
+                        .form-item
+                            h3 Адрес организации
 
-            .unit-50
-                .form-item
-                    label(for="cc_street") Улица
-                    input#cc_street.width-100(type='text', value=user.cc_street)
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_city") Населенный пункт
+                            input#cc_city.width-100(type='text', value=user.cc_city)
 
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="cc_house") Дом
-                    input#cc_house.width-100(type='text', value=user.cc_house)
+                    .unit-50
+                        .form-item
+                            label(for="cc_street") Улица
+                            input#cc_street.width-100(type='text', value=user.cc_street)
 
-            .unit-50
-                .form-item
-                    label(for="cc_index") Почтовый индекс
-                    input#cc_index.width-100(type='text', value=user.cc_index)
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_house") Дом
+                            input#cc_house.width-100(type='text', value=user.cc_house)
+
+                    .unit-50
+                        .form-item
+                            label(for="cc_index") Почтовый индекс
+                            input#cc_index.width-100(type='text', value=user.cc_index)
 
 
-        br
-        .units-row-end
-            .unit-100
-                .form-item
-                    h3 Контактная информация
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="cc_phone") Телефон
-                    input#cc_phone.width-100(type='tel', value=user.cc_phone)
-            .unit-50
-                .form-item
-                    label(for="cc_fax") Факс
-                    input#cc_fax.width-100(type='tel', value=user.cc_fax)
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="cc_email") e-mail
-                    input#cc_email.width-100(type='email', value=user.cc_email)
-            .unit-50
-                .form-item
-                    label(for="cc_skype") Skype
-                    input#cc_skype.width-100(type='text', value=user.cc_skype)
+                br
+                .units-row-end
+                    .unit-100
+                        .form-item
+                            h3 Контактная информация
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_phone") Телефон
+                            input#cc_phone.width-100(type='tel', value=user.cc_phone)
+                    .unit-50
+                        .form-item
+                            label(for="cc_fax") Факс
+                            input#cc_fax.width-100(type='tel', value=user.cc_fax)
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_email") e-mail
+                            input#cc_email.width-100(type='email', value=user.cc_email)
+                    .unit-50
+                        .form-item
+                            label(for="cc_skype") Skype
+                            input#cc_skype.width-100(type='text', value=user.cc_skype)
 
-        br
-        .units-row-end
-            .unit-100
-                .form-item
-                    h3 Реквизиты банка
+                br
+                .units-row-end
+                    .unit-100
+                        .form-item
+                            h3 Реквизиты банка
 
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="bank_bik") БИК
-                    input#bank_bik.width-100(type='text', value=user.bank_bik)
-            .unit-50
-                .form-item
-                    label(for="bank_name") Название банка
-                    input#bank_name.width-100(type='text', value=user.bank_name)
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="bank_bik") БИК
+                            input#bank_bik.width-100(type='text', value=user.bank_bik)
+                    .unit-50
+                        .form-item
+                            label(for="bank_name") Название банка
+                            input#bank_name.width-100(type='text', value=user.bank_name)
 
-        .units-row-end
-            .unit-50
-                .form-item
-                    label(for="bank_pay_account") Расчетный счет
-                    input#bank_pay_account.width-100(type='text', value=user.bank_pay_account)
-            .unit-50
-                .form-item
-                    label(for="bank_corr_account") Корр. счет
-                    input#bank_corr_account.width-100(type='text', value=user.bank_corr_account)
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="bank_pay_account") Расчетный счет
+                            input#bank_pay_account.width-100(type='text', value=user.bank_pay_account)
+                    .unit-50
+                        .form-item
+                            label(for="bank_corr_account") Корр. счет
+                            input#bank_corr_account.width-100(type='text', value=user.bank_corr_account)
 
-        hr
-        .units-row-end
-            .unit-100
-                .form-item.no-margin
-                    input.button.blue(type='submit', value='Сохранить')
+                hr
+                .units-row-end
+                    .unit-100
+                        .form-item.no-margin
+                            input.button.blue(type='submit', value='Сохранить')
 
     script.
         app.sections.settings.init();
