@@ -126,7 +126,7 @@ module.exports = function (app, models) {
 
             if (user) {
                 var current_date = new Date(),
-                    restore_hash = crypto.randomBytes(32).toString('hex');
+                    restore_hash = crypto.randomBytes(16).toString('hex');
 
                 if((current_date - user.restore_date) / 1000 / 60 <= 1){
                     return done({
@@ -178,7 +178,7 @@ module.exports = function (app, models) {
     };
 
     this.passwordRecoveryCheckCode = function(hash, done) {
-        if (!hash || !app.utils.matchPatternStr(hash, 'hash')) {
+        if (!hash || !app.utils.matchPatternStr(hash, 'md5')) {
             return done({
                 success: false,
                 message: 'CODE_DOES_NOT_MATCH_PATTERN'

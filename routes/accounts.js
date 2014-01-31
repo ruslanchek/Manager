@@ -106,7 +106,7 @@ module.exports = function(app, controllers){
             if(err === true){
                 res.redirect('/404');
             }else{
-                var url = app.config.get('protocol') + '://' + app.config.get('domain_name') + ':' + app.config.get('port') + '/accounts/view/' + req.params.id,
+                var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + req.params.id,
                     name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
                 app.utils.generatePDF(url, req.cookies['connect.sid'], res, name);

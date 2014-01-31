@@ -144,7 +144,7 @@ module.exports = function (app, controllers) {
     /**
      * Route for password recovery code page
      * */
-    app.get('/auth/password-recovery:hash', app.ensureNotAuthenticated, function(req, res){
+    app.get('/auth/password-recovery/:hash', app.ensureNotAuthenticated, function(req, res){
         controllers.user.passwordRecoveryCheckCode(req.params.hash, function(result){
             var params = app.utils.extend(common, {
                 user: req.user,
