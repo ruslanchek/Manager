@@ -41,7 +41,10 @@ app.sections.accounts = {
             title: 'Просмотр счета',
             tools: docview_tools_show,
             post: data,
-            url: '/accounts/view'
+            url: '/accounts/view',
+            onShow: function(){
+                $('.docview .action-download').attr('href', $('.section-tools .action-download').attr('href'));
+            }
         }).open();
     },
 

@@ -4,17 +4,6 @@ block content
     h1 Номенклатура
 
     .units-row-end
-        .unit-25
-            .side-menu
-                a(href="#") Оборудование
-                a(href="#") Запчасти
-                a(href="#") Автомобили
-                a(href="#") Модули
-                a(href="#") Услуги
-                a(href="#") Системы
-                a(href="#") Средства для записи
-                a(href="#") Автоаккумуляторы
-
         .unit-75
             .section-tools
                 a#add.action-button.green(href="/accounts/add")
@@ -57,6 +46,24 @@ block content
             div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
                 |У вас нет ни одной позиции в номенклатуре,&nbsp;
                 a(href="/accounts/add") создайте новую
+
+        .unit-25
+            .section-tools
+                a#add.action-button(href="/accounts/add")
+                    i.icon-plus
+                    | Создать категорию
+
+            .side-menu.with-tools
+                a.active(href="#")
+                    strong Все категории
+                a(href="#") Оборудование
+                a(href="#") Запчасти
+                a(href="#") Автомобили
+                a(href="#") Модули
+                a(href="#") Услуги
+                a(href="#") Системы
+                a(href="#") Средства для записи
+                a(href="#") Автоаккумуляторы
 
     //script.
         app.sections.accounts.list.init();

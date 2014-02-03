@@ -65,7 +65,7 @@ module.exports = function(app, controllers){
 
     app.get('/accounts/edit/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.findOne(req.user, req.params.id, function(err, data){
-            if(err === true){
+            if(err === true || !data){
                 res.redirect('/404');
             }else{
                 var params = app.utils.extend(common, {
@@ -84,7 +84,7 @@ module.exports = function(app, controllers){
 
     app.get('/accounts/view/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.findOne(req.user, req.params.id, function(err, data){
-            if(err === true){
+            if(err === true || !data){
                 res.redirect('/404');
             }else{
                 var params = app.utils.extend(common, {
@@ -103,7 +103,7 @@ module.exports = function(app, controllers){
 
     app.get('/accounts/pdf/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.findOne(req.user, req.params.id, function(err, data){
-            if(err === true){
+            if(err === true || !data){
                 res.redirect('/404');
             }else{
                 var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + req.params.id,

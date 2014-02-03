@@ -648,7 +648,7 @@ this.generatePDF = function(url, sid, res, fname){
 
                 fs.unlink(pdf_filename, function(){});
 
-                res.setHeader('Content-disposition', 'attachment; filename=' + fname + '.pdf');
+                res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
                 res.setHeader('Content-type', 'application/pdf');
 
                 res.end(data);
@@ -657,4 +657,4 @@ this.generatePDF = function(url, sid, res, fname){
             res.end('PDF generate error');
         }
     });
-}
+};

@@ -228,7 +228,13 @@ header {
   -webkit-border-radius: @ui-border-radius;
   -moz-border-radius: @ui-border-radius;
 
-  padding: 10px 0;
+  padding: 0;
+}
+
+.side-menu.with-tools {
+  border-radius: @ui-border-radius-bottom;
+  -webkit-border-radius: @ui-border-radius-bottom;
+  -moz-border-radius: @ui-border-radius-bottom;
 }
 
 .side-menu a {
@@ -238,8 +244,31 @@ header {
   padding: 7px 20px;
 }
 
+.side-menu a:first-of-type {
+  border-radius: @ui-border-radius-top;
+  -webkit-border-radius: @ui-border-radius-top;
+  -moz-border-radius: @ui-border-radius-top;
+}
+
+.side-menu.with-tools a:first-of-type {
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+}
+
+.side-menu a:last-of-type {
+  border-radius: @ui-border-radius-bottom;
+  -webkit-border-radius: @ui-border-radius-bottom;
+  -moz-border-radius: @ui-border-radius-bottom;
+}
+
 .side-menu a:hover {
   background: @panel-bg-light - 15;
+}
+
+.side-menu a.active {
+  background: @color-blue;
+  color: #fff;
 }
 
 // Main view
@@ -752,6 +781,14 @@ input.action-button {
     margin-left: -20px;
     border: none;
     border-bottom: 2px dashed @panel-bg-light - 25;
+  }
+
+  .form-hidden-section {
+    display: none;
+  }
+
+  .form-hidden-section.active {
+    display: block;
   }
 }
 

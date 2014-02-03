@@ -37,6 +37,16 @@ app.sections.settings = {
         $('#cc_type').on('change', function(){
             app.sections.settings.typeSelect($(this));
         });
+
+        $('.side-menu a').on('click', function(e){
+            e.preventDefault();
+            app.sections.settings.selectCaegory($(this).data('name'));
+        });
+    },
+
+    selectCaegory: function(name){
+        $('.side-menu a, .form-hidden-section').removeClass('active');
+        $('.side-menu a[data-name="' + name + '"], .form-hidden-section[data-name="' + name + '"]').addClass('active');
     },
 
     init: function(){
