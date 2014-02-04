@@ -2,6 +2,8 @@ extends layouts/main
 
 block content
     h1 Номенклатура
+        if nomgroup
+            |&nbsp;/ #{nomgroup.name}
 
     .units-row-end
         .unit-75
@@ -54,16 +56,15 @@ block content
                     | Создать категорию
 
             .side-menu.with-tools
-                a.active(href="#")
+                a(href="/nomenclature", class=(!nomgroup) ? 'active' : '')
                     strong Все категории
-                a(href="#") Оборудование
-                a(href="#") Запчасти
-                a(href="#") Автомобили
-                a(href="#") Модули
-                a(href="#") Услуги
-                a(href="#") Системы
-                a(href="#") Средства для записи
-                a(href="#") Автоаккумуляторы
+
+                each nomgroup_item in nomgroups
+                    -var is_active = (nomgroup && nomgroup._id.toString()==nomgroup_item._id.toString() ? 'active' : '')
+
+                    a(href='/nomenclature/' + nomgroup_item._id, class=is_active)
+                        |#{nomgroup_item.name}
+                        i.actions.icon-menu
 
     //script.
         app.sections.accounts.list.init();
