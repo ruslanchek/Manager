@@ -51,7 +51,7 @@ block content
 
         .unit-25
             .section-tools
-                a#add.action-button(href="/accounts/add")
+                a#add-nomgroup.action-button(href="/accounts/add")
                     i.icon-plus
                     | Создать категорию
 
@@ -66,5 +66,5 @@ block content
                         |#{nomgroup_item.name}
                         i.actions.icon-menu
 
-    //script.
-        app.sections.accounts.list.init();
+    script.
+        app.sections.nomenclature.list.init();

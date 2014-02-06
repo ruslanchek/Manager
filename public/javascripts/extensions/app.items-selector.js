@@ -219,10 +219,6 @@ app.items_selector = {
                     ]
                 });
 
-                _this.nomenclature_controller = new app.nomenclature.NMWindowController({
-
-                });
-
                 _this.$container.find('.new-item-add').on('click', function(e){
                     e.preventDefault();
                     _this.addItem();
@@ -238,7 +234,11 @@ app.items_selector = {
 
                 _this.$container.find('.add-from-db').on('click', function(e){
                     e.preventDefault();
-                    _this.nomenclature_controller.open();
+                    app.sections.nomenclature.selectItem({
+                        onSelect: function(){
+
+                        }
+                    });
                 });
 
                 _this.drawByArray();

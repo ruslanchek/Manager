@@ -57,4 +57,10 @@ module.exports = function(app, controllers){
             });
         });
     });
+
+    app.post('/nomenclature/addnomgroup', app.ensureAuthenticated, function(req, res){
+        controllers.nomgroup.addItem(req.user, req.body, function(result){
+            res.json(result);
+        });
+    });
 };
