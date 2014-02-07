@@ -24,7 +24,7 @@ module.exports = function (app, models) {
             }
         }
 
-        models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).exec(function (err, data) {
+        models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).sort( { order: -1 } ).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -205,7 +205,7 @@ module.exports = function (app, models) {
     this.addItem = function(user, data, session, done){
         var validate = this.validateInputs(data);
 
-        if(this.validateInputs(data) !== true){
+        if(validate !== true){
             return done(validate);
         }
 

@@ -272,7 +272,7 @@ this.matchPatternStr = function(str, type){
         } break;
 
         case 'name' : {
-            var pattern = /^[a-zA-Z0-9А-Яа-я-]{3,64}$/;
+            var pattern = /^[a-zA-Z0-9А-Яа-я-\s]{3,64}$/;
         } break;
 
         case 'name_min' : {
@@ -289,6 +289,10 @@ this.matchPatternStr = function(str, type){
 
         case 'hash' : {
             var pattern = /^[a-zA-Z0-9]{64}$/;
+        } break;
+
+        case 'float' : {
+            var pattern = /^-?\d*(\.\d+)?$/;
         } break;
 
         case 'date' : {

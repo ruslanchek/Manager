@@ -805,6 +805,11 @@ input.action-button {
 
   border-bottom: 3px solid @panel-bg-light - 15;
 
+  input:disabled {
+    opacity: 0.75;
+    color: #888;
+  }
+
   .width-full-size {
     width: 97.76%;
   }
@@ -832,6 +837,9 @@ input.action-button {
       color: #fff;
       position: relative;
       font-size: 14px;
+      border-radius: @ui-border-radius-top;
+      -webkit-border-radius: @ui-border-radius-top;
+      -moz-border-radius: @ui-border-radius-top;
 
       .close {
         position: absolute;
@@ -854,6 +862,12 @@ input.action-button {
   border-radius: @ui-border-radius-bottom;
   -webkit-border-radius: @ui-border-radius-bottom;
   -moz-border-radius: @ui-border-radius-bottom;
+
+  .form-message {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+  }
 }
 
 label {

@@ -1,0 +1,58 @@
+extends layouts/main
+block content
+    h1
+        a(href="/nomenclature") Номенклатура
+
+        if nomgroup
+            |&nbsp;/&nbsp;
+            a#global-nomgroup-name(href="/nomenclature/" + nomgroup._id) #{nomgroup.name}
+            |&nbsp;/&nbsp;Редактирование позиции арт. №#{data.article}
+        else
+            |&nbsp;/&nbsp;Редактирование позиции арт. №#{data.article}
+
+    .section-tools
+        a.action-delete.action-button.warning(href="#")
+            i.icon-cancel
+            | Удалить
+
+    form#form-edit-nomenclature.form.form-with-tools.forms.forms-columnar(action='')
+        .form-message
+
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="name") Наименование
+                    input#name.width-100(type='text', value=data.name)
+
+            .unit-50
+                .form-item
+                    label(for="_nomgroup_id") Категория
+                    select#_nomgroup_id.width-100
+                        option(value='') &ndash;
+                        each val in nomgroups
+                            if data._nomgroup_id && val._id.toString() == data._nomgroup_id.toString()
+                                option(value=val._id, selected) #{val.name}
+                            else
+                                option(value=val._id) #{val.name}
+
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="article") Артикул
+                    input#article.width-100(type='text', value=data.article)
+
+            .unit-50
+                .form-item
+                    label(for="price") Стоимость
+                    input#price.width-100(type='text', value=data.price)
+
+        hr
+        .units-row-end
+            .unit-100
+                .form-item.no-margin
+                    input.button.blue(type='submit', value='Сохранить')
+
+    -var nomgroup_id = (nomgroup) ? nomgroup._id : ''
+
+    script.
+        app.sections.nomenclature.edit.init('!{nomgroup_id}', '!{data._id}');

@@ -15,6 +15,114 @@ app.sections.nomenclature = {
         });
     },
 
+    add: {
+        binds: function(){
+            $('.view-invoice').on('click', function(e){
+                app.sections.accounts.viewDocument(false);
+                e.preventDefault();
+            });
+        },
+
+        init: function(nomgroup_id){
+            this.form_controller = new app.form.FormController({
+                form_selector: '#form-add-nomenclature',
+                url: '/nomenclature/add',
+                fields: {
+                    name: '#name',
+                    article: '#article',
+                    price: '#price',
+                    _nomgroup_id: '#_nomgroup_id'
+                },
+                messages: {
+                    OK: 'Позиция создана',
+                    NAME_DOES_NOT_MATCH_PATTERN: 'Некорректное наименование',
+                    NAME_EMPTY: 'Не введено наименование',
+                    DUBLICATE_NAME_FOUND: 'Позиция с таким наименованием уже существует',
+                    PRICE_EMPTY: 'Не введена цена',
+                    PRICE_DOES_NOT_MATCH_PATTERN: 'Некорректная цена',
+                    ARTICLE_DOES_NOT_MATCH_PATTERN: 'Некорректный артикул',
+                    ARTICLE_EMPTY: 'Не введен артикул',
+                    DUBLICATE_ARTICLE_FOUND: 'Позиция с таким артикулом уже существует'
+                },
+                onSuccess: function(data){
+                    if(data.data && data.data._id){
+                        setTimeout(function(){
+                            var root = '';
+
+                            if(data.data._nomgroup_id){
+                                root = '/nomenclature/' + data.data._nomgroup_id;
+                            }else{
+                                root = '/nomenclature';
+                            }
+
+                            document.location.href = root + '/edit/' + data.data._id;
+                        }, 300);
+                    }
+                }
+            });
+
+            $('#name').focus();
+
+            this.binds();
+        }
+    },
+
+    edit: {
+        binds: function(){
+            $('.view-invoice').on('click', function(e){
+                app.sections.accounts.viewDocument(false);
+                e.preventDefault();
+            });
+        },
+
+        init: function(nomgroup_id, id){
+            this.id = id;
+
+            var _nmg_id = $('#_nomgroup_id').val();
+
+            this.form_controller = new app.form.FormController({
+                form_selector: '#form-edit-nomenclature',
+                url: '/nomenclature/edit/' + this.id,
+                fields: {
+                    name: '#name',
+                    article: '#article',
+                    price: '#price',
+                    _nomgroup_id: '#_nomgroup_id'
+                },
+                messages: {
+                    OK: 'Изменения сохранены',
+                    NAME_DOES_NOT_MATCH_PATTERN: 'Некорректное наименование',
+                    NAME_EMPTY: 'Не введено наименование',
+                    DUBLICATE_NAME_FOUND: 'Позиция с таким наименованием уже существует',
+                    PRICE_EMPTY: 'Не введена цена',
+                    PRICE_DOES_NOT_MATCH_PATTERN: 'Некорректная цена',
+                    ARTICLE_DOES_NOT_MATCH_PATTERN: 'Некорректный артикул',
+                    ARTICLE_EMPTY: 'Не введен артикул',
+                    DUBLICATE_ARTICLE_FOUND: 'Позиция с таким артикулом уже существует'
+                },
+                onSuccess: function(data){
+                    setTimeout(function(){
+                        if(data.data._nomgroup_id != _nmg_id){
+                            var root = '';
+
+                            if(data.data._nomgroup_id){
+                                root = '/nomenclature/' + data.data._nomgroup_id;
+                            }else{
+                                root = '/nomenclature';
+                            }
+
+                            document.location.href = root + '/edit/' + data.data._id;
+                        }
+                    }, 350);
+                }
+            });
+
+            $('#name').focus();
+
+            this.binds();
+        }
+    },
+
     list: {
         addNomgroup: function(){
             app.templates.render('nomenclature.add.html', {  }, function(html){
@@ -22,15 +130,20 @@ app.sections.nomenclature = {
                     title: 'Создание категории номернклатуры',
                     content: html,
                     onShow: function(controller){
+                        $('#na_name').focus();
+
                         new app.form.FormController({
                             form_selector: '#form-nomenclature-add',
                             url: '/nomenclature/addnomgroup',
                             fields: { name: '#na_name' },
                             messages: {
                                 OK: 'Группа создана',
-                                NAME_DOES_NOT_MATCH_PATTERN: 'Наименование некоректно',
-                                DUBLICATE_NAME_FOUND: 'Категория с таким названием уже существует',
-                                NAME_EMPTY: 'Не введено название'
+                                NAME_DOES_NOT_MATCH_PATTERN: 'Некорректное наименование',
+                                NAME_EMPTY: 'Не введено наименование',
+                                DUBLICATE_NAME_FOUND: 'Позиция с таким наименованием уже существует',
+                                ARTICLE_DOES_NOT_MATCH_PATTERN: 'Некорректный артикул',
+                                ARTICLE_EMPTY: 'Не введен артикул',
+                                DUBLICATE_ARTICLE_FOUND: 'Позиция с таким артикулом уже существует'
                             },
                             onSuccess: function(data){
                                 setTimeout(function(){
@@ -39,7 +152,7 @@ app.sections.nomenclature = {
                                         '<a data-id="' + data.data._id + '" href="/nomenclature/' + data.data._id + '">' +
                                             '<span class="nomgroup-name">' + data.data.name + '</span>' +
                                             '<i data-name="' + data.data.name + '" data-id="' + data.data._id + '" class="actions edit-nomgroup icon-menu"></i>' +
-                                            '</a>'
+                                        '</a>'
                                     );
                                 }, 350);
                             }
@@ -61,6 +174,8 @@ app.sections.nomenclature = {
                     title: 'Редактирование категории номернклатуры',
                     content: html,
                     onShow: function(controller){
+                        $('#ne_name').focus();
+
                         new app.form.FormController({
                             form_selector: '#form-nomenclature-edit',
                             url: '/nomenclature/editnomgroup/' + $object.data('id'),
@@ -102,6 +217,8 @@ app.sections.nomenclature = {
 
                                     if(app.sections.nomenclature.list.nomgroup_id == $object.data('id')){
                                         document.location.href = '/nomenclature';
+                                    }else{
+                                        $('.nomgroup-link[data-id="' + $object.data('id') + '"]').after('&mdash;').remove();
                                     }
                                 }, 350);
                             });

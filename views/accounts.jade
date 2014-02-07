@@ -77,15 +77,16 @@ block content
 
     div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
         if filters.date_from || filters.date_to
-            |Счетов за период с&nbsp;
-            strong #{utils.humanizeDate(filters.date_from)}
-            |&nbsp;по&nbsp;
-            strong #{utils.humanizeDate(filters.date_to)}
-            |&nbsp;нет,&nbsp;
-            a(href="/accounts") посмотрите все
+            p
+                |Счетов за период с&nbsp;
+                strong #{utils.humanizeDate(filters.date_from)}
+                |&nbsp;по&nbsp;
+                strong #{utils.humanizeDate(filters.date_to)}
+                |&nbsp;нет
+
+            a.action-button(href="/accounts") Показать все счета
         else
-            |У вас нет ни одного счета,&nbsp;
-            a(href="/accounts/add") создайте новый
+            |У вас нет ни одного счета
 
     script.
         app.sections.accounts.list.init();

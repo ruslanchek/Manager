@@ -10,6 +10,10 @@ module.exports = function (app) {
             required: true
         },
 
+        order: {
+            type: Number
+        },
+
         name: {
             type: String
         }

@@ -1,6 +1,6 @@
 module.exports = function (app, models) {
     this.findItems = function (user, done) {
-        models.nomgroup.find({ _user_id: user._id }, function (err, data) {
+        models.nomgroup.find( { _user_id: user._id } ).sort( { order: 1 }).exec( function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -95,8 +95,6 @@ module.exports = function (app, models) {
                             });
                         }
 
-                        console.log(data)
-
                         return done({
                             success: true,
                             message: 'OK',
@@ -108,7 +106,7 @@ module.exports = function (app, models) {
         });
     };
 
-    this.addItem = function(user, data, done){
+    this.addItem = function(user, data, session, done){
         var validate = this.validateInputs(data);
 
         if(validate !== true){
@@ -136,8 +134,9 @@ module.exports = function (app, models) {
 
                 new_item._user_id = user._id;
                 new_item.name = data.name;
+                new_item.order = parseInt(user.mc_nomgroup) + 1;
 
-                new_item.save(function (err, data) {
+                new_item.save(function (err, nomgroup_data) {
                     if (err) {
                         app.log.error('Nomgroup create error', err);
 
@@ -147,10 +146,26 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    return done({
-                        success: true,
-                        message: 'OK',
-                        data: data
+                    models.user.findOneAndUpdate({ _id: user._id }, { $inc: { mc_nomgroup: 1 } }, function(err, user_data){
+                        if (err) {
+                            app.log.error('findOne error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        if(session && session.passport && session.passport.user){
+                            session.passport.user.mc_nomgroup = user_data.mc_nomgroup;
+                            session.save();
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: nomgroup_data
+                        });
                     });
                 });
             }
@@ -172,6 +187,29 @@ module.exports = function (app, models) {
                 for(var i = 0, l = data.length; i < l; i++){
                     data[i].remove();
                 }
+
+                models.nomenclature.find({ _user_id: user._id, _nomgroup_id: { $in: ids } }, { _id: 1, _nomgroup_id: 1 }, function(err, data){
+                    if (err) {
+                        app.log.error('findOne error', err);
+
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    if(data){
+                        for(var i = 0, l = data.length; i < l; i++){
+                            data[i]._nomgroup_id = null;
+                            data[i].save();
+                        }
+                    }
+
+                    return done({
+                        success: true,
+                        message: 'OK'
+                    });
+                });
 
                 return done({
                     success: true,
