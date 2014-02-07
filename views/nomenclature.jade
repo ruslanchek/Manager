@@ -3,7 +3,8 @@ extends layouts/main
 block content
     h1 Номенклатура
         if nomgroup
-            |&nbsp;/ #{nomgroup.name}
+            |&nbsp;/&nbsp;
+            span#global-nomgroup-name #{nomgroup.name}
 
     .units-row-end
         .unit-75
@@ -62,9 +63,9 @@ block content
                 each nomgroup_item in nomgroups
                     -var is_active = (nomgroup && nomgroup._id.toString()==nomgroup_item._id.toString() ? 'active' : '')
 
-                    a(href='/nomenclature/' + nomgroup_item._id, class=is_active)
-                        |#{nomgroup_item.name}
-                        i.actions.icon-menu
+                    a(href='/nomenclature/' + nomgroup_item._id, class=is_active, data-id=nomgroup_item._id.toString())
+                        span.nomgroup-name #{nomgroup_item.name}
+                        i.edit-nomgroup.actions.icon-menu(data-id=nomgroup_item._id.toString(), data-name=nomgroup_item.name)
 
     script.
-        app.sections.nomenclature.list.init();
+        app.sections.nomenclature.list.init('#{nomgroup._id}');

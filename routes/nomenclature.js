@@ -63,4 +63,16 @@ module.exports = function(app, controllers){
             res.json(result);
         });
     });
+
+    app.post('/nomenclature/editnomgroup/:id', app.ensureAuthenticated, function(req, res){
+        controllers.nomgroup.editItem(req.user, req.params.id, req.body, function(result){
+            res.json(result);
+        });
+    });
+
+    app.post('/nomenclature/deletenomgroups', app.ensureAuthenticated, function(req, res){
+        controllers.nomgroup.deleteItems(req.user, req.body.ids, function(result){
+            res.json(result);
+        });
+    });
 };

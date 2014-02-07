@@ -125,7 +125,7 @@ module.exports = function (app, models) {
     this.editItem = function(user, id, data, done){
         var validate = this.validateInputs(data);
 
-        if(this.validateInputs(data) !== true){
+        if(validate !== true){
             return done(validate);
         }
 
@@ -183,7 +183,7 @@ module.exports = function (app, models) {
 
                     item.save(function (err, data) {
                         if (err) {
-                            app.log.error('Account create error', err);
+                            app.log.error('Account edit error', err);
 
                             return done({
                                 success: false,

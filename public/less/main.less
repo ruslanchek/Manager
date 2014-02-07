@@ -369,6 +369,15 @@ header {
   background: @color-blue-dark;
 }
 
+.button.red {
+  background: @color-red;
+  color: #fff;
+}
+
+.button.red:hover {
+  background: @color-red-dark;
+}
+
 // Action buttons
 .multi-action {
   opacity: 0;
@@ -815,6 +824,30 @@ input.action-button {
   .form-hidden-section.active {
     display: block;
   }
+
+  .form-message {
+      width: 100%;
+      padding: 10px 20px;
+      margin: -20px 0 20px -20px;
+      color: #fff;
+      position: relative;
+      font-size: 14px;
+
+      .close {
+        position: absolute;
+        right: 7px;
+        top: 7px;
+        color: #fff !important;
+      }
+    }
+
+    .form-message.success {
+      background: @color-green;
+    }
+
+    .form-message.error {
+      background: @color-red;
+    }
 }
 
 .form.form-with-tools {

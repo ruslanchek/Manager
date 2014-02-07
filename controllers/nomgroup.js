@@ -29,23 +29,90 @@ module.exports = function (app, models) {
         });
     };
 
-    this.addItem = function(user, data, done){
-        console.log(data)
-
+    this.validateInputs = function(data){
         if (!data.name) {
-            return done({
+            return {
                 success: false,
                 message: 'NAME_EMPTY',
                 fields: ['name']
-            });
+            };
         }
 
         if (!app.utils.matchPatternStr(data.name, 'name')) {
-            return done({
+            return {
                 success: false,
                 message: 'NAME_DOES_NOT_MATCH_PATTERN',
                 fields: ['name']
-            });
+            };
+        }
+
+        return true;
+    };
+
+    this.editItem = function(user, id, data, done){
+        var validate = this.validateInputs(data);
+
+        if(validate !== true){
+            return done(validate);
+        }
+
+        models.nomgroup.findOne({ _user_id: user._id, name: data.name, _id: { $ne: id } }, function (err, item) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (item) {
+                return done({
+                    success: false,
+                    message: 'DUBLICATE_NUMBER_FOUND',
+                    fields: ['number']
+                });
+            }else{
+                models.nomgroup.findOne({ _user_id: user._id, _id: id }, function (err, item) {
+                    if (err) {
+                        app.log.error('findOne error', err);
+
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    item.name = data.name;
+
+                    item.save(function (err, data) {
+                        if (err) {
+                            app.log.error('Nomgroup edit error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        console.log(data)
+
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: data
+                        });
+                    });
+                });
+            }
+        });
+    };
+
+    this.addItem = function(user, data, done){
+        var validate = this.validateInputs(data);
+
+        if(validate !== true){
+            return done(validate);
         }
 
         models.nomgroup.findOne({ _user_id: user._id, name: data.name }, function (err, item) {
@@ -88,5 +155,34 @@ module.exports = function (app, models) {
                 });
             }
         });
-    }
+    };
+
+    this.deleteItems = function(user, ids, done){
+        models.nomgroup.find({ _user_id: user._id, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                for(var i = 0, l = data.length; i < l; i++){
+                    data[i].remove();
+                }
+
+                return done({
+                    success: true,
+                    message: 'OK'
+                });
+            }
+
+            return done({
+                success: false,
+                message: 'SERVER_ERROR'
+            });
+        });
+    };
 };
