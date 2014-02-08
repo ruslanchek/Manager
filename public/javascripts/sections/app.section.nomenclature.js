@@ -5,7 +5,111 @@ app.sections.nomenclature = {
                 title: 'Выбор позиции из номенклатуры',
                 content: html,
                 onShow: function(controller){
+					var selects = {
+						nomgroups: [],
+						nomenclatures: [],
+						nomgroup: '0',
+						item: null,
 
+						drawNomgroups: function(){
+							var html = '';
+
+							html += '<option value="0">Все категории</option>';
+							html += '<option value="freegroup">Без категории</option>';
+
+							for(var i = 0, l = this.nomgroups.length; i < l; i++){
+								html += '<option value="' + this.nomgroups[i]._id + '">' + this.nomgroups[i].name + '</option>';
+							}
+
+							$('#ns_nomgroup').html(html).chosen( app.chosen_options ).on('change', function(){
+								selects.nomgroup = $(this).val();
+								$('#ns_nomenclature').chosen('destroy');
+								selects.drawNomenclatures();
+							});
+						},
+
+						drawNomenclatures: function(){
+							var html = '';
+
+							for(var i = 0, l = this.nomenclatures.length; i < l; i++){
+								var name = this.nomenclatures[i].name + ' (' + this.nomenclatures[i].article + ')';
+
+								if(this.nomgroup == '0'){
+									html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
+								}else if(this.nomgroup == 'freegroup'){
+									if(this.nomenclatures[i]._nomgroup_id == null){
+										html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
+									}
+								}else{
+									if(this.nomenclatures[i]._nomgroup_id == this.nomgroup){
+										html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
+									}
+								}
+							}
+
+							if(this.nomenclatures[0]){
+								selects.item = this.nomenclatures[0]._id;
+							}
+
+							$('#ns_nomenclature').html(html).chosen( app.chosen_options ).on('change', function(){
+								selects.item = $(this).val();
+							});
+						},
+
+						getItemData: function(id){
+							for(var i = 0, l = this.nomenclatures.length; i < l; i++){
+								if(this.nomenclatures[i]._id == id){
+									return this.nomenclatures[i];
+								}
+							}
+						},
+
+						processForm: function(){
+							$('#form-nomenclature-select').on('submit', function(e){
+								e.preventDefault();
+
+								if(selects.item){
+									if(options.onSelect){
+										setTimeout(function(){
+											options.onSelect(selects.getItemData(selects.item));
+											controller.close();
+										}, 350);
+									}
+								}else{
+
+								}
+							});
+						}
+					};
+
+					$.ajax({
+						url: '/nomenclature/getnomgroups',
+						type: 'POST',
+						dataType: 'json',
+						beforeSend: function(){
+							controller.setLoading();
+						},
+						success: function(data){
+							controller.unSetLoading();
+							selects.nomgroups = data;
+							selects.drawNomgroups();
+
+							$.ajax({
+								url: '/nomenclature/getnomenclature',
+								type: 'POST',
+								dataType: 'json',
+								beforeSend: function(){
+									controller.setLoading();
+								},
+								success: function(data){
+									controller.unSetLoading();
+									selects.nomenclatures = data;
+									selects.drawNomenclatures();
+									selects.processForm();
+								}
+							});
+						}
+					});
                 },
                 onClose: function(){
 

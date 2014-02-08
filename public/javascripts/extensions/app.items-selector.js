@@ -235,8 +235,12 @@ app.items_selector = {
                 _this.$container.find('.add-from-db').on('click', function(e){
                     e.preventDefault();
                     app.sections.nomenclature.selectItem({
-                        onSelect: function(){
-
+                        onSelect: function(data){
+							if(data){
+								_this.$container.find('.new-item-price').val(data.price);
+								_this.$container.find('.new-item-name').val(data.name);
+								_this.$container.find('.new-item-sum').html(app.utils.humanizePrice(_this.getNewItemSum()));
+							}
                         }
                     });
                 });

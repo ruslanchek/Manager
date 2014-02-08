@@ -202,4 +202,32 @@ module.exports = function(app, controllers){
             res.json(result);
         });
     });
+
+	app.post('/nomenclature/getnomgroups', app.ensureAuthenticated, function(req, res){
+		controllers.nomgroup.findItems(req.user, function(err, data){
+			res.json(data);
+		});
+	});
+
+	app.post('/nomenclature/getnomenclature/:nomgroup', app.ensureAuthenticated, function(req, res){
+		var filters = {
+			_nomgroup_id: null
+		};
+
+		if(req.params.nomgroup && req.params.nomgroup != 'freegroup'){
+			filters._nomgroup_id = req.params.nomgroup;
+		}
+
+		controllers.nomenclature.findItems(req.user, filters, function(err, data){
+			res.json(data);
+		});
+	});
+
+	app.post('/nomenclature/getnomenclature', app.ensureAuthenticated, function(req, res){
+		var filters = {};
+
+		controllers.nomenclature.findItems(req.user, filters, function(err, data){
+			res.json(data);
+		});
+	});
 };

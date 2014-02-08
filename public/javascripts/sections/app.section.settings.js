@@ -105,7 +105,8 @@ app.sections.settings = {
         new app.field.FieldController({
             input_selector: '#bank_bik',
             types: [
-                {name: 'digits'}
+                {name: 'digits'},
+				{name: 'length', param: 9}
             ]
         });
 

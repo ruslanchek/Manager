@@ -1,11 +1,13 @@
 var app = {
-    company: {},
-
     kladr: {
         token: '5229b37e31608f6906000000',
         key: '1c7d3d5d80421d501145e9d2c946148c7e9965ca'
     },
     sections: {},
+	chosen_options: {
+		disable_search_threshold: 10,
+		no_results_text: "Oops, ss"
+	},
 
     tableSorting: function(){
         var table = $('.table-sort').stupidtable();
@@ -24,29 +26,37 @@ var app = {
         $('input[type="tel"]').mask("+9 (999) 999-99-99");
     },
 
+	numeral: function(){
+		numeral.language('ru', {
+			delimiters: {
+				thousands: ' ',
+				decimal: ','
+			},
+			abbreviations: {
+				thousand: 'тыс.',
+				million: 'млн.',
+				billion: 'млрд.',
+				trillion: 'трлн.'
+			},
+			ordinal : function (number) {
+				return number === 1 ? 'er' : 'ème';
+			},
+			currency: {
+				symbol: 'руб.'
+			}
+		});
+
+		numeral.language('ru');
+	},
+
+	chosen: function(){
+		$('select').chosen(this.chosen_options);
+	},
+
     init: function(){
         this.maskedInput();
         this.tableSorting();
-
-        numeral.language('ru', {
-            delimiters: {
-                thousands: ' ',
-                decimal: ','
-            },
-            abbreviations: {
-                thousand: 'тыс.',
-                million: 'млн.',
-                billion: 'млрд.',
-                trillion: 'трлн.'
-            },
-            ordinal : function (number) {
-                return number === 1 ? 'er' : 'ème';
-            },
-            currency: {
-                symbol: 'руб.'
-            }
-        });
-
-        numeral.language('ru');
+		this.numeral();
+		this.chosen();
     }
 };

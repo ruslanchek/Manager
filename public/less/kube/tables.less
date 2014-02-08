@@ -6,7 +6,7 @@ tfoot td {
 }
 th,
 td {
-	border-bottom: @cellBorder;
+	border-bottom: none;
 	padding: 0.5em 0.8em;
 }
 table caption {
@@ -39,8 +39,7 @@ table.table-stroked th {
 table.table-striped tbody tr:nth-child(odd) td {
   background-color: @colorStripedTable;
 }
-table.table-hovered tbody tr:hover td,
-table.table-hovered thead tr:hover th {
+table.table-hovered tbody tr:hover td {
 	background-color: @colorHoveredTable;
 }
 

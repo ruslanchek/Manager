@@ -11,6 +11,7 @@
 @import 'docview';
 @import 'meow';
 @import 'kladr';
+@import 'chosen';
 
 // Vars
 @app-width: 1000px;
@@ -362,7 +363,7 @@ header {
 
 .button.blue {
   background: @color-blue;
-  color: #fff;
+  color: #fff !important;
 }
 
 .button.blue:hover {
@@ -639,13 +640,11 @@ input.action-button {
 // Table
 .table-container {
   width: auto;
-  background: #ddd;
-  padding: 1px 1px 0;
   border-radius: @ui-border-radius;
   -webkit-border-radius: @ui-border-radius;
   -moz-border-radius: @ui-border-radius;
 
-  border-bottom: 2px solid @panel-bg-light - 15;
+  border-bottom: 3px solid @panel-bg-light - 15;
 
   .action-button {
     margin: 0 5px;
@@ -804,6 +803,10 @@ input.action-button {
   -moz-border-radius: @ui-border-radius;
 
   border-bottom: 3px solid @panel-bg-light - 15;
+
+  .form-item {
+    min-height: 30px;
+  }
 
   input:disabled {
     opacity: 0.75;
