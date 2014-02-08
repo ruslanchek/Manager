@@ -20,10 +20,6 @@ block content
                     i.icon-plus
                     |Создать
 
-                a#print.multi-action.action-button(href="#")
-                    i.icon-print
-                    |Напечатать
-
                 a#delete.multi-action.action-button.warning(href="#")
                     i.icon-cancel
                     |Удалить
@@ -35,15 +31,20 @@ block content
                             tr
                                 th(width="1%")
                                     input.cb-all(type="checkbox")
+
                                 th(data-sort="string") Наименование
                                     i.arrow.icon-up-dir
+
                                 th(data-sort="string") Артикул
                                     i.arrow
-                                if !nomgroup
+
+                                if !nomgroup && !freegroup
                                     th(data-sort="string") Категория
                                         i.arrow
+
                                 th(data-sort="string") Стоимость
                                     i.arrow
+
                         tbody
                             each val in data
                                 -var nomgroup_data = getNomgroup(nomgroups, val._nomgroup_id)
@@ -51,19 +52,23 @@ block content
                                 tr(data-id="#{val._id}")
                                     td
                                         input.cb-item(type="checkbox", data-id="#{val._id}")
+
                                     td(data-sort-value=val.name)
                                         if nomgroup_data
-                                            a(href='/nomenclature/' + nomgroup_data._id + '/edit/' + val._id) #{val.name}
+                                            a.item-link(data-id=val._id.toString(), data-nomgroup_id=nomgroup_data._id.toString(), href='/nomenclature/' + nomgroup_data._id + '/edit/' + val._id) #{val.name}
                                         else
-                                            a(href='/nomenclature/edit/' + val._id) #{val.name}
+                                            a.item-link(data-id=val._id.toString(), href='/nomenclature/edit/' + val._id) #{val.name}
+
                                     td(data-sort-value=val.article)
                                         |#{val.article}
-                                    if !nomgroup
+
+                                    if !nomgroup && !freegroup
                                         if nomgroup_data
                                             td(data-sort-value=nomgroup_data.name)
-                                                a.nomgroup-link(data-id=nomgroup_data._id, href='/nomenclature/' + nomgroup_data._id) #{nomgroup_data.name}
+                                                a.nomgroup-link(data-id=nomgroup_data._id.toString(), href='/nomenclature/' + nomgroup_data._id) #{nomgroup_data.name}
                                         else
                                             td(data-sort-value='&mdash;') &mdash;
+
                                     td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
                                         span.rub &#8399;
 
@@ -73,6 +78,7 @@ block content
                 div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
                     |У вас нет ни одной позиции в группе&nbsp;
                     strong &laquo;#{nomgroup.name}&raquo;
+
             else
                 div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
                     |У вас нет ни одной позиции в номенклатуре
@@ -84,10 +90,10 @@ block content
                     | Создать категорию
 
             .side-menu.with-tools
-                a(href="/nomenclature", class=(!nomgroup && freegroup !== true) ? 'active' : '')
+                a(href="/nomenclature", class=(!nomgroup && !freegroup) ? 'active' : '')
                     strong Все категории
 
-                a(href="/nomenclature/free", class=(freegroup === true) ? 'active' : '')
+                a(href="/nomenclature/free", class=(freegroup) ? 'active' : '')
                     strong Без категории
 
                 each nomgroup_item in nomgroups

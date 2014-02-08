@@ -124,6 +124,36 @@ app.sections.nomenclature = {
     },
 
     list: {
+        all_selected: false,
+        selected: [],
+
+        selectAllToggle: function(){
+            if($('.cb-all').prop('checked') === true){
+                $('.cb-item').attr('checked', 'checked').prop('checked', true);
+            }else{
+                $('.cb-item').removeAttr('checked').prop('checked', false);
+            }
+
+            this.processCheckboxes();
+        },
+
+        processCheckboxes: function(){
+            var _this = this;
+            this.selected = [];
+
+            $('.cb-item').each(function(){
+                if($(this).prop('checked') === true){
+                    _this.selected.push($(this).data('id'));
+                }
+            });
+
+            if(this.selected.length > 0){
+                $('.multi-action').addClass('show');
+            } else {
+                $('.multi-action').removeClass('show');
+            }
+        },
+
         addNomgroup: function(){
             app.templates.render('nomenclature.add.html', {  }, function(html){
                 app.sections.nomenclature.list.mc_add = new app.modal.ModalController({
@@ -198,6 +228,8 @@ app.sections.nomenclature = {
                                     if(app.sections.nomenclature.list.nomgroup_id == data.data._id){
                                         $('#global-nomgroup-name').html(data.data.name);
                                     }
+
+                                    $('.nomgroup-link[data-id="' + data.data._id + '"]').html(data.data.name);
                                 }, 350);
                             }
                         });
@@ -206,10 +238,11 @@ app.sections.nomenclature = {
                             e.preventDefault();
 
                             app.sections.nomenclature.list.deleteNomgroup([$object.data('id')], function(){
-                                var $item = $('.side-menu a[data-id="' + $object.data('id') + '"]');
+                                var $nomgroup_item = $('.side-menu a[data-id="' + $object.data('id') + '"]'),
+                                    $item = $('.item-link[data-nomgroup_id="' + $object.data('id') + '"]');
 
-                                $item.slideUp(150, function(){
-                                    $item.remove();
+                                $nomgroup_item.slideUp(150, function(){
+                                    $nomgroup_item.remove();
                                 });
 
                                 setTimeout(function(){
@@ -219,6 +252,7 @@ app.sections.nomenclature = {
                                         document.location.href = '/nomenclature';
                                     }else{
                                         $('.nomgroup-link[data-id="' + $object.data('id') + '"]').after('&mdash;').remove();
+                                        $item.attr('href', '/nomenclature/edit/' + $item.data('id'));
                                     }
                                 }, 350);
                             });
@@ -261,6 +295,16 @@ app.sections.nomenclature = {
         },
 
         binds: function(){
+            var _this = this;
+
+            $('.cb-all').on('change', function(){
+                _this.selectAllToggle();
+            });
+
+            $('.cb-item').on('change', function(){
+                _this.processCheckboxes();
+            });
+
             $('#add-nomgroup').on('click', function(e){
                 e.preventDefault();
                 app.sections.nomenclature.list.addNomgroup();

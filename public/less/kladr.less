@@ -3,32 +3,47 @@
   display: block;
   margin: 0;
   padding: 0;
-  border: 1px solid rgb(138, 138, 138);
-  border-radius: 3px;
+
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+
   background-color: white;
   z-index: 9999;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-#kladr_autocomplete li{
+#kladr_autocomplete li {
   display: list-item;
   list-style-type: none;
   margin: 0;
-  padding: 3px 5px;
   overflow: hidden;
-  border: 1px solid white;
-  border-bottom: 1px solid rgb(189, 189, 189);
+  width: 100%;
+  text-overflow: ellipsis;
 }
 
-#kladr_autocomplete li.active{
-  background-color: rgb(224, 224, 224);
-  border-radius: 3px;
-  border: 1px solid rgb(151, 151, 151);
-}
-
-#kladr_autocomplete a{
+#kladr_autocomplete a {
   display: block;
+  padding: 3px 8px;
   cursor: default;
-  width: 10000px;
+  color: @base-font-color;
+}
+
+#kladr_autocomplete li:first-of-type a {
+  border-radius: @ui-border-radius-top;
+  -webkit-border-radius: @ui-border-radius-top;
+  -moz-border-radius: @ui-border-radius-top;
+}
+
+#kladr_autocomplete li:last-of-type a {
+  border-radius: @ui-border-radius-bottom;
+  -webkit-border-radius: @ui-border-radius-bottom;
+  -moz-border-radius: @ui-border-radius-bottom;
+}
+
+#kladr_autocomplete li.active a {
+  background-color: @color-blue;
+  color: #fff;
 }
 
 #kladr_autocomplete .spinner{

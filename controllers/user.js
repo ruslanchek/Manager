@@ -392,7 +392,7 @@ module.exports = function (app, models) {
 
             if(session && session.passport && session.passport.user){
                 Object.keys(data).forEach(function(key) {
-                    if(session.passport.user[key]){
+                    if(item[key]){
                         session.passport.user[key] = item[key];
                     }
                 });

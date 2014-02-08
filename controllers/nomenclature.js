@@ -126,7 +126,7 @@ module.exports = function (app, models) {
                     });
                 }
 
-                if(data._nomgroup_id == ''){
+                if(!data._nomgroup_id || data._nomgroup_id == ''){
                     data._nomgroup_id = null;
                 }
 
@@ -195,8 +195,8 @@ module.exports = function (app, models) {
 
             var new_item = new models.nomenclature();
 
-            if(data._nomgroup_id == ''){
-                new_item._nomgroup_id = null;
+            if(!data._nomgroup_id || data._nomgroup_id == ''){
+                data._nomgroup_id = null;
             }
 
             new_item._user_id = user._id;
