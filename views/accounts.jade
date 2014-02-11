@@ -38,7 +38,7 @@ block content
             .item
                 input.action-button.blue(type="submit", value="Показать")
 
-    if data.length > 0
+    if data && data.length > 0
         .table-container.table-container-with-tools
             table.items-table.width-100.table-sort.table-striped.table-hovered
                 thead
@@ -69,7 +69,6 @@ block content
                             td
                                 if val.status == 1
                                     span.status-label.active Оплачен
-
                                 else
                                     span.status-label Не оплачен
 

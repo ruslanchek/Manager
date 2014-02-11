@@ -2,9 +2,11 @@ extends layouts/view
 
 block content
     .blank-print
-        p #{data.comment}
+        .units-row
+            .unit-60.unit-push-40
+                p.small #{data.comment}
 
-        h3 Образец заполнения платежного поручения
+        h3.text-centered Образец заполнения платежного поручения
 
         table.table.table-bordered.width-100
             tr
@@ -33,6 +35,8 @@ block content
             tr
                 td.valign_bottom Корр. счет
                 td.valign_bottom #{user.bank_corr_account}
+
+        br
 
         h1 Счет №#{data.number} от #{utils.stringifyDate(data.date)}
 

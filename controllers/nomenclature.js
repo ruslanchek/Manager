@@ -136,8 +136,6 @@ module.exports = function (app, models) {
                 item.price = data.price;
                 item._nomgroup_id = data._nomgroup_id;
 
-                console.log(item)
-
                 item.save(function (err, data) {
                     if (err) {
                         app.log.error('Nomenclature edit error', err);
@@ -239,6 +237,35 @@ module.exports = function (app, models) {
             });
         });
     };
+
+	this.deleteItems = function(user, ids, done){
+		models.nomenclature.find({ _user_id: user._id, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+			if (err) {
+				app.log.error('findOne error', err);
+
+				return done({
+					success: false,
+					message: 'SERVER_ERROR'
+				});
+			}
+
+			if (data) {
+				for(var i = 0, l = data.length; i < l; i++){
+					data[i].remove();
+				}
+
+				return done({
+					success: true,
+					message: 'OK'
+				});
+			}
+
+			return done({
+				success: false,
+				message: 'SERVER_ERROR'
+			});
+		});
+	};
 
     return this;
 };

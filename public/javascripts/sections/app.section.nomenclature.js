@@ -1,4 +1,30 @@
 app.sections.nomenclature = {
+	delete: function(ids, done){
+		$.ajax({
+			url: '/nomenclature/delete',
+			data: {
+				ids: ids
+			},
+			type: 'post',
+			dataType: 'json',
+			beforeSend: function(){
+				app.loading.setGlobalLoading('app.sections.nomenclature.delete');
+			},
+			success: function(data){
+				app.loading.unSetGlobalLoading('app.sections.nomenclature.delete');
+
+				if(data.success == true){
+					if(done){
+						done(ids);
+					}
+				}
+			},
+			error: function(){
+				app.loading.unSetGlobalLoading('app.sections.nomenclature.delete');
+			}
+		});
+	},
+
     selectItem: function(options){
         app.templates.render('nomenclature.select.html', {  }, function(html){
             app.sections.nomenclature.mc_select = new app.modal.ModalController({
@@ -68,16 +94,24 @@ app.sections.nomenclature = {
 							$('#form-nomenclature-select').on('submit', function(e){
 								e.preventDefault();
 
-								if(selects.item){
-									if(options.onSelect){
-										setTimeout(function(){
-											options.onSelect(selects.getItemData(selects.item));
-											controller.close();
-										}, 350);
-									}
-								}else{
+								var $fm = $('#form-nomenclature-select .form-message');
 
-								}
+								$fm.slideUp(200, function(){
+									$fm.removeClass('success error').empty();
+
+                                    if(selects.item){
+                                        if(options.onSelect){
+                                            $fm.addClass('success').html('Позиция выбрана').slideDown(200);
+
+                                            setTimeout(function(){
+                                                options.onSelect(selects.getItemData(selects.item));
+                                                controller.close();
+                                            }, 350);
+                                        }
+                                    }else{
+                                        $fm.addClass('error').html('Не выбрана позиция').slideDown(200);
+                                    }
+								});
 							});
 						}
 					};
@@ -172,15 +206,34 @@ app.sections.nomenclature = {
     },
 
     edit: {
+		delete: function(){
+			if(confirm('Удалить позицию?')){
+				app.sections.nomenclature.delete([this.id], function(ids){
+					setTimeout(function(){
+						document.location.href = app.sections.nomenclature.edit.root;
+					}, 300);
+				});
+			}
+		},
+
         binds: function(){
-            $('.view-invoice').on('click', function(e){
-                app.sections.accounts.viewDocument(false);
-                e.preventDefault();
-            });
+			var _this = this,
+				$body = $('body');
+
+			$body.on('click.action-delete', '.action-delete', function(e){
+				_this.delete();
+				e.preventDefault();
+			});
         },
 
         init: function(nomgroup_id, id){
             this.id = id;
+			this.nomgroup_id = nomgroup_id;
+			this.root = '/nomenclature';
+
+			if(nomgroup_id){
+				this.root += '/' + nomgroup_id;
+			}
 
             var _nmg_id = $('#_nomgroup_id').val();
 
@@ -207,12 +260,10 @@ app.sections.nomenclature = {
                 onSuccess: function(data){
                     setTimeout(function(){
                         if(data.data._nomgroup_id != _nmg_id){
-                            var root = '';
+                            var root = '/nomenclature';
 
                             if(data.data._nomgroup_id){
-                                root = '/nomenclature/' + data.data._nomgroup_id;
-                            }else{
-                                root = '/nomenclature';
+                                root += '/' + data.data._nomgroup_id;
                             }
 
                             document.location.href = root + '/edit/' + data.data._id;
@@ -282,7 +333,8 @@ app.sections.nomenclature = {
                             onSuccess: function(data){
                                 setTimeout(function(){
                                     controller.close();
-                                    $('.side-menu').append(
+
+                                    $('.side-menu .sorting').append(
                                         '<a data-id="' + data.data._id + '" href="/nomenclature/' + data.data._id + '">' +
                                             '<span class="nomgroup-name">' + data.data.name + '</span>' +
                                             '<i data-name="' + data.data.name + '" data-id="' + data.data._id + '" class="actions edit-nomgroup icon-menu"></i>' +
@@ -331,6 +383,7 @@ app.sections.nomenclature = {
 
                                     if(app.sections.nomenclature.list.nomgroup_id == data.data._id){
                                         $('#global-nomgroup-name').html(data.data.name);
+                                        $('#empty-nomgroup-name').html(data.data.name);
                                     }
 
                                     $('.nomgroup-link[data-id="' + data.data._id + '"]').html(data.data.name);
@@ -398,6 +451,72 @@ app.sections.nomenclature = {
             });
         },
 
+		delete: function(){
+			if(confirm('Удалить выбранные позиции?')){
+				app.sections.nomenclature.delete(this.selected, function(ids){
+					var ids_selectors = '',
+						$table = $('table.items-table');
+
+					for(var i = 0, l = ids.length; i < l; i++){
+						ids_selectors += 'tr[data-id="' + ids[i] + '"],';
+					}
+
+					ids_selectors = ids_selectors.substr(0, ids_selectors.length - 1);
+
+					$table.find(ids_selectors).remove();
+
+					if($table.find('tr').length <= 1){
+						$('.table-container').hide();
+						$('.table-empty').show();
+					}
+
+					$('.multi-action').removeClass('show');
+				});
+			}
+		},
+
+        nomgroupsSortUpdate: function(){
+            var sortlist = [];
+
+            $('.side-menu .sorting a').each(function(){
+                sortlist.push($(this).data('id'));
+            });
+
+            $.ajax({
+                url: '/nomenclature/nomgroupssortupdate',
+                data: {
+                    sortlist: sortlist
+                },
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function(){
+                    app.loading.setGlobalLoading('app.sections.nomenclature.delete');
+                },
+                success: function(data){
+                    app.loading.unSetGlobalLoading('app.sections.nomenclature.delete');
+                },
+                error: function(){
+                    app.loading.unSetGlobalLoading('app.sections.nomenclature.delete');
+                }
+            });
+        },
+
+        bindNomgroupsSortable: function(){
+            $('.side-menu .sorting').sortable({
+                axis: 'y',
+                distance: 5,
+                placeholder: 'sortable-highlight',
+                forcePlaceholderSize: true,
+                revert: true,
+                cursor: 'move',
+                update: function(event, ui){
+                    app.sections.nomenclature.list.nomgroupsSortUpdate();
+                }
+            });
+
+            $('.side-menu').disableSelection();
+        },
+
         binds: function(){
             var _this = this;
 
@@ -408,6 +527,11 @@ app.sections.nomenclature = {
             $('.cb-item').on('change', function(){
                 _this.processCheckboxes();
             });
+
+			$('#delete').on('click', function(e){
+				_this.delete();
+				e.preventDefault();
+			});
 
             $('#add-nomgroup').on('click', function(e){
                 e.preventDefault();
@@ -423,6 +547,7 @@ app.sections.nomenclature = {
         init: function(nomgroup_id){
             this.nomgroup_id = nomgroup_id;
             this.binds();
+            this.bindNomgroupsSortable();
         }
     }
 };

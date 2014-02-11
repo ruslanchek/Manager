@@ -3,5 +3,12 @@ html
     head
         link(href='/stylesheets/kube/kube.css', rel='stylesheet')
         link(href='/stylesheets/blank.css', rel='stylesheet')
+
+        script(src='/javascripts/libs/jquery.min.js')
     body
         block content
+
+        script.
+            $(window).load(function() {
+                parent.$('iframe[name="docview_iframe"]').trigger('ready');
+            });

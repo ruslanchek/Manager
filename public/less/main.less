@@ -65,7 +65,7 @@ body {
   height: 100%;
   min-height: 100%;
   font-size: @base-font-size;
-  background: @base-bg url(../images/pattern-rounds.png);
+  background: @base-bg url(../images/patterns/stacked-circles.png);
   color: @base-font-color;
 }
 
@@ -234,23 +234,47 @@ header {
   -webkit-border-radius: @ui-border-radius;
   -moz-border-radius: @ui-border-radius;
 
-  border-bottom: 3px solid @panel-bg-light - 15;
+  box-shadow: inset 0 -3px 0 0 @panel-bg-light - 15;
 
   padding: 0;
-}
 
-.side-menu {
   a {
     text-decoration: none;
     color: @color-header;
     display: block;
     padding: 7px 20px;
+    background: @panel-bg-light;
 
     i.actions {
       display: none;
       float: right;
       margin-right: -5px;
     }
+
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  a.ui-sortable-helper {
+    -webkit-transition: -moz-transform .1s ease-out;
+    -moz-transition: -webkit-transform .1s ease-out;
+    transition: -webkit-transform .1s ease-out;
+
+    -moz-transform: scale(1.027);
+    -webkit-transform: scale(1.027);
+    transform: scale(1.027);
+
+    box-shadow: none !important;
+
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+  }
+
+  a.sortable-highlight {
+    background: @color-blue;
+    opacity: 0.2;
   }
 
   a:hover {
@@ -272,6 +296,18 @@ header {
     -moz-border-radius: @ui-border-radius-top;
   }
 
+  a:last-of-type {
+    box-shadow: inset 0 -3px 0 0 @panel-bg-light - 15;
+
+    border-radius: @ui-border-radius-bottom;
+    -webkit-border-radius: @ui-border-radius-bottom;
+    -moz-border-radius: @ui-border-radius-bottom;
+  }
+
+  a:last-of-type:hover {
+    box-shadow: inset 0 -3px 0 0 @panel-bg-light - 23;
+  }
+
   a.active {
     background: @color-blue;
     color: #fff;
@@ -282,6 +318,20 @@ header {
 
     i.actions:hover {
       color: @color-blue + 80 !important;
+    }
+  }
+
+  a:last-of-type.active {
+    box-shadow: inset 0 -3px 0 0 @color-blue - 20;
+  }
+
+  .group {
+    a:last-of-type {
+      box-shadow: none !important;
+
+      border-radius: 0 !important;
+      -webkit-border-radius: 0 !important;
+      -moz-border-radius: 0 !important;
     }
   }
 }
@@ -936,4 +986,11 @@ footer {
   margin: -100px auto 0;
   height: 100px;
   background: @panel-bg-light;
+}
+
+// Media queries
+@media (-webkit-device-pixel-ratio: 2){
+  body {
+    background: url(../images/stacked-circles@2X.png);
+  }
 }

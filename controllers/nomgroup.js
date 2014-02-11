@@ -29,6 +29,41 @@ module.exports = function (app, models) {
         });
     };
 
+    this.sortUpdate = function(user, sortlist, done){
+        var sortlist_sort = [];
+
+        for(var i = 0, l = sortlist.length; i < l; i++){
+            sortlist_sort.push({_id: sortlist[i], order: i + 1});
+        }
+
+        models.nomgroup.find({ _user_id: user._id, _id: { $in: sortlist } }, { _id: 1, order: 1 }).exec(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                for(var i = 0, l = data.length; i < l; i++){
+                    for(var i1 = 0, l1 = sortlist_sort.length; i1 < l1; i1++){
+                        if(data[i]._id == sortlist_sort[i1]._id){
+                            data[i].order = sortlist_sort[i1].order;
+                            data[i].save();
+                        }
+                    }
+                }
+            }
+
+            return done({
+                success: false,
+                message: 'SERVER_ERROR'
+            });
+        });
+    };
+
     this.validateInputs = function(data){
         if (!data.name) {
             return {

@@ -24,7 +24,7 @@ block content
                     i.icon-cancel
                     |Удалить
 
-            if data.length > 0
+            if data && data.length > 0
                 .table-container.table-container-with-tools
                     table.items-table.width-100.table-sort.table-striped.table-hovered
                         thead
@@ -77,7 +77,10 @@ block content
             if nomgroup
                 div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
                     |У вас нет ни одной позиции в группе&nbsp;
-                    strong &laquo;#{nomgroup.name}&raquo;
+                    strong
+                        |&laquo;
+                        span#empty-nomgroup-name #{nomgroup.name}
+                        |&raquo;
 
             else
                 div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
@@ -90,18 +93,20 @@ block content
                     | Создать категорию
 
             .side-menu.with-tools
-                a(href="/nomenclature", class=(!nomgroup && !freegroup) ? 'active' : '')
-                    strong Все категории
+                div.group
+                    a(href="/nomenclature", class=(!nomgroup && !freegroup) ? 'active' : '')
+                        strong Все категории
 
-                a(href="/nomenclature/free", class=(freegroup) ? 'active' : '')
-                    strong Без категории
+                    a(href="/nomenclature/free", class=(freegroup) ? 'active' : '')
+                        strong Без категории
 
-                each nomgroup_item in nomgroups
-                    -var is_active = (nomgroup && nomgroup._id.toString()==nomgroup_item._id.toString() ? 'active' : '')
+                div.sorting
+                    each nomgroup_item in nomgroups
+                        -var is_active = (nomgroup && nomgroup._id.toString()==nomgroup_item._id.toString() ? 'active' : '')
 
-                    a(href='/nomenclature/' + nomgroup_item._id, class=is_active, data-id=nomgroup_item._id.toString())
-                        span.nomgroup-name #{nomgroup_item.name}
-                        i.edit-nomgroup.actions.icon-menu(data-id=nomgroup_item._id.toString(), data-name=nomgroup_item.name)
+                        a(href='/nomenclature/' + nomgroup_item._id, class=is_active, data-id=nomgroup_item._id.toString())
+                            span.nomgroup-name #{nomgroup_item.name}
+                            i.edit-nomgroup.actions.icon-menu(data-id=nomgroup_item._id.toString(), data-name=nomgroup_item.name)
 
     script.
-        app.sections.nomenclature.list.init('#{nomgroup._id}');
+        app.sections.nomenclature.list.init('#{(nomgroup) ? nomgroup._id : null}');

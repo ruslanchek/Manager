@@ -37,7 +37,7 @@ app.sections.accounts = {
             }
         });
 
-        new app.docview.DocviewController({
+        var docview_controller = new app.docview.DocviewController({
             title: 'Просмотр счета',
             tools: docview_tools_show,
             post: data,
@@ -45,7 +45,9 @@ app.sections.accounts = {
             onShow: function(){
                 $('.docview .action-download').attr('href', $('.section-tools .action-download').attr('href'));
             }
-        }).open();
+        });
+
+        docview_controller.open();
     },
 
     delete: function(ids, done){
@@ -129,6 +131,14 @@ app.sections.accounts = {
             }
         },
 
+        print: function(){
+            var print_list_controller = new app.print.PrintListController({
+                ids: this.selected
+            });
+
+            print_list_controller.select();
+        },
+
         binds: function(){
             var _this = this;
 
@@ -140,9 +150,14 @@ app.sections.accounts = {
                 _this.processCheckboxes();
             });
 
-            $('#delete').on('click', function(e){
-                _this.delete();
+            $('#print').on('click', function(e){
                 e.preventDefault();
+                _this.print();
+            });
+
+            $('#delete').on('click', function(e){
+                e.preventDefault();
+                _this.delete();
             });
         },
 
@@ -214,7 +229,7 @@ app.sections.accounts = {
         },
 
         send: function(){
-            var modal = new app.modal.ModalController({
+            var modal_controller = new app.modal.ModalController({
                 title: 'Отправить счет по почте',
                 content: 'Content',
                 onShow: function(controller){
@@ -226,7 +241,7 @@ app.sections.accounts = {
                 draggable: true
             });
 
-            modal.open();
+            modal_controller.open();
         },
 
         delete: function(){

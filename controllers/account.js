@@ -22,6 +22,10 @@ module.exports = function (app, models) {
                     filters_query.date.$lt = new Date(to.getFullYear(), to.getMonth(), to.getDate());
                 }
             }
+
+            if(filters._id && filters._id.$in){
+                filters_query._id = filters._id;
+            }
         }
 
         models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).sort( { order: -1 } ).exec(function (err, data) {

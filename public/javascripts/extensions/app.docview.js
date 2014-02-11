@@ -10,10 +10,14 @@ app.docview = {
             url: '',
             post: {},
             tools: true,
+            toolbar: true,
             onShow: function(controller){
 
             },
             onClose: function(){
+
+            },
+            onReady: function(){
 
             }
         };
@@ -21,7 +25,10 @@ app.docview = {
         $.extend(this.options, options);
 
         this.open = function(){
-            var tools = '';
+            app.loading.setGlobalLoading('docview.iframe_content');
+
+            var tools = '',
+                toolbar = '';
 
             if(this.options.tools == true){
                 tools = '<a href="#" class="action-button action-download"><i class="icon-doc-inv"></i> Скачать PDF</a>' +
@@ -29,22 +36,34 @@ app.docview = {
                         '<a href="#" class="action-button action-send"><i class="icon-export-alt"></i> Отправить</a>';
             }
 
+            if(this.options.toolbar == true){
+                toolbar =   '<div class="tools-bar">' +
+                                '<div class="tools-bar-content">' +
+                                    '<h1>' + this.options.title + '</h1>' +
+                                    '<div class="tools">' +
+                                        tools +
+                                        '<a href="#" class="action-button action-delete warning close-docview" title="Закрыть просмотр (Esc)"><i class="icon-cancel"></i> Закрыть</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+            }
+
             $('.app, footer').hide();
 
             $('.wrap').append(
                 '<div class="docview">' +
-                    '<div class="tools-bar">' +
-                        '<div class="tools-bar-content">' +
-                            '<h1>' + this.options.title + '</h1>' +
-                            '<div class="tools">' +
-                                tools +
-                                '<a href="#" class="action-button action-delete warning close-docview" title="Закрыть просмотр (Esc)"><i class="icon-cancel"></i> Закрыть</a>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
+                    toolbar +
                     '<div class="content"><iframe name="docview_iframe"></iframe></div>' +
                 '</div>'
             );
+
+            $('iframe[name="docview_iframe"]').on('ready', function(){
+                app.loading.unSetGlobalLoading('docview.iframe_content');
+
+                setTimeout(function(){
+                    _this.options.onReady();
+                }, 600);
+            });
 
             this.$docview = $('.docview');
             this.options.onShow(this);
@@ -56,9 +75,7 @@ app.docview = {
             });
 
             this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
-
             this.$docview.find('.docview-form').submit();
-
             this.$docview.find('.close-docview').on('click', function(e){
                 e.preventDefault();
                 _this.close();

@@ -82,6 +82,25 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/accounts/viewlist', app.ensureAuthenticated, function(req, res){
+        if(req.body.ids){
+            var ids_in = req.body.ids.split(',');
+        }
+
+        controllers.account.findItems(req.user, { _id: { $in: ids_in }}, function(err, data){
+            var params = app.utils.extend(common, {
+                err: err,
+                data: data,
+                user: req.user,
+                metadata: {
+                    title: 'Счета'
+                }
+            });
+
+            res.render('accounts.list.view.jade', params);
+        });
+    });
+
     app.get('/accounts/view/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.findOne(req.user, req.params.id, function(err, data){
             if(err === true || !data){

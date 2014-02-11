@@ -140,7 +140,6 @@ app.form = {
                     _this.unSetFieldsErrors();
                     _this.setLoading();
 
-
                     if(_this.$form.find('.form-message').is(':visible')){
                         _this.$form.find('.form-message').slideUp(_this.options.message_animation_time, function(){
                             _this.$form.find('.form-message').removeClass('success error').empty();
@@ -208,4 +207,4 @@ app.form = {
             _this.processForm();
         });
     }
-}
+};

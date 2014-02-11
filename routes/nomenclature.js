@@ -40,6 +40,7 @@ module.exports = function(app, controllers){
             user: req.user,
             number: (req.user.mc_nomenclature >= 0) ? req.user.mc_nomenclature + 1 : '',
             freegroup: false,
+            nomgroup: null,
             metadata: {
                 title: 'Новая позиция'
             }
@@ -81,6 +82,7 @@ module.exports = function(app, controllers){
                     data: data,
                     user: req.user,
                     freegroup: false,
+                    nomgroup: null,
                     metadata: {
                         title: 'Редактирование позиции'
                     }
@@ -103,6 +105,7 @@ module.exports = function(app, controllers){
                     data: data,
                     user: req.user,
                     freegroup: false,
+                    nomgroup: null,
                     metadata: {
                         title: 'Редактирование позиции'
                     }
@@ -128,7 +131,7 @@ module.exports = function(app, controllers){
     app.get('/nomenclature', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
             user: req.user,
-            nomgroup: false,
+            nomgroup: null,
             freegroup: false,
             filters: {},
             metadata: {
@@ -144,7 +147,7 @@ module.exports = function(app, controllers){
     app.get('/nomenclature/free', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
             user: req.user,
-            nomgroup: false,
+            nomgroup: null,
             freegroup: true,
             filters: {
                 _nomgroup_id: null
@@ -209,6 +212,12 @@ module.exports = function(app, controllers){
 		});
 	});
 
+    app.post('/nomenclature/nomgroupssortupdate', app.ensureAuthenticated, function(req, res){
+        controllers.nomgroup.sortUpdate(req.user, req.body.sortlist, function(err, data){
+            res.json(data);
+        });
+    });
+
 	app.post('/nomenclature/getnomenclature/:nomgroup', app.ensureAuthenticated, function(req, res){
 		var filters = {
 			_nomgroup_id: null
@@ -228,6 +237,12 @@ module.exports = function(app, controllers){
 
 		controllers.nomenclature.findItems(req.user, filters, function(err, data){
 			res.json(data);
+		});
+	});
+
+	app.post('/nomenclature/delete', app.ensureAuthenticated, function(req, res){
+		controllers.nomenclature.deleteItems(req.user, req.body.ids, function(result){
+			res.json(result);
 		});
 	});
 };
