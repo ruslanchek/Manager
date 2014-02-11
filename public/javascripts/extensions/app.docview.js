@@ -11,6 +11,8 @@ app.docview = {
             post: {},
             tools: true,
             toolbar: true,
+            type: 'iframe',
+            content: '',
             onShow: function(controller){
 
             },
@@ -25,7 +27,7 @@ app.docview = {
         $.extend(this.options, options);
 
         this.open = function(){
-            app.loading.setGlobalLoading('docview.iframe_content');
+
 
             var tools = '',
                 toolbar = '';
@@ -50,36 +52,48 @@ app.docview = {
 
             $('.app, footer').hide();
 
+
             $('.wrap').append(
                 '<div class="docview">' +
                     toolbar +
-                    '<div class="content"><iframe name="docview_iframe"></iframe></div>' +
+                    '<div class="content"></div>' +
                 '</div>'
             );
 
-            $('iframe[name="docview_iframe"]').on('ready', function(){
-                app.loading.unSetGlobalLoading('docview.iframe_content');
-
-                setTimeout(function(){
-                    _this.options.onReady();
-                }, 600);
-            });
-
             this.$docview = $('.docview');
+
+            if(this.options.type == 'iframe'){
+                app.loading.setGlobalLoading('docview.iframe_content');
+
+                this.$docview.find('.content').html('<iframe name="docview_iframe"></iframe>');
+
+                $('iframe[name="docview_iframe"]').on('ready', function(){
+                    app.loading.unSetGlobalLoading('docview.iframe_content');
+
+                    setTimeout(function(){
+                        _this.options.onReady();
+                    }, 600);
+                });
+
+                if(this.options.post){
+                    var fields = '';
+
+                    $.each(this.options.post, function(key, val){
+                        fields += '<input type="hidden" name="' + key + '" value="' + val + '">';
+                    });
+
+                    this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
+                    this.$docview.find('.docview-form').submit();
+                    this.$docview.find('.close-docview').on('click', function(e){
+                        e.preventDefault();
+                        _this.close();
+                    });
+                }
+            }else{
+                this.$docview.find('.content').html(this.options.content);
+            }
+
             this.options.onShow(this);
-
-            var fields = '';
-
-            $.each(this.options.post, function(key, val){
-                fields += '<input type="hidden" name="' + key + '" value="' + val + '">';
-            });
-
-            this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
-            this.$docview.find('.docview-form').submit();
-            this.$docview.find('.close-docview').on('click', function(e){
-                e.preventDefault();
-                _this.close();
-            });
 
             this.resize = function(){
                 $('.docview .content').css({

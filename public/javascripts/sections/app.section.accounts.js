@@ -133,7 +133,9 @@ app.sections.accounts = {
 
         print: function(){
             var print_list_controller = new app.print.PrintListController({
-                ids: this.selected
+                ids: this.selected,
+                list_url: '/accounts/viewlist',
+                doc_by_doc_url: '/accounts/view'
             });
 
             print_list_controller.select();

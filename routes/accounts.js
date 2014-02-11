@@ -115,6 +115,8 @@ module.exports = function(app, controllers){
                     }
                 });
 
+                req.pause();
+
                 res.render('accounts.view.jade', params);
             }
         });
