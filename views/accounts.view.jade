@@ -2,6 +2,8 @@ extends layouts/view
 
 block content
     .blank-print
+        p.text-centered #{data.comment}
+
         h3.text-centered Образец заполнения платежного поручения
 
         table.table.table-bordered.width-100
@@ -75,8 +77,6 @@ block content
         p Всего #{utils.numberToWords(data.items.length, 'neuter')} #{utils.pluralForm(data.items.length, 'наименование', 'наименования', 'наименований')}, на сумму #{utils.priceFormat(data.sum)} руб.
             br
             strong #{utils.priceToWords(data.sum)}
-
-        p #{data.comment}
 
         .footer
             .seal
