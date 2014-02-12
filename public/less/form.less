@@ -1,0 +1,93 @@
+// Form
+.form {
+  background: @panel-bg-light;
+  padding: 20px;
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+
+  border-bottom: 3px solid @panel-bg-light - 15;
+
+  .form-item {
+    min-height: 30px;
+  }
+
+  input:disabled {
+    opacity: 0.75;
+    color: #888;
+  }
+
+  .width-full-size {
+    width: 97.76%;
+  }
+
+  hr {
+    width: 100%;
+    padding: 0 20px;
+    margin-left: -20px;
+    border: none;
+    border-bottom: 2px dashed @panel-bg-light - 25;
+  }
+
+  .form-hidden-section {
+    display: none;
+  }
+
+  .form-hidden-section.active {
+    display: block;
+  }
+
+  .form-message {
+    width: 100%;
+    padding: 10px 20px;
+    margin: -20px 0 20px -20px;
+    color: #fff;
+    position: relative;
+    font-size: 14px;
+    border-radius: @ui-border-radius-top;
+    -webkit-border-radius: @ui-border-radius-top;
+    -moz-border-radius: @ui-border-radius-top;
+
+    .close {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      color: #fff !important;
+    }
+  }
+
+  .form-message.success {
+    background: @color-green;
+  }
+
+  .form-message.error {
+    background: @color-red;
+  }
+}
+
+.form.form-with-tools {
+  border-radius: @ui-border-radius-bottom;
+  -webkit-border-radius: @ui-border-radius-bottom;
+  -moz-border-radius: @ui-border-radius-bottom;
+
+  .form-message {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+  }
+}
+
+label {
+  top: 3px !important
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+textarea {
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+  box-shadow: none !important;
+  padding: 4px 6px;
+}

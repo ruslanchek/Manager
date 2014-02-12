@@ -34,7 +34,7 @@ block content
             if filters.date_to || filters.date_from
                 .item
                     a.action-button.only-icon(href="/accounts", title="Отменить фильтр по датам")
-                        i.icon-block
+                        i.icon-cancel
             .item
                 input.action-button.blue(type="submit", value="Показать")
 
@@ -51,6 +51,8 @@ block content
                             i.arrow
                         th(data-sort="string") Сумма
                             i.arrow
+                        th(data-sort="string") Позиции
+                            i.arrow
                         th(data-sort="string") Контрагент
                             i.arrow
                         th(data-sort="string", width="1%") Статус
@@ -61,10 +63,11 @@ block content
                             td
                                 input.cb-item(type="checkbox", data-id="#{val._id}")
                             td(data-sort-value=val.number)
-                                a(href="/accounts/edit/#{val._id}") #{val.number}
+                                a(href="/accounts/edit/#{val._id}") Счет №#{val.number}
                             td(data-sort-value=val.date) #{utils.humanizeDate(val.date)}
                             td(data-sort-value=val.sum) #{utils.priceFormat(val.sum)}&nbsp;
                                 span.rub &#8399;
+                            td #{val.count}
                             td
                             td
                                 if val.status == 1

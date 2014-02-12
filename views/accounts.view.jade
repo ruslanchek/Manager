@@ -2,8 +2,6 @@ extends layouts/view
 
 block content
     .blank-print
-        p.small #{data.comment}
-
         h3.text-centered Образец заполнения платежного поручения
 
         table.table.table-bordered.width-100
@@ -47,21 +45,39 @@ block content
 
         table.table.table-bordered.width-100
             tr
-                th(width='1%') №
-                th(width='58%') Наименование
-                th(width='20%') Цена
-                th(width='1%') Количество
-                th(width='20%') Сумма
+                th.text-centered(width='1%') №
+                th.text-centered(width='58%') Наименование
+                th.text-centered(width='20%') Цена
+                th.text-centered(width='1%') Количество
+                th.text-centered(width='1%') Единица
+                th.text-centered(width='20%') Сумма
 
             - each item in data.items
+                - var price_iclude_nds = (item.price + ((item.price / 100) * ((item.nds > 0) ? item.nds : 0)))
                 tr
-                    td #{item.number}
+                    td.text-centered #{item.number}
                     td #{item.name}
-                    td #{item.price}
-                    td #{item.count}
-                    td #{item.sum}
+                    td.text-right #{utils.priceFormat(price_iclude_nds)}
+                    td.text-centered #{item.count}
+                    td.text-centered #{item.unit}
+                    td.text-right #{utils.priceFormat(price_iclude_nds * item.count)}
 
-        p Всего #{utils.numberToWords(data.items.length, 'neuter')} #{utils.pluralForm(data.items.length, 'наименование', 'наименования', 'наименований')} на сумму #{utils.priceFormat(data.sum)} руб.
+            tr
+                td.no-border.border-right.text-right(colspan='5') Итого:
+                td.text-right #{utils.priceFormat(data.sum)}
+            tr
+                td.no-border.border-right.text-right(colspan='5') #{(data.nds >= 0) ? 'В том числе НДС' : 'Без НДС'}:
+                td.text-right !{(data.nds >= 0) ? utils.priceFormat(data.nds) : '&mdash;'}
+            tr
+                td.no-border.border-right.text-right(colspan='5') Всего:
+                td.text-right #{utils.priceFormat(data.sum)}
+
+        p Всего #{utils.numberToWords(data.items.length, 'neuter')} #{utils.pluralForm(data.items.length, 'наименование', 'наименования', 'наименований')}, на сумму #{utils.priceFormat(data.sum)} руб.
             br
             strong #{utils.priceToWords(data.sum)}
 
+        p #{data.comment}
+
+        .footer
+            .seal
+                img(src='/images/common-seal.png', width='180', height='180')

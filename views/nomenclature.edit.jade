@@ -6,9 +6,8 @@ block content
         if nomgroup
             |&nbsp;/&nbsp;
             a#global-nomgroup-name(href="/nomenclature/" + nomgroup._id) #{nomgroup.name}
-            |&nbsp;/&nbsp;Редактирование позиции арт. №#{data.article}
-        else
-            |&nbsp;/&nbsp;Редактирование позиции арт. №#{data.article}
+
+        |&nbsp;/&nbsp;#{data.name}
 
     .section-tools
         a.action-delete.action-button.warning(href="#")
@@ -19,11 +18,16 @@ block content
         .form-message
 
         .units-row-end
-            .unit-50
+            .unit-100
                 .form-item
                     label(for="name") Наименование
-                    input#name.width-100(type='text', value=data.name)
+                    input#name.width-full-size(type='text', value=data.name)
 
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="article") Артикул
+                    input#article.width-100(type='text', value=data.article)
             .unit-50
                 .form-item
                     label(for="_nomgroup_id") Категория
@@ -38,13 +42,13 @@ block content
         .units-row-end
             .unit-50
                 .form-item
-                    label(for="article") Артикул
-                    input#article.width-100(type='text', value=data.article)
+                    label(for="price") Стоимость
+                    input#price.width-100(type='text', value=data.price)
 
             .unit-50
                 .form-item
-                    label(for="price") Стоимость
-                    input#price.width-100(type='text', value=data.price)
+                    label(for="unit") Еденица измерения
+                    input#unit.width-100(type='text', value=data.unit)
 
         hr
         .units-row-end

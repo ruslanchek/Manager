@@ -29,7 +29,7 @@ app.print = {
         this.showDialog = function(){
             app.templates.render('print.list.select-type.html', { }, function(html){
                 _this.modal_controller = new app.modal.ModalController({
-                    title: 'Напечатать список счетов',
+                    title: 'В каком виде напечатать?',
                     content: html,
                     onShow: function(controller){
                         $('#print-doc-by-doc').on('click', function(e){
@@ -51,7 +51,8 @@ app.print = {
 
                         app.loading.unSetGlobalLoading('app.print.docbydoc');
                     },
-                    draggable: true
+                    draggable: true,
+                    width: 450
                 });
 
                 _this.modal_controller.open();
@@ -152,7 +153,7 @@ app.print = {
         this.printTable = function(){
             var docview_controller = new app.docview.DocviewController({
                 title: 'Просмотр списка счетов',
-                post: {
+                data: {
                     ids: this.options.ids
                 },
                 tools: this.options.tools,

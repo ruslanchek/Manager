@@ -6,16 +6,12 @@ block content
                 table.items-table.width-100.table-sort.table-bordered
                     thead
                         tr
-                            th(data-sort="string") Номер счета
-                                i.arrow.icon-down-dir
-                            th(data-sort="string") Дата
-                                i.arrow
-                            th(data-sort="string") Сумма
-                                i.arrow
-                            th(data-sort="string") Контрагент
-                                i.arrow
+                            th Номер счета
+                            th Дата
+                            th Сумма
+                            th Позиции
+                            th Контрагент
                             th(data-sort="string", width="1%") Статус
-                                i.arrow
                     tbody
                         each val in data
                             tr(data-id="#{val._id}")
@@ -23,6 +19,7 @@ block content
                                 td(data-sort-value=val.date) #{utils.humanizeDate(val.date)}
                                 td(data-sort-value=val.sum) #{utils.priceFormat(val.sum)}&nbsp;
                                     span.rub &#8399;
+                                td #{val.count}
                                 td
                                 td
                                     if val.status == 1

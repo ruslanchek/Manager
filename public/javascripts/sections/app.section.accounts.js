@@ -8,48 +8,6 @@ app.sections.accounts = {
         items       : '#items'
     },
 
-    viewDocument: function(docview_tools_show){
-        var data = {
-                sum: 0
-            };
-
-        $.each(this.fields, function(key, val){
-            switch(key){
-                case 'items' : {
-                    try{
-                        data[key] = JSON.parse(decodeURIComponent($(val).val()));
-                    }catch(e){
-                        data[key] = [];
-                    }
-
-                    for(var i = 0, l = data[key].length; i < l; i++){
-                        data[key][i].sum = data[key][i].price * data[key][i].count;
-
-                        data.sum += parseFloat(data[key][i].price * data[key][i].count);
-                    }
-
-                    data[key] = encodeURIComponent(JSON.stringify(data[key]));
-                } break;
-
-                default : {
-                    data[key] = $(val).val();
-                } break;
-            }
-        });
-
-        var docview_controller = new app.docview.DocviewController({
-            title: 'Просмотр счета',
-            tools: docview_tools_show,
-            post: data,
-            url: '/accounts/view',
-            onShow: function(){
-
-            }
-        });
-
-        docview_controller.open();
-    },
-
     delete: function(ids, done){
         $.ajax({
             url: '/accounts/delete',
@@ -177,9 +135,48 @@ app.sections.accounts = {
     },
 
     add: {
+        viewDocument: function(){
+            var data = {
+                sum: 0
+            };
+
+            $.each(app.sections.accounts.fields, function(key, val){
+                switch(key){
+                    case 'items' : {
+                        try{
+                            data[key] = JSON.parse(decodeURIComponent($(val).val()));
+                        }catch(e){
+                            data[key] = [];
+                        }
+
+                        for(var i = 0, l = data[key].length; i < l; i++){
+                            data[key][i].sum = data[key][i].price * data[key][i].count;
+
+                            data.sum += parseFloat(data[key][i].price * data[key][i].count);
+                        }
+
+                        data[key] = encodeURIComponent(JSON.stringify(data[key]));
+                    } break;
+
+                    default : {
+                        data[key] = $(val).val();
+                    } break;
+                }
+            });
+
+            var docview_controller = new app.docview.DocviewController({
+                title: 'Просмотр счета',
+                tools: false,
+                data: data,
+                url: '/accounts/viewcustom'
+            });
+
+            docview_controller.open();
+        },
+
         binds: function(){
-            $('.view-invoice').on('click', function(e){
-                app.sections.accounts.viewDocument(false);
+            $('#preview').on('click', function(e){
+                app.sections.accounts.add.viewDocument();
                 e.preventDefault();
             });
         },
@@ -222,6 +219,22 @@ app.sections.accounts = {
     },
 
     edit: {
+        viewDocument: function(){
+            var data = {
+                sum: 0
+            };
+
+            var docview_controller = new app.docview.DocviewController({
+                title: 'Просмотр счета',
+                tools: true,
+                method: 'get',
+                data: {},
+                url: '/accounts/view/' + this.id
+            });
+
+            docview_controller.open();
+        },
+
         download: function(){
 
         },
@@ -267,7 +280,7 @@ app.sections.accounts = {
                 $body = $('body');
 
             $body.on('click.action-view', '.action-view', function(e){
-                app.sections.accounts.viewDocument(true);
+                app.sections.accounts.edit.viewDocument();
                 e.preventDefault();
             });
 

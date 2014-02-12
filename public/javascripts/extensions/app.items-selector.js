@@ -25,6 +25,8 @@ app.items_selector = {
             this.$container.find('.new-item-name').val('');
             this.$container.find('.new-item-price').val('');
             this.$container.find('.new-item-count').val(1);
+            this.$container.find('.new-item-unit').val('');
+            this.$container.find('.new-item-nds').val('-1');
             this.recountNewItem();
             this.$container.find('.new-item-name').focus();
         };
@@ -36,6 +38,8 @@ app.items_selector = {
                                     '<td>{{name}}</td>' +
                                     '<td><div class="price">{{price}}&nbsp;<span class="rub">&#8399;</span></div></td>' +
                                     '<td>{{count}}</td>' +
+                                    '<td>{{unit}}</td>' +
+                                    '<td>{{{nds}}}</td>' +
                                     '<td><div class="price">{{sum}}&nbsp;<span class="rub">&#8399;</span></div></td>' +
                                     '<td><a href="#" data-number="{{number}}" class="action-button warning delete-item" data-number="{{number}}" title="Удалить"><i class="icon-cancel"></i></a></td>' +
                                 '</tr>';
@@ -44,16 +48,20 @@ app.items_selector = {
                 var $name = this.$container.find('.new-item-name'),
                     $price = this.$container.find('.new-item-price'),
                     $count = this.$container.find('.new-item-count'),
+                    $unit = this.$container.find('.new-item-unit'),
+                    $nds = this.$container.find('.new-item-nds'),
                     error = false;
 
                 $name.add($price).add($count).removeClass('input-error');
 
                 data = {
-                        name    : $name.val(),
-                        price   : parseFloat($price.val()),
-                        count   : parseInt($count.val()),
-                        number  : this.items.length + 1
-                    };
+                    name    : $name.val(),
+                    price   : parseFloat($price.val()),
+                    count   : parseInt($count.val()),
+                    unit    : $unit.val(),
+                    nds     : $nds.val(),
+                    number  : this.items.length + 1
+                };
 
                 if(!data.name || data.name == ''){
                     $name.addClass('input-error');
@@ -70,6 +78,11 @@ app.items_selector = {
                     error = true;
                 }
 
+                if(!data.unit || data.unit == ''){
+                    $unit.addClass('input-error');
+                    error = true;
+                }
+
                 this.$container.find('.input-error:first').focus();
 
                 if(error === true){
@@ -81,7 +94,9 @@ app.items_selector = {
                     name: data.name,
                     price: app.utils.humanizePrice(data.price),
                     count: data.count,
-                    sum: app.utils.humanizePrice(data.count * data.price)
+                    unit: data.unit,
+                    nds: (data.nds && data.nds >= 0) ? data.nds + '%' : '<span class="color-gray-light">Без НДС</span>',
+                    sum: app.utils.humanizePrice(this.countNds(data.price, data.nds) * data.count)
                 });
 
                 this.$container.find('table tr.new-item-row').before(html);
@@ -104,6 +119,8 @@ app.items_selector = {
                     name    : item.name,
                     price   : parseFloat(item.price),
                     count   : parseInt(item.count),
+                    unit    : item.unit,
+                    nds     : item.nds,
                     number  : item.number
                 };
 
@@ -114,7 +131,9 @@ app.items_selector = {
                     name: data.name,
                     price: app.utils.humanizePrice(data.price),
                     count: data.count,
-                    sum: app.utils.humanizePrice(data.count * data.price)
+                    unit: data.unit,
+                    nds: (item.nds && item.nds >= 0) ? item.nds + '%' : '<span class="color-gray-light">Без НДС</span>',
+                    sum: app.utils.humanizePrice(this.countNds(data.price, data.nds) * data.count)
                 });
 
                 this.$container.find('table tr.new-item-row').before(html);
@@ -167,10 +186,19 @@ app.items_selector = {
             this.options.onChange(this.items);
         };
 
+        this.countNds = function(price, nds){
+            var price = parseFloat(price),
+                nds = parseFloat(nds),
+                nds_converted = (price / 100) * ((nds > 0) ? nds : 0);
+
+            return parseFloat(price + nds_converted);
+        };
+
         this.getNewItemSum = function(){
             var price = parseFloat(this.$container.find('.new-item-price').val()),
+                nds = this.$container.find('.new-item-nds').val(),
                 count = parseInt(this.$container.find('.new-item-count').val()),
-                sum = parseFloat(price * count);
+                sum = this.countNds(price, nds) * count;
 
             if(!sum){
                 sum = 0;
@@ -184,13 +212,23 @@ app.items_selector = {
         };
 
         this.totalRecount = function(){
-            var sum = 0;
+            var total_sum = 0,
+                total_nds = 0;
 
             for(var i = 0, l = this.items.length; i < l; i++){
-                sum += this.items[i].count * this.items[i].price;
+                var price = parseFloat(this.items[i].price),
+                    nds = this.items[i].nds,
+                    count = parseInt(this.items[i].count),
+                    nds_c = this.countNds(price, nds) * count,
+                    sum = price * count;
+
+                total_sum += sum;
+                total_nds += nds_c - sum;
             }
 
-            _this.$container.find('.total-sum').html(app.utils.humanizePrice(sum));
+            _this.$container.find('.total-sum').html(app.utils.humanizePrice(total_sum));
+            _this.$container.find('.total-nds').html(app.utils.humanizePrice(total_nds));
+            _this.$container.find('.total-sum-over').html(app.utils.humanizePrice(total_sum + total_nds));
         };
 
         this.drawByArray = function(){
@@ -215,7 +253,7 @@ app.items_selector = {
                 new app.field.FieldController({
                     input_selector: '.new-item-price',
                     types: [
-                        {name: 'digits'}
+                        { name: 'digits' }
                     ]
                 });
 
@@ -228,22 +266,30 @@ app.items_selector = {
                     _this.recountNewItem();
                 });
 
-                _this.$container.find('.new-item-name, .new-item-price, .new-item-count').on('keyup.err', function(){
+                _this.$container.find('.new-item-nds').on('change.isre', function(){
+                    _this.recountNewItem();
+                });
+
+                _this.$container.find('.new-item-name, .new-item-price, .new-item-count, .new-item-unit').on('keyup.err', function(){
                     $(this).removeClass('input-error');
                 });
 
                 _this.$container.find('.add-from-db').on('click', function(e){
                     e.preventDefault();
+
                     app.sections.nomenclature.selectItem({
                         onSelect: function(data){
 							if(data){
 								_this.$container.find('.new-item-price').val(data.price);
+                                _this.$container.find('.new-item-unit').val(data.unit);
 								_this.$container.find('.new-item-name').val(data.name);
 								_this.$container.find('.new-item-sum').html(app.utils.humanizePrice(_this.getNewItemSum()));
 							}
                         }
                     });
                 });
+
+                $('.new-item-nds').chosen(app.chosen_options);
 
                 _this.drawByArray();
             });

@@ -4,31 +4,67 @@
             <thead>
                 <tr>
                     <th width="1%">№</th>
-                    <th width="50%">Наименование</th>
-                    <th width="23%">Цена</th>
+                    <th width="">Наименование</th>
+                    <th width="100">Цена</th>
                     <th width="1%">Количество</th>
-                    <th width="25%">Стоимость</th>
+                    <th width="1%">Ед.</th>
+                    <th width="1%">НДС</th>
+                    <th width="110">Стоимость</th>
                     <th width="1%"></th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr class="new-item-row">
                     <td><span class="new-item-number">1</span></td>
-                    <td><input autocomplete="off" type="text" class="new-item-name width-100"></td>
-                    <td><input autocomplete="off" type="text" class="new-item-price width-100" max="20" maxlength="20" value=""></td>
+                    <td><input type="text" class="new-item-name width-100"></td>
+                    <td><input type="text" class="new-item-price width-100" max="20" maxlength="20" value=""></td>
                     <td>
                         <input autocomplete="off" type="text" class="new-item-count" id="new-item-count" value="1" max="5" maxlength="5">
+                    </td>
+                    <td><input autocomplete="off" type="text" class="new-item-unit width-100"></td>
+                    <td>
+                        <select class="new-item-nds">
+                            <option value="-1">Без НДС</option>
+                            <option value="0">0%</option>
+                            <option value="10">10%</option>
+                            <option value="18">18%</option>
+                        </select>
                     </td>
                     <td><span class="new-item-sum price">0,00</span>&nbsp;<span class="rub">&#8399;</span></td>
                     <td><a class="new-item-add action-button green" href="#"><i class="icon-plus"></i></a></td>
                 </tr>
+
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <a href="#" class="action-button add-from-db"><i class="icon-menu"></i>Выбрать из номенклатуры</a>
+                    </td>
+                    <td colspan="3" class="text-right">
+                        Итого:
+                    </td>
+                    <td colspan="2">
+                        <span class="total-sum">0,00</span>&nbsp;<span class="rub">&#8399;</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td colspan="5" class="text-right">
+                        НДС:
+                    </td>
+                    <td colspan="2">
+                        <span class="total-nds">0,00</span>&nbsp;<span class="rub">&#8399;</span>
+                    </td>
+                </tr>
+
                 <tr class="total-row">
-                    <td></td>
-                    <td><a href="#" class="action-button add-from-db"><i class="icon-menu"></i>Выбрать из номенклатуры</a></td>
-                    <td></td>
-                    <td style="text-align: right">Итого:&nbsp;</td>
-                    <td><strong><span class="total-sum">0,00</span>&nbsp;<span class="rub">&#8399;</span></strong></td>
-                    <td></td>
+                    <td colspan="6" class="text-right"><strong>Всего к оплате:</strong></td>
+                    <td colspan="2">
+                        <strong>
+                            <span class="total-sum-over">0,00</span>&nbsp;<span class="rub">&#8399;</span>
+                        </strong>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -14,10 +14,16 @@ block content
         .form-message
 
         .units-row-end
-            .unit-50
+            .unit-100
                 .form-item
                     label(for="name") Наименование
                     input#name.width-100(type='text')
+
+        .units-row-end
+            .unit-50
+                .form-item
+                    label(for="article") Артикул
+                    input#article.width-100(type='text')
 
             .unit-50
                 .form-item
@@ -28,7 +34,7 @@ block content
                         input#_nomgroup_id.width-100(type='hidden', value=nomgroup._id)
                     else
                         select#_nomgroup_id
-                            option(value='') &ndash;
+                            option(value='') &mdash;
                             each val in nomgroups
                                 if nomgroup && val._id.toString() == nomgroup._id.toString()
                                     option(value=val._id, selected) #{val.name}
@@ -38,13 +44,13 @@ block content
         .units-row-end
             .unit-50
                 .form-item
-                    label(for="article") Артикул
-                    input#article.width-100(type='text')
+                    label(for="price") Стоимость
+                    input#price.width-100(type='text')
 
             .unit-50
                 .form-item
-                    label(for="price") Стоимость
-                    input#price.width-100(type='text')
+                    label(for="unit") Еденица измерения
+                    input#unit.width-100(type='text', value='шт.')
 
         hr
         .units-row-end

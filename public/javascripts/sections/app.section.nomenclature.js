@@ -169,6 +169,7 @@ app.sections.nomenclature = {
                     name: '#name',
                     article: '#article',
                     price: '#price',
+                    unit: '#unit',
                     _nomgroup_id: '#_nomgroup_id'
                 },
                 messages: {
@@ -244,6 +245,7 @@ app.sections.nomenclature = {
                     name: '#name',
                     article: '#article',
                     price: '#price',
+                    unit: '#unit',
                     _nomgroup_id: '#_nomgroup_id'
                 },
                 messages: {

@@ -8,7 +8,8 @@ app.docview = {
         this.options = {
             title: 'Title',
             url: '',
-            post: {},
+            method: 'post',
+            data: {},
             tools: true,
             toolbar: true,
             content: '',
@@ -44,7 +45,7 @@ app.docview = {
 
             var print_html = '<a href="#" class="action-button" id="docview-print"><i class="icon-print"></i> Напечатать</a>',
                 send_html = '<a href="#" class="action-button" id="docview-send"><i class="icon-export-alt"></i> Отправить</a>',
-                download_html = '<a href="#" class="action-button" id="docview-download"><i class="icon-doc-inv"></i> Отправить</a>';
+                download_html = '<a href="#" class="action-button" id="docview-download"><i class="icon-doc-inv"></i> Скачать PDF</a>';
 
             if(this.options.tools || this.options.tools === true){
                 if($.isArray(this.options.tools)){
@@ -119,11 +120,17 @@ app.docview = {
 
             var fields = '';
 
-            $.each(this.options.post, function(key, val){
+            $.each(this.options.data, function(key, val){
                 fields += '<input type="hidden" name="' + key + '" value="' + val + '">';
             });
 
-            this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
+            var method = 'post';
+
+            if(this.options.method == 'get'){
+                method = 'get';
+            }
+
+            this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="' + method + '" target="docview_iframe">' + fields + '</form>');
 
             this.$docview.find('.docview-form').submit();
 

@@ -28,7 +28,7 @@ module.exports = function (app, models) {
             }
         }
 
-        models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1 }).sort( { order: -1 } ).exec(function (err, data) {
+        models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1, count: 1 }).sort( { order: -1 } ).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -126,6 +126,39 @@ module.exports = function (app, models) {
         return true;
     };
 
+    this.countNds = function(price, nds){
+        var price = parseFloat(price),
+            nds = parseFloat(nds),
+            nds_converted = (price / 100) * ((nds > 0) ? nds : 0);
+
+        return parseFloat(price + nds_converted);
+    };
+
+    this.getValues = function(data){
+        var values = {
+            items: [],
+            count: 0,
+            sum: 0,
+            nds_sum: 0
+        };
+
+        try{
+            values.items = JSON.parse(decodeURIComponent(data.items));
+            values.sum = 0;
+            values.nds_sum = 0;
+            values.count = values.items.length;
+
+            for(var i = 0; i < values.items.length; i++){
+                values.sum += this.countNds(values.items[i].price, values.items[i].nds) * parseInt(values.items[i].count);
+                values.nds_sum += this.countNds(values.items[i].price, values.items[i].nds) * parseInt(values.items[i].count) - values.items[i].price * parseInt(values.items[i].count);
+            }
+        }catch(e){
+
+        }
+
+        return values;
+    };
+
     this.editItem = function(user, id, data, done){
         var validate = this.validateInputs(data);
 
@@ -133,21 +166,7 @@ module.exports = function (app, models) {
             return done(validate);
         }
 
-        var items = [],
-            count = 0,
-            sum = 0;
-
-        try{
-            items = JSON.parse(decodeURIComponent(data.items));
-            count = items.length;
-            sum = 0;
-
-            for(var i = 0; i < count; i++){
-                sum = sum + parseFloat(items[i].price) * parseInt(items[i].count);
-            }
-        }catch(e){
-
-        }
+        var values = this.getValues(data);
 
         models.account.findOne({ _user_id: user._id, number: data.number, _id: { $ne: id } }, function (err, item) {
             if (err) {
@@ -181,9 +200,10 @@ module.exports = function (app, models) {
                     item.contractor = data.contractor;
                     item.comment    = data.comment;
                     item.status     = data.status;
-                    item.items      = items;
-                    item.sum        = sum;
-                    item.count      = count;
+                    item.items      = values.items;
+                    item.sum        = values.sum;
+                    item.nds        = values.nds_sum;
+                    item.count      = values.count;
 
                     item.save(function (err, data) {
                         if (err) {
@@ -213,21 +233,7 @@ module.exports = function (app, models) {
             return done(validate);
         }
 
-        var items = [],
-            count = 0,
-            sum = 0;
-
-        try{
-            items = JSON.parse(decodeURIComponent(data.items));
-            count = items.length;
-            sum = 0;
-
-            for(var i = 0; i < count; i++){
-                sum = sum + parseFloat(items[i].price) * parseInt(items[i].count);
-            }
-        }catch(e){
-
-        }
+        var values = this.getValues(data);
 
         models.account.findOne({ _user_id: user._id, number: data.number }, function (err, item) {
             if (err) {
@@ -254,9 +260,10 @@ module.exports = function (app, models) {
                 new_item.contractor = data.contractor;
                 new_item.comment = data.comment;
                 new_item.status = data.status;
-                new_item.items = items;
-                new_item.sum = sum;
-                new_item.count = count;
+                new_item.items = values.items;
+                new_item.sum = values.sum;
+                new_item.nds = values.nds_sum;
+                new_item.count = values.count;
 
                 new_item.save(function (err, account_data) {
                     if (err) {

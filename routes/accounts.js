@@ -115,8 +115,6 @@ module.exports = function(app, controllers){
                     }
                 });
 
-                req.pause();
-
                 res.render('accounts.view.jade', params);
             }
         });
@@ -135,7 +133,7 @@ module.exports = function(app, controllers){
         });
     });
 
-    app.post('/accounts/view', app.ensureAuthenticated, function(req, res){
+    app.post('/accounts/viewcustom', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
             data: req.body,
             user: req.user,

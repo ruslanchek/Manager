@@ -63,9 +63,10 @@ block content
             .unit-100
                 .form-item
                     label(for="comment") Комментарий
-                    textarea#comment.width-full-size #{data.comment}
+                    textarea#comment.width-full-size(rows='3', placeholder='Введите текстовый комментарий, если вы хотите, чтобы он появился после списка товаров и услуг') #{data.comment}
 
         hr
+
         .units-row-end
             .unit-100
                 .form-item.no-margin

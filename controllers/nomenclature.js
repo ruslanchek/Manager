@@ -15,7 +15,7 @@ module.exports = function (app, models) {
     };
 
     this.findItems = function (user, filters, done) {
-        models.nomenclature.find( app.utils.extend(filters, { _user_id: user._id }), { _id: 1, name: 1, article: 1, price: 1, _nomgroup_id: 1 } ).sort({ name: 1 }).exec(function (err, data) {
+        models.nomenclature.find( app.utils.extend(filters, { _user_id: user._id }), { _id: 1, name: 1, article: 1, unit: 1, price: 1, _nomgroup_id: 1 } ).sort({ name: 1 }).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -133,6 +133,7 @@ module.exports = function (app, models) {
                 item._user_id = user._id;
                 item.name = data.name;
                 item.article = data.article;
+                item.unit = data.unit;
                 item.price = data.price;
                 item._nomgroup_id = data._nomgroup_id;
 
@@ -201,6 +202,7 @@ module.exports = function (app, models) {
             new_item.name = data.name;
             new_item.article = data.article;
             new_item.price = data.price;
+            new_item.unit = data.unit;
             new_item._nomgroup_id = data._nomgroup_id;
 
             new_item.save(function (err, nomenclature_data) {

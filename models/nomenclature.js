@@ -28,6 +28,10 @@ module.exports = function (app) {
             default: 0
         },
 
+        unit: {
+            type: String
+        },
+
         name: {
             type: String
         }
