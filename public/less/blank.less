@@ -1,6 +1,7 @@
 body {
   margin: 30px;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.2em;
 
   * {
     font-family: Arial, "Helvetica Neue", Helvetica, Tahoma, sans-serif;
@@ -37,6 +38,57 @@ body {
 
     td, th {
       padding: 3px 4px;
+    }
+  }
+
+  .page-separator {
+    page-break-after: always;
+    margin: 80px 0 80px -30px;
+    padding: 0 30px;
+    width: 100%;
+    height: 0;
+    border-bottom: 4px dashed #ccc;
+    position: relative;
+  }
+
+  .page-separator:after {
+    content: 'Разрыв страницы';
+    position: absolute;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    color: #fff;
+    background: #ccc;
+    padding: 0 15px;
+    left: 50%;
+    top: -19px;
+    margin-left: -115px;
+    width: 200px;
+    text-align: center;
+
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+  }
+
+  @media print {
+    body {
+      background: #fff;
+    }
+
+    .docview {
+      width: 100%;
+
+      .tools-bar {
+        display: none;
+      }
+    }
+
+    .page-separator {
+      margin: 0;
+      height: 0;
+      border-bottom: none;
+      visibility: hidden;
     }
   }
 }

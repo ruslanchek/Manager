@@ -17,4 +17,16 @@ module.exports = function(app, controllers){
 
         res.render('main', params);
     });
+
+    app.post('/view', app.ensureAuthenticated, function(req, res){
+        var params = app.utils.extend(common, {
+            user: req.user,
+            section: 'view',
+            metadata: {
+                title: 'View'
+            }
+        });
+
+        res.render('view', params);
+    });
 };

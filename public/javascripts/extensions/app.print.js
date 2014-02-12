@@ -4,45 +4,49 @@ app.print = {
 
         this.options = {
             table_selector: '.items-table',
-            ids: []
+            ids: [],
+            tools: ['print']
         };
+
+        this.print_type = '';
 
         $.extend(this.options, options);
 
-        this.$table = $(this.options.table_selector);
+        this.doDocByDocPrint = function(){
+            this.printDocByDoc({
+                onGatherComplete: function(){
+                    if(_this.modal_controller){
+                        _this.modal_controller.close();
+                    }
+                }
+            });
+        };
 
-        if(this.$table.length <= 0){
-            return;
-        }
+        this.doListPrint = function(){
+            this.printTable();
+        };
 
         this.showDialog = function(){
-            var print_type = '';
-
             app.templates.render('print.list.select-type.html', { }, function(html){
-                var modal_controller = new app.modal.ModalController({
+                _this.modal_controller = new app.modal.ModalController({
                     title: 'Напечатать список счетов',
                     content: html,
                     onShow: function(controller){
                         $('#print-doc-by-doc').on('click', function(e){
                             e.preventDefault();
-                            print_type = 'doc-by-doc';
-
-                            _this.printDocByDoc({
-                                onGatherComplete: function(){
-                                    modal_controller.close();
-                                }
-                            });
+                            _this.print_type = 'doc-by-doc';
+                            _this.doDocByDocPrint();
                         });
 
                         $('#print-list').on('click', function(e){
                             e.preventDefault();
-                            modal_controller.close();
-                            print_type = 'list';
+                            _this.modal_controller.close();
+                            _this.print_type = 'list';
                         });
                     },
                     onClose: function(){
-                        if(print_type == 'list'){
-                            _this.printTable();
+                        if(_this.print_type == 'list'){
+                            _this.doListPrint();
                         }
 
                         app.loading.unSetGlobalLoading('app.print.docbydoc');
@@ -50,7 +54,7 @@ app.print = {
                     draggable: true
                 });
 
-                modal_controller.open();
+                _this.modal_controller.open();
             });
         };
 
@@ -68,6 +72,7 @@ app.print = {
 
                     return cc;
                 },
+
                 setCompleted = function(id){
                     for(var i = 0, l = pool_checklist.length; i < l; i++){
                         if(pool_checklist[i].id == id){
@@ -75,13 +80,18 @@ app.print = {
                         }
                     }
                 },
+
                 completeGather = function(){
                     app.loading.unSetGlobalLoading('app.print.docbydoc');
 
                     var html = '';
 
                     for(var i = 0, l = docs.length; i < l; i++){
-                        html += '<div class="blank-print">' + docs[i] + '</div>';
+                        html += docs[i];
+
+                        if(i < docs.length - 1){
+                            html += '<div class="page-separator"></div>';
+                        }
                     }
 
                     if(options.onGatherComplete){
@@ -90,15 +100,20 @@ app.print = {
 
                     var docview_controller = new app.docview.DocviewController({
                         title: 'Просмотр списка счетов',
-                        type: 'html',
                         content: html,
-                        onReady: function(){
-                            window.print();
+                        url: '/view',
+                        tools: _this.options.tools,
+                        onShow: function(controller){
+
+                        },
+                        onReady: function(controller){
+                            controller.printIframeContent();
                         }
                     });
 
                     docview_controller.open();
                 },
+
                 addPool = function(id){
                     pool_checklist.push({ completed: false, id: id });
 
@@ -140,17 +155,26 @@ app.print = {
                 post: {
                     ids: this.options.ids
                 },
+                tools: this.options.tools,
                 url: this.options.list_url,
-                onReady: function(){
-                    window.print();
+                onReady: function(controller){
+                    controller.printIframeContent();
                 }
             });
 
             docview_controller.open();
         };
 
-        this.select = function(){
-            this.showDialog();
+        this.select = function(type){
+            if(!type){
+                this.showDialog();
+            }else{
+                if(type == 'doc-by-doc'){
+                    this.doDocByDocPrint();
+                }else{
+                    this.doListPrint();
+                }
+            }
         };
     }
 };

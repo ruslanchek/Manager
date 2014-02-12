@@ -43,7 +43,7 @@ app.sections.accounts = {
             post: data,
             url: '/accounts/view',
             onShow: function(){
-                $('.docview .action-download').attr('href', $('.section-tools .action-download').attr('href'));
+
             }
         });
 
@@ -227,7 +227,13 @@ app.sections.accounts = {
         },
 
         print: function(){
+            var print_list_controller = new app.print.PrintListController({
+                ids: [ this.id ],
+                list_url: '/accounts/viewlist',
+                doc_by_doc_url: '/accounts/view'
+            });
 
+            print_list_controller.select('doc-by-doc');
         },
 
         send: function(){
@@ -260,6 +266,11 @@ app.sections.accounts = {
             var _this = this,
                 $body = $('body');
 
+            $body.on('click.action-view', '.action-view', function(e){
+                app.sections.accounts.viewDocument(true);
+                e.preventDefault();
+            });
+
             $body.on('click.action-print', '.action-print', function(e){
                 _this.print();
                 e.preventDefault();
@@ -272,11 +283,6 @@ app.sections.accounts = {
 
             $body.on('click.action-delete', '.action-delete', function(e){
                 _this.delete();
-                e.preventDefault();
-            });
-
-            $('.view-invoice').on('click', function(e){
-                app.sections.accounts.viewDocument(true);
                 e.preventDefault();
             });
         },

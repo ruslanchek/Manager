@@ -21,6 +21,10 @@ block content
             i.icon-export-alt
             |Отправить
 
+        a.action-view.action-button(href="#")
+            i.icon-eye
+            | Посмотреть
+
         a.action-delete.action-button.warning(href="#")
             i.icon-cancel
             |Удалить
@@ -65,8 +69,7 @@ block content
         .units-row-end
             .unit-100
                 .form-item.no-margin
-                    input.button.blue(type='submit', value='Сохранить счет')
-                    input.button.view-invoice(type='button', value='Посмотреть счет')
+                    input.button.blue(type='submit', value='Сохранить')
 
     script.
         app.sections.accounts.edit.init('!{data.id}');

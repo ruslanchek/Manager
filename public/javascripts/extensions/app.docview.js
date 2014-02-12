@@ -11,7 +11,6 @@ app.docview = {
             post: {},
             tools: true,
             toolbar: true,
-            type: 'iframe',
             content: '',
             onShow: function(controller){
 
@@ -19,23 +18,62 @@ app.docview = {
             onClose: function(){
 
             },
-            onReady: function(){
+            onReady: function(controller){
+
+            },
+            onDownload: function(){
+
+            },
+            onPrint: function(){
+
+            },
+            onSend: function(){
 
             }
         };
 
         $.extend(this.options, options);
 
+        this.printIframeContent = function(){
+            this.$iframe.get(0).contentWindow.print();
+        };
+
         this.open = function(){
-
-
             var tools = '',
                 toolbar = '';
 
-            if(this.options.tools == true){
-                tools = '<a href="#" class="action-button action-download"><i class="icon-doc-inv"></i> Скачать PDF</a>' +
-                        '<a href="#" class="action-button action-print"><i class="icon-print"></i> Напечатать</a>' +
-                        '<a href="#" class="action-button action-send"><i class="icon-export-alt"></i> Отправить</a>';
+            var print_html = '<a href="#" class="action-button" id="docview-print"><i class="icon-print"></i> Напечатать</a>',
+                send_html = '<a href="#" class="action-button" id="docview-send"><i class="icon-export-alt"></i> Отправить</a>',
+                download_html = '<a href="#" class="action-button" id="docview-download"><i class="icon-doc-inv"></i> Отправить</a>';
+
+            if(this.options.tools || this.options.tools === true){
+                if($.isArray(this.options.tools)){
+                    for(var i = 0, l = this.options.tools.length; i < l; i++){
+                        if(this.options.tools == 'download'){
+                            tools += download_html;
+                        }
+
+                        if(this.options.tools == 'print'){
+                            tools += print_html;
+                        }
+
+                        if(this.options.tools == 'send'){
+                            tools += send_html;
+                        }
+                    }
+                } else {
+                    if(this.options.tools == 'download' || this.options.tools === true) {
+                        tools += download_html;
+                    }
+
+                    if(this.options.tools == 'print' || this.options.tools === true) {
+                        tools += print_html;
+                    }
+
+                    if(this.options.tools == 'send' || this.options.tools === true) {
+                        tools += send_html;
+                    }
+                }
             }
 
             if(this.options.toolbar == true){
@@ -52,7 +90,6 @@ app.docview = {
 
             $('.app, footer').hide();
 
-
             $('.wrap').append(
                 '<div class="docview">' +
                     toolbar +
@@ -60,40 +97,58 @@ app.docview = {
                 '</div>'
             );
 
+            $('#docview-download').on('click', function(){
+                _this.options.onDownload();
+            });
+
+            $('#docview-print').on('click', function(){
+                _this.printIframeContent();
+            });
+
+            $('#docview-send').on('click', function(){
+                _this.options.onSend();
+            });
+
             this.$docview = $('.docview');
 
-            if(this.options.type == 'iframe'){
-                app.loading.setGlobalLoading('docview.iframe_content');
+            this.$docview.find('.action-button .action-print')
 
-                this.$docview.find('.content').html('<iframe name="docview_iframe"></iframe>');
+            app.loading.setGlobalLoading('docview.iframe_content');
 
-                $('iframe[name="docview_iframe"]').on('ready', function(){
-                    app.loading.unSetGlobalLoading('docview.iframe_content');
+            this.$docview.find('.content').html('<iframe name="docview_iframe"></iframe>');
 
-                    setTimeout(function(){
-                        _this.options.onReady();
-                    }, 600);
-                });
+            var fields = '';
 
-                if(this.options.post){
-                    var fields = '';
+            $.each(this.options.post, function(key, val){
+                fields += '<input type="hidden" name="' + key + '" value="' + val + '">';
+            });
 
-                    $.each(this.options.post, function(key, val){
-                        fields += '<input type="hidden" name="' + key + '" value="' + val + '">';
-                    });
+            this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
 
-                    this.$docview.append('<form action="' + this.options.url + '" class="docview-form" method="post" target="docview_iframe">' + fields + '</form>');
-                    this.$docview.find('.docview-form').submit();
-                    this.$docview.find('.close-docview').on('click', function(e){
-                        e.preventDefault();
-                        _this.close();
-                    });
-                }
-            }else{
-                this.$docview.find('.content').html(this.options.content);
-            }
+            this.$docview.find('.docview-form').submit();
+
+            this.$docview.find('.close-docview').on('click', function(e){
+                e.preventDefault();
+                _this.close();
+            });
 
             this.options.onShow(this);
+
+            this.$iframe = this.$docview.find('iframe[name="docview_iframe"]');
+
+            this.$iframe.on('ready', function(){
+                app.loading.unSetGlobalLoading('docview.iframe_content');
+
+                if(_this.options.content){
+                    var $iframe_contents = _this.$iframe.contents();
+
+                    $iframe_contents.find('.blank-print').append(_this.options.content);
+                }
+
+                setTimeout(function(){
+                    _this.options.onReady(_this);
+                }, 600);
+            });
 
             this.resize = function(){
                 $('.docview .content').css({
