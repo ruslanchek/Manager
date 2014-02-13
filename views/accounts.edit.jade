@@ -13,6 +13,10 @@ block content
             i.icon-doc-inv
             |Скачать PDF
 
+        a.action-view.action-button(href="#")
+            i.icon-eye
+            |Посмотреть
+
         a.action-print.action-button(href="#")
             i.icon-print
             |Напечатать
@@ -67,7 +71,7 @@ block content
             .unit-100
                 .form-item.no-margin
                     input.button.blue(type='submit', value='Сохранить счет')
-                    input.button.action-view(type='button', value='Посмотреть счет')
+                    //input.button.action-view(type='button', value='Посмотреть счет')
 
     script.
         app.sections.accounts.edit.init('!{data.id}');

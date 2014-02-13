@@ -250,19 +250,21 @@ app.sections.accounts = {
         },
 
         send: function(){
-            var modal_controller = new app.modal.ModalController({
-                title: 'Отправить счет по почте',
-                content: 'Content',
-                onShow: function(controller){
+            app.templates.render('email.item.html', { email: 'test@test.test' }, function(html){
+                var modal_controller = new app.modal.ModalController({
+                    title: 'Отправить счет по почте',
+                    content: html,
+                    onShow: function(controller){
 
-                },
-                onClose: function(){
+                    },
+                    onClose: function(){
 
-                },
-                draggable: true
+                    },
+                    draggable: true
+                });
+
+                modal_controller.open();
             });
-
-            modal_controller.open();
         },
 
         delete: function(){
