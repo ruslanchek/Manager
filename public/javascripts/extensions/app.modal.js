@@ -22,7 +22,7 @@ app.modal = {
     ModalController: function(options){
         this.$modal = null;
         this.opened = false;
-        this.id = (Math.random() * 10).toString();
+        this.id = app.utils.makeId(16);
 
         this.options = {
             title: 'Title',

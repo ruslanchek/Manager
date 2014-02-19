@@ -50,6 +50,10 @@ app.sections.settings = {
     },
 
     init: function(){
+        this.upload_controller = new app.upload.UploadImageWithCropController({
+            selector: '.test'
+        });
+
         this.form_controller = new app.form.FormController({
             form_selector: '#form-edit-company',
             url: '/settings/company',

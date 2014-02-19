@@ -2,7 +2,7 @@ app.number = {
     NumberController: function (options) {
         var _this = this;
 
-        this.id = (Math.random() * 10).toString();
+        this.id = app.utils.makeId(16);
 
         this.options = {
             minimum: 1,

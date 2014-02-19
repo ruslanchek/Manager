@@ -309,5 +309,20 @@ app.utils = {
             case 1: return str3;
             default: return str5;
         }
+    },
+
+    makeId: function(l){
+        if(l < 0){
+            l = 5;
+        }
+
+        var text = "",
+            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for(var i = 0; i < l; i++){
+            text += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        return text;
     }
 };
