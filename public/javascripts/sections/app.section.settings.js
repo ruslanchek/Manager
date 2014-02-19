@@ -50,7 +50,7 @@ app.sections.settings = {
     },
 
     init: function(){
-        this.upload_controller = new app.upload.UploadImageWithCropController({
+        this.crop_controller = new app.crop.BasicCropController({
             selector: '.test'
         });
 
