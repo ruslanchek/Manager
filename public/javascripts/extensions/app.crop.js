@@ -5,45 +5,61 @@ app.crop = {
         this.id = app.utils.makeId(16);
 
         this.options = {
+            width: 230,
             selector: ''
         };
 
         $.extend(this.options, options);
 
-        this.updatePreview = function(c){
-            if (parseInt(c.w) > 0) {
-                var rx = 220 / c.w, ry = 220 / c.h;
-            }
+        this.drawPreview = function(){
+
+            /// step 1
+            var oc = document.createElement('canvas'),
+                octx = oc.getContext('2d');
+            oc.width = img.width * 0.5;
+            oc.height = img.height * 0.5;
+            octx.drawImage(img, 0,0, oc.width,oc.height);
+
+            /// step 2
+            octx.drawImage(oc,0,0,oc.width * 0.5,oc.height * 0.5);
+
+            canvas.width=400;
+            canvas.height=150;
+            ctx.drawImage(oc,0,0,oc.width * 0.5, oc.height * 0.5,
+                0,0,canvas.width,canvas.height);
         };
 
-        this.showCoords = function(c){
-            $('#x').val(c.x);
-            $('#y').val(c.y);
-            $('#x2').val(c.x2);
-            $('#y2').val(c.y2);
-            $('#w').val(c.w);
-            $('#h').val(c.h);
+        this.updatePreview = function(c){
+            var canvas = document.getElementById('crop-image-result-' + this.id),
+                context = canvas.getContext('2d'),
+                img = document.getElementById('crop-image-source-' + this.id),
+                $img = $(img),
+                imgW = img.width,
+                imgH = img.height;
+
+            var ratioY = imgH / $img.height(),
+                ratioX = imgW / $img.width();
+
+            var getX = c.x * ratioX,
+                getY = c.y * ratioY,
+                getWidth = c.w * ratioX,
+                getHeight = c.h * ratioY;
+
+            context.drawImage(img, getX, getY, getWidth, getHeight, 0, 0, 320, 320);
         };
 
         this.drawInterface = function(){
             var template =  '<div>' +
-                '<img id="canvasToThumb_{{prefix}}" src="http://www.extremetech.com/wp-content/uploads/2012/12/Audi-A1.jpg" />' +
-                '</div>' +
+                                '<img id="crop-image-source-{{prefix}}" style="width: {{width}}px" src="http://www.hddprotector.com/f/account1.png" />' +
+                            '</div>' +
 
-                '<button id="crop_{{prefix}}">Crop</button>' +
-                '<input type="text" id="x_{{prefix}}"  name="coord_x_{{prefix}}" />' +
-                '<input type="text" id="y_{{prefix}}"  name="coord_y_{{prefix}}" />' +
-                '<input type="text" id="x2_{{prefix}}" name="coord_x2_{{prefix}}"/>' +
-                '<input type="text" id="y2_{{prefix}}" name="coord_y2_{{prefix}}"/>' +
-                '<input type="text" id="w_{{prefix}}"  name="size_w_{{prefix}}"/>' +
-                '<input type="text" id="h_{{prefix}}"  name="size_h_{{prefix}}"/>' +
-                '<canvas id="canvasThumbResult_{{prefix}}" width="400" height="400"></canvas>';
+                            '<canvas id="crop-image-result-{{prefix}}" width="320" height="320"></canvas>';
 
-            var html = app.templates.renderFromVar(template, { prefix: this.id });
+            var html = app.templates.renderFromVar(template, { prefix: this.id, width: this.options.width });
 
             $(this.options.selector).html(html);
 
-            $('#canvasToThumb_' + this.id).Jcrop({
+            $('#crop-image-source-' + this.id).Jcrop({
                 onChange: function(c){
                     _this.updatePreview(c);
                 },
@@ -60,5 +76,9 @@ app.crop = {
         };
 
         this.drawInterface();
+    },
+
+    CropControllerWithUpload: function(){
+
     }
 };
