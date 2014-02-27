@@ -250,7 +250,9 @@ app.sections.accounts = {
         },
 
         send: function(){
-            app.templates.render('email.item.html', { email: 'test@test.test' }, function(html){
+            var description = 'Здравствуйте, во вложении счет №' + $('#number').val() + ' от ООО &laquo;Рога и Копыта&raquo;';
+
+            app.templates.render('email.item.html', { email: 'test@test.test', description: description }, function(html){
                 var modal_controller = new app.modal.ModalController({
                     title: 'Отправить счет по почте',
                     content: html,
