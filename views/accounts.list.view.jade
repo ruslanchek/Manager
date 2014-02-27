@@ -22,7 +22,8 @@ block content
                                 td #{val.count}
                                 td
                                 td
-                                    if val.status == 1
-                                        span.color-green.nowrap Оплачен
-                                    else
-                                        span.color-gray.nowrap Не оплачен
+                                    span.nowrap
+                                        if val.status == 1
+                                            |Оплачен
+                                        else
+                                            |Не оплачен

@@ -5,37 +5,29 @@ app.crop = {
         this.id = app.utils.makeId(16);
 
         this.options = {
-            width: 230,
             selector: ''
         };
 
         $.extend(this.options, options);
 
-        this.drawPreview = function(){
-
-            /// step 1
-            var oc = document.createElement('canvas'),
-                octx = oc.getContext('2d');
-            oc.width = img.width * 0.5;
-            oc.height = img.height * 0.5;
-            octx.drawImage(img, 0,0, oc.width,oc.height);
-
-            /// step 2
-            octx.drawImage(oc,0,0,oc.width * 0.5,oc.height * 0.5);
-
-            canvas.width=400;
-            canvas.height=150;
-            ctx.drawImage(oc,0,0,oc.width * 0.5, oc.height * 0.5,
-                0,0,canvas.width,canvas.height);
-        };
-
         this.updatePreview = function(c){
             var canvas = document.getElementById('crop-image-result-' + this.id),
+                canvas2 = document.getElementById('crop-image-result-2-' + this.id),
                 context = canvas.getContext('2d'),
+                context2 = canvas2.getContext('2d'),
+
                 img = document.getElementById('crop-image-source-' + this.id),
                 $img = $(img),
                 imgW = img.width,
                 imgH = img.height;
+
+            context.webkitImageSmoothingEnabled = true;
+            context.mozImageSmoothingEnabled = true;
+            context.imageSmoothingEnabled = true;
+
+            context2.webkitImageSmoothingEnabled = true;
+            context2.mozImageSmoothingEnabled = true;
+            context2.imageSmoothingEnabled = true;
 
             var ratioY = imgH / $img.height(),
                 ratioX = imgW / $img.width();
@@ -45,15 +37,27 @@ app.crop = {
                 getWidth = c.w * ratioX,
                 getHeight = c.h * ratioY;
 
-            context.drawImage(img, getX, getY, getWidth, getHeight, 0, 0, 320, 320);
+            context.drawImage(img, getX, getY, getWidth, getHeight, -15, -15, 240, 240);
+            context2.drawImage(img, getX, getY, getWidth, getHeight, 0, 0, 240, 240);
         };
 
         this.drawInterface = function(){
-            var template =  '<div>' +
-                                '<img id="crop-image-source-{{prefix}}" style="width: {{width}}px" src="http://www.hddprotector.com/f/account1.png" />' +
-                            '</div>' +
+            var template =  '<div class="crop-tool">' +
+                                '<div class="original">' +
+                                    '<img id="crop-image-source-{{prefix}}" src="http://www.hddprotector.com/f/account1.png" />' +
+                                '</div>' +
 
-                            '<canvas id="crop-image-result-{{prefix}}" width="320" height="320"></canvas>';
+                                '<div class="preview">' +
+                                    '<div class="result">' +
+                                        '<canvas class="result" id="crop-image-result-{{prefix}}" width="210" height="210"></canvas>' +
+                                        '<canvas class="result-2" id="crop-image-result-2-{{prefix}}" width="240" height="240"></canvas>' +
+                                    '</div>' +
+
+                                    '<a href="#" class="button blue">Сохранить</a>' +
+                                '</div>' +
+
+                                '<div class="clear"></div>' +
+                            '</div>';
 
             var html = app.templates.renderFromVar(template, { prefix: this.id, width: this.options.width });
 
@@ -68,10 +72,10 @@ app.crop = {
                 },
                 bgFade: true,
                 bgOpacity: .2,
-                setSelect: [ 0, 0, 220, 220 ],
+                setSelect: [ 0, 0, 100, 100 ],
                 aspectRatio: 1
             },function(){
-                jcrop_api = this;
+                var jcrop_api = this;
             });
         };
 

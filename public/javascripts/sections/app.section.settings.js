@@ -51,7 +51,7 @@ app.sections.settings = {
 
     init: function(){
         this.crop_controller = new app.crop.BasicCropController({
-            selector: '.test'
+            selector: '.crop-upload'
         });
 
         this.form_controller = new app.form.FormController({

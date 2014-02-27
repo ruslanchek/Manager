@@ -3,14 +3,16 @@ extends layouts/main
 block content
     h1 Настройка
 
-    .test
-
     .units-row-end
         .unit-75
             form#form-edit-company.form.forms.forms-columnar(action='')
                 .form-message
 
-                .form-hidden-section.active(data-name="general")
+                .form-hidden-section.active(data-name="seal")
+                    h3 Печать
+                    .crop-upload
+
+                .form-hidden-section(data-name="general")
                     .units-row-end
                         .unit-100
                             .form-item
@@ -136,6 +138,7 @@ block content
                 a(href="#", data-name="address") Адрес организации
                 a(href="#", data-name="contacts") Контактная информация
                 a(href="#", data-name="bank") Реквизиты банка
+                a(href="#", data-name="seal") Печать
 
     script.
         app.sections.settings.init();
