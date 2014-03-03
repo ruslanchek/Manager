@@ -69,14 +69,14 @@ module.exports = function (app, models) {
         if (!username || !app.utils.matchPatternStr(username, 'username')) {
             return done({
                 success: false,
-                message: 'USERNAME_DOES_NOT_MATCH_PATTERN'
+                message: 'CREDENTIALS_IS_WRONG'
             });
         }
 
         if (!password || !app.utils.matchPatternStr(password, 'password')) {
             return done({
                 success: false,
-                message: 'PASSWORD_DOES_NOT_MATCH_PATTERN'
+                message: 'CREDENTIALS_IS_WRONG'
             });
         }
 
@@ -244,6 +244,11 @@ module.exports = function (app, models) {
     };
 
     this.signUp = function(email, username, password, done){
+        return done({
+            success: false,
+            message: 'SIGN_UP_TEMPORARY_SUSPENDED'
+        });
+
         if (!email) {
             return done({
                 success: false,

@@ -12,6 +12,7 @@ app.form = {
         USERNAME_DOES_NOT_MATCH_PATTERN     : 'Имя &mdash; только латинские символы, цифры и дефисы',
         USERNAME_USED                       : 'Имя пользователя уже используется',
 
+        CREDENTIALS_IS_WRONG                : 'Введен неверный пароль или логин',
         PASSWORD_EMPTY                      : 'Пароль обязателен',
         PASSWORD_DOES_NOT_MATCH_PATTERN     : 'Пароль &mdash; только латинские символы, цифры и дефисы',
 
