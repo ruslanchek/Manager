@@ -113,6 +113,42 @@ app.form = {
                 .removeProp('disabled');
         };
 
+        this.pushFormMessage = function(type, message){
+            _this.dismissFormMessage(function(){
+                var class_name = '';
+
+                if(type == 'success' || type === true){
+                    class_name = 'success';
+                }else{
+                    class_name = 'error';
+                }
+
+                _this.$form.find('.form-message')
+                    .addClass(class_name)
+                    .html('<a href="#" class="close icon-cancel"></a>' + _this.parseServerMessage(message))
+                    .slideDown(_this.options.message_animation_time);
+
+                _this.$form.find('.form-message .close').on('click', function(){
+                    _this.$form.find('.form-message').slideUp(100);
+                });
+            });
+        };
+
+        this.dismissFormMessage = function(cb){
+            if(this.$form.find('.form-message').is(':visible')){
+                this.$form.find('.form-message').slideUp(this.options.message_animation_time, function(){
+                    _this.$form.find('.form-message').removeClass('success error').empty();
+                    if(cb){
+                        cb();
+                    }
+                });
+            }else{
+                if(cb){
+                    cb();
+                }
+            }
+        };
+
         this.processForm = function(){
             var data = {};
 
@@ -138,14 +174,9 @@ app.form = {
                 data: data,
                 dataType: 'json',
                 beforeSend: function(){
-                    _this.unSetFieldsErrors();
                     _this.setLoading();
-
-                    if(_this.$form.find('.form-message').is(':visible')){
-                        _this.$form.find('.form-message').slideUp(_this.options.message_animation_time, function(){
-                            _this.$form.find('.form-message').removeClass('success error').empty();
-                        });
-                    }
+                    _this.unSetFieldsErrors();
+                    _this.dismissFormMessage();
 
                     _this.options.beforeSend();
                 },
@@ -154,21 +185,10 @@ app.form = {
                         _this.unSetLoading();
 
                         if(data && data.success === true){
-                            _this.$form.find('.form-message')
-                                .addClass('success')
-                                .html('<a href="#" class="close icon-cancel"></a>' + _this.parseServerMessage(data.message))
-                                .slideDown(_this.options.message_animation_time);
-
-                            _this.$form.find('.form-message .close').on('click', function(){
-                                _this.$form.find('.form-message').slideUp(100);
-                            });
-
+                            _this.pushFormMessage(true, data.message);
                             _this.options.onSuccess(data);
                         }else{
-                            _this.$form.find('.form-message')
-                                .addClass('error')
-                                .html('<a href="#" class="close icon-cancel"></a>' + _this.parseServerMessage(data.message))
-                                .slideDown(_this.options.message_animation_time);
+                            _this.pushFormMessage(false, data.message);
 
                             if(data.fields){
                                 _this.setFieldsErrors(data.fields);
@@ -179,24 +199,12 @@ app.form = {
                             }
                         }
 
-                        _this.$form.find('.form-message .close').on('click', function(){
-                            _this.$form.find('.form-message').slideUp(100);
-                        });
-
                     }, _this.options.message_animation_time * 1.5);
                 },
                 error: function(){
                     setTimeout(function(){
                         _this.unSetLoading();
-
-                        _this.$form.find('.form-message')
-                            .addClass('error')
-                            .html('<a href="#" class="close icon-cancel"></a>' + _this.parseServerMessage('SERVER_ERROR'))
-                            .slideDown(_this.options.message_animation_time);
-
-                        _this.$form.find('.form-message .close').on('click', function(){
-                            _this.$form.find('.form-message').slideUp(100);
-                        });
+                        _this.pushFormMessage(false, 'SERVER_ERROR');
 
                     }, _this.options.message_animation_time * 1.5);
                 }

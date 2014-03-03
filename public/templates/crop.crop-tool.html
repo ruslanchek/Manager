@@ -1,15 +1,25 @@
-<div class="crop-tool">
+<div class="crop-tool crop-tool-{{prefix}}">
     <div class="original">
-        <img id="crop-image-source-{{prefix}}" src="http://thumbs.dreamstime.com/z/selected-quality-stamp-18432382.jpg" />
-        </div>
+        <img id="crop-image-source-{{prefix}}" src="{{src}}" />
+    </div>
 
     <div class="preview">
         <div class="result">
+            <div class="stamp-overlay"></div>
             <canvas class="result" id="crop-image-result-{{prefix}}" width="240" height="240"></canvas>
-            </div>
 
-        <a href="#" class="button blue">Сохранить</a>
+            <a href="#" class="button crop-cancel-{{prefix}}">Выбрать другое изображение</a>
         </div>
 
+        Перемещайте или изменяйте размер выделенной области в&nbsp;лувом блоке, и&nbsp;старайтесь
+        подогнать результат в&nbsp;правом блоке так, чтобы печать уместилась в&nbsp;круге.
+
+        <br/>
+
+        <br/>
+
+        <a class="action-button" href="#">Пример документа с печатью</a>
+    </div>
+
     <div class="clear"></div>
-</div>'
+</div>

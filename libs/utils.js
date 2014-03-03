@@ -636,14 +636,30 @@ this.pad = function(number, length) {
 
 
 /**
+ * Random seed
+ * */
+this.generateRandomSeed = function(){
+    var seed = Math.random().toString(),
+        md5 = crypto.createHash('md5');
+
+    if(arguments.length > 0){
+        for(var i = 0, l = arguments.length; i < l; i++){
+            seed += arguments[i];
+        }
+    }
+
+    md5.update(seed);
+
+    return md5.digest('hex');
+};
+
+
+/**
  * Create pdf
  * */
 this.generatePDF = function(url, sid, res, fname){
-    var md5 = crypto.createHash('md5');
-
-    md5.update(sid + '-' + Math.random());
-
-    var pdf_filename = __dirname + '/../generated/tmp/pdf/' + md5.digest('hex') + '.pdf';
+    var random_name = this.generateRandomSeed(sid),
+        pdf_filename = __dirname + '/../generated/tmp/pdf/' + random_name + '.pdf';
 
     exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
         if(!err){

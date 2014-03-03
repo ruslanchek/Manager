@@ -50,10 +50,6 @@ app.sections.settings = {
     },
 
     init: function(){
-        this.crop_controller = new app.crop.BasicCropController({
-            selector: '.crop-upload'
-        });
-
         this.form_controller = new app.form.FormController({
             form_selector: '#form-edit-company',
             url: '/settings/company',
@@ -65,6 +61,11 @@ app.sections.settings = {
                 $('#global-company-type').html($('#cc_type option:selected').html());
                 $('#global-company-name').html($('#cc_name').val());
             }
+        });
+
+        this.crop_controller = new app.crop.BasicCropController({
+            form_controller: this.form_controller,
+            selector: '.crop-upload'
         });
 
         this.kladr_controller = new app.kladr_address.KladrAddressController({

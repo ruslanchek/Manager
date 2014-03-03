@@ -1,26 +1,33 @@
-<div class="upload-tool">
+<div class="upload-tool upload-tool-{{prefix}}">
     <div class="text">
         <p>
             Чтобы загрузить печать правильно, возьмите чистый лист бумаги формата A4, поставьте на нем печать,
             желательно в центре листа, постарайтесь сделать это аккуратно, без разводов и четко, так,
             чтобы она не была повернута относительно книжной ориентации листа.
         </p>
+
         <p>
             Затем отсканируйте,
             выбрав не самую высокое разрешение, не более 300 точек на дюйм. Далее, нажмите на кнопку
             &laquo;Выбрать изображение&raquo; и выберите получившееся изображение.
         </p>
 
-        <a class="action-button" href="#">Пример печати</a>&nbsp;&nbsp;&nbsp;
-        <a class="action-button" href="#">Пример документа с печатью</a>
+        <p class="color-gray-light">
+            Загружайте изображения в формате JPEG, объемом не более 2 МБ.
+        </p>
 
+        <a class="action-button" href="#">Пример листа с печатью</a>
     </div>
 
     <div class="current-picture">
         <div class="picture">
-            <a class="placeholder upload animation-300-easeInOutQuart" href="#"><img src="/images/icons/upload@2x.png"></a>
-            </div>
-        <a href="#" class="button upload">Выбрать изображение</a>
+            <a id="upload-dropzone-{{prefix}}" class="placeholder upload animation-300-easeInOutQuart upload-init-{{prefix}}" href="#"><img src="/images/icons/upload@2x.png"></a>
         </div>
+
+        <a href="#" class="button upload upload-init-{{prefix}}">Выбрать изображение</a>
+    </div>
+
     <div class="clear"></div>
+
+    <input type="file" class="file-input" id="upload-file-{{prefix}}" name="upload_file_{{prefix}}" />
 </div>
