@@ -15,5 +15,6 @@ Frontend (root of /public dir)
 /javascripts/extensions     - app.js core extensions
 /javascripts/libs           - JS-libs dir (jQuery, other frameworks, etc.)
 /javascripts/modules        - App modules
+/javascripts/plugins        - Jquery plugins folder
 /stylesheets                - CSS-files dir
 /templates                  - A frontend template engine html's folder
