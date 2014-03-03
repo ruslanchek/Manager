@@ -26,7 +26,7 @@ app.items_selector = {
             this.$container.find('.new-item-price').val('');
             this.$container.find('.new-item-count').val(1);
             this.$container.find('.new-item-unit').val('');
-            this.$container.find('.new-item-nds').val('-1');
+            this.$container.find('.new-item-nds').val('-1').trigger("chosen:updated");
             this.recountNewItem();
             this.$container.find('.new-item-name').focus();
         };
@@ -187,9 +187,10 @@ app.items_selector = {
         };
 
         this.countNds = function(price, nds){
-            var price = parseFloat(price),
-                nds = parseFloat(nds),
-                nds_converted = (price / 100) * ((nds > 0) ? nds : 0);
+            price = parseFloat(price);
+            nds = parseFloat(nds);
+
+            var nds_converted = (price / 100) * ((nds > 0) ? nds : 0);
 
             return parseFloat(price + nds_converted);
         };
