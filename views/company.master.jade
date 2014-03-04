@@ -1,7 +1,12 @@
 extends layouts/main
 
 block content
-    h1 Мастер настройки компании
+    h1
+        if mode == 'edit'
+            |Мастер настройки компании
+        else
+            |Мастер добавления компании
+
         span.color-gray-light.step-names(style="display: none")
             |&nbsp;&mdash; шаг
             |&nbsp;
@@ -142,4 +147,4 @@ block content
                         input.button.blue.next-step(type='submit', value='Следующий шаг')
 
     script.
-        app.sections.company.init('!{data.mode}');
+        app.sections.company.init('!{mode}');

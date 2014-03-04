@@ -183,6 +183,10 @@ app.sections.company = {
         });
 
         this.setSlidePosition(step);
+
+        if(this.form_controller){
+            this.form_controller.dismissFormMessage();
+        }
     },
 
     step1: function(){

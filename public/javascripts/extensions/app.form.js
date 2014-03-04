@@ -143,11 +143,14 @@ app.form = {
             if(this.$form.find('.form-message').is(':visible')){
                 this.$form.find('.form-message').slideUp(this.options.message_animation_time, function(){
                     _this.$form.find('.form-message').removeClass('success error').empty();
+                    _this.unSetFieldsErrors();
                     if(cb){
                         cb();
                     }
                 });
             }else{
+                _this.unSetFieldsErrors();
+                
                 if(cb){
                     cb();
                 }
@@ -180,7 +183,6 @@ app.form = {
                 dataType: 'json',
                 beforeSend: function(){
                     _this.setLoading();
-                    _this.unSetFieldsErrors();
                     _this.dismissFormMessage();
 
                     _this.options.beforeSend();

@@ -10,6 +10,7 @@ module.exports = function(app, controllers){
         var params = app.utils.extend(common, {
             user: req.user,
             section: 'main',
+            mode: 'add',
             data: {},
             metadata: {
                 title: 'Новая компания'
@@ -23,6 +24,8 @@ module.exports = function(app, controllers){
         var params = app.utils.extend(common, {
             user: req.user,
             section: 'main',
+            mode: 'edit',
+            data: {},
             metadata: {
                 title: 'Новая компания'
             }
