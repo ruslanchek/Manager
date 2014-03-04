@@ -35,6 +35,7 @@ app.form = {
             onFail: function(){},
 
             from_modal: false,
+            show_success_message: true,
             modal_controller: null,
             fields: {},
             url: '',
@@ -114,6 +115,10 @@ app.form = {
         };
 
         this.pushFormMessage = function(type, message){
+            if(this.options.show_success_message !== true && (type == true || type == 'success')){
+                return;
+            }
+
             _this.dismissFormMessage(function(){
                 var class_name = '';
 
@@ -150,7 +155,7 @@ app.form = {
         };
 
         this.processForm = function(){
-            var data = {};
+            var send_data = {};
 
             for (var key in _this.options.fields) {
                 if (_this.options.fields.hasOwnProperty(key)) {
@@ -158,12 +163,12 @@ app.form = {
 
                     if($field.attr('type') == 'checkbox'){
                         if($field.prop('checked') === true){
-                            data[key] = 1;
+                            send_data[key] = 1;
                         }else{
-                            data[key] = 0;
+                            send_data[key] = 0;
                         }
                     }else{
-                        data[key] = $field.val();
+                        send_data[key] = $field.val();
                     }
                 }
             }
@@ -171,7 +176,7 @@ app.form = {
             $.ajax({
                 url: _this.options.url,
                 type: 'post',
-                data: data,
+                data: send_data,
                 dataType: 'json',
                 beforeSend: function(){
                     _this.setLoading();
@@ -181,6 +186,8 @@ app.form = {
                     _this.options.beforeSend();
                 },
                 success: function (data) {
+                    data.send_data = send_data;
+
                     setTimeout(function(){
                         _this.unSetLoading();
 

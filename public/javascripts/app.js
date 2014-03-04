@@ -61,5 +61,9 @@ var app = {
         this.tableSorting();
 		this.numeral();
 		this.chosen();
+
+        this.select_company_controller = new app.company.CompanySelectController({
+
+        });
     }
 };

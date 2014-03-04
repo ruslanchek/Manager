@@ -130,6 +130,10 @@ module.exports = function (app) {
             type: String
         },
 
+        cc_website: {
+            type: String
+        },
+
         cc_ceo_name: {
             type: String
         },
