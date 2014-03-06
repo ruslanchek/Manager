@@ -369,7 +369,10 @@ header {
 // Buttons
 .button {
   text-decoration: none;
-  background: @panel-bg-light - 20;
+  background-image: url(../images/gradient.png);
+  background-repeat: repeat-x;
+  background-position: top;
+  background-color: @panel-bg-light - 20;
   display: inline-block;
   padding: 0 15px;
   margin: 0 25px 0 0;
@@ -420,21 +423,21 @@ header {
 }
 
 .button:hover {
-  background: @panel-bg-light - 32;
+  background-color: @panel-bg-light - 32;
   color: #59575E;
 }
 
 .button.blue {
-  background: @color-blue;
+  background-color: @color-blue;
   color: #fff !important;
 }
 
 .button.blue:hover {
-  background: @color-blue-dark;
+  background-color: @color-blue-dark;
 }
 
 .button.red {
-  background: @color-red;
+  background-color: @color-red;
   color: #fff;
 }
 
@@ -467,7 +470,7 @@ header {
 .section-tools {
   display: block;
   padding: 10px;
-  background: @panel-bg-light - 10;
+  background-color: @panel-bg-light - 10;
   border-bottom: 2px solid @panel-bg-light - 25;
   border-radius: @ui-border-radius-top;
   -webkit-border-radius: @ui-border-radius-top;
@@ -501,7 +504,7 @@ header {
   }
 
   .action-button.only-icon {
-    background: @panel-bg-light - 40;
+    background-color: @panel-bg-light - 40;
     color: #59575E;
 
     @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -512,7 +515,7 @@ header {
   }
 
   .action-button.only-icon:hover {
-    background: @panel-bg-light - 30;
+    background-color: @panel-bg-light - 30;
   }
 
   .action-button.only-icon:active {
@@ -525,6 +528,10 @@ header {
 }
 
 .action-button {
+  background-image: url(../images/gradient.png);
+  background-repeat: repeat-x;
+  background-position: top;
+
   border: none;
   display: inline-block;
   padding: 3px 12px;
@@ -576,7 +583,7 @@ input.action-button {
 }
 
 .action-button:hover {
-  background: @panel-bg-light - 40;
+  background-color: @panel-bg-light - 40;
   color: #59575E;
 
   @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -595,7 +602,7 @@ input.action-button {
 }
 
 .action-button.green {
-  background: @color-green;
+  background-color: @color-green;
   border: none;
   color: #fff;
 
@@ -607,7 +614,7 @@ input.action-button {
 }
 
 .action-button.green:hover {
-  background: @color-green-dark;
+  background-color: @color-green-dark;
   border-color: @color-green-dark;
   color: #fff;
 }
@@ -621,7 +628,7 @@ input.action-button {
 }
 
 .action-button.blue {
-  background: @color-blue !important;
+  background-color: @color-blue !important;
   color: #fff !important;
 
   @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -632,7 +639,7 @@ input.action-button {
 }
 
 .action-button.blue:hover {
-  background: @color-blue-dark !important;
+  background-color: @color-blue-dark !important;
   color: #fff !important;
 }
 
@@ -645,7 +652,7 @@ input.action-button {
 }
 
 .action-button.red {
-  background: @color-red;
+  background-color: @color-red;
   border-color: @color-red;
   color: #fff;
 
@@ -657,7 +664,7 @@ input.action-button {
 }
 
 .action-button.red:hover {
-  background: @color-red-dark;
+  background-color: @color-red-dark;
   border-color: @color-red-dark;
   color: #fff;
 }
@@ -675,7 +682,7 @@ input.action-button {
 }
 
 .action-button.warning:hover {
-  background: @color-red-dark;
+  background-color: @color-red-dark;
   border-color: @color-red-dark;
   color: #fff;
   i {
@@ -793,19 +800,29 @@ input.action-button {
 
 //Stepped form
 .progress-bar {
-  @bar-height: 20px;
+  @bar-height: 6px;
+
+  background-image: url(../images/gradient.png);
+  background-repeat: repeat-x;
+  background-position: top;
 
   height: @bar-height;
-  background: @panel-bg-light;
-  margin: 0 0 20px;
+  background-color: @panel-bg-light;
+
+  margin: 0 0 10px;
 
   border-radius: @ui-border-radius;
   -webkit-border-radius: @ui-border-radius;
   -moz-border-radius: @ui-border-radius;
 
   div {
-    background: @color-green;
     height: @bar-height;
+
+    background-image: url(../images/gradient.png);
+    background-repeat: repeat-x;
+    background-position: top;
+
+    background-color: @color-green;
 
     border-radius: @ui-border-radius;
     -webkit-border-radius: @ui-border-radius;
