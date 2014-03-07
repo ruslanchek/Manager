@@ -2958,7 +2958,10 @@ textarea {
   border-radius: 0 3px 3px 0;
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
-  background: #cccbcd;
+  background-image: url(../images/gradient.png);
+  background-repeat: repeat-x;
+  background-position: top;
+  background-color: #cccbcd;
   color: #59575E;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
@@ -3089,14 +3092,17 @@ input[type="radio"].stylish:checked:after {
   line-height: 29px;
   text-align: center;
   color: #59575E;
-  background: #cccbcd;
+  background-color: #cccbcd;
+  background-image: url(../images/gradient.png);
+  background-repeat: repeat-x;
+  background-position: top;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
   -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
 }
 .number-input .change-up:hover,
 .number-input .change-down:hover {
-  background: #d6d5d7;
+  background: #dbdadc;
 }
 .number-input .change-up:active,
 .number-input .change-down:active {
@@ -3155,7 +3161,7 @@ input[type="radio"].stylish:checked:after {
   white-space: nowrap;
 }
 .items-selector table .new-item-row {
-  background: #F2F1F5;
+  background-color: #F2F1F5;
 }
 .items-selector table .total-row td {
   border-bottom: none;
