@@ -182,6 +182,13 @@ module.exports = function (app) {
         mc_nomgroup: {
             type: Number,
             default: 0
+        },
+
+
+        // Misc
+        companies: {
+            type: Number,
+            default: 0
         }
     });
 

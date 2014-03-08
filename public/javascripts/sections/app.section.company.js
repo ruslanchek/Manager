@@ -269,7 +269,7 @@ app.sections.company = {
 
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
-            url: '/company/add/step3',
+            url: '/company/add/step4',
             show_success_message: false,
             fields: app.sections.company.fields.step3,
             messages: {

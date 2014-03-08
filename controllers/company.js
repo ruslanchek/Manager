@@ -76,9 +76,12 @@ module.exports = function (app, models) {
     };
 
     this.checkStep3 = function(data, done){
-
         return done({
             success: true
         });
+    };
+
+    this.checkStep4 = function(data, user, done){
+
     };
 };

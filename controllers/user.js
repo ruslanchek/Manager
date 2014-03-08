@@ -2,6 +2,23 @@ var generatePassword = require('password-generator'),
     crypto = require('crypto');
 
 module.exports = function (app, models) {
+    var _this = this;
+
+    this.getCompaniesCount = function(user_id, done){
+        models.company.find({ _user_id: user_id }).count(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done(err, false);
+            }
+
+            if (data > 0 || data === 0) {
+                return done(false, data);
+            }
+
+            return done(false, false);
+        });
+    };
+
     this.findOrCreate = function(provider, profile, done) {
         if (!profile.id || (!profile.username && !profile.displayName)) {
             return done('NO_ID_RECEIVED');
@@ -50,7 +67,6 @@ module.exports = function (app, models) {
 
                     new_user.save(function (err, user) {
                         if (err) {
-                            console.log(err)
                             app.log.error('User save error', err);
 
                             return done(err);
@@ -203,7 +219,7 @@ module.exports = function (app, models) {
                 user.restore_hash = '';
 
                 user.save(function (err, user) {
-                if (err) {
+                    if (err) {
                         app.log.error('User save error', err);
 
                         return done({
