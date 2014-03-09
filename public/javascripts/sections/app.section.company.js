@@ -6,6 +6,8 @@ app.sections.company = {
     mode: 'add',
 
     form_data: {
+        form_mode           : '',
+
         cc_type             : '',
         cc_name             : '',
         cc_inn              : '',
@@ -21,16 +23,16 @@ app.sections.company = {
         cc_street           : '',
         cc_house            : '',
 
+        bank_name           : '',
+        bank_bik            : '',
+        bank_pay_account    : '',
+        bank_corr_account   : '',
+
         cc_phone            : '',
         cc_fax              : '',
         cc_email            : '',
         cc_skype            : '',
-        cc_website          : '',
-
-        bank_name           : '',
-        bank_bik            : '',
-        bank_pay_account    : '',
-        bank_corr_account   : ''
+        cc_website          : ''
     },
 
     fields: {
@@ -55,18 +57,20 @@ app.sections.company = {
         },
 
         step3: {
+            bank_name           : '#bank_name',
+            bank_bik            : '#bank_bik',
+            bank_pay_account    : '#bank_pay_account',
+            bank_corr_account   : '#bank_corr_account'
+        },
+
+        step4: {
+            form_mode           : '#form_mode',
+
             cc_phone            : '#cc_phone',
             cc_fax              : '#cc_fax',
             cc_email            : '#cc_email',
             cc_skype            : '#cc_skype',
             cc_website          : '#cc_website'
-        },
-
-        step4: {
-            bank_name           : '#bank_name',
-            bank_bik            : '#bank_bik',
-            bank_pay_account    : '#bank_pay_account',
-            bank_corr_account   : '#bank_corr_account'
         }
     },
 

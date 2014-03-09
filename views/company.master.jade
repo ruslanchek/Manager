@@ -18,6 +18,8 @@ block content
         div.animation-600-easeInOutQuart(style="width: 0%")
 
     form#form-company.form.forms.forms-columnar.slideable(action='')
+        input#form_mode(type="hidden", name="form_mode", value=mode)
+
         .form-message
 
         .slideable-wrapper.animation-600-easeInOutQuart
@@ -91,30 +93,6 @@ block content
                     .units-row-end
                         .unit-100
                             .form-item
-                                h3 Контактная информация
-
-                    .units-row-end
-                        .unit-80
-                            .form-item
-                                label(for="cc_phone") Телефон
-                                input#cc_phone.width-100(type='tel', value=data.cc_phone)
-
-                            .form-item
-                                label(for="cc_fax") Факс
-                                input#cc_fax.width-100(type='tel', value=data.cc_fax)
-
-                            .form-item
-                                label(for="cc_email") e-mail
-                                input#cc_email.width-100(type='email', value=data.cc_email)
-
-                            .form-item
-                                label(for="cc_skype") Skype
-                                input#cc_skype.width-100(type='text', value=data.cc_skype)
-
-                .form-step(data-step="4")
-                    .units-row-end
-                        .unit-100
-                            .form-item
                                 h3 Реквизиты банка
 
                     .units-row-end
@@ -134,6 +112,30 @@ block content
                             .form-item
                                 label(for="bank_corr_account") Корр. счет
                                 input#bank_corr_account.width-100(type='text', value=data.bank_corr_account)
+
+                .form-step(data-step="4")
+                    .units-row-end
+                        .unit-100
+                            .form-item
+                                h3 Контактная информация
+
+                    .units-row-end
+                        .unit-80
+                            .form-item
+                                label(for="cc_phone") Телефон
+                                input#cc_phone.width-100(type='tel', value=data.cc_phone)
+                            .form-item
+                                label(for="cc_fax") Факс
+                                input#cc_fax.width-100(type='tel', value=data.cc_fax)
+                            .form-item
+                                label(for="cc_email") E-mail
+                                input#cc_email.width-100(type='email', value=data.cc_email)
+                            .form-item
+                                label(for="cc_website") Сайт
+                                input#cc_website.width-100(type='text', value=data.cc_website)
+                            .form-item
+                                label(for="cc_skype") Skype
+                                input#cc_skype.width-100(type='text', value=data.cc_skype)
 
                 .form-step(data-step="5")
                     h2 Все круто!

@@ -53,7 +53,7 @@ module.exports = function(app, controllers){
     });
 
     app.post('/company/add/step4', app.ensureAuthenticated, function(req, res){
-        controllers.company.checkStep4(req.body, function(result){
+        controllers.company.checkStep4(req, function(result){
             res.json(result);
         });
     });

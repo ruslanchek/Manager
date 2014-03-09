@@ -76,12 +76,99 @@ module.exports = function (app, models) {
     };
 
     this.checkStep3 = function(data, done){
+        if(!data.bank_name){
+            return done({
+                success: false,
+                message: 'BANK_CORR_ACCOUNT_EMPTY',
+                fields: ['bank_name']
+            });
+        }
+
+        if(!data.bank_bik){
+            return done({
+                success: false,
+                message: 'BANK_BIK_EMPTY',
+                fields: ['bank_bik']
+            });
+        }
+
+        if(!data.bank_pay_account){
+            return done({
+                success: false,
+                message: 'BANK_PAY_ACCOUNT_EMPTY',
+                fields: ['bank_pay_account']
+            });
+        }
+
+        if(!data.bank_corr_account){
+            return done({
+                success: false,
+                message: 'BANK_CORR_ACCOUNT_EMPTY',
+                fields: ['bank_corr_account']
+            });
+        }
+
         return done({
             success: true
         });
     };
 
-    this.checkStep4 = function(data, user, done){
+    this.checkStep4 = function(req, done){
+        var data = req.body,
+            user = req.user,
+            session = req.session;
 
+        if(data._id){
+            data._id = user._id;
+        }
+
+        this.edit = function(req, done){
+            var data = req.body,
+                user = req.user,
+                session = req.session;
+
+            if(data._id){
+                data._id = user._id;
+            }
+
+            models.user.findOne({ _id: user._id }, function (err, user) {
+                if (err) {
+                    app.log.error('findOneAndUpdate error', err);
+
+                    return done({
+                        success: false,
+                        message: 'SERVER_ERROR'
+                    });
+                }
+
+                if(session && session.passport && session.passport.user){
+                    Object.keys(data).forEach(function(key) {
+                        if(user[key] && key !== '_id'){
+                            session.passport.user[key] = data[key];
+                            user[key] = data[key];
+                        }
+                    });
+
+                    session.save();
+                    user.companies = user.companies + 1;
+
+                    user.save(function (err, user) {
+                        if (err) {
+                            app.log.error('User save error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK'
+                        });
+                    });
+                }
+            });
+        };
     };
 };

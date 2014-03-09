@@ -401,7 +401,7 @@ module.exports = function (app, models) {
             data._id = user._id;
         }
 
-        models.user.findOneAndUpdate({ _id: user._id }, data, function (err, item) {
+        models.user.findOne({ _id: user._id }, function (err, user) {
             if (err) {
                 app.log.error('findOneAndUpdate error', err);
 
@@ -413,18 +413,30 @@ module.exports = function (app, models) {
 
             if(session && session.passport && session.passport.user){
                 Object.keys(data).forEach(function(key) {
-                    if(item[key]){
-                        session.passport.user[key] = item[key];
+                    if(user[key] && key !== '_id'){
+                        session.passport.user[key] = data[key];
+                        user[key] = data[key];
                     }
                 });
 
                 session.save();
-            }
 
-            return done({
-                success: true,
-                message: 'OK'
-            });
+                user.save(function (err, user) {
+                    if (err) {
+                        app.log.error('User save error', err);
+
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    return done({
+                        success: true,
+                        message: 'OK'
+                    });
+                });
+            }
         });
     };
 
