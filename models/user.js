@@ -186,9 +186,8 @@ module.exports = function (app) {
 
 
         // Misc
-        companies: {
-            type: Number,
-            default: 0
+        current_company: {
+            type: String
         }
     });
 

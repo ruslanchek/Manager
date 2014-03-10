@@ -120,55 +120,47 @@ module.exports = function (app, models) {
 
         if(data._id){
             data._id = user._id;
+            data.current_company = 1;
         }
 
-        this.edit = function(req, done){
-            var data = req.body,
-                user = req.user,
-                session = req.session;
+        // Сделать тут проверку данных, затем создание компании, получение ее ID и запись всего этого юзеру и сессии
 
-            if(data._id){
-                data._id = user._id;
+        models.user.findOne({ _id: user._id }, function (err, user) {
+            if (err) {
+                app.log.error('findOneAndUpdate error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
             }
 
-            models.user.findOne({ _id: user._id }, function (err, user) {
-                if (err) {
-                    app.log.error('findOneAndUpdate error', err);
+            if(session && session.passport && session.passport.user){
+                Object.keys(data).forEach(function(key) {
+                    if(user[key] && key !== '_id'){
+                        session.passport.user[key] = data[key];
+                        user[key] = data[key];
+                    }
+                });
 
-                    return done({
-                        success: false,
-                        message: 'SERVER_ERROR'
-                    });
-                }
+                session.save();
 
-                if(session && session.passport && session.passport.user){
-                    Object.keys(data).forEach(function(key) {
-                        if(user[key] && key !== '_id'){
-                            session.passport.user[key] = data[key];
-                            user[key] = data[key];
-                        }
-                    });
-
-                    session.save();
-                    user.companies = user.companies + 1;
-
-                    user.save(function (err, user) {
-                        if (err) {
-                            app.log.error('User save error', err);
-
-                            return done({
-                                success: false,
-                                message: 'SERVER_ERROR'
-                            });
-                        }
+                user.save(function (err, user) {
+                    if (err) {
+                        app.log.error('User save error', err);
 
                         return done({
-                            success: true,
-                            message: 'OK'
+                            success: false,
+                            message: 'SERVER_ERROR'
                         });
+                    }
+
+                    return done({
+                        success: true,
+                        message: 'OK'
                     });
-                }
-            });
-        };
+                });
+            }
+        });
     };
 };

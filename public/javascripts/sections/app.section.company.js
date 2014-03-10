@@ -275,7 +275,12 @@ app.sections.company = {
             form_selector: '#form-company',
             url: '/company/add/step4',
             show_success_message: false,
-            fields: app.sections.company.fields.step3,
+            fields: $.extend(
+                app.sections.company.fields.step1,
+                app.sections.company.fields.step2,
+                app.sections.company.fields.step3,
+                app.sections.company.fields.step4
+            ),
             messages: {
 
             },
