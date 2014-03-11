@@ -35,7 +35,7 @@ module.exports = function(app, express){
      * HTTP errors
      * */
     if ('development' != app.get('env')) {
-        app.use(function(req, res, next){
+        app.use(function(req, res, done){
             res.status(404);
             app.log.debug('Not found URL: %s', req.url);
             res.render('404', { code: '404' });

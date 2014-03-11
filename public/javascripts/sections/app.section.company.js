@@ -309,6 +309,12 @@ app.sections.company = {
         });
     },
 
+    noCompany: function(){
+        if(document.location.pathname != '/company/add'){
+            document.location.href = '/company/add';
+        }
+    },
+
     init: function(mode, id){
         this.mode = mode;
         this.id = id;

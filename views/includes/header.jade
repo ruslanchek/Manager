@@ -1,13 +1,19 @@
+a.notice.yellow(href="#")
+    i.icon-mail
+    span Пожалуйста, подтвердите свой адрес электронной почты
+
 header
     a.logo(href="/")
         i
         |Менеджер
+
     .user-params
-        strong
-            span#global-company-type #{utils.getCompanyTypeName(user.cc_type)}
-            |&nbsp;&laquo;
-            span#global-company-name #{user.cc_name}
-            |&raquo;
+        if user.cc_name
+            strong
+                span#global-company-type #{utils.getCompanyTypeName(user.cc_type)}
+                |&nbsp;&laquo;
+                span#global-company-name #{user.cc_name}
+                |&raquo;
 
         a.action-button(href="/user")
             i.icon-user-female

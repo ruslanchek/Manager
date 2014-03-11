@@ -188,6 +188,16 @@ module.exports = function (app) {
         // Misc
         current_company: {
             type: String
+        },
+
+        companies: {
+            type: Number,
+            default: 0
+        },
+
+        approved_email: {
+            type: Boolean,
+            default: false
         }
     });
 

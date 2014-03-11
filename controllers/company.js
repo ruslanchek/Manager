@@ -122,10 +122,8 @@ module.exports = function (app, models) {
 
         if(data._id){
             data._id = user._id;
-            data.current_company = 1;
         }
 
-        // Сделать тут проверку данных, затем создание компании, получение ее ID и запись всего этого юзеру и сессии
         if(data.form_mode == 'add'){
             _this.addItem(user, data, session, function(result){
                 if(result.success == true){
@@ -221,7 +219,10 @@ module.exports = function (app, models) {
                 session.passport.user.cc_skype = data.cc_skype;
                 session.passport.user.cc_website = data.cc_website;
 
-                session.save(function(err){
+                _this.getCompaniesCount(user._id, function(err, count){
+                    user.companies = count;
+                    session.passport.user.companies = count;
+
                     if (err) {
                         app.log.error('User session save error', err);
 
@@ -231,9 +232,9 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    user.save(function (err, user) {
+                    session.save(function(err){
                         if (err) {
-                            app.log.error('User save error', err);
+                            app.log.error('User session save error', err);
 
                             return done({
                                 success: false,
@@ -241,10 +242,21 @@ module.exports = function (app, models) {
                             });
                         }
 
-                        return done({
-                            success: true,
-                            message: 'OK',
-                            data: data
+                        user.save(function (err, user) {
+                            if (err) {
+                                app.log.error('User save error', err);
+
+                                return done({
+                                    success: false,
+                                    message: 'SERVER_ERROR'
+                                });
+                            }
+
+                            return done({
+                                success: true,
+                                message: 'OK',
+                                data: data
+                            });
                         });
                     });
                 });
@@ -369,6 +381,21 @@ module.exports = function (app, models) {
             }else{
                 return done(true);
             }
+        });
+    };
+
+    this.getCompaniesCount = function(user_id, done){
+        models.company.find({ _user_id: user_id }).count(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done(err, false);
+            }
+
+            if (data > 0 || data === 0) {
+                return done(false, data);
+            }
+
+            return done(false, false);
         });
     };
 };

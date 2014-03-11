@@ -4686,6 +4686,27 @@ input.action-button {
 .main-actions .item:hover {
   background: #eae9eb;
 }
+.notice {
+  height: 40px;
+  line-height: 38px;
+  padding: 0 30px;
+  width: 100%;
+  display: block;
+  margin-left: -30px;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+.notice i {
+  margin-right: 6px;
+}
+.notice.yellow {
+  color: #5b4c1c;
+  background-color: #ffd02c;
+}
+.notice.yellow:hover {
+  background-color: rgba(255, 208, 44, 0.7);
+}
 footer {
   width: 1060px;
   margin: -100px auto 0;

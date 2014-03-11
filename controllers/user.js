@@ -46,7 +46,15 @@ module.exports = function (app, models) {
             }
 
             if (user) {
-                done(null, user);
+                _this.getCompaniesCount(user._id, function(err, count){
+                    if(err){
+                        return done(err);
+                    }
+
+                    user.companies = count;
+
+                    done(null, user);
+                });
 
             } else {
                 var new_user = new models.user(create_data);
@@ -108,7 +116,15 @@ module.exports = function (app, models) {
             }
 
             if (user) {
-                done(null, user);
+                _this.getCompaniesCount(user._id, function(err, count){
+                    if(err){
+                        return done(err);
+                    }
+
+                    user.companies = count;
+
+                    done(null, user);
+                });
             }
         });
     };
@@ -260,11 +276,6 @@ module.exports = function (app, models) {
     };
 
     this.signUp = function(email, username, password, done){
-        return done({
-            success: false,
-            message: 'SIGN_UP_TEMPORARY_SUSPENDED'
-        });
-
         if (!email) {
             return done({
                 success: false,

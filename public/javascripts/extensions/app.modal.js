@@ -38,7 +38,8 @@ app.modal = {
             animation_time: 300,
             draggable: true,
             scrollable: false,
-            max_height: 500
+            max_height: 500,
+            closeable: true
         };
 
         $.extend(this.options, options);
@@ -77,7 +78,7 @@ app.modal = {
 
         this.open = function(){
             this.close(function(){
-                app.templates.render('modal.window.html', { title: _this.options.title, content: _this.options.content }, function(html){
+                app.templates.render('modal.window.html', { title: _this.options.title, content: _this.options.content, closeable: _this.options.closeable }, function(html){
                     app.modal.overlayDraw();
 
                     var $body = $('body');
@@ -103,6 +104,10 @@ app.modal = {
                         _this.$modal.draggable({
                             addClasses: false
                         });
+                    }
+
+                    if(_this.options.closeable !== true){
+                        return;
                     }
 
                     $body.off('keyup.modal_' + _this.id).on('keyup.modal_' + _this.id, function(e){
