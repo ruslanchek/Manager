@@ -7,6 +7,7 @@ app.sections.company = {
 
     form_data: {
         form_mode           : '',
+        id                  : '',
 
         cc_type             : '',
         cc_name             : '',
@@ -65,6 +66,7 @@ app.sections.company = {
 
         step4: {
             form_mode           : '#form_mode',
+            id                  : '#id',
 
             cc_phone            : '#cc_phone',
             cc_fax              : '#cc_fax',
@@ -196,7 +198,7 @@ app.sections.company = {
     step1: function(){
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
-            url: '/company/add/step1',
+            url: '/company/' + app.sections.company.mode + '/step1',
             show_success_message: false,
             fields: app.sections.company.fields.step1,
             messages: {
@@ -222,7 +224,7 @@ app.sections.company = {
     step2: function(){
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
-            url: '/company/add/step2',
+            url: '/company/' + app.sections.company.mode + '/step2',
             show_success_message: false,
             fields: app.sections.company.fields.step2,
             messages: {
@@ -248,7 +250,7 @@ app.sections.company = {
     step3: function(){
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
-            url: '/company/add/step3',
+            url: '/company/' + app.sections.company.mode + '/step3',
             show_success_message: false,
             fields: app.sections.company.fields.step3,
             messages: {
@@ -273,7 +275,7 @@ app.sections.company = {
 
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
-            url: '/company/add/step4',
+            url: '/company/' + app.sections.company.mode + '/step4',
             show_success_message: false,
             fields: $.extend(
                 app.sections.company.fields.step1,
@@ -307,8 +309,9 @@ app.sections.company = {
         });
     },
 
-    init: function(mode){
+    init: function(mode, id){
         this.mode = mode;
+        this.id = id;
 
         /*this.crop_controller = new app.crop.BasicCropController({
             form_controller: this.form_controller,

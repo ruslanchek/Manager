@@ -19,6 +19,7 @@ block content
 
     form#form-company.form.forms.forms-columnar.slideable(action='')
         input#form_mode(type="hidden", name="form_mode", value=mode)
+        input#id(type="hidden", name="id", value=data._id)
 
         .form-message
 
@@ -149,4 +150,4 @@ block content
                         input.button.blue.next-step(type='submit', value='Следующий шаг')
 
     script.
-        app.sections.company.init('!{mode}');
+        app.sections.company.init('!{mode}', '!{data._id}');
