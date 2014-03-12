@@ -198,6 +198,14 @@ module.exports = function (app) {
         approved_email: {
             type: Boolean,
             default: false
+        },
+
+        approved_email_code: {
+            type: String
+        },
+
+        approved_email_date: {
+            type: Date
         }
     });
 

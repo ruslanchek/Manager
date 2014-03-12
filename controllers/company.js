@@ -260,6 +260,11 @@ module.exports = function (app, models) {
                         });
                     });
                 });
+            }else{
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
             }
         });
     };

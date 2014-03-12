@@ -193,4 +193,23 @@ module.exports = function (app, controllers) {
             res.redirect('/');
         }
     });
+
+
+    /**
+     * Post for creating email approvement code
+     * */
+    app.post('/auth/emailapprovementrequest', function (req, res) {
+        controllers.user.generateApprovementCode(req.user, function(result){
+            res.json(result);
+        });
+    });
+
+    /**
+     * Post for checking email approvement code
+     * */
+    app.post('/auth/emailapprovement', function (req, res) {
+        controllers.user.checkApprovementCode(req, function(result){
+            res.json(result);
+        });
+    });
 }

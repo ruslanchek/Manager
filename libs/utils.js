@@ -636,6 +636,24 @@ this.pad = function(number, length) {
 
 
 /**
+ * Random code
+ * */
+this.generateRandomCode = function(length){
+    if(length < 0){
+        length = 5;
+    }
+
+    var text = "",
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for(var i = 0; i < length; i++){
+        text += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return text;
+};
+
+/**
  * Random seed
  * */
 this.generateRandomSeed = function(){

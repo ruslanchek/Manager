@@ -403,18 +403,12 @@ module.exports = function (app, models) {
         });
     };
 
-    this.edit = function(req, done){
-        var data = req.body,
-            user = req.user,
-            session = req.session;
+    this.generateApprovementCode = function(user, done){
+        var code = app.utils.generateRandomCode(6);
 
-        if(data._id){
-            data._id = user._id;
-        }
-
-        models.user.findOne({ _id: user._id }, function (err, user) {
+        models.user.findOne({ _id: user._id }, function (err, user_data) {
             if (err) {
-                app.log.error('findOneAndUpdate error', err);
+                app.log.error('findOne error', err);
 
                 return done({
                     success: false,
@@ -422,17 +416,20 @@ module.exports = function (app, models) {
                 });
             }
 
-            if(session && session.passport && session.passport.user){
-                Object.keys(data).forEach(function(key) {
-                    if(user[key] && key !== '_id'){
-                        session.passport.user[key] = data[key];
-                        user[key] = data[key];
-                    }
-                });
+            if(user_data){
+                var current_date = new Date();
 
-                session.save();
+                if((current_date - user_data.approved_email_date) / 1000 / 60 <= 1){
+                    return done({
+                        success: false,
+                        message: 'JUST_RESTORED'
+                    });
+                }
 
-                user.save(function (err, user) {
+                user_data.approved_email_date = new Date();
+                user_data.approved_email_code = code;
+
+                user_data.save(function(err, user_data){
                     if (err) {
                         app.log.error('User save error', err);
 
@@ -442,10 +439,101 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    return done({
-                        success: true,
-                        message: 'OK'
+                    app.mailer.send('mailer/auth.email-approvement.jade', {
+                        to: user.email,
+                        subject: 'Email approvement',
+                        username: user.username,
+                        display_name: user.display_name,
+                        code: code
+                    }, function (err) {
+                        if (err) {
+                            app.log.error('Sending email error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK'
+                        });
                     });
+                });
+            }else{
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+        });
+    };
+
+    this.checkApprovementCode = function(req, done){
+        var data = req.body,
+            user = req.user,
+            session = req.session;
+
+        if(!data.code){
+            return done({
+                success: false,
+                message: 'CODE_EMPTY'
+            });
+        }
+
+        models.user.findOne({ _id: user._id, approved_email_code: data.code }, function (err, user_data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if(user_data){
+                user_data.approved_email = true;
+                session.passport.user.approved_email = true;
+
+                session.save(function(err){
+                    if (err) {
+                        app.log.error('Session save error', err);
+
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    user_data.save(function (err, user) {
+                        if (err) {
+                            app.log.error('User save error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK'
+                        });
+                    });
+
+                    app.mailer.send('mailer/auth.email-approved.jade', {
+                        to: user.email,
+                        subject: 'Email approvement',
+                        username: user.username,
+                        display_name: user.display_name,
+                        code: code
+                    });
+                });
+            }else{
+                return done({
+                    success: false,
+                    message: 'CODE_WRONG'
                 });
             }
         });

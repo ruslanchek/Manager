@@ -58,17 +58,78 @@ var app = {
 	},
 
     noConfirmedEmail: function(){
-        var notify_contrller = new app.notify.NotifyController({
+        var sendCode = function(silent, f_controller, m_controller){
+            $.ajax({
+                url: '/auth/emailapprovementrequest',
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function(){
+                    if(silent !== true){
+                        m_controller.setLoading();
+                    }
+                },
+                success: function(data){
+                    if(silent !== true){
+                        m_controller.unSetLoading();
+
+                        if(data.success == true){
+                            f_controller.pushFormMessage(true, 'Код выслан на ваш адрес');
+                        }else{
+                            var message = '';
+
+                            if(data.message == 'JUST_RESTORED'){
+                                message = 'Вы уже запрашивали код, попробуйте через 2 минуты'
+                            }else{
+                                message = 'Ошибка сервера';
+                            }
+
+                            f_controller.pushFormMessage(false, message);
+                        }
+                    }
+                },
+                error: function(){
+                    if(silent !== true){
+                        m_controller.unSetLoading();
+                        f_controller.pushFormMessage(false, 'Ошибка передачи данных');
+                    }
+                }
+            });
+        };
+
+        var notify_controller = new app.notify.NotifyController({
             icon: 'icon-mail',
             classname: 'yellow',
             content: 'Пожалуйста, подтвердите свой адрес электронной почты',
-            onClick: function(){
-                app.templates.render('email.approve.html', { }, function(html){
+            onClick: function(n_controller){
+                app.templates.render('email.approvement.html', { }, function(html){
                     var modal_controller = new app.modal.ModalController({
                         title: 'Подтверждение электронной почты',
                         content: html,
-                        onShow: function(controller){
+                        onShow: function(m_controller){
+                            var f_controller = new app.form.FormController({
+                                from_modal: true,
+                                modal_controller: m_controller,
+                                form_selector: '#form-email-approve',
+                                url: '/auth/emailapprovement',
+                                fields: { code: '#code' },
+                                messages: {
+                                    OK: 'Адрес подтвержден',
+                                    CODE_WRONG: 'Введен неверный код',
+                                    CODE_EMPTY: 'Не введен код'
+                                },
+                                onSuccess: function(data){
+                                    setTimeout(function(){
+                                        m_controller.close();
+                                        n_controller.close();
+                                    }, 350);
+                                }
+                            });
 
+                            sendCode(true, f_controller, m_controller);
+
+                            $('#resend-code').on('click', function(){
+                                sendCode(false, f_controller, m_controller);
+                            });
                         },
                         onClose: function(){
 
@@ -83,7 +144,7 @@ var app = {
         });
 
         setTimeout(function(){
-            notify_contrller.show();
+            notify_controller.show();
         }, 1000);
     },
 

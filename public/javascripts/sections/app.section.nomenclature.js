@@ -148,7 +148,7 @@ app.sections.nomenclature = {
                 onClose: function(){
 
                 },
-                width: 600
+                width: 550
             }).open();
         });
     },
@@ -320,6 +320,8 @@ app.sections.nomenclature = {
                         $('#na_name').focus();
 
                         new app.form.FormController({
+                            from_modal: true,
+                            modal_controller: controller,
                             form_selector: '#form-nomenclature-add',
                             url: '/nomenclature/addnomgroup',
                             fields: { name: '#na_name' },
@@ -349,7 +351,7 @@ app.sections.nomenclature = {
                     onClose: function(){
 
                     },
-                    width: 600
+                    width: 530
                 });
 
                 app.sections.nomenclature.list.mc_add.open();
@@ -365,6 +367,8 @@ app.sections.nomenclature = {
                         $('#ne_name').focus();
 
                         new app.form.FormController({
+                            from_modal: true,
+                            modal_controller: controller,
                             form_selector: '#form-nomenclature-edit',
                             url: '/nomenclature/editnomgroup/' + $object.data('id'),
                             fields: { name: '#ne_name' },
@@ -420,7 +424,7 @@ app.sections.nomenclature = {
                     onClose: function(){
 
                     },
-                    width: 600
+                    width: 530
                 });
 
                 app.sections.nomenclature.list.mc_edit.open();

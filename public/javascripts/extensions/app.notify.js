@@ -6,7 +6,7 @@ app.notify = {
             icon: '',
             content: '',
             classname: 'yellow',
-            onShow: function(){
+            onShow: function(controller){
 
             },
             onClose: function(){
@@ -33,8 +33,10 @@ app.notify = {
 
                 $('.app').prepend(html);
 
+                _this.$notice = $('.notice');
+
                 $('.notice').off('click').on('click', function(){
-                    _this.options.onClick($(this));
+                    _this.options.onClick(_this);
                 });
 
                 setTimeout(function(){
@@ -44,7 +46,7 @@ app.notify = {
                 }, 100);
 
                 setTimeout(function(){
-                    _this.options.onShow();
+                    _this.options.onShow(_this);
                 }, 400);
 
                 _this.showed = true;

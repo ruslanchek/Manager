@@ -152,7 +152,13 @@ app.sections.company = {
         }
 
         if(step > 0){
-            var width = (step / this.steps) * 100;
+            var stepw = step - 1;
+
+            var width = (stepw / this.steps) * 100;
+
+            if(width > 100){
+                width = 100;
+            }
 
             $('.progress-bar div').css({
                 width: width + '%'

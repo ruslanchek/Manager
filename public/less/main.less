@@ -63,8 +63,20 @@ a, a:link, a:active {
 }
 
 a:hover, a:active {
-  color: #ff8841;
+  color: @colorLinkHover;
 }
+
+a.dashed-link, a.dashed-link:link, a.dashed-link:active {
+  color: @colorLink;
+  text-decoration: none;
+  border-bottom: 1px dashed @colorLink;
+}
+
+a.dashed-link:hover, a.dashed-link:active {
+  color: #ff8841;
+  border-bottom: 1px dashed @colorLinkHover;
+}
+
 
 // Base
 html {
@@ -501,6 +513,7 @@ header {
   .action-button {
     margin-right: 10px;
     border-color: transparent;
+    background: none;
     box-shadow: none;
   }
 
@@ -584,6 +597,7 @@ input.action-button {
 }
 
 .action-button:hover {
+  background-image: url(../images/gradient.png);
   background-color: @panel-bg-light - 40;
   color: #59575E;
 
@@ -604,6 +618,7 @@ input.action-button {
 
 .action-button.green {
   background-color: @color-green;
+  background-image: url(../images/gradient.png);
   border: none;
   color: #fff;
 
@@ -615,6 +630,7 @@ input.action-button {
 }
 
 .action-button.green:hover {
+  background-image: url(../images/gradient.png);
   background-color: @color-green-dark;
   border-color: @color-green-dark;
   color: #fff;
@@ -630,6 +646,7 @@ input.action-button {
 
 .action-button.blue {
   background-color: @color-blue !important;
+  background-image: url(../images/gradient.png);
   color: #fff !important;
 
   @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -640,6 +657,7 @@ input.action-button {
 }
 
 .action-button.blue:hover {
+  background-image: url(../images/gradient.png);
   background-color: @color-blue-dark !important;
   color: #fff !important;
 }
@@ -653,6 +671,7 @@ input.action-button {
 }
 
 .action-button.red {
+  background-image: url(../images/gradient.png);
   background-color: @color-red;
   border-color: @color-red;
   color: #fff;
@@ -665,6 +684,7 @@ input.action-button {
 }
 
 .action-button.red:hover {
+  background-image: url(../images/gradient.png);
   background-color: @color-red-dark;
   border-color: @color-red-dark;
   color: #fff;
@@ -683,6 +703,7 @@ input.action-button {
 }
 
 .action-button.warning:hover {
+  background-image: url(../images/gradient.png);
   background-color: @color-red-dark;
   border-color: @color-red-dark;
   color: #fff;

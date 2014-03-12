@@ -46,6 +46,7 @@ script(src='/javascripts/sections/app.section.company.js')
 if user
     script.
         app.user.companies = !{user.companies};
-        app.user.approved_email = !{(approved_email === true) ? 'true' : 'false'};
+        app.user.approved_email = !{(user.approved_email === true) ? 'true' : 'false'};
+        app.user.email = '!{user.email}';
 
 script(src='/javascripts/init.js')

@@ -4067,7 +4067,19 @@ img.jcrop-preview {
 }
 a:hover,
 a:active {
+  color: #ef6465;
+}
+a.dashed-link,
+a.dashed-link:link,
+a.dashed-link:active {
+  color: #336699;
+  text-decoration: none;
+  border-bottom: 1px dashed #336699;
+}
+a.dashed-link:hover,
+a.dashed-link:active {
   color: #ff8841;
+  border-bottom: 1px dashed #ef6465;
 }
 html {
   height: 100%;
@@ -4406,6 +4418,7 @@ header strong {
 .section-tools .action-button {
   margin-right: 10px;
   border-color: transparent;
+  background: none;
   box-shadow: none;
 }
 .section-tools .action-button.only-icon {
@@ -4465,6 +4478,7 @@ input.action-button {
   margin-left: 0;
 }
 .action-button:hover {
+  background-image: url(../images/gradient.png);
   background-color: #cccbcd;
   color: #59575E;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -4478,6 +4492,7 @@ input.action-button {
 }
 .action-button.green {
   background-color: #4abfb4;
+  background-image: url(../images/gradient.png);
   border: none;
   color: #fff;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -4485,6 +4500,7 @@ input.action-button {
   -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .action-button.green:hover {
+  background-image: url(../images/gradient.png);
   background-color: #3fb2a8;
   border-color: #3fb2a8;
   color: #fff;
@@ -4496,12 +4512,14 @@ input.action-button {
 }
 .action-button.blue {
   background-color: #3498db !important;
+  background-image: url(../images/gradient.png);
   color: #fff !important;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .action-button.blue:hover {
+  background-image: url(../images/gradient.png);
   background-color: #2c8bca !important;
   color: #fff !important;
 }
@@ -4511,6 +4529,7 @@ input.action-button {
   -moz-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
 }
 .action-button.red {
+  background-image: url(../images/gradient.png);
   background-color: #fd5559;
   border-color: #fd5559;
   color: #fff;
@@ -4519,6 +4538,7 @@ input.action-button {
   -moz-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .action-button.red:hover {
+  background-image: url(../images/gradient.png);
   background-color: #e83a3e;
   border-color: #e83a3e;
   color: #fff;
@@ -4532,6 +4552,7 @@ input.action-button {
   color: #fd5559;
 }
 .action-button.warning:hover {
+  background-image: url(../images/gradient.png);
   background-color: #e83a3e;
   border-color: #e83a3e;
   color: #fff;
