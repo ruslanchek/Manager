@@ -288,15 +288,20 @@ app.sections.company = {
             },
             onSuccess: function(data){
                 if(data.success == true){
-                    app.sections.company.setStep('finish');
-
-                    if(app.sections.company.mode == 'edit'){
-                        $('#global-company-type').html($('#cc_type option:selected').html());
-                        $('#global-company-name').html($('#cc_name').val());
-                    }
+                    app.sections.company.finalSettings(data);
                 }
             }
         });
+    },
+
+    finalSettings: function(data){
+        app.sections.company.setStep('finish');
+        app.user.companies = data.data.companies;
+
+        if(app.sections.company.mode == 'edit'){
+            $('#global-company-type').html($('#cc_type option:selected').html());
+            $('#global-company-name').html($('#cc_name').val());
+        }
     },
 
     setSlidePosition: function(pos){
@@ -307,12 +312,6 @@ app.sections.company = {
         $('.slideable-wrapper').css({
             height: $('.form-step[data-step="' + pos + '"]').height()
         });
-    },
-
-    noCompany: function(){
-        if(document.location.pathname != '/company/add'){
-            document.location.href = '/company/add';
-        }
     },
 
     init: function(mode, id){

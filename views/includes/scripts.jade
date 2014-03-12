@@ -21,6 +21,7 @@ script(src='/javascripts/extensions/app.utils.js')
 script(src='/javascripts/extensions/app.loading.js')
 script(src='/javascripts/extensions/app.templates.js')
 script(src='/javascripts/extensions/app.modal.js')
+script(src='/javascripts/extensions/app.notify.js')
 script(src='/javascripts/extensions/app.docview.js')
 script(src='/javascripts/extensions/app.upload.js')
 script(src='/javascripts/extensions/app.crop.js')
@@ -42,8 +43,9 @@ script(src='/javascripts/sections/app.section.settings.js')
 script(src='/javascripts/sections/app.section.company.js')
 
 // Initialize
-script(src='/javascripts/init.js')
-
-if user.companies < 1
+if user
     script.
-        app.sections.company.noCompany();
+        app.user.companies = !{user.companies};
+        app.user.approved_email = !{(approved_email === true) ? 'true' : 'false'};
+
+script(src='/javascripts/init.js')

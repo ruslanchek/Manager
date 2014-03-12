@@ -11,6 +11,7 @@ var app = {
 		placeholder_text_single: 'Выбрать',
 		search_contains: true
 	},
+    user: {},
 
     tableSorting: function(){
         var table = $('.table-sort').stupidtable();
@@ -56,6 +57,36 @@ var app = {
 		$('select').chosen(this.chosen_options);
 	},
 
+    noConfirmedEmail: function(){
+        var notify_contrller = new app.notify.NotifyController({
+            icon: 'icon-mail',
+            classname: 'yellow',
+            content: 'Пожалуйста, подтвердите свой адрес электронной почты',
+            onClick: function(){
+                app.templates.render('email.approve.html', { }, function(html){
+                    var modal_controller = new app.modal.ModalController({
+                        title: 'Подтверждение электронной почты',
+                        content: html,
+                        onShow: function(controller){
+
+                        },
+                        onClose: function(){
+
+                        },
+                        draggable: true,
+                        width: 500
+                    });
+
+                    modal_controller.open();
+                });
+            }
+        });
+
+        setTimeout(function(){
+            notify_contrller.show();
+        }, 1000);
+    },
+
     init: function(){
         this.maskedInput();
         this.tableSorting();
@@ -65,5 +96,13 @@ var app = {
         this.select_company_controller = new app.company.CompanySelectController({
 
         });
+
+        if(this.user.approved_email !== true){
+            this.noConfirmedEmail();
+        }
+
+        if(this.user.companies < 1){
+
+        }
     }
 };

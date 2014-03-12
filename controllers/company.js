@@ -1,5 +1,5 @@
 module.exports = function (app, models) {
-    _this = this;
+    var _this = this;
 
     this.checkStep1 = function(data, done){
         if(!data.cc_name){
@@ -255,7 +255,7 @@ module.exports = function (app, models) {
                             return done({
                                 success: true,
                                 message: 'OK',
-                                data: data
+                                data: user
                             });
                         });
                     });
