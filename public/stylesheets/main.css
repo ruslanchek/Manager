@@ -2958,10 +2958,10 @@ textarea {
   border-radius: 0 3px 3px 0;
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
-  background-image: url(../images/gradient.png);
+  background-image: url(../images/gradient.png) !important;
   background-repeat: repeat-x;
   background-position: top;
-  background-color: #cccbcd;
+  background-color: #cccbcd !important;
   color: #59575E;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
@@ -2973,7 +2973,8 @@ textarea {
   margin: 0;
 }
 .date-control .datepicker-picker:hover {
-  background: #d6d5d7;
+  background-image: url(../images/gradient.png) !important;
+  background: #dbdadc !important;
   color: #59575E;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
   -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15) !important;
@@ -4422,6 +4423,7 @@ header strong {
   box-shadow: none;
 }
 .section-tools .action-button.only-icon {
+  background-image: url(../images/gradient.png);
   background-color: #cccbcd;
   color: #59575E;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);

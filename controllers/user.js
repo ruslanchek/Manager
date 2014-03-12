@@ -524,10 +524,9 @@ module.exports = function (app, models) {
 
                     app.mailer.send('mailer/auth.email-approved.jade', {
                         to: user.email,
-                        subject: 'Email approvement',
+                        subject: 'Email approved',
                         username: user.username,
-                        display_name: user.display_name,
-                        code: code
+                        display_name: user.display_name
                     });
                 });
             }else{

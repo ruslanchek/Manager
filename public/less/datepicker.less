@@ -126,11 +126,11 @@
     -webkit-border-radius: @ui-border-radius-right;
     -moz-border-radius: @ui-border-radius-right;
 
-    background-image: url(../images/gradient.png);
+    background-image: url(../images/gradient.png) !important;
     background-repeat: repeat-x;
     background-position: top;
 
-    background-color: @panel-bg-light - 40;
+    background-color: @panel-bg-light - 40 !important;
     color: #59575E;
 
     @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -149,7 +149,8 @@
   }
 
   .datepicker-picker:hover {
-    background: @panel-bg-light - 30;
+    background-image: url(../images/gradient.png) !important;
+    background: @panel-bg-light - 25 !important;
     color: #59575E;
 
     @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
