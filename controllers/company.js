@@ -403,4 +403,30 @@ module.exports = function (app, models) {
             return done(false, false);
         });
     };
+
+    this.getCompaniesList = function(user_id, done){
+        models.company.find({ _user_id: user_id }, { _id: 1, cc_name: 1, cc_type: 1 }, function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                return done({
+                    success: true,
+                    data: data,
+                    message: 'OK'
+                });
+            }
+
+            return done({
+                success: false,
+                message: 'SERVER_ERROR'
+            });
+        });
+    };
 };

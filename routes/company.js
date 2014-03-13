@@ -40,6 +40,12 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/company/list', app.ensureAuthenticated, function(req, res){
+        controllers.company.getCompaniesList(req.user._id, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/company/add/step1', app.ensureAuthenticated, function(req, res){
         controllers.company.checkStep1(req.body, function(result){
             res.json(result);

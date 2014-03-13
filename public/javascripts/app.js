@@ -148,22 +148,40 @@ var app = {
         }, 1000);
     },
 
+    noCompanies: function(){
+        app.templates.render('common.no-companies.html', { }, function(html){
+            var modal_controller = new app.modal.ModalController({
+                title: 'Требуется настройка компании',
+                content: html,
+                onShow: function(m_controller){
+
+                },
+                onClose: function(){
+
+                },
+                draggable: false,
+                closeable: false,
+                width: 500
+            });
+
+            modal_controller.open();
+        });
+    },
+
     init: function(){
         this.maskedInput();
         this.tableSorting();
 		this.numeral();
 		this.chosen();
 
-        this.select_company_controller = new app.company.CompanySelectController({
-
-        });
+        this.select_company_controller = new app.company.CompanySelectController();
 
         if(this.user.approved_email !== true){
             this.noConfirmedEmail();
         }
 
-        if(this.user.companies < 1){
-
+        if(this.user.companies < 1 && document.location.pathname != '/company/add'){
+            this.noCompanies();
         }
     }
 };

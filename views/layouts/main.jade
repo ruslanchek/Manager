@@ -10,7 +10,9 @@ html
                 #loading-global
 
                 include ../includes/header
-                include ../includes/nav-top
+
+                if user && user.companies > 0
+                    include ../includes/nav-top
 
                 .main-view
                     block content
