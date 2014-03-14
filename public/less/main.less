@@ -949,6 +949,84 @@ input.action-button {
 
 }
 
+.companies-menu {
+  max-height: 200px;
+  overflow-y: auto;
+
+  .item {
+    position: relative;
+    border-bottom: 1px solid @panel-bg-light - 5;
+
+    a.company-name {
+      display: block;
+      padding: 8px 80px 8px 20px;
+      color: @color-header;
+      text-decoration: none;
+
+      span {
+        width: 100%;
+        height: 23px;
+        display: block;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .company-tools {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      width: 60px;
+      padding: 8px 0;
+      text-align: right;
+      display: none;
+
+      a {
+        color: #b8b7b9 !important;
+      }
+
+      a:hover {
+        color: #7c7b7d !important
+      }
+    }
+  }
+
+  .item:hover {
+    a.company-name {
+      background: @panel-bg-light - 8;
+    }
+
+    .company-tools {
+      display: block;
+    }
+  }
+
+  .item.active {
+    border-bottom-color: @color-blue !important;
+
+    a {
+      color: #fff;
+      background-color: @color-blue !important;
+    }
+
+    .company-tools {
+      a {
+        color: #5cc0ff !important;
+      }
+
+      a:hover {
+        color: #84e8ff !important;
+      }
+    }
+  }
+
+  .item:last-child, .item:last-child a.company-name {
+    border-radius: @ui-border-radius-bottom;
+    -webkit-border-radius: @ui-border-radius-bottom;
+    -moz-border-radius: @ui-border-radius-bottom;
+  }
+}
+
 // Footer
 footer {
   width: @app-width + 60;

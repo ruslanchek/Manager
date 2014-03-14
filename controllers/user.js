@@ -527,6 +527,8 @@ module.exports = function (app, models) {
                         subject: 'Email approved',
                         username: user.username,
                         display_name: user.display_name
+                    }, function (err) {
+
                     });
                 });
             }else{

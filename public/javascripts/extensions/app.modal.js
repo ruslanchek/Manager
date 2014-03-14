@@ -39,7 +39,8 @@ app.modal = {
             draggable: true,
             scrollable: false,
             max_height: 500,
-            closeable: true
+            closeable: true,
+            no_padding: false
         };
 
         $.extend(this.options, options);
@@ -58,6 +59,10 @@ app.modal = {
                 this.$modal.find('.modal_scrollable_content').css({
                     maxHeight: this.options.max_height
                 });
+            }
+
+            if(this.options.no_padding === true){
+                this.$modal.find('.content').addClass('no-padding');
             }
 
             this.$modal.css({

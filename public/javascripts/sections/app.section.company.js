@@ -305,8 +305,8 @@ app.sections.company = {
         app.user.companies = data.data.companies;
 
         app.select_company_controller.renderSelector(
-            $('#cc_type option:selected').html(),
-            $('#cc_name').val()
+            app.utils.getCompanyTypeName(data.data.cc_type),
+            data.data.cc_name
         );
 
         if(app.sections.company.mode == 'edit'){

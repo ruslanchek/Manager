@@ -148,10 +148,6 @@ module.exports = function (app, models) {
     };
 
     this.updateCurrentCompanyUserdata = function(user, data, session, done){
-        if(data._id){
-            data._id = user._id;
-        }
-
         models.user.findOne({ _id: user._id }, function (err, user) {
             if (err) {
                 app.log.error('findOneAndUpdate error', err);
@@ -163,7 +159,6 @@ module.exports = function (app, models) {
             }
 
             if(session && session.passport && session.passport.user){
-
                 user.current_company = data._id;
 
                 user.cc_type = data.cc_type;
@@ -405,7 +400,7 @@ module.exports = function (app, models) {
     };
 
     this.getCompaniesList = function(user_id, done){
-        models.company.find({ _user_id: user_id }, { _id: 1, cc_name: 1, cc_type: 1 }).sort( { cc_name: 1 }, function (err, data) {
+        models.company.find({ _user_id: user_id }, { _id: 1, cc_name: 1, cc_type: 1 }).sort({ cc_name: 1 }).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
 

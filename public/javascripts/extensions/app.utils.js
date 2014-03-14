@@ -324,5 +324,49 @@ app.utils = {
         }
 
         return text;
+    },
+
+    /**
+     * Get Company type by id
+     * */
+    getCompanyTypeName: function(id){
+        switch (parseInt(id)) {
+            case 1 : { return 'ООО' } break;
+            case 2 : { return 'ЗАО' } break;
+            case 3 : { return 'ОАО' } break;
+            case 4 : { return 'ИП' } break;
+            case 5 : { return 'ГУП' } break;
+            case 6 : { return 'МУП' } break;
+            case 7 : { return 'НП' } break;
+            case 8 : { return 'АНО' } break;
+            default : { return 'Другое' } break;
+        }
+    },
+
+
+    /**
+     * Get Company type by id
+     * */
+    getCEOType: function(id){
+        switch (parseInt(id)) {
+            case 1 : { return 'Директор' } break;
+            case 2 : { return 'Генеральный директор' } break;
+            case 3 : { return 'Председатель' } break;
+            case 4 : { return 'Другое' } break;
+            case 5 : { return 'Не подписывает' } break;
+        }
+    },
+
+
+    /**
+     * Get Accountant type by id
+     * */
+    getAccountantType: function(id){
+        switch (parseInt(id)) {
+            case 1 : { return 'Главный бухгалтер' } break;
+            case 2 : { return 'Бухгалтер' } break;
+            case 3 : { return 'Другое' } break;
+            case 4 : { return 'Не подписывает' } break;
+        }
     }
 };

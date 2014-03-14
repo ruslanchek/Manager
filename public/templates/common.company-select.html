@@ -1,3 +1,18 @@
-{{#companies}}
-    {{cc_name}}
-{{/companies}}
+{{#if companies}}
+	<div class="companies-menu">
+	{{#companies}}
+		<div class="item {{#if _active}}active{{/if}}" data-id="{{_id}}">
+			<a class="company-name" href="#" data-id="{{_id}}">
+				<span>{{_cc_type_name}} &laquo;{{cc_name}}&raquo;</span>
+			</a>
+
+			<div class="company-tools">
+				<a href="#" title="Настройка компании" data-id="{{_id}}" class="edit-company"><i class="icon-cog"></i></a>
+				<a href="#" title="Удаление компании" data-id="{{_id}}" class="delete-company"><i class="icon-cancel"></i></a>
+			</div>
+		</div>
+	{{/companies}}
+	</div>
+{{else}}
+	Нет компаний
+{{/if}}

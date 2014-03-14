@@ -37,13 +37,37 @@ app.company = {
 
         this.openSelector = function(){
             this.getCompanies(function(data){
+                for(var i = 0, l = data.data.length; i < l; i++){
+                    data.data[i]._cc_type_name = app.utils.getCompanyTypeName(data.data[i].cc_type);
+
+                    if(data.data[i]._id == data.current_company){
+                        data.data[i]._active = true;
+                    }
+                }
 
                 app.templates.render('common.company-select.html', { companies: data.data }, function(html){
                     var modal_controller = new app.modal.ModalController({
                         title: 'Список компаний',
                         content: html,
+                        no_padding: true,
                         onShow: function(controller){
+                            var $item = controller.$modal.find('.content .item');
 
+                            $item.off('click').on('click', function(e){
+                                e.preventDefault();
+                                var id = $(this).data('id');
+
+                                $item.removeClass('active');
+
+                                $(this).addClass('active');
+                            });
+
+                            $item.find('.edit-company').off('click').on('click', function(e){
+                                e.preventDefault();
+                                var id = $(this).data('id');
+
+                                document.location.href = '/company/edit/' + id;
+                            });
                         },
                         onClose: function(){
 
