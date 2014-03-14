@@ -405,7 +405,7 @@ module.exports = function (app, models) {
     };
 
     this.getCompaniesList = function(user_id, done){
-        models.company.find({ _user_id: user_id }, { _id: 1, cc_name: 1, cc_type: 1 }, function (err, data) {
+        models.company.find({ _user_id: user_id }, { _id: 1, cc_name: 1, cc_type: 1 }).sort( { cc_name: 1 }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
 

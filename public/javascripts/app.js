@@ -176,12 +176,10 @@ var app = {
 
         this.select_company_controller = new app.company.CompanySelectController();
 
-        if(this.user.approved_email !== true){
-            this.noConfirmedEmail();
-        }
-
         if(this.user.companies < 1 && document.location.pathname != '/company/add'){
             this.noCompanies();
+        }else if(this.user.approved_email !== true && this.user.companies >= 1){
+            this.noConfirmedEmail();
         }
     }
 };

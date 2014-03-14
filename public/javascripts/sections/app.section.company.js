@@ -304,6 +304,11 @@ app.sections.company = {
         app.sections.company.setStep('finish');
         app.user.companies = data.data.companies;
 
+        app.select_company_controller.renderSelector(
+            $('#cc_type option:selected').html(),
+            $('#cc_name').val()
+        );
+
         if(app.sections.company.mode == 'edit'){
             $('#global-company-type').html($('#cc_type option:selected').html());
             $('#global-company-name').html($('#cc_name').val());

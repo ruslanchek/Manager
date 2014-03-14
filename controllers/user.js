@@ -5,7 +5,7 @@ module.exports = function (app, models) {
     var _this = this;
 
     this.getCompaniesCount = function(user_id, done){
-        models.company.find({ _user_id: user_id }, { _id: 1 }).count(function (err, data) {
+        models.company.find({ _user_id: user_id }).count(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err, false);
