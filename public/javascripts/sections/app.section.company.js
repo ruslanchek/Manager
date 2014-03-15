@@ -123,6 +123,8 @@ app.sections.company = {
                 $('#cc_ceo_type_block').show();
                 $('#cc_ceo_type').val('1').trigger("chosen:updated");
             }
+
+            app.sections.company.setSlidePosition(app.sections.company.current_slide);
         });
 
         $('#cc_accountant_type').on('change', function () {
@@ -131,6 +133,8 @@ app.sections.company = {
             } else {
                 $('#cc_accountant_name_block').show();
             }
+
+            app.sections.company.setSlidePosition(app.sections.company.current_slide);
         });
 
         $('.start-master').on('click', function (e) {

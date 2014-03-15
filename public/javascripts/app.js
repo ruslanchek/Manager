@@ -143,9 +143,7 @@ var app = {
             }
         });
 
-        setTimeout(function(){
-            notify_controller.show();
-        }, 1000);
+        notify_controller.show();
     },
 
     noCompanies: function(){

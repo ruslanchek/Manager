@@ -165,16 +165,9 @@ module.exports = function (app, models) {
                     fields: ['name']
                 });
             }else{
-                var new_item = new models.nomgroup();
-
-                new_item._user_id = user._id;
-                new_item._company_id = user.current_company;
-                new_item.name = data.name;
-                new_item.order = parseInt(user.mc_nomgroup) + 1;
-
-                new_item.save(function (err, nomgroup_data) {
+                models.company.findOneAndUpdate({ _id: user.current_company }, { $inc: { mc_nomgroup: 1 } }, function(err, company_data){
                     if (err) {
-                        app.log.error('Nomgroup create error', err);
+                        app.log.error('findOne error', err);
 
                         return done({
                             success: false,
@@ -182,10 +175,28 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    return done({
-                        success: true,
-                        message: 'OK',
-                        data: nomgroup_data
+                    var new_item = new models.nomgroup();
+
+                    new_item._user_id = user._id;
+                    new_item._company_id = user.current_company;
+                    new_item.name = data.name;
+                    new_item.order = parseInt(company_data.mc_nomgroup);
+
+                    new_item.save(function (err, nomgroup_data) {
+                        if (err) {
+                            app.log.error('Nomgroup create error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: nomgroup_data
+                        });
                     });
                 });
             }

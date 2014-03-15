@@ -174,7 +174,6 @@ module.exports = function (app) {
             default: 0
         },
 
-
         // Misc
         current_company: {
             type: String

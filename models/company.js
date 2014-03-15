@@ -105,6 +105,11 @@ module.exports = function (app) {
         mc_account: {
             type: Number,
             default: 0
+        },
+
+        mc_nomgroup: {
+            type: Number,
+            default: 0
         }
     });
 
