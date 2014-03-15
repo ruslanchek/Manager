@@ -2776,6 +2776,11 @@ audio {
 .form .form-item {
   min-height: 30px;
 }
+.form fieldset {
+  padding: 20px 10px 0 0;
+  width: 100%;
+  border-color: #d6d5d7;
+}
 .form input:disabled {
   opacity: 0.75;
   color: #888;
@@ -4735,7 +4740,7 @@ input.action-button {
   background-color: rgba(255, 208, 44, 0.7);
 }
 .companies-menu {
-  max-height: 200px;
+  max-height: 280px;
   overflow-y: auto;
 }
 .companies-menu .item {

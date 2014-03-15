@@ -1,8 +1,8 @@
 module.exports = function (app, models) {
     var _this = this;
 
-    this.checkStep1 = function(data, done){
-        if(!data.cc_name){
+    this.checkStep1 = function (data, done) {
+        if (!data.cc_name) {
             return done({
                 success: false,
                 message: 'CC_NAME_EMPTY',
@@ -10,7 +10,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.cc_inn){
+        if (!data.cc_inn) {
             return done({
                 success: false,
                 message: 'CC_INN_EMPTY',
@@ -18,7 +18,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.cc_kpp && data.cc_type != '4'){
+        if (!data.cc_kpp && data.cc_type != '4') {
             return done({
                 success: false,
                 message: 'CC_KPP_EMPTY',
@@ -26,11 +26,19 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.cc_ogrn){
+        if (!data.cc_ogrn) {
             return done({
                 success: false,
                 message: 'CC_OGRN_EMPTY',
                 fields: ['cc_ogrn']
+            });
+        }
+
+        if (!data.cc_ceo_name) {
+            return done({
+                success: false,
+                message: 'CC_CEO_NAME_EMPTY',
+                fields: ['cc_ceo_name']
             });
         }
 
@@ -39,8 +47,8 @@ module.exports = function (app, models) {
         });
     };
 
-    this.checkStep2 = function(data, done){
-        if(!data.cc_city){
+    this.checkStep2 = function (data, done) {
+        if (!data.cc_city) {
             return done({
                 success: false,
                 message: 'CC_CITY_EMPTY',
@@ -48,7 +56,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.cc_index){
+        if (!data.cc_index) {
             return done({
                 success: false,
                 message: 'CC_INDEX_EMPTY',
@@ -56,7 +64,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.cc_street){
+        if (!data.cc_street) {
             return done({
                 success: false,
                 message: 'CC_STREET_EMPTY',
@@ -64,7 +72,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.cc_house){
+        if (!data.cc_house) {
             return done({
                 success: false,
                 message: 'CC_HOUSE_EMPTY',
@@ -77,8 +85,8 @@ module.exports = function (app, models) {
         });
     };
 
-    this.checkStep3 = function(data, done){
-        if(!data.bank_name){
+    this.checkStep3 = function (data, done) {
+        if (!data.bank_name) {
             return done({
                 success: false,
                 message: 'BANK_CORR_ACCOUNT_EMPTY',
@@ -86,7 +94,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.bank_bik){
+        if (!data.bank_bik) {
             return done({
                 success: false,
                 message: 'BANK_BIK_EMPTY',
@@ -94,7 +102,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.bank_pay_account){
+        if (!data.bank_pay_account) {
             return done({
                 success: false,
                 message: 'BANK_PAY_ACCOUNT_EMPTY',
@@ -102,7 +110,7 @@ module.exports = function (app, models) {
             });
         }
 
-        if(!data.bank_corr_account){
+        if (!data.bank_corr_account) {
             return done({
                 success: false,
                 message: 'BANK_CORR_ACCOUNT_EMPTY',
@@ -115,39 +123,39 @@ module.exports = function (app, models) {
         });
     };
 
-    this.checkStep4 = function(req, done){
+    this.checkStep4 = function (req, done) {
         var data = req.body,
             user = req.user,
             session = req.session;
 
-        if(data._id){
+        if (data._id) {
             data._id = user._id;
         }
 
-        if(data.form_mode == 'add'){
-            _this.addItem(user, data, session, function(result){
-                if(result.success == true){
-                    _this.updateCurrentCompanyUserdata(user, result.data, session, function(data){
+        if (data.form_mode == 'add') {
+            _this.addItem(user, data, session, function (result) {
+                if (result.success == true) {
+                    _this.updateCurrentCompanyUserdata(user, result.data, session, function (data) {
                         done(data);
                     });
-                }else{
+                } else {
                     done(data);
                 }
             });
-        }else{
-            _this.updateItem(user, data, session, function(result){
-                if(result.success == true){
-                    _this.updateCurrentCompanyUserdata(user, result.data, session, function(data){
+        } else {
+            _this.updateItem(user, data, session, function (result) {
+                if (result.success == true) {
+                    _this.updateCurrentCompanyUserdata(user, result.data, session, function (data) {
                         done(data);
                     });
-                }else{
+                } else {
                     done(data);
                 }
             });
         }
     };
 
-    this.updateCurrentCompanyUserdata = function(user, data, session, done){
+    this.updateCurrentCompanyUserdata = function (user, data, session, done) {
         models.user.findOne({ _id: user._id }, function (err, user) {
             if (err) {
                 app.log.error('findOneAndUpdate error', err);
@@ -158,63 +166,10 @@ module.exports = function (app, models) {
                 });
             }
 
-            if(session && session.passport && session.passport.user){
-                user.current_company = data._id;
+            if (session && session.passport && session.passport.user) {
+                _this.setUserData(user, session, data);
 
-                user.cc_type = data.cc_type;
-                user.cc_name = data.cc_name;
-                user.cc_inn = data.cc_inn;
-                user.cc_kpp = data.cc_ogrn;
-                user.cc_ceo_name = data.cc_ceo_name;
-                user.cc_ceo_type = data.cc_ceo_type;
-                user.cc_accountant_name = data.cc_accountant_name;
-                user.cc_accountant_type = data.cc_accountant_type;
-
-                user.cc_city = data.cc_city;
-                user.cc_index = data.cc_index;
-                user.cc_street = data.cc_street;
-                user.cc_house = data.cc_house;
-
-                user.bank_name = data.bank_name;
-                user.bank_bik = data.bank_bik;
-                user.bank_pay_account = data.bank_pay_account;
-                user.bank_corr_account = data.bank_corr_account;
-
-                user.cc_phone = data.cc_phone;
-                user.cc_fax = data.cc_fax;
-                user.cc_email = data.cc_email;
-                user.cc_skype = data.cc_skype;
-                user.cc_website = data.cc_website;
-
-
-                session.passport.user.current_company = data._id;
-
-                session.passport.user.cc_type = data.cc_type;
-                session.passport.user.cc_name = data.cc_name;
-                session.passport.user.cc_inn = data.cc_inn;
-                session.passport.user.cc_kpp = data.cc_ogrn;
-                session.passport.user.cc_ceo_name = data.cc_ceo_name;
-                session.passport.user.cc_ceo_type = data.cc_ceo_type;
-                session.passport.user.cc_accountant_name = data.cc_accountant_name;
-                session.passport.user.cc_accountant_type = data.cc_accountant_type;
-
-                session.passport.user.cc_city = data.cc_city;
-                session.passport.user.cc_index = data.cc_index;
-                session.passport.user.cc_street = data.cc_street;
-                session.passport.user.cc_house = data.cc_house;
-
-                session.passport.user.bank_name = data.bank_name;
-                session.passport.user.bank_bik = data.bank_bik;
-                session.passport.user.bank_pay_account = data.bank_pay_account;
-                session.passport.user.bank_corr_account = data.bank_corr_account;
-
-                session.passport.user.cc_phone = data.cc_phone;
-                session.passport.user.cc_fax = data.cc_fax;
-                session.passport.user.cc_email = data.cc_email;
-                session.passport.user.cc_skype = data.cc_skype;
-                session.passport.user.cc_website = data.cc_website;
-
-                _this.getCompaniesCount(user._id, function(err, count){
+                _this.getCompaniesCount(user._id, function (err, count) {
                     user.companies = count;
                     session.passport.user.companies = count;
 
@@ -227,7 +182,7 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    session.save(function(err){
+                    session.save(function (err) {
                         if (err) {
                             app.log.error('User session save error', err);
 
@@ -255,7 +210,7 @@ module.exports = function (app, models) {
                         });
                     });
                 });
-            }else{
+            } else {
                 return done({
                     success: false,
                     message: 'SERVER_ERROR'
@@ -264,36 +219,12 @@ module.exports = function (app, models) {
         });
     };
 
-    this.addItem = function(user, data, session, done){
+    this.addItem = function (user, data, session, done) {
         var new_item = new models.company();
 
         new_item._user_id = user._id;
 
-        new_item.cc_type = data.cc_type;
-        new_item.cc_name = data.cc_name;
-        new_item.cc_inn = data.cc_inn;
-        new_item.cc_kpp = data.cc_kpp;
-        new_item.cc_ogrn = data.cc_ogrn;
-        new_item.cc_ceo_name = data.cc_ceo_name;
-        new_item.cc_ceo_type = data.cc_ceo_type;
-        new_item.cc_accountant_name = data.cc_accountant_name;
-        new_item.cc_accountant_type = data.cc_accountant_type;
-
-        new_item.cc_city = data.cc_city;
-        new_item.cc_index = data.cc_index;
-        new_item.cc_street = data.cc_street;
-        new_item.cc_house = data.cc_house;
-
-        new_item.bank_name = data.bank_name;
-        new_item.bank_bik = data.bank_bik;
-        new_item.bank_pay_account = data.bank_pay_account;
-        new_item.bank_corr_account = data.bank_corr_account;
-
-        new_item.cc_phone = data.cc_phone;
-        new_item.cc_fax = data.cc_fax;
-        new_item.cc_email = data.cc_email;
-        new_item.cc_skype = data.cc_skype;
-        new_item.cc_website = data.cc_website;
+        _this.setUserData(new_item, null, data);
 
         new_item.save(function (err, company_data) {
             if (err) {
@@ -303,17 +234,17 @@ module.exports = function (app, models) {
                     success: false,
                     message: 'SERVER_ERROR'
                 });
+            } else {
+                return done({
+                    success: true,
+                    message: 'OK',
+                    data: company_data
+                });
             }
-
-            return done({
-                success: true,
-                message: 'OK',
-                data: company_data
-            });
         });
     };
 
-    this.updateItem = function(user, data, session, done){
+    this.updateItem = function (user, data, session, done) {
         models.company.findOne({ _user_id: user._id, _id: data.id }, function (err, item) {
             if (err) {
                 app.log.error('findOne error', err);
@@ -324,31 +255,7 @@ module.exports = function (app, models) {
                 });
             }
 
-            item.cc_type = data.cc_type;
-            item.cc_name = data.cc_name;
-            item.cc_inn = data.cc_inn;
-            item.cc_kpp = data.cc_kpp;
-            item.cc_ogrn = data.cc_ogrn;
-            item.cc_ceo_name = data.cc_ceo_name;
-            item.cc_ceo_type = data.cc_ceo_type;
-            item.cc_accountant_name = data.cc_accountant_name;
-            item.cc_accountant_type = data.cc_accountant_type;
-
-            item.cc_city = data.cc_city;
-            item.cc_index = data.cc_index;
-            item.cc_street = data.cc_street;
-            item.cc_house = data.cc_house;
-
-            item.bank_name = data.bank_name;
-            item.bank_bik = data.bank_bik;
-            item.bank_pay_account = data.bank_pay_account;
-            item.bank_corr_account = data.bank_corr_account;
-
-            item.cc_phone = data.cc_phone;
-            item.cc_fax = data.cc_fax;
-            item.cc_email = data.cc_email;
-            item.cc_skype = data.cc_skype;
-            item.cc_website = data.cc_website;
+            _this.setUserData(item, null, data);
 
             item.save(function (err, company_data) {
                 if (err) {
@@ -358,13 +265,13 @@ module.exports = function (app, models) {
                         success: false,
                         message: 'SERVER_ERROR'
                     });
+                } else {
+                    return done({
+                        success: true,
+                        message: 'OK',
+                        data: company_data
+                    });
                 }
-
-                return done({
-                    success: true,
-                    message: 'OK',
-                    data: company_data
-                });
             });
         });
     };
@@ -378,13 +285,13 @@ module.exports = function (app, models) {
 
             if (data[0]) {
                 return done(false, data[0]);
-            }else{
+            } else {
                 return done(true);
             }
         });
     };
 
-    this.getCompaniesCount = function(user_id, done){
+    this.getCompaniesCount = function (user_id, done) {
         models.company.find({ _user_id: user_id }).count(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
@@ -393,13 +300,13 @@ module.exports = function (app, models) {
 
             if (data > 0 || data === 0) {
                 return done(false, data);
+            } else {
+                return done(false, false);
             }
-
-            return done(false, false);
         });
     };
 
-    this.getCompaniesList = function(user_id, done){
+    this.getCompaniesList = function (user_id, done) {
         models.company.find({ _user_id: user_id }, { _id: 1, cc_name: 1, cc_type: 1 }).sort({ cc_name: 1 }).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
@@ -416,12 +323,138 @@ module.exports = function (app, models) {
                     data: data,
                     message: 'OK'
                 });
+            } else {
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+        });
+    };
+
+    this.setUserData = function(user_data, session, company_data){
+        if(company_data._id) user_data.current_company = company_data._id;
+
+        user_data.cc_type = company_data.cc_type;
+        user_data.cc_name = company_data.cc_name;
+        user_data.cc_inn = company_data.cc_inn;
+        user_data.cc_kpp = company_data.cc_kpp;
+        user_data.cc_ogrn = company_data.cc_ogrn;
+        user_data.cc_ceo_name = company_data.cc_ceo_name;
+        user_data.cc_ceo_type = company_data.cc_ceo_type;
+        user_data.cc_accountant_name = company_data.cc_accountant_name;
+        user_data.cc_accountant_type = company_data.cc_accountant_type;
+
+        user_data.cc_city = company_data.cc_city;
+        user_data.cc_index = company_data.cc_index;
+        user_data.cc_street = company_data.cc_street;
+        user_data.cc_house = company_data.cc_house;
+
+        user_data.bank_name = company_data.bank_name;
+        user_data.bank_bik = company_data.bank_bik;
+        user_data.bank_pay_account = company_data.bank_pay_account;
+        user_data.bank_corr_account = company_data.bank_corr_account;
+
+        user_data.cc_phone = company_data.cc_phone;
+        user_data.cc_fax = company_data.cc_fax;
+        user_data.cc_email = company_data.cc_email;
+        user_data.cc_skype = company_data.cc_skype;
+        user_data.cc_website = company_data.cc_website;
+
+        if(session){
+            if(company_data._id) session.passport.user.current_company = company_data._id;
+
+            session.passport.user.cc_type = company_data.cc_type;
+            session.passport.user.cc_name = company_data.cc_name;
+            session.passport.user.cc_inn = company_data.cc_inn;
+            session.passport.user.cc_kpp = company_data.cc_kpp;
+            session.passport.user.cc_ogrn = company_data.cc_ogrn;
+            session.passport.user.cc_ceo_name = company_data.cc_ceo_name;
+            session.passport.user.cc_ceo_type = company_data.cc_ceo_type;
+            session.passport.user.cc_accountant_name = company_data.cc_accountant_name;
+            session.passport.user.cc_accountant_type = company_data.cc_accountant_type;
+
+            session.passport.user.cc_city = company_data.cc_city;
+            session.passport.user.cc_index = company_data.cc_index;
+            session.passport.user.cc_street = company_data.cc_street;
+            session.passport.user.cc_house = company_data.cc_house;
+
+            session.passport.user.bank_name = company_data.bank_name;
+            session.passport.user.bank_bik = company_data.bank_bik;
+            session.passport.user.bank_pay_account = company_data.bank_pay_account;
+            session.passport.user.bank_corr_account = company_data.bank_corr_account;
+
+            session.passport.user.cc_phone = company_data.cc_phone;
+            session.passport.user.cc_fax = company_data.cc_fax;
+            session.passport.user.cc_email = company_data.cc_email;
+            session.passport.user.cc_skype = company_data.cc_skype;
+            session.passport.user.cc_website = company_data.cc_website;
+        }
+    };
+
+    this.selectCompany = function (req, done) {
+        var data = req.body,
+            user = req.user,
+            session = req.session;
+
+        models.company.findOne({ _user_id: user._id, _id: data.id }, function (err, company_data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
             }
 
-            return done({
-                success: false,
-                message: 'SERVER_ERROR'
-            });
+            if (company_data) {
+                models.user.findOne({ _id: user._id }, function (err, user_data) {
+
+                    if (err) {
+                        app.log.error('findOneAndUpdate error', err);
+
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    _this.setUserData(user_data, session, company_data);
+
+                    session.save(function (err) {
+                        if (err) {
+                            app.log.error('User session save error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        user_data.save(function (err, user_data) {
+                            if (err) {
+                                app.log.error('Company create error', err);
+
+                                return done({
+                                    success: false,
+                                    message: 'SERVER_ERROR'
+                                });
+                            } else {
+                                return done({
+                                    success: true,
+                                    message: 'OK',
+                                    data: user_data
+                                });
+                            }
+                        });
+                    });
+                });
+            } else {
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
         });
     };
 };

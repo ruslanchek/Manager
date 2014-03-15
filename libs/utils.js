@@ -329,11 +329,11 @@ this.getCompanyTypeName = function(id){
  * */
 this.getCEOType = function(id){
     switch (parseInt(id)) {
-        case 1 : { return 'Директор' } break;
-        case 2 : { return 'Генеральный директор' } break;
+        case 1 : { return 'Генеральный директор' } break;
+        case 2 : { return 'Директор' } break;
         case 3 : { return 'Председатель' } break;
-        case 4 : { return 'Другое' } break;
-        case 5 : { return 'Не подписывает' } break;
+        case 4 : { return 'Руководитель' } break;
+        case 5 : { return 'Другое' } break;
     }
 };
 
@@ -343,10 +343,10 @@ this.getCEOType = function(id){
  * */
 this.getAccountantType = function(id){
     switch (parseInt(id)) {
-        case 1 : { return 'Главный бухгалтер' } break;
-        case 2 : { return 'Бухгалтер' } break;
-        case 3 : { return 'Другое' } break;
-        case 4 : { return 'Не подписывает' } break;
+        case 1 : { return 'Не подписывает' } break;
+        case 2 : { return 'Главный бухгалтер' } break;
+        case 3 : { return 'Бухгалтер' } break;
+        case 4 : { return 'Другое' } break;
     }
 };
 

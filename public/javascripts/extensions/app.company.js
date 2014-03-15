@@ -27,6 +27,32 @@ app.company = {
             });
         };
 
+        this.selectCompany = function(id, m_controller, done){
+            $.ajax({
+                url: '/company/selectcompany',
+                data: {
+                    id: id
+                },
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function(){
+                    m_controller.setLoading();
+                },
+                success: function(data){
+                    if(done){
+                        done(data);
+                    }
+
+                    setTimeout(function(){
+                        m_controller.unSetLoading();
+                    }, 300);
+                },
+                error: function(){
+                    m_controller.unSetLoading();
+                }
+            });
+        };
+
         this.getCompanyById = function(id){
             for(var i = 0, l = this.companies.length; i < l; i++){
                 if(this.companies[i]._id == id){
@@ -55,11 +81,28 @@ app.company = {
 
                             $item.off('click').on('click', function(e){
                                 e.preventDefault();
-                                var id = $(this).data('id');
 
-                                $item.removeClass('active');
+                                var $clicked = $(this),
+                                    id = $clicked.data('id'),
+                                    name = $clicked.data('name'),
+                                    type = $clicked.data('type');
 
-                                $(this).addClass('active');
+                                _this.selectCompany(id, controller, function(data){
+                                    if(data.success === true){
+                                        $item.removeClass('active');
+                                        $clicked.addClass('active');
+
+                                        _this.renderSelector(app.utils.getCompanyTypeName(type), name);
+
+                                        setTimeout(function(){
+                                            controller.close();
+
+                                            setTimeout(function(){
+                                                document.location.reload();
+                                            }, 300);
+                                        }, 300);
+                                    }
+                                });
                             });
 
                             $item.find('.edit-company').off('click').on('click', function(e){

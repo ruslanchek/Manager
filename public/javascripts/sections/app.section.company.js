@@ -6,99 +6,89 @@ app.sections.company = {
     mode: 'add',
 
     form_data: {
-        form_mode           : '',
-        id                  : '',
+        form_mode: '',
+        id: '',
 
-        cc_type             : '',
-        cc_name             : '',
-        cc_inn              : '',
-        cc_kpp              : '',
-        cc_ogrn             : '',
-        cc_ceo_name         : '',
-        cc_ceo_type         : '',
-        cc_accountant_name  : '',
-        cc_accountant_type  : '',
+        cc_type: '',
+        cc_name: '',
+        cc_inn: '',
+        cc_kpp: '',
+        cc_ogrn: '',
+        cc_ceo_name: '',
+        cc_ceo_type: '',
+        cc_accountant_name: '',
+        cc_accountant_type: '',
 
-        cc_city             : '',
-        cc_index            : '',
-        cc_street           : '',
-        cc_house            : '',
+        cc_city: '',
+        cc_index: '',
+        cc_street: '',
+        cc_house: '',
 
-        bank_name           : '',
-        bank_bik            : '',
-        bank_pay_account    : '',
-        bank_corr_account   : '',
+        bank_name: '',
+        bank_bik: '',
+        bank_pay_account: '',
+        bank_corr_account: '',
 
-        cc_phone            : '',
-        cc_fax              : '',
-        cc_email            : '',
-        cc_skype            : '',
-        cc_website          : ''
+        cc_phone: '',
+        cc_fax: '',
+        cc_email: '',
+        cc_skype: '',
+        cc_website: ''
     },
 
     fields: {
         step1: {
-            cc_type             : '#cc_type',
-            cc_name             : '#cc_name',
-            cc_inn              : '#cc_inn',
-            cc_kpp              : '#cc_kpp',
-            cc_ogrn             : '#cc_ogrn',
+            cc_type: '#cc_type',
+            cc_name: '#cc_name',
+            cc_inn: '#cc_inn',
+            cc_kpp: '#cc_kpp',
+            cc_ogrn: '#cc_ogrn',
 
-            cc_ceo_name         : '#cc_ceo_name',
-            cc_ceo_type         : '#cc_ceo_type',
-            cc_accountant_name  : '#cc_accountant_name',
-            cc_accountant_type  : '#cc_accountant_type'
+            cc_ceo_name: '#cc_ceo_name',
+            cc_ceo_type: '#cc_ceo_type',
+            cc_accountant_name: '#cc_accountant_name',
+            cc_accountant_type: '#cc_accountant_type'
         },
 
         step2: {
-            cc_city             : '#cc_city',
-            cc_index            : '#cc_index',
-            cc_street           : '#cc_street',
-            cc_house            : '#cc_house'
+            cc_city: '#cc_city',
+            cc_index: '#cc_index',
+            cc_street: '#cc_street',
+            cc_house: '#cc_house'
         },
 
         step3: {
-            bank_name           : '#bank_name',
-            bank_bik            : '#bank_bik',
-            bank_pay_account    : '#bank_pay_account',
-            bank_corr_account   : '#bank_corr_account'
+            bank_name: '#bank_name',
+            bank_bik: '#bank_bik',
+            bank_pay_account: '#bank_pay_account',
+            bank_corr_account: '#bank_corr_account'
         },
 
         step4: {
-            form_mode           : '#form_mode',
-            id                  : '#id',
+            form_mode: '#form_mode',
+            id: '#id',
 
-            cc_phone            : '#cc_phone',
-            cc_fax              : '#cc_fax',
-            cc_email            : '#cc_email',
-            cc_skype            : '#cc_skype',
-            cc_website          : '#cc_website'
+            cc_phone: '#cc_phone',
+            cc_fax: '#cc_fax',
+            cc_email: '#cc_email',
+            cc_skype: '#cc_skype',
+            cc_website: '#cc_website'
         }
     },
 
-    typeSelect: function($select){
-        if($select.val() == '4'){
-            $('label[for=cc_ogrn]').text('ОГРНИП');
-            $('#kpp-item').hide();
-        }else{
-            $('label[for=cc_ogrn]').text('ОГРН');
-            $('#kpp-item').show();
-        }
-    },
-
-    intro: function(){
+    intro: function () {
         $('.step-names').fadeOut(300);
         $('.progress-bar').slideUp(300);
         $('.form-controls').slideUp(300);
     },
 
-    start: function(){
+    start: function () {
         $('#form-company').show();
 
         $('.form-step.active').removeClass('active');
         $('.form-step[data-step="1"]').addClass('active');
 
-        setTimeout(function(){
+        setTimeout(function () {
             $('.step-names').fadeIn(300);
             $('.progress-bar').slideDown(300);
             $('.form-controls').slideDown(300);
@@ -107,56 +97,75 @@ app.sections.company = {
         this.step1();
     },
 
-    finish: function(){
+    finish: function () {
         $('.form-step.active').removeClass('active');
         $('.form-step[data-step="5"]').addClass('active');
 
         $('.form-controls').slideUp(300);
 
-        setTimeout(function(){
+        setTimeout(function () {
             $('.step-names').fadeOut(300);
             $('.progress-bar').slideUp(300);
         }, 650);
     },
 
-    binds: function(){
-        $('#cc_type').on('change', function(){
-            app.sections.company.typeSelect($(this));
+    binds: function () {
+        $('#cc_type').on('change', function () {
+            if ($(this).val() == '4') {
+                $('label[for=cc_ogrn]').text('ОГРНИП');
+                $('#kpp-item').hide();
+                $('#cc_ceo_type_block').hide();
+                $('#cc_ceo_type').val('4').trigger("chosen:updated");
+
+            } else {
+                $('label[for=cc_ogrn]').text('ОГРН');
+                $('#kpp-item').show();
+                $('#cc_ceo_type_block').show();
+                $('#cc_ceo_type').val('1').trigger("chosen:updated");
+            }
         });
 
-        $('.start-master').on('click', function(e){
+        $('#cc_accountant_type').on('change', function () {
+            if ($(this).val() == '1') {
+                $('#cc_accountant_name_block').hide();
+            } else {
+                $('#cc_accountant_name_block').show();
+            }
+        });
+
+        $('.start-master').on('click', function (e) {
             app.sections.company.setStep(1);
         });
     },
 
-    selectCaegory: function(name){
+    selectCaegory: function (name) {
         $('.side-menu a, .form-hidden-section').removeClass('active');
         $('.side-menu a[data-name="' + name + '"], .form-hidden-section[data-name="' + name + '"]').addClass('active');
     },
 
-    setStep: function(step){
-        if(step < 0){
+    setStep: function (step) {
+        if (step < 0) {
             step = 0;
         }
 
-        if(step > this.steps){
+        if (step > this.steps) {
             step = this.steps;
         }
 
-        if(step == 'intro'){
+        if (step == 'intro') {
             step = 0;
         }
 
-        if(step == 'finish'){
+        if (step == 'finish') {
             step = this.steps + 1;
         }
 
-        if(step > 0){
+        if (step > 0) {
             var stepw = step - 1;
 
             var width = (stepw / this.steps) * 100;
 
-            if(width > 100){
+            if (width > 100) {
                 width = 100;
             }
 
@@ -164,7 +173,7 @@ app.sections.company = {
                 width: width + '%'
             });
 
-            if(step > 0 && step <= this.steps){
+            if (step > 0 && step <= this.steps) {
                 $('.current_step').html(step);
                 $('.total_step').html(this.steps);
             }
@@ -172,36 +181,40 @@ app.sections.company = {
 
         this.current_slide = step;
 
-        if(step > this.steps){
+        if (step > this.steps) {
             this.finish();
         }
 
-        if(step == 1){
+        if (step == 1) {
             this.start();
         }
 
-        if(step == 0){
+        if (step == 0) {
             this.intro();
         }
 
         var backstep = step - 1;
 
-        if(backstep < 0){
+        if (backstep < 0) {
             backstep = 0;
         }
 
-        $('.prev-step').off('click').on('click', function(){
+        $('.prev-step').off('click').on('click', function () {
             app.sections.company.setStep(backstep);
         });
 
         this.setSlidePosition(step);
 
-        if(this.form_controller){
+        if (this.form_controller) {
             this.form_controller.dismissFormMessage();
         }
     },
 
-    step1: function(){
+    step1: function () {
+        setTimeout(function () {
+            $('#cc_name').focus();
+        }, 600);
+
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
             url: '/company/' + app.sections.company.mode + '/step1',
@@ -211,10 +224,11 @@ app.sections.company = {
                 CC_NAME_EMPTY: 'Наименование не заполнено',
                 CC_INN_EMPTY: 'ИНН не заполнен',
                 CC_KPP_EMPTY: 'КПП не заполнен',
-                CC_OGRN_EMPTY: 'ОГРН не заполнен'
+                CC_OGRN_EMPTY: 'ОГРН не заполнен',
+                CC_CEO_NAME_EMPTY: 'Имя руководителя не заполнено'
             },
-            onSuccess: function(data){
-                if(data.success == true){
+            onSuccess: function (data) {
+                if (data.success == true) {
                     $('.form-step.active').removeClass('active');
                     $('.form-step[data-step="2"]').addClass('active');
 
@@ -227,7 +241,11 @@ app.sections.company = {
         });
     },
 
-    step2: function(){
+    step2: function () {
+        setTimeout(function () {
+            $('#cc_city').focus();
+        }, 600);
+
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
             url: '/company/' + app.sections.company.mode + '/step2',
@@ -239,8 +257,8 @@ app.sections.company = {
                 CC_STREET_EMPTY: 'Улица заполнена',
                 CC_HOUSE_EMPTY: 'Дом не заполнен'
             },
-            onSuccess: function(data){
-                if(data.success == true){
+            onSuccess: function (data) {
+                if (data.success == true) {
                     $('.form-step.active').removeClass('active');
                     $('.form-step[data-step="3"]').addClass('active');
 
@@ -253,7 +271,11 @@ app.sections.company = {
         });
     },
 
-    step3: function(){
+    step3: function () {
+        setTimeout(function () {
+            $('#bank_name').focus();
+        }, 600);
+
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
             url: '/company/' + app.sections.company.mode + '/step3',
@@ -262,8 +284,8 @@ app.sections.company = {
             messages: {
 
             },
-            onSuccess: function(data){
-                if(data.success == true){
+            onSuccess: function (data) {
+                if (data.success == true) {
                     $('.form-step.active').removeClass('active');
                     $('.form-step[data-step="4"]').addClass('active');
 
@@ -276,7 +298,11 @@ app.sections.company = {
         });
     },
 
-    step4: function(){
+    step4: function () {
+        setTimeout(function () {
+            $('#cc_phone').focus();
+        }, 600);
+
         $('.next-step').val('Завершить');
 
         this.form_controller = new app.form.FormController({
@@ -292,15 +318,15 @@ app.sections.company = {
             messages: {
 
             },
-            onSuccess: function(data){
-                if(data.success == true){
+            onSuccess: function (data) {
+                if (data.success == true) {
                     app.sections.company.finalSettings(data);
                 }
             }
         });
     },
 
-    finalSettings: function(data){
+    finalSettings: function (data) {
         app.sections.company.setStep('finish');
         app.user.companies = data.data.companies;
 
@@ -308,14 +334,9 @@ app.sections.company = {
             app.utils.getCompanyTypeName(data.data.cc_type),
             data.data.cc_name
         );
-
-        if(app.sections.company.mode == 'edit'){
-            $('#global-company-type').html($('#cc_type option:selected').html());
-            $('#global-company-name').html($('#cc_name').val());
-        }
     },
 
-    setSlidePosition: function(pos){
+    setSlidePosition: function (pos) {
         $('.slideable-container').css({
             marginLeft: -(pos * this.form_width)
         });
@@ -325,14 +346,14 @@ app.sections.company = {
         });
     },
 
-    init: function(mode, id){
+    init: function (mode, id) {
         this.mode = mode;
         this.id = id;
 
         /*this.crop_controller = new app.crop.BasicCropController({
-            form_controller: this.form_controller,
-            selector: '.crop-upload'
-        });*/
+         form_controller: this.form_controller,
+         selector: '.crop-upload'
+         });*/
 
         $('.slideable-wrapper').css({
             height: $('.form-step[data-step="0"]').height()

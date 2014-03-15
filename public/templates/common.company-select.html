@@ -1,7 +1,7 @@
 {{#if companies}}
 	<div class="companies-menu">
 	{{#companies}}
-		<div class="item {{#if _active}}active{{/if}}" data-id="{{_id}}">
+		<div class="item {{#if _active}}active{{/if}}" data-id="{{_id}}" data-name="{{cc_name}}" data-type="{{cc_type}}">
 			<a class="company-name" href="#" data-id="{{_id}}">
 				<span>{{_cc_type_name}} &laquo;{{cc_name}}&raquo;</span>
 			</a>
