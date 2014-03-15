@@ -332,8 +332,44 @@ module.exports = function (app, models) {
         });
     };
 
+    this.nullUserData = function(user, session){
+        var company_data = {};
+
+        company_data._id = null;
+
+        company_data.cc_type = null;
+        company_data.cc_name = null;
+        company_data.cc_inn = null;
+        company_data.cc_kpp = null;
+        company_data.cc_ogrn = null;
+        company_data.cc_ceo_name = null;
+        company_data.cc_ceo_type = null;
+        company_data.cc_accountant_name = null;
+        company_data.cc_accountant_type = null;
+
+        company_data.cc_city = null;
+        company_data.cc_index = null;
+        company_data.cc_street = null;
+        company_data.cc_house = null;
+
+        company_data.bank_name = null;
+        company_data.bank_bik = null;
+        company_data.bank_pay_account = null;
+        company_data.bank_corr_account = null;
+
+        company_data.cc_phone = null;
+        company_data.cc_fax = null;
+        company_data.cc_email = null;
+        company_data.cc_skype = null;
+        company_data.cc_website = null;
+
+        company_data.mc_account = null;
+        
+        this.setUserData(user, session, company_data);
+    };
+
     this.setUserData = function(user_data, session, company_data){
-        if(company_data._id) user_data.current_company = company_data._id;
+        user_data.current_company = company_data._id;
 
         user_data.cc_type = company_data.cc_type;
         user_data.cc_name = company_data.cc_name;
@@ -361,8 +397,10 @@ module.exports = function (app, models) {
         user_data.cc_skype = company_data.cc_skype;
         user_data.cc_website = company_data.cc_website;
 
+        user_data.mc_account = company_data.mc_account;
+
         if(session){
-            if(company_data._id) session.passport.user.current_company = company_data._id;
+            session.passport.user.current_company = company_data._id;
 
             session.passport.user.cc_type = company_data.cc_type;
             session.passport.user.cc_name = company_data.cc_name;
@@ -389,6 +427,8 @@ module.exports = function (app, models) {
             session.passport.user.cc_email = company_data.cc_email;
             session.passport.user.cc_skype = company_data.cc_skype;
             session.passport.user.cc_website = company_data.cc_website;
+
+            session.passport.user.mc_account = company_data.mc_account;
         }
     };
 
@@ -455,6 +495,137 @@ module.exports = function (app, models) {
                     message: 'SERVER_ERROR'
                 });
             }
+        });
+    };
+
+    this.getCompaniesCount = function(user_id, done){
+        models.company.find({ _user_id: user_id }).count(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done(err, false);
+            }
+
+            if (data > 0 || data === 0) {
+                return done(false, data);
+            }
+
+            return done(false, false);
+        });
+    };
+
+    this.deleteCompany = function(req, done){
+        var data = req.body,
+            user = req.user,
+            session = req.session;
+
+        var models_clear = [
+            'account',
+            'nomenclature',
+            'nomgroup'
+        ];
+
+        models.company.findOneAndRemove({ _user_id: user._id, _id: data.id }, function(err){
+            if (err) {
+                app.log.error('findOneAndUpdate error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            var inits = 0,
+                error = false;
+
+            for(var i = 0, l = models_clear.length; i < l; i++){
+                inits++;
+
+                if(models[models_clear[i]]){
+                    var model = models[models_clear[i]];
+
+                    model.find({ _user_id: user._id, _company_id: data.id }, function(err, data){
+                        if(err){
+                            error = true;
+                        }
+
+                        if (data) {
+                            for(var i = 0, l = data.length; i < l; i++){
+                                data[i].remove();
+                            }
+                        }
+
+                        inits--;
+                    });
+                }
+            }
+
+            inits++;
+
+            _this.getCompaniesCount(user._id, function(err, count){
+                inits--;
+
+                if(err){
+                    error = true;
+                }
+
+                if(count < 1){
+                    inits++;
+
+                    models.user.findOne({ _id: user._id }, function(err, user_data){
+                        inits--;
+
+                        if(err){
+                            error = true;
+                        }
+
+                        _this.nullUserData(user_data, session);
+
+                        user_data.companies = 0;
+                        session.passport.user.companies = 0;
+
+                        inits++;
+                        user_data.save(function(err, data){
+                            console.log(data);
+
+                            inits--;
+
+                            if(err){
+                                error = true;
+                            }
+
+                            inits++;
+                            session.save(function(err){
+                                inits--;
+
+                                if(err){
+                                    error = true;
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+
+            var inits_to = setInterval(function(){
+                if(inits <= 0){
+                    clearInterval(inits_to);
+
+                    if(error === true){
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }else{
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: {
+                                current_company: user.current_company
+                            }
+                        });
+                    }
+                }
+            }, 20);
         });
     };
 };

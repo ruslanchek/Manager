@@ -262,6 +262,7 @@ app.sections.accounts = {
                     onClose: function(){
 
                     },
+                    width: 550,
                     draggable: true
                 });
 

@@ -1,7 +1,8 @@
 module.exports = function (app, models) {
     this.findItems = function (user, filters, done) {
         var filters_query = {
-            _user_id: user._id
+            _user_id: user._id,
+            _company_id: user.current_company
         };
 
         if(filters){
@@ -51,7 +52,7 @@ module.exports = function (app, models) {
     };
 
     this.countAll = function(user, done){
-        models.account.count({ _user_id: user._id }, function(err, data){
+        models.account.count({ _user_id: user._id, _company_id: user.current_company }, function(err, data){
             if (err) {
                 return done(data);
             }
@@ -65,7 +66,7 @@ module.exports = function (app, models) {
     };
 
     this.findOne = function (user, id, done) {
-        models.account.find({ _user_id: user._id, _id: id }, function (err, data) {
+        models.account.find({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -168,7 +169,7 @@ module.exports = function (app, models) {
 
         var values = this.getValues(data);
 
-        models.account.findOne({ _user_id: user._id, number: data.number, _id: { $ne: id } }, function (err, item) {
+        models.account.findOne({ _user_id: user._id, _company_id: user.current_company, number: data.number, _id: { $ne: id } }, function (err, item) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -185,7 +186,7 @@ module.exports = function (app, models) {
                     fields: ['number']
                 });
             }else{
-                models.account.findOne({ _user_id: user._id, _id: id }, function (err, item) {
+                models.account.findOne({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, item) {
                     if (err) {
                         app.log.error('findOne error', err);
 
@@ -235,7 +236,7 @@ module.exports = function (app, models) {
 
         var values = this.getValues(data);
 
-        models.account.findOne({ _user_id: user._id, number: data.number }, function (err, item) {
+        models.account.findOne({ _user_id: user._id, _company_id: user.current_company, number: data.number }, function (err, item) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -255,6 +256,7 @@ module.exports = function (app, models) {
                 var new_item = new models.account();
 
                 new_item._user_id = user._id;
+                new_item._company_id = user.current_company;
                 new_item.number = data.number;
                 new_item.date = app.utils.parseDate(data.date);
                 new_item.contractor = data.contractor;
@@ -275,7 +277,7 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    models.user.findOneAndUpdate({ _id: user._id }, { $inc: { mc_account: 1 } }, function(err, user_data){
+                    models.company.findOneAndUpdate({ _id: user.current_company }, { $inc: { mc_account: 1 } }, function(err, company_data){
                         if (err) {
                             app.log.error('findOne error', err);
 
@@ -286,7 +288,7 @@ module.exports = function (app, models) {
                         }
 
                         if(session && session.passport && session.passport.user){
-                            session.passport.user.mc_account = user_data.mc_account;
+                            session.passport.user.mc_account = company_data.mc_account;
                             session.save();
                         }
 
@@ -302,7 +304,7 @@ module.exports = function (app, models) {
     };
 
     this.deleteItems = function(user, ids, done){
-        models.account.find({ _user_id: user._id, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+        models.account.find({ _user_id: user._id, _company_id: user.current_company, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
 

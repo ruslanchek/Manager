@@ -174,16 +174,6 @@ module.exports = function (app) {
             default: 0
         },
 
-        mc_nomenclature: {
-            type: Number,
-            default: 0
-        },
-
-        mc_nomgroup: {
-            type: Number,
-            default: 0
-        },
-
 
         // Misc
         current_company: {

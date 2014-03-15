@@ -46,6 +46,12 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/company/deletecompany', app.ensureAuthenticated, function(req, res){
+        controllers.company.deleteCompany(req, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/company/list', app.ensureAuthenticated, function(req, res){
         controllers.company.getCompaniesList(req.user._id, function(result){
             res.json(app.utils.extend({ current_company: req.user.current_company }, result ));

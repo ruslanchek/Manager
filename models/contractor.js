@@ -9,6 +9,13 @@ module.exports = function (app) {
             required: true
         },
 
+        _company_id : {
+            type: String,
+            index: true,
+            ref: 'Company',
+            required: true
+        },
+
         name: {
             type: String,
             index: true,

@@ -148,7 +148,7 @@ app.sections.nomenclature = {
                 onClose: function(){
 
                 },
-                width: 550
+                width: 500
             }).open();
         });
     },
@@ -314,7 +314,7 @@ app.sections.nomenclature = {
         addNomgroup: function(){
             app.templates.render('nomenclature.add.html', {  }, function(html){
                 app.sections.nomenclature.list.mc_add = new app.modal.ModalController({
-                    title: 'Создание категории номернклатуры',
+                    title: 'Создание категории',
                     content: html,
                     onShow: function(controller){
                         $('#na_name').focus();
@@ -344,14 +344,19 @@ app.sections.nomenclature = {
                                             '<i data-name="' + data.data.name + '" data-id="' + data.data._id + '" class="actions edit-nomgroup icon-menu"></i>' +
                                         '</a>'
                                     );
+
+                                    if($('.side-menu .sorting a').length >= 1){
+                                        $('.side-menu a').removeClass('last');
+
+                                        $('.side-menu .sorting a:last').addClass('last');
+                                    }
                                 }, 350);
                             }
                         });
                     },
                     onClose: function(){
 
-                    },
-                    width: 530
+                    }
                 });
 
                 app.sections.nomenclature.list.mc_add.open();
@@ -361,7 +366,7 @@ app.sections.nomenclature = {
         editNomgroup: function($object){
             app.templates.render('nomenclature.edit.html', { name: $object.data('name') }, function(html){
                 app.sections.nomenclature.list.mc_edit = new app.modal.ModalController({
-                    title: 'Редактирование категории номернклатуры',
+                    title: 'Редактирование категории',
                     content: html,
                     onShow: function(controller){
                         $('#ne_name').focus();
@@ -424,7 +429,7 @@ app.sections.nomenclature = {
                     onClose: function(){
 
                     },
-                    width: 530
+                    width: 500
                 });
 
                 app.sections.nomenclature.list.mc_edit.open();
@@ -448,6 +453,12 @@ app.sections.nomenclature = {
                     if(data.success == true){
                         if(done){
                             done(ids);
+                        }
+
+                        if($('.side-menu .sorting a').length < 1){
+                            $('.side-menu a').removeClass('last');
+
+                            $('.side-menu .group a:last').addClass('last');
                         }
                     }
                 },

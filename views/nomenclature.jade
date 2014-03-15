@@ -97,14 +97,15 @@ block content
                     a(href="/nomenclature", class=(!nomgroup && !freegroup) ? 'active' : '')
                         strong Все категории
 
-                    a(href="/nomenclature/free", class=(freegroup) ? 'active' : '')
+                    a(href="/nomenclature/free", class=((!nomgroups || (nomgroups && nomgroups.length < 1)) ? 'last ' : '') + ((freegroup) ? 'active' : ''))
                         strong Без категории
 
                 div.sorting
                     each nomgroup_item in nomgroups
                         -var is_active = (nomgroup && nomgroup._id.toString()==nomgroup_item._id.toString() ? 'active' : '')
+                        -var is_last = (nomgroups.length < 2) ? ' last' : ''
 
-                        a(href='/nomenclature/' + nomgroup_item._id, class=is_active, data-id=nomgroup_item._id.toString())
+                        a(href='/nomenclature/' + nomgroup_item._id, class=is_active + is_last, data-id=nomgroup_item._id.toString())
                             span.nomgroup-name #{nomgroup_item.name}
                             i.edit-nomgroup.actions.icon-menu(data-id=nomgroup_item._id.toString(), data-name=nomgroup_item.name)
 

@@ -1,14 +1,16 @@
-<form id="form-email-item" class="form forms forms-columnar" action="">
+<form id="form-email-item" class="form forms forms-linear" action="">
     <div class="form-message"></div>
 
     <div class="form-item">
-        <label for="ie_email">Электронная почта</label>
-        <input id="ie_email" name="ie_email" class="width-100" type="email" value="{{email}}"/>
+        <label for="ie_email">Электронная почта
+        	<input id="ie_email" name="ie_email" class="width-100" type="email" value="{{email}}"/>
+		</label>
     </div>
 
     <div class="form-item">
-        <label for="ie_message">Комментарий</label>
-        <textarea id="ie_message" name="ie_message" class="width-100">{{description}}</textarea>
+        <label for="ie_message">Комментарий
+        	<textarea id="ie_message" name="ie_message" class="width-100" rows="4">{{description}}</textarea>
+		</label>
     </div>
 
     <hr/>

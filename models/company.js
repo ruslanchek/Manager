@@ -98,6 +98,13 @@ module.exports = function (app) {
 
         bank_corr_account: {
             type: String
+        },
+
+
+        // Model counters
+        mc_account: {
+            type: Number,
+            default: 0
         }
     });
 

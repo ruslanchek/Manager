@@ -1,6 +1,6 @@
 module.exports = function (app, models) {
     this.findOne = function (user, id, nomgroup_id, done) {
-        models.nomenclature.find({ _user_id: user._id, _id: id, _nomgroup_id: nomgroup_id }, function (err, data) {
+        models.nomenclature.find({ _user_id: user._id, _company_id: user.current_company, _id: id, _nomgroup_id: nomgroup_id }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -15,7 +15,7 @@ module.exports = function (app, models) {
     };
 
     this.findItems = function (user, filters, done) {
-        models.nomenclature.find( app.utils.extend(filters, { _user_id: user._id }), { _id: 1, name: 1, article: 1, unit: 1, price: 1, _nomgroup_id: 1 } ).sort({ name: 1 }).exec(function (err, data) {
+        models.nomenclature.find( app.utils.extend(filters, { _user_id: user._id, _company_id: user.current_company }), { _id: 1, name: 1, article: 1, unit: 1, price: 1, _nomgroup_id: 1 } ).sort({ name: 1 }).exec(function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -88,7 +88,7 @@ module.exports = function (app, models) {
             return done(validate);
         }
 
-        models.nomenclature.findOne({ _user_id: user._id, name: data.name, article: data.article, _id: { $ne: id } }, function (err, nomenclature_data) {
+        models.nomenclature.findOne({ _user_id: user._id, _company_id: user.current_company, name: data.name, article: data.article, _id: { $ne: id } }, function (err, nomenclature_data) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -116,7 +116,7 @@ module.exports = function (app, models) {
                 }
             }
 
-            models.nomenclature.findOne({ _user_id: user._id, _id: id }, function (err, item) {
+            models.nomenclature.findOne({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, item) {
                 if (err) {
                     app.log.error('findOne error', err);
 
@@ -164,7 +164,7 @@ module.exports = function (app, models) {
             return done(validate);
         }
 
-        models.nomenclature.findOne({ _user_id: user._id, name: data.name, article: data.article }, function (err, nomenclature_data) {
+        models.nomenclature.findOne({ _user_id: user._id, _company_id: user.current_company, name: data.name, article: data.article }, function (err, nomenclature_data) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -199,6 +199,7 @@ module.exports = function (app, models) {
             }
 
             new_item._user_id = user._id;
+            new_item._company_id = user.current_company;
             new_item.name = data.name;
             new_item.article = data.article;
             new_item.price = data.price;
@@ -215,33 +216,17 @@ module.exports = function (app, models) {
                     });
                 }
 
-                models.user.findOneAndUpdate({ _id: user._id }, { $inc: { mc_nomenclature: 1 } }, function(err, user_data){
-                    if (err) {
-                        app.log.error('findOne error', err);
-
-                        return done({
-                            success: false,
-                            message: 'SERVER_ERROR'
-                        });
-                    }
-
-                    if(session && session.passport && session.passport.user){
-                        session.passport.user.mc_nomenclature = user_data.mc_nomenclature;
-                        session.save();
-                    }
-
-                    return done({
-                        success: true,
-                        message: 'OK',
-                        data: nomenclature_data
-                    });
+                return done({
+                    success: true,
+                    message: 'OK',
+                    data: nomenclature_data
                 });
             });
         });
     };
 
 	this.deleteItems = function(user, ids, done){
-		models.nomenclature.find({ _user_id: user._id, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+		models.nomenclature.find({ _user_id: user._id, _company_id: user.current_company, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
 			if (err) {
 				app.log.error('findOne error', err);
 

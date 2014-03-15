@@ -53,12 +53,30 @@ app.company = {
             });
         };
 
-        this.getCompanyById = function(id){
-            for(var i = 0, l = this.companies.length; i < l; i++){
-                if(this.companies[i]._id == id){
-                    return this.companies[i];
+        this.deleteCompany = function(id, m_controller, done){
+            $.ajax({
+                url: '/company/deletecompany',
+                data: {
+                    id: id
+                },
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function(){
+                    m_controller.setLoading();
+                },
+                success: function(data){
+                    if(done){
+                        done(data);
+                    }
+
+                    setTimeout(function(){
+                        m_controller.unSetLoading();
+                    }, 300);
+                },
+                error: function(){
+                    m_controller.unSetLoading();
                 }
-            }
+            });
         };
 
         this.openSelector = function(){
@@ -79,7 +97,7 @@ app.company = {
                         onShow: function(controller){
                             var $item = controller.$modal.find('.content .item');
 
-                            $item.off('click').on('click', function(e){
+                            $item.find('a.company-name').off('click').on('click', function(e){
                                 e.preventDefault();
 
                                 var $clicked = $(this),
@@ -90,7 +108,7 @@ app.company = {
                                 _this.selectCompany(id, controller, function(data){
                                     if(data.success === true){
                                         $item.removeClass('active');
-                                        $clicked.addClass('active');
+                                        $clicked.parent().addClass('active');
 
                                         _this.renderSelector(app.utils.getCompanyTypeName(type), name);
 
@@ -98,8 +116,8 @@ app.company = {
                                             controller.close();
 
                                             setTimeout(function(){
-                                                document.location.reload();
-                                            }, 300);
+                                                document.location.href = '/';
+                                            }, 200);
                                         }, 300);
                                     }
                                 });
@@ -111,12 +129,53 @@ app.company = {
 
                                 document.location.href = '/company/edit/' + id;
                             });
+
+                            $item.find('.delete-company').off('click').on('click', function(e){
+                                e.preventDefault();
+                                var id = $(this).data('id'),
+                                    $clicked = $(this);
+
+                                if(confirm('Внимание! Вместе с компанией будут удалены все ее документы, номенклатура и контрагенты! Вы действительно хотите продолжить?')){
+                                    _this.deleteCompany(id, controller, function(data){
+                                        if(data.success == true){
+                                            var $it = controller.$modal.find('.content .item[data-id="' + id + '"]');
+
+                                            $it.slideUp(300, function(){
+                                                $it.remove();
+
+                                                if(id == data.data.current_company || data.data.current_company == null){
+                                                    var next_id = controller.$modal.find('.content .item:first').data('id');
+
+                                                    if(!next_id){
+                                                        controller.close();
+
+                                                        controller.options.onClose = function(){
+                                                            app.noCompanies();
+                                                        }
+                                                    }else{
+                                                        _this.selectCompany(next_id, controller, function(data){
+                                                            if(data.success == true){
+                                                                $item.removeClass('active');
+                                                                controller.$modal.find('.content .item:first').addClass('active');
+
+                                                                controller.options.onClose = function(){
+                                                                    document.location.href = '/';
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
                         },
                         onClose: function(){
 
                         },
                         draggable: true,
-                        width: 400
+                        width: 420
                     });
 
                     modal_controller.open();
