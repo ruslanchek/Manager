@@ -96,7 +96,6 @@ app.modal = {
 
                     setTimeout(function(){
                         _this.$modal.addClass('ready');
-                        _this.position();
                     }, 50);
 
                     _this.opened = true;

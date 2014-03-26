@@ -40,6 +40,26 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.get('/requisites/:id', function(req, res){
+        controllers.company.findOnePublic(req.params.id, function(err, data){
+            if(err === true || !data){
+                res.redirect('/404');
+            }else{
+                var params = app.utils.extend(common, {
+                    user: req.user,
+                    section: 'main',
+                    mode: 'edit',
+                    data: data,
+                    metadata: {
+                        title: app.utils.getCompanyTypeName(data.cc_type) + ' «' + data.cc_name + '»'
+                    }
+                });
+
+                res.render('company.requisites.jade', params);
+            }
+        });
+    });
+
     app.post('/company/selectcompany', app.ensureAuthenticated, function(req, res){
         controllers.company.selectCompany(req, function(result){
             res.json(result);

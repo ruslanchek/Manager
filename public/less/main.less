@@ -12,6 +12,7 @@
 @import 'items-selector';
 @import 'docview';
 @import 'crop';
+@import 'requisites';
 
 @import 'meow';
 @import 'kladr';
@@ -89,6 +90,10 @@ body {
   font-size: @base-font-size;
   background: @base-bg url(../images/patterns/stacked-circles.png);
   color: @base-font-color;
+}
+
+.clearfix {
+  clear: both;
 }
 
 // Typographics
@@ -971,7 +976,7 @@ input.action-button {
 
     a.company-name {
       display: block;
-      padding: 8px 80px 8px 20px;
+      padding: 8px 110px 8px 20px;
       color: @color-header;
       text-decoration: none;
 
@@ -988,7 +993,7 @@ input.action-button {
       position: absolute;
       top: 0;
       right: 20px;
-      width: 60px;
+      width: 90px;
       padding: 8px 0;
       text-align: right;
       display: none;

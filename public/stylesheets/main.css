@@ -3390,6 +3390,48 @@ input[type="radio"].stylish:checked:after {
   text-align: center;
   margin: 0 auto;
 }
+.requisites {
+  position: relative;
+}
+.requisites .card {
+  background: #fff;
+  width: 660px;
+  top: 80px;
+  left: 50%;
+  position: absolute;
+  margin: 0 0 0 -330px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+.requisites .card .header {
+  padding: 20px 30px 20px;
+  background: #f4f3f5;
+  border-radius: 3px 3px 0 0;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+.requisites .card .header h1 {
+  margin-bottom: 0.5em;
+}
+.requisites .card .content {
+  padding: 30px;
+}
+.requisites .card .contacts {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.requisites .card .contacts a {
+  color: #59575e;
+}
+.requisites .card .contacts a:hover {
+  color: #ef6465;
+}
+.requisites .card .contacts .item {
+  float: left;
+  margin-right: 30px;
+}
+.requisites .card .table .param-name {
+  color: #999999;
+}
 .meows {
   position: fixed;
   bottom: 0;
@@ -4100,6 +4142,9 @@ body {
   background: #e1e6ec url(../images/patterns/stacked-circles.png);
   color: #59575e;
 }
+.clearfix {
+  clear: both;
+}
 h1,
 h2,
 h3,
@@ -4759,7 +4804,7 @@ input.action-button {
 }
 .companies-menu .item a.company-name {
   display: block;
-  padding: 8px 80px 8px 20px;
+  padding: 8px 110px 8px 20px;
   color: #59575e;
   text-decoration: none;
 }
@@ -4774,7 +4819,7 @@ input.action-button {
   position: absolute;
   top: 0;
   right: 20px;
-  width: 60px;
+  width: 90px;
   padding: 8px 0;
   text-align: right;
   display: none;

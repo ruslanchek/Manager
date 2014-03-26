@@ -1,6 +1,68 @@
-extends layouts/main
+extends layouts/requisites
 
 block content
+    .requisites
+        .card
+            .header
+                h1 #{utils.getCompanyTypeName(data.cc_type)} &laquo;#{data.cc_name}&raquo;
+
+                .contacts
+                    if data.cc_phone
+                        .item #{data.cc_phone}
+                    if data.cc_website
+                        .item
+                            a(href="#{data.cc_website}") #{data.cc_website}
+                    if data.cc_email
+                        .item
+                            a(href="mailto:#{data.cc_email}") #{data.cc_email}
+                    .clearfix
+
+            .content
+                .table
+                    .units-row-end
+                        .unit-25.param-name Адрес:
+                        .unit-65.param-value #{data.cc_index}, #{data.cc_city}, #{data.cc_street}, #{data.cc_house}
+
+                .table
+                    .units-row-end
+                        .unit-25.param-name ИНН:
+                        .unit-65.param-value #{data.cc_inn}
+
+                .table
+                    .units-row
+                        .unit-25.param-name
+                            if data.cc_type == 4
+                                |ОГРНИП:
+                            else
+                                |ОГРН:
+                        .unit-65.param-value #{data.cc_ogrn}
+
+                .table
+                    .units-row
+                        .unit-25.param-name #{utils.getCEOType(data.cc_ceo_type)}:
+                        .unit-65.param-value #{data.cc_ceo_name}
+
+                .table
+                    .units-row
+                        .unit-25.param-name Рассчетный счет:
+                        .unit-65.param-value #{data.bank_pay_account}
+
+                .table
+                    .units-row-end
+                        .unit-25.param-name БИК:
+                        .unit-65.param-value #{data.bank_bik}
+
+                .table
+                    .units-row-end
+                        .unit-25.param-name Банк:
+                        .unit-65.param-value #{data.bank_name}
+
+                .table
+                    .units-row-end
+                        .unit-25.param-name Корр. счет:
+                        .unit-65.param-value #{data.bank_corr_account}
+
+//
     h1
         if mode == 'edit'
             |Мастер настройки компании
