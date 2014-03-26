@@ -2,7 +2,6 @@
   position: relative;
 
   .card {
-    background: #fff;
     width: 660px;
     top: 80px;
     left: 50%;
@@ -13,9 +12,10 @@
 
     .header {
       padding: 20px 30px 20px;
-      background: @panel-bg-light;
+      background: rgba(244,243,245,0.5);
       border-radius: @ui-border-radius-top;
-      box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.06);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 
       h1 {
         margin-bottom: 0.5em;
@@ -24,6 +24,8 @@
 
     .content {
       padding: 30px;
+      background: #fff;
+      border-radius: @ui-border-radius-bottom;
     }
 
     .contacts {
