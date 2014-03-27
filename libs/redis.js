@@ -21,4 +21,4 @@ module.exports = function(app){
     this.client = redis.createClient(redis_credentials.port, redis_credentials.host);
 
     return this;
-}
+};

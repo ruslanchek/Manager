@@ -212,4 +212,14 @@ module.exports = function (app, controllers) {
             res.json(result);
         });
     });
+
+    /**
+     * Post for getting current user info
+     * */
+    app.post('/auth/user', app.ensureAuthenticated, function(req, res){
+        res.json({
+            success: true,
+            data: req.user
+        });
+    });
 }

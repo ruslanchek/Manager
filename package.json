@@ -22,12 +22,11 @@
     "passport-vkontakte": "~0.2.1",
     "passport-yandex": "0.0.2",
     "express-mailer": "~0.2.0",
-    "nodemailer": "~0.5.15",
     "less-middleware": "~0.1.14",
     "numeral": "~1.5.3",
     "connect-redis": "~1.4.6",
     "redis": "~0.10.0",
-    "node-wkhtml": "0.1.0-alpha1"
+    "nodemailer": "^0.6.1"
   },
   "subdomain": "manager",
   "engines": {

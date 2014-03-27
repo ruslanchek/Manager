@@ -332,5 +332,72 @@ module.exports = function (app, models) {
         });
     };
 
+    this.send = function(req, done){
+        if(!req.body.email){
+            return done({
+                success: false,
+                message: 'EMAIL_EMPTY',
+                fields: ['ie_email']
+            });
+        }
+
+        if (!app.utils.matchPatternStr(req.body.email, 'email')) {
+            return {
+                success: false,
+                message: 'EMAIL_WRONG',
+                fields: ['ie_email']
+            };
+        }
+
+        this.findOne(req.user, req.params.id, function(err, data){
+            if(err === true || !data){
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }else{
+                var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + data._id,
+                    filename = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
+
+                app.utils.generatePDF(url, req.cookies['connect.sid'], null, filename, function(filedata){
+                    if(filedata === null){
+                        return done({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    app.mailer.send({
+                        template: 'mailer/common.senddoc.jade',
+                        to: req.body.email,
+                        subject: 'Account sended',
+                        attachments : [{
+                            fileName: filename,
+                            contents: filedata,
+                            contentType: 'application/pdf'
+                        }]
+                    }, {
+                        header: 'Вам счет',
+                        message: 'Привет!!!'
+                    }, function (err) {
+                        if (err) {
+                            app.log.error('Sending email error', err);
+
+                            return done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        return done({
+                            success: true,
+                            message: 'OK'
+                        });
+                    });
+                });
+            }
+        });
+    };
+
     return this;
 };

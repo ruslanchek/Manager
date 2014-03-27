@@ -133,6 +133,12 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/accounts/send/:id', app.ensureAuthenticated, function(req, res){
+        controllers.account.send(req, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/accounts/viewcustom', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
             data: req.body,

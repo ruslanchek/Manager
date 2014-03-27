@@ -675,7 +675,7 @@ this.generateRandomSeed = function(){
 /**
  * Create pdf
  * */
-this.generatePDF = function(url, sid, res, fname){
+this.generatePDF = function(url, sid, res, fname, done){
     var random_name = this.generateRandomSeed(sid),
         pdf_filename = __dirname + '/../generated/tmp/pdf/' + random_name + '.pdf';
 
@@ -686,13 +686,21 @@ this.generatePDF = function(url, sid, res, fname){
 
                 fs.unlink(pdf_filename, function(){});
 
-                res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
-                res.setHeader('Content-type', 'application/pdf');
+                if(done){
+                    done(data);
+                }else{
+                    res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
+                    res.setHeader('Content-type', 'application/pdf');
 
-                res.end(data);
+                    res.end(data);
+                }
             });
         }else{
-            res.end('PDF generate error');
+            if(done){
+                done(null);
+            }else{
+                res.end('PDF generate error');
+            }
         }
     });
 };

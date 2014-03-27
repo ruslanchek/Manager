@@ -104,6 +104,7 @@ app.docview = {
 
             $('#docview-print').on('click', function(){
                 _this.printIframeContent();
+                _this.options.onPrint();
             });
 
             $('#docview-send').on('click', function(){

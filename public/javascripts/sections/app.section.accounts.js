@@ -220,16 +220,20 @@ app.sections.accounts = {
 
     edit: {
         viewDocument: function(){
-            var data = {
-                sum: 0
-            };
+            var id = this.id;
 
             var docview_controller = new app.docview.DocviewController({
                 title: 'Просмотр счета',
                 tools: true,
                 method: 'get',
                 data: {},
-                url: '/accounts/view/' + this.id
+                onDownload: function(){
+                    document.location.href = '/accounts/pdf/' + id;
+                },
+                onSend: function(){
+                    app.sections.accounts.edit.send();
+                },
+                url: '/accounts/view/' + id
             });
 
             docview_controller.open();
@@ -250,23 +254,12 @@ app.sections.accounts = {
         },
 
         send: function(){
-            var description = 'Здравствуйте, во вложении счет №' + $('#number').val() + ' от ООО &laquo;Рога и Копыта&raquo;';
-
-            app.templates.render('email.item.html', { email: 'test@test.test', description: description }, function(html){
-                var modal_controller = new app.modal.ModalController({
-                    title: 'Отправить счет по почте',
-                    content: html,
-                    onShow: function(controller){
-
-                    },
-                    onClose: function(){
-
-                    },
-                    width: 550,
-                    draggable: true
-                });
-
-                modal_controller.open();
+            var senddoc_controller = new app.senddoc.SendDocController({
+                message_template: 'Здравствуйте, во вложении счет №{{doc_num}} от компании {{cc_type_name}} &laquo;{{cc_name}}&raquo;.',
+                doc_num: this.number,
+                email: 'test@test.test',
+                title: 'Отправить счет по почте',
+                doc_id: this.id
             });
         },
 
