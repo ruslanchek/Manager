@@ -2,6 +2,8 @@ app.sections.company = {
     form_width: 960,
     current_slide: 0,
     steps: 4,
+    finished: false,
+    started: false,
 
     mode: 'add',
 
@@ -80,6 +82,8 @@ app.sections.company = {
         $('.step-names').fadeOut(300);
         $('.progress-bar').slideUp(300);
         $('.form-controls').slideUp(300);
+
+        this.finished = false;
     },
 
     start: function () {
@@ -95,6 +99,8 @@ app.sections.company = {
         }, 650);
 
         this.step1();
+
+        this.started = true;
     },
 
     finish: function () {
@@ -107,6 +113,9 @@ app.sections.company = {
             $('.step-names').fadeOut(300);
             $('.progress-bar').slideUp(300);
         }, 650);
+
+        this.finished = true;
+        this.started = false;
     },
 
     binds: function () {
@@ -137,9 +146,54 @@ app.sections.company = {
             app.sections.company.setSlidePosition(app.sections.company.current_slide);
         });
 
-        $('.start-master').on('click', function (e) {
+        $('.start-master').off('click').on('click', function (e) {
             app.sections.company.setStep(1);
+            e.preventDefault();
         });
+
+        $('.side-menu a.step').off('click').on('click', function(e){
+            e.preventDefault();
+
+            app.sections.company.switchStep($(this).data('step'));
+        });
+
+        $(window).on('load', function(){
+            if(document.location.hash){
+                app.sections.company.switchStep(document.location.hash.substr(1, document.location.hash.length));
+            }
+        });
+    },
+
+    switchStep: function(step){
+        step = parseInt(step);
+
+        switch(step){
+            case 1 : {
+                app.sections.company.step1();
+                app.sections.company.setStep(1);
+            } break;
+
+            case 2 : {
+                app.sections.company.step2();
+                app.sections.company.setStep(2);
+            } break;
+
+            case 3 : {
+                app.sections.company.step3();
+                app.sections.company.setStep(3);
+            } break;
+
+            case 4 : {
+                app.sections.company.step4();
+                app.sections.company.setStep(4);
+            } break;
+        }
+
+        if(this.finished === true || this.started !== true){
+            $('.step-names').fadeIn(300);
+            $('.progress-bar').slideDown(300);
+            $('.form-controls').slideDown(300);
+        }
     },
 
     selectCaegory: function (name) {
@@ -183,6 +237,9 @@ app.sections.company = {
             }
         }
 
+        $('.side-menu a.step').removeClass('active');
+        $('.side-menu a.step[data-step="' + step + '"]').addClass('active');
+
         this.current_slide = step;
 
         if (step > this.steps) {
@@ -215,6 +272,8 @@ app.sections.company = {
     },
 
     step1: function () {
+        $('.next-step').val('Следующий шаг');
+
         setTimeout(function () {
             $('#cc_name').focus();
         }, 600);
@@ -231,10 +290,15 @@ app.sections.company = {
                 CC_OGRN_EMPTY: 'ОГРН не заполнен',
                 CC_CEO_NAME_EMPTY: 'Имя руководителя не заполнено'
             },
+            onFail: function(){
+                $('.checklist .item[data-step="1"]').removeClass('active');
+            },
             onSuccess: function (data) {
                 if (data.success == true) {
                     $('.form-step.active').removeClass('active');
                     $('.form-step[data-step="2"]').addClass('active');
+
+                    $('.checklist .item[data-step="1"]').addClass('active');
 
                     app.sections.company.step2();
                     app.sections.company.setStep(2);
@@ -246,6 +310,8 @@ app.sections.company = {
     },
 
     step2: function () {
+        $('.next-step').val('Следующий шаг');
+
         setTimeout(function () {
             $('#cc_city').focus();
         }, 600);
@@ -261,6 +327,9 @@ app.sections.company = {
                 CC_STREET_EMPTY: 'Улица заполнена',
                 CC_HOUSE_EMPTY: 'Дом не заполнен'
             },
+            onFail: function(){
+                $('.checklist .item[data-step="2"]').removeClass('active');
+            },
             onSuccess: function (data) {
                 if (data.success == true) {
                     $('.form-step.active').removeClass('active');
@@ -269,6 +338,8 @@ app.sections.company = {
                     app.sections.company.step3();
                     app.sections.company.setStep(3);
 
+                    $('.checklist .item[data-step="2"]').addClass('active');
+
                     $.extend(app.sections.company.form_data, data.send_data);
                 }
             }
@@ -276,6 +347,8 @@ app.sections.company = {
     },
 
     step3: function () {
+        $('.next-step').val('Следующий шаг');
+
         setTimeout(function () {
             $('#bank_name').focus();
         }, 600);
@@ -288,6 +361,9 @@ app.sections.company = {
             messages: {
 
             },
+            onFail: function(){
+                $('.checklist .item[data-step="3"]').removeClass('active');
+            },
             onSuccess: function (data) {
                 if (data.success == true) {
                     $('.form-step.active').removeClass('active');
@@ -295,6 +371,8 @@ app.sections.company = {
 
                     app.sections.company.step4();
                     app.sections.company.setStep(4);
+
+                    $('.checklist .item[data-step="3"]').addClass('active');
 
                     $.extend(app.sections.company.form_data, data.send_data);
                 }
@@ -307,7 +385,11 @@ app.sections.company = {
             $('#cc_phone').focus();
         }, 600);
 
-        $('.next-step').val('Завершить');
+        if(this.mode == 'edit'){
+            $('.next-step').val('Сохранить');
+        }else{
+            $('.next-step').val('Завершить');
+        }
 
         this.form_controller = new app.form.FormController({
             form_selector: '#form-company',
@@ -322,9 +404,13 @@ app.sections.company = {
             messages: {
 
             },
+            onFail: function(){
+                $('.checklist .item[data-step="4"]').removeClass('active');
+            },
             onSuccess: function (data) {
                 if (data.success == true) {
                     app.sections.company.finalSettings(data);
+                    $('.checklist .item[data-step="4"]').addClass('active');
                 }
             }
         });
@@ -347,6 +433,13 @@ app.sections.company = {
 
         $('.slideable-wrapper').css({
             height: $('.form-step[data-step="' + pos + '"]').height()
+        });
+    },
+
+    initStamp: function(){
+        var crop_controller = new app.crop.BasicCropController({
+            form_controller: this.form_controller,
+            selector: '.crop-upload'
         });
     },
 

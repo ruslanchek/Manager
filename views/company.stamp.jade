@@ -1,0 +1,24 @@
+extends layouts/main
+
+block content
+    h1 Загрузка печати компании #{utils.getCompanyTypeName(data.cc_type)} &laquo;#{data.cc_name}&raquo;
+
+    .units-row-end
+        .unit-75
+            form#form-edit-company.form.forms.forms-columnar(action='')
+                .form-message
+
+                .form-hidden-section.active(data-name="seal")
+                    .crop-upload
+
+        .unit-25
+            .side-menu
+                a(href="/company/edit/#{data._id}#1", data-step="1") Основные данные
+                a(href="/company/edit/#{data._id}#2", data-step="2") Адрес организации
+                a(href="/company/edit/#{data._id}#3", data-step="3") Банковские реквизиты
+                a(href="/company/edit/#{data._id}#4", data-step="4") Контактная информация
+                a.active(href="/company/edit/#{data._id}/stamp") Загрузка печати
+                a(href="/company/edit/#{data._id}/signature") Загрузка подписи
+
+    script.
+        app.sections.company.initStamp();

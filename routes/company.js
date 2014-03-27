@@ -40,6 +40,26 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.get('/company/edit/:id/stamp', app.ensureAuthenticated, function(req, res){
+        controllers.company.findOne(req.user, req.params.id, function(err, data){
+            if(err === true || !data){
+                res.redirect('/404');
+            }else{
+                var params = app.utils.extend(common, {
+                    user: req.user,
+                    section: 'main',
+                    mode: 'edit',
+                    data: data,
+                    metadata: {
+                        title: 'Загрузка печати'
+                    }
+                });
+
+                res.render('company.stamp.jade', params);
+            }
+        });
+    });
+
     app.get('/requisites/:id', function(req, res){
         controllers.company.findOnePublic(req.params.id, function(err, data){
             if(err === true || !data){

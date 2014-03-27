@@ -466,6 +466,15 @@ header {
   background-color: @color-blue-dark;
 }
 
+.button.green {
+  background-color: @color-green;
+  color: #fff !important;
+}
+
+.button.green:hover {
+  background-color: @color-green-dark;
+}
+
 .button.red {
   background-color: @color-red;
   color: #fff;
@@ -970,6 +979,11 @@ input.action-button {
   max-height: 279px;
   overflow-y: auto;
 
+  .button {
+    border-radius: 0;
+    display: block;
+  }
+
   .item {
     position: relative;
     box-shadow: inset 0 1px 0 @panel-bg-light - 5;
@@ -996,7 +1010,6 @@ input.action-button {
       width: 90px;
       padding: 8px 0;
       text-align: right;
-      display: none;
 
       a {
         position: relative;
@@ -1041,6 +1054,44 @@ input.action-button {
     border-radius: @ui-border-radius-bottom;
     -webkit-border-radius: @ui-border-radius-bottom;
     -moz-border-radius: @ui-border-radius-bottom;
+  }
+}
+
+.right-info-panel {
+  background: @panel-bg-light;
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+
+  box-shadow: inset 0 -3px 0 0 @panel-bg-light - 15;
+
+  .after-info {
+    padding: 10px 20px;
+    background: @panel-bg-light - 20;
+    box-shadow: inset 0 -3px 0 0 @panel-bg-light - 30;
+
+    border-radius: @ui-border-radius-bottom;
+    -webkit-border-radius: @ui-border-radius-bottom;
+    -moz-border-radius: @ui-border-radius-bottom;
+  }
+
+  .checklist {
+    padding: 10px 0;
+
+    .item {
+      padding: 7px 20px;
+
+      i {
+        margin-right: 6px;
+        color: #ccc;
+      }
+    }
+
+    .item.active {
+      i {
+        color: @color-green;
+      }
+    }
   }
 }
 

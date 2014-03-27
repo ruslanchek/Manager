@@ -91,7 +91,7 @@ app.company = {
 
                 app.templates.render('common.company-select.html', { companies: data.data }, function(html){
                     var modal_controller = new app.modal.ModalController({
-                        title: 'Список компаний',
+                        title: 'Список компаний <a class="company-add action-button green" href="/company/add"><i class="icon-plus"></i> Добавить компанию</a>',
                         content: html,
                         no_padding: true,
                         onShow: function(controller){
@@ -175,7 +175,7 @@ app.company = {
 
                         },
                         draggable: true,
-                        width: 420
+                        width: 490
                     });
 
                     modal_controller.open();
