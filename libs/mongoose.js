@@ -14,7 +14,7 @@ module.exports = function(app){
 	}else{
 		link = app.config.get('mongoose:production');
 	}
-	
+
     mongoose.connect(link);
 
     this.db = mongoose.connection;

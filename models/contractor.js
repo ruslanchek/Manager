@@ -16,36 +16,17 @@ module.exports = function (app) {
             required: true
         },
 
-        name: {
-            type: String,
-            index: true,
-            required: true
-        },
-
-        /*
-         * <select name="legal_type_id">
-         *     <option value="1" selected="">ООО</option>
-         *     <option value="2">ЗАО</option>
-         *     <option value="3">ОАО</option>
-         *     <option value="4">ИП</option> ОГРНИП
-         *     <option value="5">ПБЮЛ</option>
-         *     <option value="6">ГУП</option>
-         *     <option value="7">МУП</option>
-         *     <option value="8">НП</option>
-         *     <option value="9">АНО</option>
-         *     <option value="10">Другое</option>
-         * </select>
-         * */
-
-        type: {
-            type: Number,
-            required: true,
-            default: 1
-        },
-
         // Company credentials
         cc_name: {
+            index: true,
+            required: true,
             type: String
+        },
+
+        cc_type: {
+            index: true,
+            required: true,
+            type: Number
         },
 
         cc_inn: {
@@ -58,10 +39,6 @@ module.exports = function (app) {
 
         cc_ogrn: {
             type: String
-        },
-
-        cc_type: {
-            type: Number
         },
 
         cc_city: {

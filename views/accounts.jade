@@ -1,6 +1,8 @@
 extends layouts/main
 
 block content
+    - var list_empty = ((data && data.length > 0) ? false : true)
+
     h1
         case date_range
             when 'last_month'
@@ -38,7 +40,7 @@ block content
             .item
                 input.action-button.blue(type="submit", value="Показать")
 
-    if data && data.length > 0
+    if !list_empty
         .table-container.table-container-with-tools
             table.items-table.width-100.table-sort.table-striped.table-hovered
                 thead
@@ -74,8 +76,6 @@ block content
                                     span.status-label.active Оплачен
                                 else
                                     span.status-label Не оплачен
-
-    - var list_empty = ((data.length > 0) ? false : true)
 
     div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
         if filters.date_from || filters.date_to

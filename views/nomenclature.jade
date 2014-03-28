@@ -1,6 +1,8 @@
 extends layouts/main
 
 block content
+    - var list_empty = ((data && data.length > 0) ? false : true)
+
     if nomgroup
         -var root = '/nomenclature/' + nomgroup._id;
 
@@ -24,7 +26,7 @@ block content
                     i.icon-cancel
                     |Удалить
 
-            if data && data.length > 0
+            if !list_empty
                 .table-container.table-container-with-tools
                     table.items-table.width-100.table-sort.table-striped.table-hovered
                         thead
@@ -71,8 +73,6 @@ block content
 
                                     td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
                                         span.rub &#8399;
-
-            - var list_empty = ((data.length > 0) ? false : true)
 
             if nomgroup
                 div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))

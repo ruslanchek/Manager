@@ -1,0 +1,53 @@
+extends layouts/main
+    block content
+        h1
+            a(href="/nomenclature") Номенклатура
+                if nomgroup
+                | &nbsp;/&nbsp;
+                a#global-nomgroup-name(href="/nomenclature/" + nomgroup._id) #{nomgroup.name}
+                | &nbsp;/&nbsp;Новая позиция
+            else
+                | &nbsp;/&nbsp;Новая позиция
+                form#form-add-nomenclature.form.forms.forms-columnar(action='')
+            .form-message
+                .units-row-end
+                .unit-100
+                    .form-item
+                        label(for="name") Наименование
+                        input#name.width-100(type='text')
+                            .units-row-end
+                .unit-50
+                    .form-item
+                        label(for="article") Артикул
+                        input#article.width-100(type='text')
+                            .unit-50
+                    .form-item
+                        label(for="_nomgroup_name") Категория
+                            if nomgroup
+                            input#_nomgroup_name.width-100(type='text', disabled, value=nomgroup.name)
+                            input#_nomgroup_id.width-100(type='hidden', value=nomgroup._id)
+                        else
+                            select#_nomgroup_id
+                                option(value='') &mdash;
+                                each val in nomgroups
+                                    if nomgroup && val._id.toString() == nomgroup._id.toString()
+                                        option(value=val._id, selected) #{val.name}
+                                    else
+                                        option(value=val._id) #{val.name}
+                                            .units-row-end
+                .unit-50
+                    .form-item
+                        label(for="price") Стоимость
+                        input#price.width-100(type='text')
+                            .unit-50
+                    .form-item
+                        label(for="unit") Еденица измерения
+                        input#unit.width-100(type='text', value='шт.')
+                            hr
+            .units-row-end
+                .unit-100
+                    .form-item.no-margin
+                        input.button.blue(type='submit', value='Создать позицию')
+                            -var nomgroup_id = (nomgroup) ? nomgroup._id : ''
+        script.
+            app.sections.nomenclature.add.init('!{nomgroup_id}');

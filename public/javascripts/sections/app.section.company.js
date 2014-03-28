@@ -350,7 +350,7 @@ app.sections.company = {
         $('.next-step').val('Следующий шаг');
 
         setTimeout(function () {
-            $('#bank_name').focus();
+            $('#bank_pay_account').focus();
         }, 600);
 
         this.form_controller = new app.form.FormController({

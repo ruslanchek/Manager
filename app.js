@@ -71,7 +71,7 @@ require('./routes/accounts')(app, controllers);
 require('./routes/nomenclature')(app, controllers);
 require('./routes/settings')(app, controllers);
 require('./routes/company')(app, controllers);
-
+require('./routes/contractors')(app, controllers);
 
 /**
  * Server

@@ -1,0 +1,33 @@
+extends layouts/main
+
+block content
+    - var list_empty = ((data && data.length > 0) ? false : true)
+
+    h1 Контрагенты
+
+    .section-tools
+        a#add.action-button.green(href= '/contractors/add')
+            i.icon-plus
+            | Создать
+        a#delete.multi-action.action-button.warning(href="#")
+            i.icon-cancel
+            | Удалить
+
+    if !list_empty
+        .table-container.table-container-with-tools
+            table.items-table.width-100.table-sort.table-striped.table-hovered
+                tbody
+                    each val in data
+                        tr(data-id="#{val._id}")
+                            td
+                                input.cb-item(type="checkbox", data-id="#{val._id}")
+
+                            td(data-sort-value=val.name) #{val.name}
+
+                            td(data-sort-value=val.article) #{val.article}
+
+                            td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
+                                span.rub &#8399;
+
+    div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
+        | У вас нет ни одного контрагента
