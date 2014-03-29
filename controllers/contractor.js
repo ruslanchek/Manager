@@ -8,9 +8,20 @@ module.exports = function (app, models) {
         contr.cc_type = '1';
         contr.save();
 
-        console.log('xxx')
+        models.contractor.find({ _user_id: user._id, _company_id: user.current_company }, function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done(err);
+            }
 
-        models.contractor.find({ _user_id: user._id, _company_id: user.current_company }).exec(function (err, data) {
+            if (data) {
+                done(false, data);
+            }
+        });
+    };
+
+    this.findOne = function(user, id, done) {
+        models.contractor.findOne({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);

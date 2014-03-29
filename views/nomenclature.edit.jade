@@ -7,7 +7,8 @@ block content
             |&nbsp;/&nbsp;
             a#global-nomgroup-name(href="/nomenclature/" + nomgroup._id) #{nomgroup.name}
 
-        |&nbsp;/&nbsp;#{data.name}
+        |&nbsp;/&nbsp;
+        span#item-name #{data.name}
 
     .section-tools
         a.action-delete.action-button.warning(href="#")

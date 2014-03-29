@@ -269,6 +269,8 @@ app.sections.nomenclature = {
                             }
 
                             document.location.href = root + '/edit/' + data.data._id;
+                        }else{
+                            $('#item-name').html(data.data.name);
                         }
                     }, 350);
                 }

@@ -32,4 +32,28 @@ module.exports = function(app, controllers){
             params
         );
     });
+
+    app.get('/contractors/edit/:id', app.ensureAuthenticated, function(req, res){
+        controllers.contractor.findOne(req.user, req.params.id, function(err, data){
+            if(err === true || !data){
+                res.redirect('/404');
+            }else{
+                console.log(data)
+
+                var params = app.utils.extend(common, {
+                    err : err,
+                    data: data,
+                    user: req.user,
+                    metadata: {
+                        title: 'Редактирование контрагента'
+                    }
+                });
+
+                res.render(
+                    'contractors.edit.jade',
+                    params
+                );
+            }
+        });
+    });
 };

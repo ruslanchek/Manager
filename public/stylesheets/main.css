@@ -2781,6 +2781,9 @@ audio {
 .form .form-item {
   min-height: 30px;
 }
+.form .form-item.no-margin {
+  min-height: auto;
+}
 .form fieldset {
   padding: 20px 10px 0 0;
   width: 100%;

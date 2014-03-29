@@ -3,9 +3,14 @@ extends layouts/main
 block content
     h1
         a(href="/contractors") Контрагенты
-        | &nbsp;/&nbsp;Новый контрагент
+        | &nbsp;/&nbsp;#{utils.getCompanyTypeName(data.cc_type)} &laquo;#{data.cc_name}&raquo;
 
-    form#form-add-nomenclature.form.forms.forms-columnar(action='')
+    .section-tools
+        a.action-delete.action-button.warning(href="#")
+            i.icon-cancel
+            | Удалить
+
+    form#form-edit-contractor.form.forms.forms-columnar(action='')
         .form-message
 
         .units-row-end
@@ -28,7 +33,7 @@ block content
 
                 .form-item
                     label(for="name") Наименование
-                    input#name.width-100(type='text')
+                    input#name.width-100(type='text', value='#{data.cc_name}')
 
                 .form-item.no-margin
                     h3 Руководство
@@ -107,4 +112,7 @@ block content
         .units-row-end
             .unit-100
                 .form-item.no-margin
-                    input.button.blue(type='submit', value='Создать позицию')
+                    input.button.blue(type='submit', value='Сохранить')
+
+    script.
+        app.sections.contractors.edit.init('!{data._id}');
