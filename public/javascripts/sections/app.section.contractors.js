@@ -21,14 +21,65 @@ app.sections.contractors = {
         bank_pay_account: '#bank_pay_account',
         bank_corr_account: '#bank_corr_account',
 
-        form_mode: '#form_mode',
-        id: '#id',
-
         cc_phone: '#cc_phone',
         cc_fax: '#cc_fax',
         cc_email: '#cc_email',
         cc_skype: '#cc_skype',
         cc_website: '#cc_website'
+    },
+
+    messages: {
+        CC_NAME_EMPTY: 'Наименование не заполнено',
+        CC_INN_EMPTY: 'ИНН не заполнен',
+        CC_KPP_EMPTY: 'КПП не заполнен',
+        CC_OGRN_EMPTY: 'ОГРН не заполнен',
+        CC_CEO_NAME_EMPTY: 'Имя руководителя не заполнено',
+
+        CC_CITY_EMPTY: 'Город не заполнен',
+        CC_INDEX_EMPTY: 'Индекс не заполнен',
+        CC_STREET_EMPTY: 'Улица заполнена',
+        CC_HOUSE_EMPTY: 'Дом не заполнен',
+
+        BANK_PAY_ACCOUNT_EMPTY: 'Не заполнен расчетный счет',
+        BANK_BIK_EMPTY: 'Не заполнен БИК',
+        BANK_NAME_EMPTY: 'Не заполнено название банка',
+        BANK_CORR_ACCOUNT_EMPTY: 'Не заполнен корреспондентский счет',
+
+        DUBLICATE_FOUND: 'Контрагент с таким названием уже существует'
+    },
+
+    fieldsActions: function(){
+        $('#cc_type').on('change', function () {
+            if ($(this).val() == '4') {
+                $('label[for=cc_ogrn]').text('ОГРНИП');
+                $('#kpp-item').hide();
+                $('#cc_ceo_type_block').hide();
+                $('#cc_ceo_type').val('4').trigger("chosen:updated");
+
+            } else {
+                $('label[for=cc_ogrn]').text('ОГРН');
+                $('#kpp-item').show();
+                $('#cc_ceo_type_block').show();
+                $('#cc_ceo_type').val('1').trigger("chosen:updated");
+            }
+        });
+
+        $('#cc_accountant_type').on('change', function () {
+            if ($(this).val() == '1') {
+                $('#cc_accountant_name_block').hide();
+            } else {
+                $('#cc_accountant_name_block').show();
+            }
+
+            app.sections.company.setSlidePosition(app.sections.company.current_slide);
+        });
+
+        this.kladr_controller = new app.kladr_address.KladrAddressController({
+            city: '#cc_city',
+            street: '#cc_street',
+            house: '#cc_house',
+            index: '#cc_index'
+        });
     },
 
     delete: function(ids, done){
@@ -90,7 +141,7 @@ app.sections.contractors = {
 
         delete: function(){
             if(confirm('Удалить выбранных контрагентов?')){
-                app.sections.accounts.delete(this.selected, function(ids){
+                app.sections.contractors.delete(this.selected, function(ids){
                     var ids_selectors = '',
                         $table = $('table.items-table');
 
@@ -127,6 +178,8 @@ app.sections.contractors = {
                 e.preventDefault();
                 _this.delete();
             });
+
+
         },
 
         init: function(){
@@ -136,24 +189,21 @@ app.sections.contractors = {
 
     add: {
         binds: function(){
-
+            app.sections.contractors.fieldsActions();
         },
 
         init: function(){
             this.form_controller = new app.form.FormController({
-                form_selector: '#form-add-account',
-                url: '/accounts/add',
-                fields: app.sections.accounts.fields,
-                messages: {
-                    OK: 'Счет создан',
-                    NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
-                    NUMBER_EMPTY: 'Не введен номер счета',
-                    DUBLICATE_NUMBER_FOUND: 'Счет с таким номером уже существует'
-                },
+                form_selector: '#form-add-contractor',
+                url: '/contractors/add',
+                fields: app.sections.contractors.fields,
+                messages: $.extend(app.sections.contractors.messages, {
+                    OK: 'Контрагент создан'
+                }),
                 onSuccess: function(data){
                     if(data.data && data.data._id){
                         setTimeout(function(){
-                            document.location.href = '/accounts/edit/' + data.data._id;
+                            document.location.href = '/contractors/edit/' + data.data._id;
                         }, 300);
                     }
                 }
@@ -168,9 +218,9 @@ app.sections.contractors = {
     edit: {
         delete: function(){
             if(confirm('Удалить контрагента?')){
-                app.sections.accounts.delete([this.id], function(ids){
+                app.sections.contractors.delete([this.id], function(ids){
                     setTimeout(function(){
-                        document.location.href = '/contragents';
+                        document.location.href = '/contractors';
                     }, 300);
                 });
             }
@@ -184,6 +234,8 @@ app.sections.contractors = {
                 _this.delete();
                 e.preventDefault();
             });
+
+            app.sections.contractors.fieldsActions();
         },
 
         init: function(id){
@@ -191,14 +243,11 @@ app.sections.contractors = {
 
             this.form_controller = new app.form.FormController({
                 form_selector: '#form-edit-contractor',
-                url: '/contragents/edit/' + id,
-                fields: app.sections.accounts.fields,
-                messages: {
-                    OK: 'Изменения сохранены',
-                    NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
-                    NUMBER_EMPTY: 'Не введен номер счета',
-                    DUBLICATE_NUMBER_FOUND: 'Счет с таким номером уже существует'
-                },
+                url: '/contractors/edit/' + id,
+                fields: app.sections.contractors.fields,
+                messages: $.extend(app.sections.contractors.messages, {
+                    OK: 'Изменения сохранены'
+                }),
                 onSuccess: function(data){
                     if(data.data && data.data._id){
                         $('#header-item-name').html('Счет №' + data.data.number);

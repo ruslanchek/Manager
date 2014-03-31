@@ -29,7 +29,8 @@ block content
                         tr(data-id="#{val._id}")
                             td
                                 input.cb-item(type="checkbox", data-id="#{val._id}")
-                            td(data-sort-value=val.cc_name) #{val.cc_name}
+                            td(data-sort-value=val.cc_name)
+                                a(href='/contractors/edit/#{val._id}') #{utils.getCompanyTypeName(val.cc_type)} &laquo;#{val.cc_name}&raquo;
                             td(data-sort-value=val.article) #{val.article}
                             td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
                                 span.rub &#8399;

@@ -38,8 +38,6 @@ module.exports = function(app, controllers){
             if(err === true || !data){
                 res.redirect('/404');
             }else{
-                console.log(data)
-
                 var params = app.utils.extend(common, {
                     err : err,
                     data: data,
@@ -54,6 +52,18 @@ module.exports = function(app, controllers){
                     params
                 );
             }
+        });
+    });
+
+    app.post('/contractors/edit/:id', app.ensureAuthenticated, function(req, res){
+        controllers.contractor.editItem(req.user, req.params.id, req.body, function(result){
+            res.json(result);
+        });
+    });
+
+    app.post('/contractors/add', app.ensureAuthenticated, function(req, res){
+        controllers.contractor.addItem(req.user, req.params.id, req.body, function(result){
+            res.json(result);
         });
     });
 };

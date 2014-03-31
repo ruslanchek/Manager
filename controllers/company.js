@@ -89,7 +89,7 @@ module.exports = function (app, models) {
         if (!data.bank_name) {
             return done({
                 success: false,
-                message: 'BANK_CORR_ACCOUNT_EMPTY',
+                message: 'BANK_NAME_EMPTY',
                 fields: ['bank_name']
             });
         }

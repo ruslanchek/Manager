@@ -359,7 +359,10 @@ app.sections.company = {
             show_success_message: false,
             fields: app.sections.company.fields.step3,
             messages: {
-
+                BANK_PAY_ACCOUNT_EMPTY: 'Не заполнен расчетный счет',
+                BANK_BIK_EMPTY: 'Не заполнен БИК',
+                BANK_NAME_EMPTY: 'Не заполнено название банка',
+                BANK_CORR_ACCOUNT_EMPTY: 'Не заполнен корреспондентский счет'
             },
             onFail: function(){
                 $('.checklist .item[data-step="3"]').removeClass('active');
