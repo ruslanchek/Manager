@@ -49,15 +49,13 @@ block content
 
                         tbody
                             each val in data
-                                -var nomgroup_data = getNomgroup(nomgroups, val._nomgroup_id)
-
                                 tr(data-id="#{val._id}")
                                     td
                                         input.cb-item(type="checkbox", data-id="#{val._id}")
 
                                     td(data-sort-value=val.name)
-                                        if nomgroup_data
-                                            a.item-link(data-id=val._id.toString(), data-nomgroup_id=nomgroup_data._id.toString(), href='/nomenclature/' + nomgroup_data._id + '/edit/' + val._id) #{val.name}
+                                        if val.nomgroup
+                                            a.item-link(data-id=val._id.toString(), data-nomgroup_id=val.nomgroup._id.toString(), href='/nomenclature/' + val.nomgroup._id + '/edit/' + val._id) #{val.name}
                                         else
                                             a.item-link(data-id=val._id.toString(), href='/nomenclature/edit/' + val._id) #{val.name}
 
@@ -65,9 +63,9 @@ block content
                                         |#{val.article}
 
                                     if !nomgroup && !freegroup
-                                        if nomgroup_data
-                                            td(data-sort-value=nomgroup_data.name)
-                                                a.nomgroup-link(data-id=nomgroup_data._id.toString(), href='/nomenclature/' + nomgroup_data._id) #{nomgroup_data.name}
+                                        if val.nomgroup
+                                            td(data-sort-value=val.nomgroup.name)
+                                                a.nomgroup-link(data-id=val.nomgroup._id.toString(), href='/nomenclature/' + val.nomgroup._id) #{val.nomgroup.name}
                                         else
                                             td(data-sort-value='&mdash;') &mdash;
 

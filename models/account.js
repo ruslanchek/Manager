@@ -63,7 +63,8 @@ module.exports = function (app) {
         },
 
         contractor: {
-            type: String
+            type: app.mongoose.Schema.Types.ObjectId,
+            ref: 'Contractor'
         }
     });
 

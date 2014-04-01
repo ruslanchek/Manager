@@ -1,6 +1,6 @@
 module.exports = function (app, models) {
     this.findOne = function (user, id, nomgroup_id, done) {
-        models.nomenclature.find({ _user_id: user._id, _company_id: user.current_company, _id: id, _nomgroup_id: nomgroup_id }, function (err, data) {
+        models.nomenclature.find({ _user_id: user._id, _company_id: user.current_company, _id: id, nomgroup: nomgroup_id }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -15,18 +15,26 @@ module.exports = function (app, models) {
     };
 
     this.findItems = function (user, filters, done) {
-        models.nomenclature.find( app.utils.extend(filters, { _user_id: user._id, _company_id: user.current_company }), { _id: 1, name: 1, article: 1, unit: 1, price: 1, _nomgroup_id: 1 } ).sort({ name: 1 }).exec(function (err, data) {
-            if (err) {
-                app.log.error('findOne error', err);
-                return done(err);
-            }
+        var filter = app.utils.extend(filters, { _user_id: user._id, _company_id: user.current_company });
 
-            if (data) {
-                return done(false, data);
-            }
+        models.nomenclature
+            .find( filter, { _id: 1, name: 1, article: 1, unit: 1, price: 1, nomgroup: 1 } )
+            .sort({ name: 1 })
+            .populate('nomgroup')
+            .exec(function (err, data) {
+                console.log(data)
 
-            return done(false, false);
-        });
+                if (err) {
+                    app.log.error('findOne error', err);
+                    return done(err);
+                }
+
+                if (data) {
+                    return done(false, data);
+                }
+
+                return done(false, false);
+            });
     };
 
     this.validateInputs = function(data){
@@ -126,8 +134,8 @@ module.exports = function (app, models) {
                     });
                 }
 
-                if(!data._nomgroup_id || data._nomgroup_id == ''){
-                    data._nomgroup_id = null;
+                if(!data.nomgroup || data.nomgroup == ''){
+                    data.nomgroup = null;
                 }
 
                 item._user_id = user._id;
@@ -135,7 +143,7 @@ module.exports = function (app, models) {
                 item.article = data.article;
                 item.unit = data.unit;
                 item.price = data.price;
-                item._nomgroup_id = data._nomgroup_id;
+                item.nomgroup = data.nomgroup;
 
                 item.save(function (err, data) {
                     if (err) {
@@ -194,8 +202,8 @@ module.exports = function (app, models) {
 
             var new_item = new models.nomenclature();
 
-            if(!data._nomgroup_id || data._nomgroup_id == ''){
-                data._nomgroup_id = null;
+            if(!data.nomgroup || data.nomgroup == ''){
+                data.nomgroup = null;
             }
 
             new_item._user_id = user._id;
@@ -204,7 +212,7 @@ module.exports = function (app, models) {
             new_item.article = data.article;
             new_item.price = data.price;
             new_item.unit = data.unit;
-            new_item._nomgroup_id = data._nomgroup_id;
+            new_item.nomgroup = data.nomgroup;
 
             new_item.save(function (err, nomenclature_data) {
                 if (err) {

@@ -31,11 +31,11 @@ block content
                     input#article.width-100(type='text', value=data.article)
             .unit-50
                 .form-item
-                    label(for="_nomgroup_id") Категория
-                    select#_nomgroup_id.width-100
+                    label(for="nomgroup") Категория
+                    select#nomgroup.width-100
                         option(value='') &ndash;
                         each val in nomgroups
-                            if data._nomgroup_id && val._id.toString() == data._nomgroup_id.toString()
+                            if data.nomgroup && val._id.toString() == data.nomgroup.toString()
                                 option(value=val._id, selected) #{val.name}
                             else
                                 option(value=val._id) #{val.name}

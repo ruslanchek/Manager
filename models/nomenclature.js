@@ -17,12 +17,6 @@ module.exports = function (app) {
             required: true
         },
 
-        _nomgroup_id: {
-            type: String,
-            index: true,
-            ref: 'Nomgroup'
-        },
-
         article: {
             type: String,
             index: true,
@@ -41,6 +35,12 @@ module.exports = function (app) {
 
         name: {
             type: String
+        },
+
+        nomgroup: {
+            type: app.mongoose.Schema.Types.ObjectId,
+            index: true,
+            ref: 'Nomgroup'
         }
     });
 

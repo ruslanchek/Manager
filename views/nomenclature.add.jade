@@ -32,9 +32,9 @@ block content
 
                     if nomgroup
                         input#_nomgroup_name.width-100(type='text', disabled, value=nomgroup.name)
-                        input#_nomgroup_id.width-100(type='hidden', value=nomgroup._id)
+                        input#nomgroup.width-100(type='hidden', value=nomgroup._id)
                     else
-                        select#_nomgroup_id
+                        select#nomgroup
                             option(value='') &mdash;
                             each val in nomgroups
                                 if nomgroup && val._id.toString() == nomgroup._id.toString()

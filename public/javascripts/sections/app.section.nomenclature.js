@@ -63,11 +63,11 @@ app.sections.nomenclature = {
 								if(this.nomgroup == '0'){
 									html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
 								}else if(this.nomgroup == 'freegroup'){
-									if(this.nomenclatures[i]._nomgroup_id == null){
+									if(this.nomenclatures[i].nomgroup == null){
 										html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
 									}
 								}else{
-									if(this.nomenclatures[i]._nomgroup_id == this.nomgroup){
+									if(this.nomenclatures[i].nomgroup == this.nomgroup){
 										html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
 									}
 								}
@@ -170,7 +170,7 @@ app.sections.nomenclature = {
                     article: '#article',
                     price: '#price',
                     unit: '#unit',
-                    _nomgroup_id: '#_nomgroup_id'
+                    nomgroup: '#nomgroup'
                 },
                 messages: {
                     OK: 'Позиция создана',
@@ -188,8 +188,8 @@ app.sections.nomenclature = {
                         setTimeout(function(){
                             var root = '';
 
-                            if(data.data._nomgroup_id){
-                                root = '/nomenclature/' + data.data._nomgroup_id;
+                            if(data.data.nomgroup){
+                                root = '/nomenclature/' + data.data.nomgroup;
                             }else{
                                 root = '/nomenclature';
                             }
@@ -236,7 +236,7 @@ app.sections.nomenclature = {
 				this.root += '/' + nomgroup_id;
 			}
 
-            var _nmg_id = $('#_nomgroup_id').val();
+            var _nmg_id = $('#nomgroup').val();
 
             this.form_controller = new app.form.FormController({
                 form_selector: '#form-edit-nomenclature',
@@ -246,7 +246,7 @@ app.sections.nomenclature = {
                     article: '#article',
                     price: '#price',
                     unit: '#unit',
-                    _nomgroup_id: '#_nomgroup_id'
+                    nomgroup: '#nomgroup'
                 },
                 messages: {
                     OK: 'Изменения сохранены',
@@ -261,11 +261,11 @@ app.sections.nomenclature = {
                 },
                 onSuccess: function(data){
                     setTimeout(function(){
-                        if(data.data._nomgroup_id != _nmg_id){
+                        if(data.data.nomgroup != _nmg_id){
                             var root = '/nomenclature';
 
-                            if(data.data._nomgroup_id){
-                                root += '/' + data.data._nomgroup_id;
+                            if(data.data.nomgroup){
+                                root += '/' + data.data.nomgroup;
                             }
 
                             document.location.href = root + '/edit/' + data.data._id;

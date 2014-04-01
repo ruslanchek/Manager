@@ -59,6 +59,8 @@ block content
                             i.arrow
                 tbody
                     each val in data
+                        - var contractor_name = utils.getCompanyTypeName(val.contractor.cc_type) + ' «' + val.contractor.cc_name + '»'
+
                         tr(data-id="#{val._id}")
                             td
                                 input.cb-item(type="checkbox", data-id="#{val._id}")
@@ -67,7 +69,8 @@ block content
                             td(data-sort-value=val.date) #{utils.humanizeDate(val.date)}
                             td(data-sort-value=val.sum) #{utils.priceFormat(val.sum)}&nbsp;
                                 span.rub &#8399;
-                            td
+                            td(data-sort-value=contractor_name)
+                                a(href='/contractors/edit/#{val.contractor._id}') #{contractor_name}
                             td
                                 if val.status == 1
                                     span.status-label.active Оплачен

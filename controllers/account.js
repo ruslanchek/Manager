@@ -29,26 +29,30 @@ module.exports = function (app, models) {
             }
         }
 
-        models.account.find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1, count: 1 }).sort( { order: -1 } ).exec(function (err, data) {
-            if (err) {
-                app.log.error('findOne error', err);
-                return done(err);
-            }
+        models.account
+            .find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1, count: 1, contractor: 1 })
+            .sort({ date: -1, number: -1 })
+            .populate('contractor', 'cc_name cc_type')
+            .exec(function (err, data) {
+                if (err) {
+                    app.log.error('findOne error', err);
+                    return done(err);
+                }
 
-            if (data) {
-                data.sort(function(a, b) {
-                    if (parseInt(a.number) < parseInt(b.number))
-                        return 1;
-                    if (parseInt(a.number) > parseInt(b.number))
-                        return -1;
-                    return 0;
-                });
+                if (data) {
+                    data.sort(function(a, b) {
+                        if (parseInt(a.number) < parseInt(b.number))
+                            return 1;
+                        if (parseInt(a.number) > parseInt(b.number))
+                            return -1;
+                        return 0;
+                    });
 
-                return done(false, data);
-            }
+                    return done(false, data);
+                }
 
-            return done(false, false);
-        });
+                return done(false, false);
+            });
     };
 
     this.countAll = function(user, done){
