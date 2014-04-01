@@ -140,4 +140,4 @@ module.exports = function (app, controllers) {
             }
         )
     );
-}
+};

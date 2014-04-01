@@ -20,9 +20,10 @@ block content
                     tr
                         th(width="1%")
                             input.cb-all(type="checkbox")
-                        th
-                        th
-                        th
+                        th Наименование
+                        th Электронная почта
+                        th Телефон
+                        th Skype
 
                 tbody
                     each val in data
@@ -31,9 +32,14 @@ block content
                                 input.cb-item(type="checkbox", data-id="#{val._id}")
                             td(data-sort-value=val.cc_name)
                                 a(href='/contractors/edit/#{val._id}') #{utils.getCompanyTypeName(val.cc_type)} &laquo;#{val.cc_name}&raquo;
-                            td(data-sort-value=val.article) #{val.article}
-                            td(data-sort-value=val.price) #{utils.priceFormat(val.price)}&nbsp;
-                                span.rub &#8399;
+                            td(data-sort-value=val.cc_email)
+                                if val.cc_email
+                                    a(href='mailto:#{val.cc_email}') #{val.cc_email}
+                            td(data-sort-value=val.cc_phone) #{val.cc_phone}
+                            td(data-sort-value=val.cc_skype) #{val.cc_skype}
 
     div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
         | У вас нет ни одного контрагента
+
+    script.
+        app.sections.contractors.list.init();

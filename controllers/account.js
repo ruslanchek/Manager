@@ -105,6 +105,14 @@ module.exports = function (app, models) {
             };
         }
 
+        if(!data.contractor || data.contractor == ''){
+            return {
+                success: false,
+                message: 'CONTRACTOR_EMPTY',
+                fields: ['contractor']
+            };
+        }
+
         if (!app.utils.matchPatternStr(data.date, 'date')) {
             return {
                 success: false,

@@ -89,6 +89,26 @@ module.exports = function (app, models) {
         });
     };
 
+    this.setCounters = function(res, user, done){
+        models.company.findOne({ _user_id: user._id, _id: user.current_company }, function (err, company_data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done(false);
+            }
+
+            if(company_data) {
+                res.session.passport.user.mc_account = company_data.mc_account;
+                res.session.passport.user.mc_nomgroup = company_data.mc_nomgroup;
+
+                res.session.save(function () {
+                    return done(true);
+                });
+            }else{
+                return done(true);
+            }
+        });
+    };
+
     this.findOne = function(username, password, done) {
         if (!username || !app.utils.matchPatternStr(username, 'username')) {
             return done({

@@ -53,8 +53,6 @@ block content
                             i.arrow
                         th(data-sort="string") Сумма
                             i.arrow
-                        th(data-sort="string") Позиции
-                            i.arrow
                         th(data-sort="string") Контрагент
                             i.arrow
                         th(data-sort="string", width="1%") Статус
@@ -69,7 +67,6 @@ block content
                             td(data-sort-value=val.date) #{utils.humanizeDate(val.date)}
                             td(data-sort-value=val.sum) #{utils.priceFormat(val.sum)}&nbsp;
                                 span.rub &#8399;
-                            td #{val.count}
                             td
                             td
                                 if val.status == 1

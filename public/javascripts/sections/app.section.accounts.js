@@ -8,6 +8,13 @@ app.sections.accounts = {
         items       : '#items'
     },
 
+    messages: {
+        NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
+        NUMBER_EMPTY: 'Не введен номер счета',
+        DUBLICATE_NUMBER_FOUND: 'Счет с таким номером уже существует',
+        CONTRACTOR_EMPTY: 'Не выбран контрагент, выберите или создайте нового'
+    },
+
     delete: function(ids, done){
         $.ajax({
             url: '/accounts/delete',
@@ -186,12 +193,9 @@ app.sections.accounts = {
                 form_selector: '#form-add-account',
                 url: '/accounts/add',
                 fields: app.sections.accounts.fields,
-                messages: {
-                    OK: 'Счет создан',
-                    NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
-                    NUMBER_EMPTY: 'Не введен номер счета',
-                    DUBLICATE_NUMBER_FOUND: 'Счет с таким номером уже существует'
-                },
+                messages: $.extend(app.sections.accounts.messages, {
+                    OK: 'Изменения сохранены'
+                }),
                 onSuccess: function(data){
                     if(data.data && data.data._id){
                         setTimeout(function(){
@@ -210,6 +214,11 @@ app.sections.accounts = {
                 onChange: function(data){
                     $('#items').val(encodeURIComponent(JSON.stringify(data)));
                 }
+            });
+
+            this.contractor_select_controller = new app.contractor_select.ContractorSelectController({
+                selector: '.contractor-selection-placeholder',
+                element_id: 'contractor'
             });
 
             $('#number').focus();
@@ -298,19 +307,17 @@ app.sections.accounts = {
             });
         },
 
-        init: function(id){
+        init: function(id, contractor_id){
             this.id = id;
+            this.contractor_id = contractor_id;
 
             this.form_controller = new app.form.FormController({
                 form_selector: '#form-edit-account',
                 url: '/accounts/edit/' + id,
                 fields: app.sections.accounts.fields,
-                messages: {
-                    OK: 'Изменения сохранены',
-                    NUMBER_DOES_NOT_MATCH_PATTERN: 'Неправильный номера счета',
-                    NUMBER_EMPTY: 'Не введен номер счета',
-                    DUBLICATE_NUMBER_FOUND: 'Счет с таким номером уже существует'
-                },
+                messages: $.extend(app.sections.accounts.messages, {
+                    OK: 'Изменения сохранены'
+                }),
                 onSuccess: function(data){
                     if(data.data && data.data._id){
                         $('#header-item-name').html('Счет №' + data.data.number);
@@ -329,6 +336,12 @@ app.sections.accounts = {
                 onChange: function(data){
                     $('#items').val(encodeURIComponent(JSON.stringify(data)));
                 }
+            });
+
+            this.contractor_select_controller = new app.contractor_select.ContractorSelectController({
+                selector: '.contractor-selection-placeholder',
+                element_id: 'contractor',
+                selected_id: contractor_id
             });
 
             $('#number').focus();

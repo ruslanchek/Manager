@@ -49,8 +49,7 @@ block content
 
                 .form-item
                     label(for="contractor") Контрагент
-                    select#contractor
-                        option(value="1") ООО &laquo;Системы и сервисы&raquo;
+                    .contractor-selection-placeholder
 
         .units-row-end
             .unit-100
@@ -74,4 +73,4 @@ block content
                     //input.button.action-view(type='button', value='Посмотреть счет')
 
     script.
-        app.sections.accounts.edit.init('!{data.id}');
+        app.sections.accounts.edit.init('!{data.id}', '!{data.contractor}');

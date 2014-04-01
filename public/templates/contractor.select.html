@@ -1,0 +1,12 @@
+<div class="select-with-button">
+	<select id="{{element_id}}" name="{{element_id}}">
+		<option value="">Не выбран</option>
+		{{#if contractors}}
+			{{#contractors}}
+				<option {{#if selected}}selected{{/if}} value="{{id}}">{{name}}</option>
+			{{/contractors}}
+		{{/if}}
+	</select>
+
+	<a class="action-button green" href="#"><i class="icon-plus"></i></a>
+</div>

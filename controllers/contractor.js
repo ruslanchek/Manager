@@ -1,6 +1,6 @@
 module.exports = function (app, models) {
     this.findItems = function (user, done) {
-        models.contractor.find({ _user_id: user._id, _company_id: user.current_company }, function (err, data) {
+        models.contractor.find({ _user_id: user._id, _company_id: user.current_company }, { _id: 1, cc_name: 1, cc_type: 1, cc_email: 1, cc_phone: 1, cc_skype: 1 }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -8,6 +8,44 @@ module.exports = function (app, models) {
 
             if (data) {
                 done(false, data);
+            }
+        });
+    };
+
+    this.getList = function (user, done) {
+        models.contractor.find({ _user_id: user._id, _company_id: user.current_company }, { _id: 1, cc_name: 1, cc_type: 1 }, function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                return done({
+                    success: true,
+                    data: data
+                });
+            }
+        });
+    };
+
+    this.getItem = function(user, id, done) {
+        models.contractor.getItem({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                return done({
+                    success: true,
+                    data: data
+                });
             }
         });
     };
@@ -301,6 +339,35 @@ module.exports = function (app, models) {
                     });
                 });
             }
+        });
+    };
+
+    this.deleteItems = function(user, ids, done){
+        models.contractor.find({ _user_id: user._id, _company_id: user.current_company, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+            if (err) {
+                app.log.error('findOne error', err);
+
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            if (data) {
+                for(var i = 0, l = data.length; i < l; i++){
+                    data[i].remove();
+                }
+
+                return done({
+                    success: true,
+                    message: 'OK'
+                });
+            }
+
+            return done({
+                success: false,
+                message: 'SERVER_ERROR'
+            });
         });
     };
 };

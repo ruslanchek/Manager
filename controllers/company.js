@@ -444,6 +444,7 @@ module.exports = function (app, models) {
             session.passport.user.cc_website = company_data.cc_website;
 
             session.passport.user.mc_account = company_data.mc_account;
+            session.passport.user.mc_nomgroup = company_data.mc_nomgroup;
         }
     };
 

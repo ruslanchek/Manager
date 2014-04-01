@@ -100,9 +100,18 @@ module.exports = function (app, controllers) {
                     });
                 }
 
-                return res.json({
-                    success: true,
-                    message: 'OK'
+                controllers.user.setCounters(req, user, function(done_ok){
+                    if (!done_ok) {
+                        return res.json({
+                            success: false,
+                            message: 'SERVER_ERROR'
+                        });
+                    }
+
+                    return res.json({
+                        success: true,
+                        message: 'OK'
+                    });
                 });
             });
         })(req, res, function(result){

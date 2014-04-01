@@ -61,8 +61,26 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/contractors/getlist', app.ensureAuthenticated, function(req, res){
+        controllers.contractor.getList(req.user, function(result){
+            res.json(result);
+        });
+    });
+
+    app.post('/contractors/getitem/:id', app.ensureAuthenticated, function(req, res){
+        controllers.contractor.getItem(req.user, req.params.id, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/contractors/add', app.ensureAuthenticated, function(req, res){
         controllers.contractor.addItem(req.user, req.params.id, req.body, function(result){
+            res.json(result);
+        });
+    });
+
+    app.post('/contractors/delete', app.ensureAuthenticated, function(req, res){
+        controllers.contractor.deleteItems(req.user, req.body.ids, function(result){
             res.json(result);
         });
     });
