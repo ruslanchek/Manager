@@ -3,7 +3,8 @@ extends layouts/main
 block content
     h1
         a(href="/contractors") Контрагенты
-        | &nbsp;/&nbsp;#{utils.getCompanyTypeName(data.cc_type)} &laquo;#{data.cc_name}&raquo;
+        | &nbsp;/&nbsp;
+        span#contractor-global-name #{utils.getCompanyTypeName(data.cc_type)} &laquo;#{data.cc_name}&raquo;
 
     .section-tools
         a.action-delete.action-button.warning(href="#")

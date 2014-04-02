@@ -514,7 +514,7 @@ app.sections.company = {
             input_selector: '#cc_ogrn',
             types: [
                 {name: 'digits'},
-                {name: 'length', param: 13}
+                {name: 'length', param: 15}
             ]
         });
 

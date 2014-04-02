@@ -276,9 +276,10 @@ app.sections.contractors = {
                     OK: 'Изменения сохранены'
                 }),
                 onSuccess: function(data){
+                    console.log(data)
+
                     if(data.data && data.data._id){
-                        $('#header-item-name').html('Счет №' + data.data.number);
-                        $('#header-item-date').html('от ' + app.utils.humanizeDate(new Date(data.data.date)));
+                        $('#contractor-global-name').html(app.utils.getCompanyTypeName(data.data.cc_type) + ' &laquo;' + data.data.cc_name + '&raquo;');
                     }
                 }
             });
