@@ -602,8 +602,6 @@ module.exports = function (app, models) {
 
                         inits++;
                         user_data.save(function(err, data){
-                            console.log(data);
-
                             inits--;
 
                             if(err){

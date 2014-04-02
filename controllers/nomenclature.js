@@ -22,8 +22,6 @@ module.exports = function (app, models) {
             .sort({ name: 1 })
             .populate('nomgroup')
             .exec(function (err, data) {
-                console.log(data)
-
                 if (err) {
                     app.log.error('findOne error', err);
                     return done(err);

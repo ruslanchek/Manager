@@ -321,8 +321,6 @@ module.exports = function (app, models) {
                 new_item.cc_website = data.cc_website;
 
                 new_item.save(function (err, data) {
-                    console.log(err)
-
                     if (err) {
                         app.log.error('Contractor add error', err);
 
