@@ -32,7 +32,7 @@ module.exports = function (app, models) {
     };
 
     this.getItem = function(user, id, done) {
-        models.contractor.getItem({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, data) {
+        models.contractor.findOne({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done({

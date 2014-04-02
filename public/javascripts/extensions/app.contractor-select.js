@@ -5,7 +5,10 @@ app.contractor_select = {
         this.options = {
             selector: '',
             element_id: 'contractor',
-            selected_id: false
+            selected_id: false,
+            onSelect: function(data){
+
+            }
         };
 
         $.extend(this.options, options);
@@ -34,6 +37,11 @@ app.contractor_select = {
                     app.templates.render('contractor.select.html', { contractors: contractors_parsed, element_id: _this.options.element_id }, function(html){
                         _this.$placeholder.append(html);
                         _this.$placeholder.find('select').chosen(app.chosen_options);
+                        _this.$placeholder.find('select').on('change', function(){
+                            if(_this.options.onSelect){
+                                _this.options.onSelect($(this).val());
+                            }
+                        });
 
                     }, function(){
 

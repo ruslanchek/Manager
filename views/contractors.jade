@@ -35,8 +35,18 @@ block content
                             td(data-sort-value=val.cc_email)
                                 if val.cc_email
                                     a(href='mailto:#{val.cc_email}') #{val.cc_email}
-                            td(data-sort-value=val.cc_phone) #{val.cc_phone}
-                            td(data-sort-value=val.cc_skype) #{val.cc_skype}
+                                else
+                                    |&mdash;
+                            td(data-sort-value=val.cc_phone)
+                                if val.cc_phone
+                                    |#{val.cc_phone}
+                                else
+                                    |&mdash;
+                            td(data-sort-value=val.cc_skype)
+                                if val.cc_skype
+                                    |#{val.cc_skype}
+                                else
+                                    |&mdash;
 
     div.table-empty.table-empty-with-tools(style=(list_empty===true ? 'display: block' : 'display: none'))
         | У вас нет ни одного контрагента

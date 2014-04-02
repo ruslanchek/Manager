@@ -3,7 +3,7 @@
 		<option value="">Не выбран</option>
 		{{#if contractors}}
 			{{#contractors}}
-				<option {{#if selected}}selected{{/if}} value="{{id}}">{{name}}</option>
+				<option data-id="{{id}}" data-name="{{name}}" {{#if selected}}selected{{/if}} value="{{id}}">{{name}}</option>
 			{{/contractors}}
 		{{/if}}
 	</select>

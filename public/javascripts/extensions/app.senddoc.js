@@ -9,7 +9,8 @@ app.senddoc = {
             doc_num: '1',
             email: 'test@test.test',
             title: 'Отправить счет по почте',
-            doc_id: ''
+            doc_id: '',
+            url: ''
         };
 
         $.extend( this.options, options );
@@ -40,7 +41,7 @@ app.senddoc = {
                                     form_selector: '#form-email-item',
                                     from_modal: true,
                                     modal_controller: modal_controller,
-                                    url: '/accounts/send/' + _this.options.doc_id,
+                                    url: _this.options.url,
                                     fields: {
                                         email: '#ie_email',
                                         message: '#ie_message'

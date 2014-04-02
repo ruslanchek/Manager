@@ -13,6 +13,7 @@ app.docview = {
             tools: true,
             toolbar: true,
             content: '',
+            form_controller: null,
             onShow: function(controller){
 
             },
@@ -40,6 +41,20 @@ app.docview = {
         };
 
         this.open = function(){
+            if(this.options.form_controller){
+                /*if(!confirm('Внимание, перед просмотром документ будет сохранен. Продолжить?')){
+                    return;
+                }*/
+
+                this.options.form_controller.submitForm(function (data) {
+                    _this.openDoc();
+                });
+            }else{
+                this.openDoc();
+            }
+        };
+
+        this.openDoc = function(){
             var tools = '',
                 toolbar = '';
 

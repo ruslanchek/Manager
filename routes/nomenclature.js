@@ -6,9 +6,9 @@ module.exports = function(app, controllers){
 
     var _this = this;
 
-    this.getNomgroup = function(nomgroups, _nomgroup_id){
+    this.getNomgroup = function(nomgroups, nomgroup){
         for(var i = 0, l = nomgroups.length; i < l; i++){
-            if(_nomgroup_id == nomgroups[i]._id){
+            if(nomgroup == nomgroups[i]._id){
                 return nomgroups[i];
             }
         }
@@ -150,7 +150,7 @@ module.exports = function(app, controllers){
             nomgroup: null,
             freegroup: true,
             filters: {
-                _nomgroup_id: null
+                nomgroup: null
             },
             metadata: {
                 title: 'Номенклатура'
@@ -174,7 +174,7 @@ module.exports = function(app, controllers){
                     nomgroup: data,
                     freegroup: false,
                     filters: {
-                        _nomgroup_id: data._id
+                        nomgroup: data._id
                     },
                     metadata: {
                         title: 'Номенклатура'
@@ -220,11 +220,11 @@ module.exports = function(app, controllers){
 
 	app.post('/nomenclature/getnomenclature/:nomgroup', app.ensureAuthenticated, function(req, res){
 		var filters = {
-			_nomgroup_id: null
+            nomgroup: null
 		};
 
 		if(req.params.nomgroup && req.params.nomgroup != 'freegroup'){
-			filters._nomgroup_id = req.params.nomgroup;
+			filters.nomgroup = req.params.nomgroup;
 		}
 
 		controllers.nomenclature.findItems(req.user, filters, function(err, data){

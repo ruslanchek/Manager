@@ -42,8 +42,12 @@ block content
             |Поставщик:&nbsp;
             strong #{utils.getCompanyTypeName(user.cc_type)} &laquo;#{user.cc_name}&raquo;
             br
-            |Покупатель:
-            strong #{data.buyer}
+            |Покупатель:&nbsp;
+            strong
+                if data.contractor.cc_name && data.contractor.cc_type
+                    |#{utils.getCompanyTypeName(data.contractor.cc_type)} &laquo;#{data.contractor.cc_name}&raquo;
+                else
+                    |&mdash;
 
         table.table.table-bordered.width-100
             tr
@@ -56,6 +60,7 @@ block content
 
             - each item in data.items
                 - var price_iclude_nds = (item.price + ((item.price / 100) * ((item.nds > 0) ? item.nds : 0)))
+
                 tr
                     td.text-centered #{item.number}
                     td #{item.name}
@@ -77,6 +82,23 @@ block content
         p Всего #{utils.numberToWords(data.items.length, 'neuter')} #{utils.pluralForm(data.items.length, 'наименование', 'наименования', 'наименований')}, на сумму #{utils.priceFormat(data.sum)} руб.
             br
             strong #{utils.priceToWords(data.sum)}
+
+        hr
+        br
+
+        .signatures
+            table.width-100
+                tr
+                    td.nowrap #{utils.getCEOType(user.cc_ceo_type)}
+                    td.bordered
+                    td.nowrap (#{user.cc_ceo_name})
+                if user.cc_accountant_type && user.cc_accountant_name && user.cc_accountant_type != 1
+                    tr
+                        td(colspan='3') &nbsp;
+                    tr
+                        td.nowrap #{utils.getAccountantType(user.cc_accountant_type)}
+                        td.bordered
+                        td.nowrap (#{user.cc_accountant_name})
 
         .footer
             .seal

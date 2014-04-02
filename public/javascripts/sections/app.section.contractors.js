@@ -48,6 +48,33 @@ app.sections.contractors = {
         DUBLICATE_FOUND: 'Контрагент с таким названием уже существует'
     },
 
+    loadContractorData: function(id, done){
+        if(id && id != '') {
+            $.ajax({
+                url: '/contractors/getitem/' + id,
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    app.loading.setGlobalLoading('app.sections.contractors.loadContractorData');
+                },
+                success: function (data) {
+                    app.loading.unSetGlobalLoading('app.sections.contractors.loadContractorData');
+
+                    if (done && data.success == true) {
+                        done(data.data);
+                    } else {
+                        done(null);
+                    }
+                },
+                error: function () {
+                    app.loading.unSetGlobalLoading('app.sections.contractors.loadContractorData');
+                }
+            });
+        }else{
+            done(null);
+        }
+    },
+
     fieldsActions: function(){
         $('#cc_type').on('change', function () {
             if ($(this).val() == '4') {

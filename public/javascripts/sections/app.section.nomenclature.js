@@ -67,7 +67,7 @@ app.sections.nomenclature = {
 										html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
 									}
 								}else{
-									if(this.nomenclatures[i].nomgroup == this.nomgroup){
+									if(this.nomenclatures[i].nomgroup && this.nomenclatures[i].nomgroup._id == this.nomgroup){
 										html += '<option value="' + this.nomenclatures[i]._id + '">' + name + '</option>';
 									}
 								}

@@ -150,6 +150,9 @@ module.exports = function(app, controllers){
 
         params.data.date = app.utils.parseDate(params.data.date);
         params.data.items = JSON.parse(decodeURIComponent(params.data.items));
+        params.data.contractor = JSON.parse(decodeURIComponent(params.data.contractor));
+
+        console.log(params.data)
 
         res.render('accounts.view.jade', params);
     });

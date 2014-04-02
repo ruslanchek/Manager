@@ -54,6 +54,10 @@ app.form = {
 
         this.$form.find('.form-message').hide();
 
+        this.submitForm = function(done){
+            this.processForm(done);
+        };
+
         this.clearErrorsBinder = function(fields){
             $.each(fields, function(key, val){
                 $(val).off('focus.ce change.ce keyup.ce').on('focus.ce change.ce keyup.ce', function(){
@@ -157,7 +161,7 @@ app.form = {
             }
         };
 
-        this.processForm = function(){
+        this.processForm = function(done){
             var send_data = {};
 
             for (var key in _this.options.fields) {
@@ -208,12 +212,25 @@ app.form = {
                             }
                         }
 
+                        setTimeout(function(){
+                            if(done){
+                                done(data);
+                            }
+                        }, _this.options.message_animation_time * 2.5);
+
+
                     }, _this.options.message_animation_time * 1.5);
                 },
                 error: function(){
                     setTimeout(function(){
                         _this.unSetLoading();
                         _this.pushFormMessage(false, 'SERVER_ERROR');
+
+                        setTimeout(function(){
+                            if(done){
+                                done(null);
+                            }
+                        }, _this.options.message_animation_time * 2.5);
 
                     }, _this.options.message_animation_time * 1.5);
                 }

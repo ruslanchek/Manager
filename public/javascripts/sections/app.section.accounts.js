@@ -15,6 +15,10 @@ app.sections.accounts = {
         CONTRACTOR_EMPTY: 'Не выбран контрагент, выберите или создайте нового'
     },
 
+    contractor: {
+        _id: ''
+    },
+
     delete: function(ids, done){
         $.ajax({
             url: '/accounts/delete',
@@ -147,38 +151,46 @@ app.sections.accounts = {
                 sum: 0
             };
 
-            $.each(app.sections.accounts.fields, function(key, val){
-                switch(key){
-                    case 'items' : {
-                        try{
-                            data[key] = JSON.parse(decodeURIComponent($(val).val()));
-                        }catch(e){
-                            data[key] = [];
-                        }
+            app.sections.contractors.loadContractorData(app.sections.accounts.contractor._id, function(contractor_data){
+                $.each(app.sections.accounts.fields, function(key, val){
+                    switch(key){
+                        case 'items' : {
+                            try{
+                                data[key] = JSON.parse(decodeURIComponent($(val).val()));
+                            }catch(e){
+                                data[key] = [];
+                            }
 
-                        for(var i = 0, l = data[key].length; i < l; i++){
-                            data[key][i].sum = data[key][i].price * data[key][i].count;
+                            for(var i = 0, l = data[key].length; i < l; i++){
+                                data[key][i].sum = data[key][i].price * data[key][i].count;
 
-                            data.sum += parseFloat(data[key][i].price * data[key][i].count);
-                        }
+                                data.sum += parseFloat(data[key][i].price * data[key][i].count);
+                            }
 
-                        data[key] = encodeURIComponent(JSON.stringify(data[key]));
-                    } break;
+                            data[key] = encodeURIComponent(JSON.stringify(data[key]));
+                        } break;
 
-                    default : {
-                        data[key] = $(val).val();
-                    } break;
+                        default : {
+                            data[key] = $(val).val();
+                        } break;
+                    }
+                });
+
+                if(contractor_data !== null) {
+                    data.contractor = encodeURIComponent(JSON.stringify(contractor_data));
+                }else{
+                    data.contractor = '{}';
                 }
-            });
 
-            var docview_controller = new app.docview.DocviewController({
-                title: 'Просмотр счета',
-                tools: false,
-                data: data,
-                url: '/accounts/viewcustom'
-            });
+                var docview_controller = new app.docview.DocviewController({
+                    title: 'Просмотр счета',
+                    tools: false,
+                    data: data,
+                    url: '/accounts/viewcustom'
+                });
 
-            docview_controller.open();
+                docview_controller.open();
+            });
         },
 
         binds: function(){
@@ -218,7 +230,10 @@ app.sections.accounts = {
 
             this.contractor_select_controller = new app.contractor_select.ContractorSelectController({
                 selector: '.contractor-selection-placeholder',
-                element_id: 'contractor'
+                element_id: 'contractor',
+                onSelect: function(data){
+                    app.sections.accounts.contractor._id = data;
+                }
             });
 
             $('#number').focus();
@@ -234,12 +249,13 @@ app.sections.accounts = {
             var docview_controller = new app.docview.DocviewController({
                 title: 'Просмотр счета',
                 tools: true,
+                form_controller: this.form_controller,
                 method: 'get',
                 data: {},
-                onDownload: function(){
+                onDownload: function () {
                     document.location.href = '/accounts/pdf/' + id;
                 },
-                onSend: function(){
+                onSend: function () {
                     app.sections.accounts.edit.send();
                 },
                 url: '/accounts/view/' + id
@@ -249,7 +265,13 @@ app.sections.accounts = {
         },
 
         download: function(){
+            /*if(!confirm('Внимание, перед скачиванием документ будет сохранен. Продолжить?')){
+                return;
+            }*/
 
+            this.form_controller.submitForm(function (data) {
+                document.location.href = '/accounts/pdf/' + app.sections.accounts.edit.id;
+            });
         },
 
         print: function(){
@@ -263,12 +285,23 @@ app.sections.accounts = {
         },
 
         send: function(){
-            var senddoc_controller = new app.senddoc.SendDocController({
-                message_template: 'Здравствуйте, во вложении счет №{{doc_num}} от компании {{cc_type_name}} &laquo;{{cc_name}}&raquo;.',
-                doc_num: this.number,
-                email: 'test@test.test',
-                title: 'Отправить счет по почте',
-                doc_id: this.id
+            var _this = this;
+
+            app.sections.contractors.loadContractorData(app.sections.accounts.contractor._id, function(contractor_data){
+                var email = '';
+
+                if(contractor_data && contractor_data.cc_email){
+                    email = contractor_data.cc_email;
+                }
+
+                var senddoc_controller = new app.senddoc.SendDocController({
+                    message_template: 'Здравствуйте, во вложении счет №{{doc_num}} от компании {{cc_type_name}} &laquo;{{cc_name}}&raquo;.',
+                    doc_num: $('#number').val(),
+                    email: email,
+                    title: 'Отправить счет по почте',
+                    doc_id: _this.id,
+                    url: '/accounts/send/' + _this.id
+                });
             });
         },
 
@@ -296,6 +329,11 @@ app.sections.accounts = {
                 e.preventDefault();
             });
 
+            $body.on('click.action-download', '.action-download', function(e){
+                _this.download();
+                e.preventDefault();
+            });
+
             $body.on('click.action-send', '.action-send', function(e){
                 _this.send();
                 e.preventDefault();
@@ -309,7 +347,7 @@ app.sections.accounts = {
 
         init: function(id, contractor_id){
             this.id = id;
-            this.contractor_id = contractor_id;
+            app.sections.accounts.contractor._id = contractor_id;
 
             this.form_controller = new app.form.FormController({
                 form_selector: '#form-edit-account',
@@ -341,7 +379,20 @@ app.sections.accounts = {
             this.contractor_select_controller = new app.contractor_select.ContractorSelectController({
                 selector: '.contractor-selection-placeholder',
                 element_id: 'contractor',
-                selected_id: contractor_id
+                selected_id: contractor_id,
+                onSelect: function(data){
+                    if(data && data != '') {
+                        app.sections.accounts.contractor._id = data;
+
+                        app.sections.contractors.loadContractorData(data, function (contractor_data) {
+                            if (contractor_data !== null) {
+                                app.sections.accounts.contractor = contractor_data;
+                            }
+                        });
+                    }else{
+                        app.sections.accounts.contractor = { _id: '' };
+                    }
+                }
             });
 
             $('#number').focus();
