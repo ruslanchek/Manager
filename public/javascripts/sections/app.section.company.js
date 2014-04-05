@@ -439,10 +439,11 @@ app.sections.company = {
         });
     },
 
-    initStamp: function(){
-        var crop_controller = new app.crop.BasicCropController({
+    initStamp: function(id){
+        this.crop_controller = new app.crop.BasicCropController({
             form_controller: this.form_controller,
-            selector: '.crop-upload'
+            selector: '.crop-upload',
+            _id: id
         });
     },
 

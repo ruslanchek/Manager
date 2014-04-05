@@ -1,4 +1,4 @@
-var fs = require('fs'),
+var fs = require('fs.extra'),
     numeral = require('numeral'),
     exec = require('child_process').exec,
     crypto = require('crypto');
@@ -677,30 +677,140 @@ this.generateRandomSeed = function(){
  * */
 this.generatePDF = function(url, sid, res, fname, done){
     var random_name = this.generateRandomSeed(sid),
-        pdf_filename = __dirname + '/../generated/tmp/pdf/' + random_name + '.pdf';
+        path = __dirname + '/../generated/tmp/pdf/',
+        pdf_filename = path + random_name + '.pdf';
 
-    exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
-        if(!err){
-            fs.readFile(pdf_filename, function (err, data) {
-                if (err) {res.writeHead(400); res.end("" + err); return;} // TODO make here a 500 error (for testing use an wrong var pdf_filename)
+    fs.mkdirp(path, function (err) {
+        if (err) {
+            if(done){
+                done(false);
+            }else{
+                res.writeHead(400);
+                res.end("" + err);
+                return;
+            }
+        }
 
-                fs.unlink(pdf_filename, function(){});
+        exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
+            if(!err){
+                fs.readFile(pdf_filename, function (err, data) {
+                    fs.unlink(pdf_filename, function(){});
 
+                    if(done){
+                        done(data);
+                    }else{
+                        if (err) {
+                            res.writeHead(400);
+                            res.end("" + err);
+                            return;
+                        } // TODO make here a 500 error (for testing use an wrong var pdf_filename)
+
+                        res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
+                        res.setHeader('Content-type', 'application/pdf');
+
+                        res.end(data);
+                    }
+                });
+            }else{
                 if(done){
-                    done(data);
+                    done(null);
                 }else{
-                    res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
-                    res.setHeader('Content-type', 'application/pdf');
-
-                    res.end(data);
+                    res.end('PDF generate error');
                 }
+            }
+        });
+    });
+};
+
+
+/**
+ * Pic uploading
+ * */
+this.uploadPicture = function(options){
+    var tmp_path = __dirname + '/../generated/tmp/pic/',
+        tmp_filename = this.generateRandomSeed(options.path, options.base64data);
+
+    fs.mkdirp(tmp_path, function (err) {
+        if (err) {
+            return options.done({
+                success: false,
+                message: 'SERVER_ERROR'
             });
         }else{
-            if(done){
-                done(null);
-            }else{
-                res.end('PDF generate error');
-            }
+            fs.writeFile(tmp_filename, options.base64data.replace(/^data:image\/png;base64,/, ''), 'base64', function(err) {
+                if(err){
+                    return options.done({
+                        success: false,
+                        message: 'SERVER_ERROR'
+                    });
+                }
+
+                fs.readFile(tmp_filename, function (err, data) {
+                    var mmm = require('mmmagic'),
+                        Magic = mmm.Magic;
+
+                    var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+
+                    magic.detectFile(tmp_filename, function(err, result) {
+                        if (err) {
+                            return options.done({
+                                success: false,
+                                message: 'SERVER_ERROR'
+                            });
+                        }
+
+                        var ext = '';
+
+                        if(result == 'image/jpeg' || result == 'image/png'){
+                            switch(result){
+                                case 'image/jpeg' : {
+                                    ext = 'jpeg';
+                                } break;
+
+                                case 'image/png' : {
+                                    ext = 'png';
+                                } break;
+                            }
+
+                            var filename = options.path + options.name + '.' + ext;
+
+                            fs.mkdirp(options.path, function (err) {
+                                if(err){
+                                    return options.done({
+                                        success: false,
+                                        message: 'SERVER_ERROR'
+                                    });
+                                }
+
+                                fs.move(tmp_filename, filename, function (err) {
+                                    if (err) {
+                                        return options.done({
+                                            success: false,
+                                            message: 'SERVER_ERROR'
+                                        });
+                                    }
+
+                                    return options.done({
+                                        success: true,
+                                        message: 'OK',
+                                        data: {
+                                            filename: filename
+                                        }
+                                    });
+                                });
+                            });
+
+                        }else{
+                            fs.unlink(tmp_filename, function(){});
+
+                            return options.done({
+                                success: false,
+                                message: 'FILE_IS_NOT_AN_IMAGE'
+                            });
+                        }
+                    });
+                });
+            });
         }
     });
 };

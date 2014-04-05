@@ -80,6 +80,12 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/company/edit/:id/stampupload', app.ensureAuthenticated, function(req, res){
+        controllers.company.uploadStamp(req, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/company/selectcompany', app.ensureAuthenticated, function(req, res){
         controllers.company.selectCompany(req, function(result){
             res.json(result);

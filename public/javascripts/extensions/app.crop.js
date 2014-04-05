@@ -6,6 +6,7 @@ app.crop = {
         this.img_b64 = null;
 
         this.options = {
+            _id: '',
             selector: '',
             form_controller: null
         };
@@ -58,7 +59,7 @@ app.crop = {
         this.uploadImage = function(){
             $.ajax({
                 type: 'post',
-                url: '/settings/company/uploadstamp',
+                url: '/company/edit/' + this.options._id + '/stampupload',
                 data: {
                     img_b64: this.img_b64
                 },

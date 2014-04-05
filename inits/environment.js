@@ -27,7 +27,7 @@ module.exports = function(app, express){
         } else {
             res.redirect('/auth/login')
         }
-    }
+    };
 
     app.ensureNotAuthenticated = function(req, res, next) {
         if (req.isAuthenticated()) {
@@ -35,5 +35,5 @@ module.exports = function(app, express){
         } else {
             return next();
         }
-    }
+    };
 }

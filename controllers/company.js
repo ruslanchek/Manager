@@ -643,4 +643,27 @@ module.exports = function (app, models) {
             }, 20);
         });
     };
+
+    this.uploadStamp = function(req, done){
+        this.findOne(req.user, req.params.id, function(err, company_data){
+            if(err || !company_data){
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            app.utils.uploadPicture({
+                path: __dirname + '/../public/user/' + req.user._id + '/company/' + company_data._id + '/',
+                name: 'stamp',
+                format: 'PNG',
+                base64data: req.body.img_b64,
+                done: function(result){
+                    console.log(result)
+
+                    done(result);
+                }
+            });
+        });
+    };
 };
