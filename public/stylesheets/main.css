@@ -3264,6 +3264,22 @@ input[type="radio"].stylish:checked:after {
 .upload-tool .text p {
   padding-left: 0;
 }
+.upload-tool .delete-image {
+  color: #e83a3e;
+  display: block;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  line-height: 34px;
+  text-align: center;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  font-size: 18px;
+}
+.upload-tool .delete-image:hover {
+  color: #ff5d61;
+}
 .upload-tool .current-picture {
   float: right;
   width: 240px;
@@ -3289,22 +3305,29 @@ input[type="radio"].stylish:checked:after {
   border-radius: 3px 3px 0 0;
 }
 .upload-tool .current-picture .picture .placeholder {
-  opacity: 0.15;
   position: relative;
   width: 240px;
   height: 240px;
   display: block;
 }
+.upload-tool .current-picture .picture .placeholder img.upload-icon {
+  opacity: 0.15;
+}
+.upload-tool .current-picture .picture .placeholder img.image-icon {
+  -moz-border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+}
 .upload-tool .current-picture .picture.dragover {
   background: #ffd02c;
 }
-.upload-tool .current-picture .picture .placeholder:hover {
-  opacity: 0.2;
+.upload-tool .current-picture .picture .placeholder:hover img.upload-icon {
+  opacity: 0.2 !important;
   -ms-transform: scale(1.1);
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-.upload-tool .current-picture .picture .placeholder img {
+.upload-tool .current-picture .picture .placeholder img.upload-icon {
   width: 150px;
   height: 150px;
   display: block;
@@ -3312,6 +3335,16 @@ input[type="radio"].stylish:checked:after {
   left: 50%;
   top: 50%;
   margin: -75px 0 0 -75px;
+  z-index: 2;
+}
+.upload-tool .current-picture .picture .placeholder img.image-icon {
+  width: 240px;
+  height: 240px;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
 .upload-tool .current-picture .button {
   margin: 0;
@@ -3390,8 +3423,9 @@ input[type="radio"].stylish:checked:after {
   -webkit-border-radius: 3px 3px 0 0;
   border-radius: 3px 3px 0 0;
 }
-.crop-tool .preview .button:last-child {
-  margin-right: 0;
+.crop-tool .preview .button {
+  display: block;
+  margin: 0;
 }
 .requisites {
   position: relative;
@@ -4401,6 +4435,7 @@ header strong {
   font-size: 15px !important;
   font-family: inherit;
   color: #59575E;
+  text-align: center;
   border: none;
   border-radius: 4px;
   -webkit-border-radius: 4px;

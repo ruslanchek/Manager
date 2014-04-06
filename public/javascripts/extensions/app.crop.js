@@ -106,8 +106,14 @@ app.crop = {
                             var jcrop_api = this;
                         });
 
-                        $('.crop-cancel-' + _this.id).on('click', function(){
+                        $('.crop-cancel-' + _this.id).on('click', function(e){
+                            e.preventDefault();
                             _this.cancelUpload();
+                        });
+
+                        $('.crop-save').on('click', function(e){
+                            e.preventDefault();
+                            _this.uploadImage();
                         });
                     }, 500);
                 }, 400);
@@ -217,6 +223,11 @@ app.crop = {
                 $(_this.options.selector).append(html);
                 _this.bindFileInputActions();
                 _this.bindDropzone();
+
+                $('.delete-image').on('click', function(e){
+                    alert('xxx')
+                    e.preventDefault();
+                });
             });
         };
 

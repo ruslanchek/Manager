@@ -21,16 +21,18 @@
 
     <div class="current-picture">
         <div class="picture">
-            <a id="upload-dropzone-{{prefix}}" class="placeholder upload animation-300-easeInOutQuart upload-init-{{prefix}}" href="#">
+            <a id="upload-dropzone-{{prefix}}" class="placeholder upload upload-init-{{prefix}}" href="#">
                 {{#if image_exists}}
-                <img src="{{image_path}}">
-                {{else}}
-                <img src="/images/icons/upload@2x.png">
+                    <img class="image-icon" src="{{image_path}}">
                 {{/if}}
+
+                <img {{#if image_exists}}style="opacity: 0"{{/if}} class="upload-icon animation-300-easeInOutQuart" src="/images/icons/upload@2x.png">
             </a>
         </div>
 
         <a href="#" class="button upload upload-init-{{prefix}}">Выбрать изображение</a>
+
+        <a style="display: {{#if image_exists}}block{{else}}none{{/if}}" class="delete-image" href="#"><i class="icon-cancel"></i></a>
     </div>
 
     <div class="clear"></div>
