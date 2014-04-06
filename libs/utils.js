@@ -724,6 +724,16 @@ this.generatePDF = function(url, sid, res, fname, done){
 
 
 /**
+ * Is file exists in fs
+ * */
+this.fsExists = function(path, done){
+    fs.exists(path, function (exists) {
+        done(exists);
+    });
+};
+
+
+/**
  * Pic uploading
  * */
 this.uploadPicture = function(options){
@@ -734,14 +744,16 @@ this.uploadPicture = function(options){
         if (err) {
             return options.done({
                 success: false,
-                message: 'SERVER_ERROR'
+                message: 'SERVER_ERROR',
+                code: 'UTILS::uploadPicture::01'
             });
         }else{
             fs.writeFile(tmp_filename, options.base64data.replace(/^data:image\/png;base64,/, ''), 'base64', function(err) {
                 if(err){
                     return options.done({
                         success: false,
-                        message: 'SERVER_ERROR'
+                        message: 'SERVER_ERROR',
+                        code: 'UTILS::uploadPicture::02'
                     });
                 }
 
@@ -755,7 +767,8 @@ this.uploadPicture = function(options){
                         if (err) {
                             return options.done({
                                 success: false,
-                                message: 'SERVER_ERROR'
+                                message: 'SERVER_ERROR',
+                                code: 'UTILS::uploadPicture::03'
                             });
                         }
 
@@ -778,24 +791,28 @@ this.uploadPicture = function(options){
                                 if(err){
                                     return options.done({
                                         success: false,
-                                        message: 'SERVER_ERROR'
+                                        message: 'SERVER_ERROR',
+                                        code: 'UTILS::uploadPicture::04'
                                     });
                                 }
 
-                                fs.move(tmp_filename, filename, function (err) {
-                                    if (err) {
-                                        return options.done({
-                                            success: false,
-                                            message: 'SERVER_ERROR'
-                                        });
-                                    }
-
-                                    return options.done({
-                                        success: true,
-                                        message: 'OK',
-                                        data: {
-                                            filename: filename
+                                fs.unlink(filename, function(){
+                                    fs.move(tmp_filename, filename, function (err) {
+                                        if (err) {
+                                            return options.done({
+                                                success: false,
+                                                message: 'SERVER_ERROR',
+                                                code: 'UTILS::uploadPicture::05'
+                                            });
                                         }
+
+                                        return options.done({
+                                            success: true,
+                                            message: 'OK',
+                                            data: {
+                                                filename: filename
+                                            }
+                                        });
                                     });
                                 });
                             });
@@ -805,7 +822,8 @@ this.uploadPicture = function(options){
 
                             return options.done({
                                 success: false,
-                                message: 'FILE_IS_NOT_AN_IMAGE'
+                                message: 'FILE_IS_NOT_AN_IMAGE',
+                                code: 'UTILS::uploadPicture::06'
                             });
                         }
                     });

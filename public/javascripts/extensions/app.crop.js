@@ -8,7 +8,9 @@ app.crop = {
         this.options = {
             _id: '',
             selector: '',
-            form_controller: null
+            form_controller: null,
+            image_exists: false,
+            image_path: ''
         };
 
         $.extend(this.options, options);
@@ -45,7 +47,7 @@ app.crop = {
         this.cancelUpload = function(){
             $('.crop-tool-' + this.id).fadeOut(300, function(){
                 $('.crop-upload').animate({
-                    height: $('.upload-tool-' + _this.id).height() + 25
+                    height: $('.upload-tool-' + _this.id).height()
                 });
 
                 $('.upload-tool-' + _this.id).fadeIn(300, function(){
@@ -76,8 +78,10 @@ app.crop = {
                 setTimeout(function(){
                     app.loading.unSetGlobalLoading('filereader-crop');
 
+                    var h =  $('.crop-tool-' + _this.id).height();
+
                     $('.crop-upload').animate({
-                        height: $('.crop-tool-' + _this.id).height() + 25
+                        height: h
                     }, 400, function(){
                         $('.upload-tool-' + _this.id).fadeOut(300);
                         $('.crop-tool-' + _this.id).fadeIn(300);
@@ -209,7 +213,7 @@ app.crop = {
         };
 
         this.drawUploadInterface = function(){
-            app.templates.render('crop.upload-tool.html', { prefix: this.id }, function(html){
+            app.templates.render('crop.upload-tool.html', { prefix: this.id, image_exists: _this.options.image_exists, image_path: _this.options.image_path }, function(html){
                 $(_this.options.selector).append(html);
                 _this.bindFileInputActions();
                 _this.bindDropzone();

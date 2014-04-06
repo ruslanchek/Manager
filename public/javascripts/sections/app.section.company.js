@@ -439,10 +439,12 @@ app.sections.company = {
         });
     },
 
-    initStamp: function(id){
+    initStamp: function(id, stamp_path, stamp_exists){
         this.crop_controller = new app.crop.BasicCropController({
             form_controller: this.form_controller,
             selector: '.crop-upload',
+            image_exists: stamp_exists,
+            image_path: stamp_path,
             _id: id
         });
     },

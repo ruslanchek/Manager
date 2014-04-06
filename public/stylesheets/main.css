@@ -3253,7 +3253,6 @@ input[type="radio"].stylish:checked:after {
 .upload-tool {
   position: relative;
   z-index: 1;
-  margin-bottom: 2em;
 }
 .upload-tool .file-input {
   display: none !important;
@@ -3350,7 +3349,6 @@ input[type="radio"].stylish:checked:after {
 }
 .crop-tool .preview {
   float: right;
-  height: 240px;
   width: 240px;
   position: relative;
 }
@@ -3392,11 +3390,8 @@ input[type="radio"].stylish:checked:after {
   -webkit-border-radius: 3px 3px 0 0;
   border-radius: 3px 3px 0 0;
 }
-.crop-tool .preview .button {
-  display: block;
-  width: 80px;
-  text-align: center;
-  margin: 0 auto;
+.crop-tool .preview .button:last-child {
+  margin-right: 0;
 }
 .requisites {
   position: relative;

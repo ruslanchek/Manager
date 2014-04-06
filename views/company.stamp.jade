@@ -21,4 +21,4 @@ block content
                 a(href="/company/edit/#{data._id}/signature") Загрузка подписи
 
     script.
-        app.sections.company.initStamp('!{data._id}');
+        app.sections.company.initStamp('!{data._id}', '!{stamp_path}', !{stamp_exists});

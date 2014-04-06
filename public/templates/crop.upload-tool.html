@@ -21,7 +21,13 @@
 
     <div class="current-picture">
         <div class="picture">
-            <a id="upload-dropzone-{{prefix}}" class="placeholder upload animation-300-easeInOutQuart upload-init-{{prefix}}" href="#"><img src="/images/icons/upload@2x.png"></a>
+            <a id="upload-dropzone-{{prefix}}" class="placeholder upload animation-300-easeInOutQuart upload-init-{{prefix}}" href="#">
+                {{#if image_exists}}
+                <img src="{{image_path}}">
+                {{else}}
+                <img src="/images/icons/upload@2x.png">
+                {{/if}}
+            </a>
         </div>
 
         <a href="#" class="button upload upload-init-{{prefix}}">Выбрать изображение</a>

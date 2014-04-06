@@ -50,12 +50,20 @@ module.exports = function(app, controllers){
                     section: 'main',
                     mode: 'edit',
                     data: data,
+                    stamp_exists: false,
+                    stamp_path: '/user/' + req.user._id + '/company/' + data._id + '/stamp.png',
                     metadata: {
                         title: 'Загрузка печати'
                     }
                 });
 
-                res.render('company.stamp.jade', params);
+                app.utils.fsExists(__dirname + '/../public' + params.stamp_path, function(exists){
+                    if (exists) {
+                        params.stamp_exists = true;
+                    }
+
+                    res.render('company.stamp.jade', params);
+                });
             }
         });
     });
