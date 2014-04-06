@@ -653,17 +653,33 @@ module.exports = function (app, models) {
                 });
             }
 
+            var path = '/user/' + req.user._id + '/company/' + company_data._id + '/';
+
             app.utils.uploadPicture({
-                path: __dirname + '/../public/user/' + req.user._id + '/company/' + company_data._id + '/',
+                path: __dirname + '/../public/' + path,
+                public_path: path,
                 name: 'stamp',
                 format: 'PNG',
                 base64data: req.body.img_b64,
                 done: function(result){
-                    console.log(result)
-
                     done(result);
                 }
             });
         });
     };
+
+    this.deleteStamp = function(req, done){
+        this.findOne(req.user, req.params.id, function(err, company_data){
+            if(err || !company_data){
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
+
+            app.utils.unlinkFile(__dirname + '/../public/user/' + req.user._id + '/company/' + company_data._id + '/stamp.png', function(result){
+                return done(result);
+            });
+        });
+    }
 };

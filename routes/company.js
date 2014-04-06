@@ -94,6 +94,12 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/company/edit/:id/stampdelete', app.ensureAuthenticated, function(req, res){
+        controllers.company.deleteStamp(req, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/company/selectcompany', app.ensureAuthenticated, function(req, res){
         controllers.company.selectCompany(req, function(result){
             res.json(result);

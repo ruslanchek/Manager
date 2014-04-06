@@ -8,12 +8,17 @@ app.crop = {
         this.options = {
             _id: '',
             selector: '',
-            form_controller: null,
             image_exists: false,
-            image_path: ''
+            image_path: '',
+            upload_url: ''
         };
 
         $.extend(this.options, options);
+
+        this.form_controller = new app.form.FormController({
+            form_selector: '#form-upload-crop',
+            show_success_message: true
+        });
 
         this.updatePreview = function(c){
             var canvas = document.getElementById('crop-image-result-' + this.id),
@@ -44,7 +49,7 @@ app.crop = {
             }
         };
 
-        this.cancelUpload = function(){
+        this.cancelCrop = function(){
             $('.crop-tool-' + this.id).fadeOut(300, function(){
                 $('.crop-upload').animate({
                     height: $('.upload-tool-' + _this.id).height()
@@ -58,15 +63,71 @@ app.crop = {
             this.resetUploadField();
         };
 
+        this.deleteImage = function(){
+            if(!confirm('Удалить загруженное изображение?')){
+                return;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: _this.options.delete_url,
+                beforeSend: function(){
+                    app.loading.setGlobalLoading('crop-delete');
+                },
+                success: function(data){
+                    _this.form_controller.pushFormMessage(true, 'Изображение удалено');
+                    app.loading.unSetGlobalLoading('crop-delete');
+
+                    $('.upload-icon').css({
+                        opacity: 0.15
+                    });
+
+                    $('.image-icon').attr('src', '').css({
+                        display: 'none'
+                    });
+
+                    $('.delete-image').hide();
+
+                    setTimeout(function(){
+                        _this.cancelCrop();
+                    }, 400);
+                },
+                error: function(){
+                    app.loading.unSetGlobalLoading('crop-delete');
+                }
+            });
+        };
+
         this.uploadImage = function(){
             $.ajax({
                 type: 'post',
-                url: '/company/edit/' + this.options._id + '/stampupload',
+                url: _this.options.upload_url,
                 data: {
                     img_b64: this.img_b64
                 },
-                success: function(){
+                beforeSend: function(){
+                    app.loading.setGlobalLoading('crop-upload');
+                },
+                success: function(data){
+                    _this.form_controller.pushFormMessage(true, 'Изображение сохранено');
+                    app.loading.unSetGlobalLoading('crop-upload');
 
+                    $('.upload-icon').css({
+                        opacity: 0
+                    });
+
+                    $('.image-icon').attr('src', data.data.filename + '?' + new Date().getTime()).css({
+                        display: 'block'
+                    });
+
+                    $('.delete-image').show();
+
+                    setTimeout(function(){
+                        _this.cancelCrop();
+                    }, 400);
+                },
+                error: function(){
+                    app.loading.unSetGlobalLoading('crop-upload');
                 }
             });
         };
@@ -108,7 +169,7 @@ app.crop = {
 
                         $('.crop-cancel-' + _this.id).on('click', function(e){
                             e.preventDefault();
-                            _this.cancelUpload();
+                            _this.cancelCrop();
                         });
 
                         $('.crop-save').on('click', function(e){
@@ -138,9 +199,7 @@ app.crop = {
                 file.size_mb = file.size / 1024 / 1024
 
                 if(file.type != 'image/jpeg' && file.type != 'image/png'){
-                    if(this.options.form_controller){
-                        this.options.form_controller.pushFormMessage(false, 'Загрузка изображений возможна только в формате JPEG или PNG');
-                    }
+                    _this.form_controller.pushFormMessage(false, 'Загрузка изображений возможна только в формате JPEG или PNG');
 
                     this.resetUploadField();
 
@@ -148,9 +207,7 @@ app.crop = {
                 }
 
                 if(file.size_mb > 2){
-                    if(this.options.form_controller){
-                        this.options.form_controller.pushFormMessage(false, 'Объем выбранного файла больше 2 МБ');
-                    }
+                    _this.form_controller.pushFormMessage(false, 'Объем выбранного файла больше 2 МБ');
 
                     this.resetUploadField();
 
@@ -167,7 +224,7 @@ app.crop = {
 
                 reader.readAsDataURL(file);
             }else{
-                this.options.form_controller.pushFormMessage(false, 'Ошибка чтения файла');
+                _this.form_controller.pushFormMessage(false, 'Ошибка чтения файла');
             }
 
             /*
@@ -225,7 +282,7 @@ app.crop = {
                 _this.bindDropzone();
 
                 $('.delete-image').on('click', function(e){
-                    alert('xxx')
+                    _this.deleteImage();
                     e.preventDefault();
                 });
             });

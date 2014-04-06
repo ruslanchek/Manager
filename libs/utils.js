@@ -734,6 +734,18 @@ this.fsExists = function(path, done){
 
 
 /**
+ * Delete file
+ * */
+this.unlinkFile = function(path, done){
+    fs.unlink(path, function(){
+        done({
+            success: true
+        });
+    });
+};
+
+
+/**
  * Pic uploading
  * */
 this.uploadPicture = function(options){
@@ -785,7 +797,7 @@ this.uploadPicture = function(options){
                                 } break;
                             }
 
-                            var filename = options.path + options.name + '.' + ext;
+                            var filename = options.name + '.' + ext;
 
                             fs.mkdirp(options.path, function (err) {
                                 if(err){
@@ -796,8 +808,8 @@ this.uploadPicture = function(options){
                                     });
                                 }
 
-                                fs.unlink(filename, function(){
-                                    fs.move(tmp_filename, filename, function (err) {
+                                fs.unlink(options.path + filename, function(){
+                                    fs.move(tmp_filename, options.path + filename, function (err) {
                                         if (err) {
                                             return options.done({
                                                 success: false,
@@ -810,7 +822,7 @@ this.uploadPicture = function(options){
                                             success: true,
                                             message: 'OK',
                                             data: {
-                                                filename: filename
+                                                filename: options.public_path + filename
                                             }
                                         });
                                     });

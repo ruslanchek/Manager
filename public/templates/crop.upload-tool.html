@@ -22,10 +22,7 @@
     <div class="current-picture">
         <div class="picture">
             <a id="upload-dropzone-{{prefix}}" class="placeholder upload upload-init-{{prefix}}" href="#">
-                {{#if image_exists}}
-                    <img class="image-icon" src="{{image_path}}">
-                {{/if}}
-
+                <img style="display: {{#if image_exists}}block{{else}}none{{/if}}" class="image-icon" src="{{image_path}}">
                 <img {{#if image_exists}}style="opacity: 0"{{/if}} class="upload-icon animation-300-easeInOutQuart" src="/images/icons/upload@2x.png">
             </a>
         </div>

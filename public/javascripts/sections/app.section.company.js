@@ -441,22 +441,18 @@ app.sections.company = {
 
     initStamp: function(id, stamp_path, stamp_exists){
         this.crop_controller = new app.crop.BasicCropController({
-            form_controller: this.form_controller,
             selector: '.crop-upload',
             image_exists: stamp_exists,
             image_path: stamp_path,
-            _id: id
+            _id: id,
+            upload_url: '/company/edit/' + id + '/stampupload',
+            delete_url: '/company/edit/' + id + '/stampdelete'
         });
     },
 
     init: function (mode, id) {
         this.mode = mode;
         this.id = id;
-
-        /*this.crop_controller = new app.crop.BasicCropController({
-         form_controller: this.form_controller,
-         selector: '.crop-upload'
-         });*/
 
         $('.slideable-wrapper').css({
             height: $('.form-step[data-step="0"]').height()
