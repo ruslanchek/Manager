@@ -92,12 +92,20 @@ module.exports = function(app, controllers){
                 err: err,
                 data: data,
                 user: req.user,
+                stamp_path: '/user/' + req.user._id + '/company/' + req.user.current_company + '/stamp.png',
+                stamp_exists: false,
                 metadata: {
                     title: 'Счета'
                 }
             });
 
-            res.render('accounts.list.view.jade', params);
+            app.utils.fsExists(__dirname + '/../public' + params.stamp_path, function(exists){
+                if (exists) {
+                    params.stamp_exists = true;
+                }
+
+                res.render('accounts.list.view.jade', params);
+            });
         });
     });
 
@@ -110,12 +118,20 @@ module.exports = function(app, controllers){
                     err : err,
                     data: data,
                     user: req.user,
+                    stamp_path: '/user/' + req.user._id + '/company/' + req.user.current_company + '/stamp.png',
+                    stamp_exists: false,
                     metadata: {
                         title: 'Просмотр счета'
                     }
                 });
 
-                res.render('accounts.view.jade', params);
+                app.utils.fsExists(__dirname + '/../public' + params.stamp_path, function(exists){
+                    if (exists) {
+                        params.stamp_exists = true;
+                    }
+
+                    res.render('accounts.view.jade', params);
+                });
             }
         });
     });

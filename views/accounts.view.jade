@@ -100,6 +100,6 @@ block content
                         td.bordered
                         td.nowrap (#{user.cc_accountant_name})
 
-        //.footer
-            .seal
-                img(src='/images/common-seal.png', width='180', height='180')
+            if stamp_exists
+                .seal
+                    img(src='#{stamp_path}', width='180', height='180')

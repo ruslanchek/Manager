@@ -2873,9 +2873,9 @@ textarea {
 .ui-datepicker-calendar span,
 .ui-datepicker-calendar a {
   display: block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
   margin: 0 auto;
 }
 .ui-datepicker-prev.ui-state-disabled,
@@ -2890,7 +2890,7 @@ textarea {
 }
 .ui-datepicker-prev {
   position: absolute;
-  left: 10px;
+  left: 8px;
   cursor: pointer;
   text-decoration: none;
   -moz-user-select: none;
@@ -2900,7 +2900,7 @@ textarea {
 }
 .ui-datepicker-next {
   position: absolute;
-  right: 10px;
+  right: 9px;
   cursor: pointer;
   text-decoration: none;
   -moz-user-select: none;
@@ -2930,7 +2930,7 @@ textarea {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   color: #fff !important;
-  line-height: 24px !important;
+  line-height: 28px !important;
   background-color: #3498db !important;
 }
 .ui-datepicker-calendar td {
@@ -2943,7 +2943,6 @@ textarea {
 .ui-datepicker-calendar th {
   padding: 6px 0;
   border: none;
-  background: rgba(0, 0, 0, 0.1);
 }
 .ui-datepicker-title {
   text-align: center;
@@ -3008,7 +3007,7 @@ textarea {
   top: 40px;
   left: 0;
   opacity: 0;
-  padding: 0 0 3px;
+  padding: 15px 15px 18px;
   z-index: 10;
   -moz-transform: scale(0);
   -webkit-transform: scale(0);
@@ -3022,7 +3021,7 @@ textarea {
 .date-control .datepicker-widget i.arrow {
   position: absolute;
   top: -10px;
-  left: 109px;
+  left: 125px;
   width: 0px;
   height: 0px;
   border-style: solid;
