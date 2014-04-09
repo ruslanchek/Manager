@@ -95,10 +95,18 @@ label {
 input[type="text"],
 input[type="tel"],
 input[type="email"],
+input[type="password"],
 textarea {
   border-radius: @ui-border-radius;
   -webkit-border-radius: @ui-border-radius;
   -moz-border-radius: @ui-border-radius;
   box-shadow: none !important;
   padding: 4px 6px;
+}
+
+input.input-error,
+textarea.input-error,
+select.input-error,
+.input-error {
+  border-color: #EF6869;
 }

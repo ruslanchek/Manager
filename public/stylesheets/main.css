@@ -2423,124 +2423,71 @@ audio {
   }
 }
 .login {
-  height: 100%;
-  color: #ffffff;
-  background-color: #1abc9c;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  width: 260px;
+  margin: -190px 0 0 -170px;
+  background: #fff;
+  padding: 0 40px 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
-.login .login-screen {
-  width: 336px;
-  margin: 0 auto;
-  position: relative;
-  top: 22%;
-}
-.login .login-screen .alert {
+.login h1 {
+  font-size: 2.6em;
+  line-height: 0.95em;
   text-align: center;
+  margin-top: 30px;
 }
-.login .login-screen .social {
-  background: #ddd;
-  padding: 20px;
-  width: 336px;
-  display: block;
-  margin-left: -23px;
-  margin-top: 10px;
-  margin-bottom: -20px;
-  -webkit-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-}
-.login .login-screen .social .btn {
-  height: 50px;
-  width: 50px;
-  margin: 0 11px 0 0;
-  line-height: 50px;
-  padding: 0 10px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-.login .login-screen .social .btn:last-of-type {
-  margin-right: 0;
-}
-.login .login-screen .divider {
-  height: 2px;
-  background: #BFC9CA;
-  margin: 1em 0;
-}
-.login .login-screen .login-icon {
-  left: -140px;
-  top: 0;
-  position: absolute;
-  width: 96px;
-}
-.login .login-screen .login-icon > img {
-  display: block;
-  margin-bottom: 6px;
-  width: 100%;
-}
-.login .login-screen .login-icon > h4 {
-  font-size: 17px;
-  font-weight: 300;
-  line-height: 34px;
-  opacity: 0.95;
-  filter: alpha(opacity=95);
-}
-.login .login-screen .login-icon > h4 small {
-  color: inherit;
-  display: block;
-  font-size: inherit;
-  font-weight: 700;
-}
-.login .login-screen .login-form {
-  background-color: #edeff1;
-  padding: 24px 23px 20px;
-  position: relative;
-  border-radius: 6px;
-}
-.login .login-screen .login-form:before {
-  content: '';
-  border-style: solid;
-  border-width: 12px 12px 12px 0;
-  border-color: transparent #edeff1 transparent transparent;
-  height: 0;
-  position: absolute;
-  left: -12px;
-  top: 35px;
-  width: 0;
-  -webkit-transform: rotate(360deg);
-}
-.login .login-screen .login-form .control-group {
-  margin-bottom: 6px;
-  position: relative;
-}
-.login .login-screen .login-form .login-field {
-  border-color: transparent;
-  font-size: 17px;
-  text-indent: 3px;
-}
-.login .login-screen .login-form .form-group.has-error .login-field {
-  border-color: #e74c3c;
-}
-.login .login-screen .login-form .login-field:focus {
-  border-color: #1abc9c;
-}
-.login .login-screen .login-form .login-field:focus + .login-field-icon {
-  color: #1abc9c;
-}
-.login .login-screen .login-form .login-field-icon {
-  color: #bfc9ca;
+.login input[type="text"],
+.login input[type="email"],
+.login input[type="password"] {
+  padding: 6px 10px;
   font-size: 16px;
-  position: absolute;
-  right: 13px;
-  top: 2px;
-  -webkit-transition: 0.25s;
-  transition: 0.25s;
+  font-weight: bold;
+  margin: 0 0 18px;
+  width: 238px;
 }
-.login .login-screen .login-links {
-  padding-top: 10px;
+.login .form-message {
+  padding: 6px 12px;
+  text-align: left;
+  color: #fff;
+  font-size: 1em;
+  position: relative;
+  margin-left: 0;
+  margin-bottom: 18px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+.login .form-message .close {
+  position: absolute;
+  right: 2px;
+  top: 4px;
+  color: #fff !important;
+}
+.login .form-message.success {
+  background: #4abfb4;
+}
+.login .form-message.error {
+  background: #fd5559;
+}
+.login .login-links {
   text-align: center;
 }
-.login .login-screen .login-link {
-  color: #bfc9ca;
-  font-size: 13px;
-  margin: 0 12px;
+.login .button {
+  display: block;
+  width: 100%;
+  margin: 0 0 1em;
+}
+.login .login-form .form-group {
+  position: relative;
+}
+.login .login-form .form-group label {
+  position: absolute;
+  right: 10px;
+  top: 6px !important;
+  z-index: 2;
 }
 .modal-overlay {
   z-index: 999;
@@ -2849,12 +2796,19 @@ label {
 input[type="text"],
 input[type="tel"],
 input[type="email"],
+input[type="password"],
 textarea {
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   box-shadow: none !important;
   padding: 4px 6px;
+}
+input.input-error,
+textarea.input-error,
+select.input-error,
+.input-error {
+  border-color: #EF6869;
 }
 .ui-datepicker-calendar a {
   color: #59575E;
@@ -4169,6 +4123,15 @@ a.dashed-link:hover,
 a.dashed-link:active {
   color: #ff8841;
   border-bottom: 1px dashed #ef6465;
+}
+a.gray-link,
+a.gray-link:link,
+a.gray-link:active {
+  color: #b8bdc0;
+}
+a.gray-link:hover,
+a.gray-link:active {
+  color: #ef6465;
 }
 html {
   height: 100%;

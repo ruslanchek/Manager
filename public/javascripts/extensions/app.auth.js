@@ -58,7 +58,8 @@ app.auth = {
                 email: '#email'
             },
             messages: {
-                OK: 'Инструкция по восстановлению отправлена на ваш e-mail'
+                OK: 'Инструкция по восстановлению отправлена на ваш e-mail',
+                EMAIL_NOT_FOUND: 'Неверный e-mail'
             },
             onSuccess: function(data){
                 $('.form-inputs').slideUp(200);
