@@ -6,6 +6,7 @@ app.number = {
 
         this.options = {
             minimum: 1,
+            input_selector: '',
             onChange: function(value){
 
             }
