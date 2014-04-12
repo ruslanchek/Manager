@@ -59,6 +59,7 @@ app.auth = {
             },
             messages: {
                 OK: 'Инструкция по восстановлению отправлена на ваш e-mail',
+                JUST_RESTORED: 'Вы уже восстанавливали недавно свой пароль, попробуйте еще раз через 2 минуты',
                 EMAIL_NOT_FOUND: 'Неверный e-mail'
             },
             onSuccess: function(data){
