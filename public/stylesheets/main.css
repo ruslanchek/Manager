@@ -2422,6 +2422,9 @@ audio {
     margin-left: 0;
   }
 }
+.login-container {
+  background: #e1e6ec url(../images/patterns/pattern.png);
+}
 .login {
   position: fixed;
   top: 40%;
@@ -4140,7 +4143,7 @@ body {
   height: 100%;
   min-height: 100%;
   font-size: 14px;
-  background: #e1e6ec url(../images/patterns/stacked-circles.png);
+  background: #e1e6ec url(../images/patterns/pattern.png);
   color: #59575e;
 }
 .clearfix {
