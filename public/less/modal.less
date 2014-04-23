@@ -60,6 +60,14 @@
     background: none;
     padding: 0;
     border-bottom: none;
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+      background: @panel-bg-light;
+    }
   }
 
   .form-message {
@@ -101,6 +109,7 @@
 
   .content {
     padding: 20px;
+    visibility: hidden;
   }
 
   .content.no-padding {

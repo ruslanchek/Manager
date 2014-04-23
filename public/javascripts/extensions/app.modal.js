@@ -96,6 +96,12 @@ app.modal = {
 
                     setTimeout(function(){
                         _this.$modal.addClass('ready');
+
+                        setTimeout(function(){
+                            _this.$modal.find('.content').css({
+                                visibility: 'visible'
+                            });
+                        }, 300);
                     }, 50);
 
                     _this.opened = true;
@@ -131,6 +137,10 @@ app.modal = {
         this.close = function(done){
             if(this.$modal !== null || this.opened === true){
                 this.$modal.removeClass('ready draggable');
+
+                _this.$modal.find('.content').css({
+                    visibility: 'hidden'
+                });
 
                 setTimeout(function(){
                     _this.$modal.remove();

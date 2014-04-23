@@ -56,7 +56,7 @@
 
 // Links
 a {
-
+  text-decoration: none;
 }
 
 a, a:link, a:active {
@@ -114,8 +114,7 @@ h1 {
   margin-bottom: 20px;
 
   a {
-    color: inherit;
-    text-decoration: underline;
+    color: @panel-bg-light - 70;
   }
 
   a:hover {
@@ -519,7 +518,7 @@ header {
   display: block;
   padding: 10px;
   background-color: @panel-bg-light - 10;
-  border-bottom: 2px solid @panel-bg-light - 25;
+  box-shadow: inset 0 -1px 1px 0 rgba(0, 0, 0, 0.075);
   border-radius: @ui-border-radius-top;
   -webkit-border-radius: @ui-border-radius-top;
   -moz-border-radius: @ui-border-radius-top;
@@ -1143,22 +1142,8 @@ input.action-button {
   }
 }
 
-.select-with-button {
-  padding-right: 40px;
-  position: relative;
-
-  .action-button {
-    position: absolute;
-    right: 3px;
-    top: 0;
-    padding: 3px 1px 3px 10px;
-  }
-
-  .chosen-container {
-    width: 260px;
-    max-width: 260px;
-    min-width: 260px;
-  }
+.width-100-real {
+  width: 99.5% !important;
 }
 
 // Footer

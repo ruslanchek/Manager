@@ -1,0 +1,107 @@
+<form id="form-nomenclature-select" class="form forms forms-linear" action="">
+    <div class="form-tabs">
+        <nav>
+            <a data-tab="1" style="width: 33.333333%" class="active" href="#">Данные организации</a>
+            <a data-tab="2" style="width: 33.333333%" href="#">Банковские реквизиты</a>
+            <a data-tab="3" style="width: 33.333333%" href="#">Адрес</a>
+        </nav>
+    </div>
+
+    <div class="form-message" style="display: none"></div>
+
+    <div class="units-row-end tab-content" data-tab="1">
+        <div class="unit-50">
+            <div class="form-item">
+                <label for="cc_type">
+                    Тип
+                    <select id="cc_type">
+                        <option selected value="1">ООО</option>
+                        <option value="2">ЗАО</option>
+                        <option value="3">ОАО</option>
+                        <option value="4">ИП</option>
+                        <option value="5">ГУП</option>
+                        <option value="6">МУП</option>
+                        <option value="7">НП</option>
+                        <option value="8">АНО</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-item" id="cc_ceo_type_block">
+                <label for="cc_ceo_type">
+                    Руководитель
+                    <select id="cc_ceo_type">
+                        <option selected value="1">Директор</option>
+                        <option value="2">Генеральный директор</option>
+                        <option value="3">Председатель</option>
+                        <option value="5">Не подписывает</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-item">
+                <label for="cc_ceo_name">
+                    <span>Имя руководителя</span>
+                    <input id="cc_ceo_name" class="width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item">
+                <label for="cc_accountant_type">
+                    Бухгалтер
+                    <select id="cc_accountant_type">
+                        <option selected value="1">Не подписывает</option>
+                        <option value="2">Главный бухгалтер</option>
+                        <option value="3">Бухгалтер</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-item" id="cc_accountant_name_block" style="display: none">
+                <label for="cc_accountant_name">
+                    Имя бухгалтера
+                    <input id="cc_accountant_name" class="width-100" type="text"/>
+                </label>
+            </div>
+        </div>
+
+        <div class="unit-50">
+            <div class="form-item">
+                <label for="cc_name">
+                    Наименование
+                    <input id="cc_name" class="width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item">
+                <label for="cc_inn">
+                    ИНН
+                    <input id="cc_inn" class="width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item">
+                <label for="cc_ogrn">
+                    <span>ОГРН</span>
+                    <input id="cc_ogrn" class="width-100-real width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item" id="kpp-item">
+                <label for="cc_kpp">
+                    КПП
+                    <input id="cc_kpp" class="width-100" type="text"/>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-item no-margin">
+        <input class="button blue" type="submit" value="Выбрать"/>
+    </div>
+</form>
+
+
+

@@ -43,6 +43,13 @@ app.contractor_select = {
                             }
                         });
 
+                        $('.create-contractor').on('click', function(e){
+                            e.preventDefault();
+                            _this.contractor_select_controller = new app.contractor_select.ContractorCreateController({
+
+                            });
+                        });
+
                     }, function(){
 
                     }, function(){
@@ -56,5 +63,66 @@ app.contractor_select = {
         };
 
         this.loadContractors();
+    },
+
+    ContractorCreateController: function(options){
+        var _this = this;
+
+        this.options = {
+
+        };
+
+        $.extend(this.options, options);
+
+        app.templates.render('contractor.create.html', {  }, function(html) {
+            _this.modal_controller = new app.modal.ModalController({
+                title: 'Создание контрагента',
+                content: html,
+                onShow: function (controller) {
+                    $('.modal select').chosen(app.chosen_options);
+
+                    $('#cc_type').on('change', function () {
+                        if ($(this).val() == '4') {
+                            $('label[for=cc_ogrn] span').text('ОГРНИП');
+                            $('#kpp-item').hide();
+                            $('#cc_ceo_type_block').hide();
+                            $('#cc_ceo_type').val('4').trigger("chosen:updated");
+
+                        } else {
+                            $('label[for=cc_ogrn] span').text('ОГРН');
+                            $('#kpp-item').show();
+                            $('#cc_ceo_type_block').show();
+                            $('#cc_ceo_type').val('1').trigger("chosen:updated");
+                        }
+                    });
+
+                    $('#cc_accountant_type').on('change', function () {
+                        if ($(this).val() == '1') {
+                            $('#cc_accountant_name_block').hide();
+                        } else {
+                            $('#cc_accountant_name_block').show();
+                        }
+
+                        app.sections.company.setSlidePosition(app.sections.company.current_slide);
+                    });
+
+                    var kladr_controller = new app.kladr_address.KladrAddressController({
+                        city: '#cc_city',
+                        street: '#cc_street',
+                        house: '#cc_house',
+                        index: '#cc_index'
+                    });
+
+                    new app.tabs.tabsController();
+                },
+                onClose: function () {
+
+                },
+                draggable: true,
+                width: 650
+            });
+
+            _this.modal_controller.open();
+        });
     }
 };
