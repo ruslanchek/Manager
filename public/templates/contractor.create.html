@@ -1,9 +1,9 @@
-<form id="form-nomenclature-select" class="form forms forms-linear" action="">
+<form id="form-contractor-create" class="form forms forms-linear" action="">
     <div class="form-tabs">
         <nav>
             <a data-tab="1" style="width: 33.333333%" class="active" href="#">Данные организации</a>
-            <a data-tab="2" style="width: 33.333333%" href="#">Банковские реквизиты</a>
             <a data-tab="3" style="width: 33.333333%" href="#">Адрес</a>
+            <a data-tab="2" style="width: 33.333333%" href="#">Банковские реквизиты</a>
         </nav>
     </div>
 
@@ -27,6 +27,36 @@
                 </label>
             </div>
 
+            <div class="form-item">
+                <label for="cc_name">
+                    Наименование
+                    <input id="cc_name" class="width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item">
+                <label for="cc_inn">
+                    ИНН
+                    <input id="cc_inn" class="width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item">
+                <label for="cc_ogrn">
+                    <span>ОГРН</span>
+                    <input id="cc_ogrn" class="width-100-real width-100" type="text"/>
+                </label>
+            </div>
+
+            <div class="form-item" id="kpp-item">
+                <label for="cc_kpp">
+                    КПП
+                    <input id="cc_kpp" class="width-100" type="text"/>
+                </label>
+            </div>
+        </div>
+
+        <div class="unit-50">
             <div class="form-item" id="cc_ceo_type_block">
                 <label for="cc_ceo_type">
                     Руководитель
@@ -64,33 +94,63 @@
                 </label>
             </div>
         </div>
+    </div>
+
+    <div class="units-row-end tab-content" data-tab="2" style="display: none">
+        <div class="unit-50">
+            <div class="form-item">
+                <label for="bank_bik">
+                    БИК
+                    <input id="bank_bik" class="width-100" type="text"/>
+                </label>
+
+                <label for="bank_pay_account">
+                    Расчетный счет
+                    <input id="bank_pay_account" class="width-100" type="text"/>
+                </label>
+            </div>
+        </div>
 
         <div class="unit-50">
             <div class="form-item">
-                <label for="cc_name">
-                    Наименование
-                    <input id="cc_name" class="width-100" type="text"/>
+                <label for="bank_bik">
+                    Название банка
+                    <input id="bank_name" class="width-100" type="text"/>
+                </label>
+
+                <label for="bank_corr_account">
+                    Корр. счет
+                    <input id="bank_corr_account" class="width-100" type="text"/>
                 </label>
             </div>
+        </div>
+    </div>
 
+    <div class="units-row-end tab-content" data-tab="3" style="display: none">
+        <div class="unit-50">
             <div class="form-item">
-                <label for="cc_inn">
-                    ИНН
-                    <input id="cc_inn" class="width-100" type="text"/>
+                <label for="cc_city">
+                    Населенный пункт
+                    <input id="cc_city" class="width-100" type="text"/>
+                </label>
+
+                <label for="cc_house">
+                    Дом
+                    <input id="cc_house" class="width-100" type="text"/>
                 </label>
             </div>
+        </div>
 
+        <div class="unit-50">
             <div class="form-item">
-                <label for="cc_ogrn">
-                    <span>ОГРН</span>
-                    <input id="cc_ogrn" class="width-100-real width-100" type="text"/>
+                <label for="cc_street">
+                    Улица
+                    <input id="cc_street" class="width-100" type="text"/>
                 </label>
-            </div>
 
-            <div class="form-item" id="kpp-item">
-                <label for="cc_kpp">
-                    КПП
-                    <input id="cc_kpp" class="width-100" type="text"/>
+                <label for="cc_index">
+                    Почтовый индекс
+                    <input id="cc_index" class="width-100" type="text"/>
                 </label>
             </div>
         </div>
@@ -99,7 +159,7 @@
     <hr/>
 
     <div class="form-item no-margin">
-        <input class="button blue" type="submit" value="Выбрать"/>
+        <input class="button blue" type="submit" value="Продолжить"/>
     </div>
 </form>
 

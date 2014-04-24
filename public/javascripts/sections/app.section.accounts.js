@@ -233,6 +233,9 @@ app.sections.accounts = {
                 element_id: 'contractor',
                 onSelect: function(data){
                     app.sections.accounts.contractor._id = data;
+                },
+                onContractorAdd: function(data){
+                    app.sections.accounts.contractor._id = data;
                 }
             });
 

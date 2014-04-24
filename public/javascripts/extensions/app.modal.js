@@ -99,7 +99,8 @@ app.modal = {
 
                         setTimeout(function(){
                             _this.$modal.find('.content').css({
-                                visibility: 'visible'
+                                visibility: 'visible',
+                                opacity: 1
                             });
                         }, 300);
                     }, 50);

@@ -32,7 +32,7 @@ app.form = {
             },
             beforeSend: function(){},
             onSuccess: function(data){},
-            onFail: function(){},
+            onFail: function(data){},
 
             from_modal: false,
             show_success_message: true,
@@ -208,7 +208,7 @@ app.form = {
                             }
 
                             if(_this.options.onFail) {
-                                _this.options.onFail();
+                                _this.options.onFail(data);
                             }
                         }
 

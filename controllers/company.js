@@ -1,49 +1,72 @@
 module.exports = function (app, models) {
     var _this = this;
 
-    this.checkStep1 = function (data, done) {
-        if (!data.cc_name) {
-            return done({
-                success: false,
-                message: 'CC_NAME_EMPTY',
-                fields: ['cc_name']
-            });
-        }
+    this.checkStep1 = function (user_id, data, done) {
+        models.company.findOne({
+            _user_id: user_id,
+            cc_name: data.cc_name,
+            cc_type: data.cc_type
+        }, function (err, item) {
+            if (err) {
+                app.log.error('findOne error', err);
 
-        if (!data.cc_inn) {
-            return done({
-                success: false,
-                message: 'CC_INN_EMPTY',
-                fields: ['cc_inn']
-            });
-        }
+                return done({
+                    success: false,
+                    message: 'SERVER_ERROR'
+                });
+            }
 
-        if (!data.cc_kpp && data.cc_type != '4') {
-            return done({
-                success: false,
-                message: 'CC_KPP_EMPTY',
-                fields: ['cc_kpp']
-            });
-        }
+            if (item) {
+                return done({
+                    success: false,
+                    message: 'DUBLICATE_FOUND',
+                    fields: ['cc_name']
+                });
+            } else {
+                if (!data.cc_name) {
+                    return done({
+                        success: false,
+                        message: 'CC_NAME_EMPTY',
+                        fields: ['cc_name']
+                    });
+                }
 
-        if (!data.cc_ogrn) {
-            return done({
-                success: false,
-                message: 'CC_OGRN_EMPTY',
-                fields: ['cc_ogrn']
-            });
-        }
+                if (!data.cc_ceo_name) {
+                    return done({
+                        success: false,
+                        message: 'CC_CEO_NAME_EMPTY',
+                        fields: ['cc_ceo_name']
+                    });
+                }
 
-        if (!data.cc_ceo_name) {
-            return done({
-                success: false,
-                message: 'CC_CEO_NAME_EMPTY',
-                fields: ['cc_ceo_name']
-            });
-        }
+                if (!data.cc_inn) {
+                    return done({
+                        success: false,
+                        message: 'CC_INN_EMPTY',
+                        fields: ['cc_inn']
+                    });
+                }
 
-        return done({
-            success: true
+                if (!data.cc_kpp && data.cc_type != '4') {
+                    return done({
+                        success: false,
+                        message: 'CC_KPP_EMPTY',
+                        fields: ['cc_kpp']
+                    });
+                }
+
+                if (!data.cc_ogrn) {
+                    return done({
+                        success: false,
+                        message: 'CC_OGRN_EMPTY',
+                        fields: ['cc_ogrn']
+                    });
+                }
+
+                return done({
+                    success: true
+                });
+            }
         });
     };
 

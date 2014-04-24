@@ -1,4 +1,6 @@
 module.exports = function (app, models) {
+    var _this = this;
+
     this.findItems = function (user, done) {
         models.contractor.find({ _user_id: user._id, _company_id: user.current_company }, { _id: 1, cc_name: 1, cc_type: 1, cc_email: 1, cc_phone: 1, cc_skype: 1 }, function (err, data) {
             if (err) {
@@ -80,19 +82,19 @@ module.exports = function (app, models) {
             };
         }
 
-        if (!data.cc_kpp && data.cc_type != '4') {
-            return {
-                success: false,
-                message: 'CC_KPP_EMPTY',
-                fields: ['cc_kpp']
-            };
-        }
-
         if (!data.cc_ogrn) {
             return {
                 success: false,
                 message: 'CC_OGRN_EMPTY',
                 fields: ['cc_ogrn']
+            };
+        }
+
+        if (!data.cc_kpp && data.cc_type != '4') {
+            return {
+                success: false,
+                message: 'CC_KPP_EMPTY',
+                fields: ['cc_kpp']
             };
         }
 
@@ -112,14 +114,6 @@ module.exports = function (app, models) {
             };
         }
 
-        if (!data.cc_index) {
-            return {
-                success: false,
-                message: 'CC_INDEX_EMPTY',
-                fields: ['cc_index']
-            };
-        }
-
         if (!data.cc_street) {
             return {
                 success: false,
@@ -136,11 +130,11 @@ module.exports = function (app, models) {
             };
         }
 
-        if (!data.bank_name) {
+        if (!data.cc_index) {
             return {
                 success: false,
-                message: 'BANK_NAME_EMPTY',
-                fields: ['bank_name']
+                message: 'CC_INDEX_EMPTY',
+                fields: ['cc_index']
             };
         }
 
@@ -149,6 +143,14 @@ module.exports = function (app, models) {
                 success: false,
                 message: 'BANK_BIK_EMPTY',
                 fields: ['bank_bik']
+            };
+        }
+
+        if (!data.bank_name) {
+            return {
+                success: false,
+                message: 'BANK_NAME_EMPTY',
+                fields: ['bank_name']
             };
         }
 
@@ -174,12 +176,6 @@ module.exports = function (app, models) {
     };
 
     this.editItem = function(user, id, data, done){
-        var validate = this.validateInputs(data);
-
-        if(validate.success !== true){
-            return done(validate);
-        }
-
         models.contractor.findOne({
             _user_id: user._id,
             _company_id: user.current_company,
@@ -203,6 +199,12 @@ module.exports = function (app, models) {
                     fields: ['cc_name']
                 });
             }else{
+                var validate = _this.validateInputs(data);
+
+                if(validate.success !== true){
+                    return done(validate);
+                }
+
                 models.contractor.findOne({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, item) {
                     if (err) {
                         app.log.error('findOne error', err);
@@ -261,12 +263,6 @@ module.exports = function (app, models) {
     };
 
     this.addItem = function(user, id, data, done){
-        var validate = this.validateInputs(data);
-
-        if(validate.success !== true){
-            return done(validate);
-        }
-
         models.contractor.findOne({
             _user_id: user._id,
             _company_id: user.current_company,
@@ -289,6 +285,12 @@ module.exports = function (app, models) {
                     fields: ['cc_name']
                 });
             }else {
+                var validate = _this.validateInputs(data);
+
+                if(validate.success !== true){
+                    return done(validate);
+                }
+
                 var new_item = new models.contractor();
 
                 new_item._user_id = user._id;

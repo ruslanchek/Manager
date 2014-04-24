@@ -119,7 +119,7 @@ module.exports = function(app, controllers){
     });
 
     app.post('/company/add/step1', app.ensureAuthenticated, function(req, res){
-        controllers.company.checkStep1(req.body, function(result){
+        controllers.company.checkStep1(req.user._id, req.body, function(result){
             res.json(result);
         });
     });
@@ -144,7 +144,7 @@ module.exports = function(app, controllers){
 
 
     app.post('/company/edit/step1', app.ensureAuthenticated, function(req, res){
-        controllers.company.checkStep1(req.body, function(result){
+        controllers.company.checkStep1(req.user._id, req.body, function(result){
             res.json(result);
         });
     });

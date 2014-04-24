@@ -288,7 +288,8 @@ app.sections.company = {
                 CC_INN_EMPTY: 'ИНН не заполнен',
                 CC_KPP_EMPTY: 'КПП не заполнен',
                 CC_OGRN_EMPTY: 'ОГРН не заполнен',
-                CC_CEO_NAME_EMPTY: 'Имя руководителя не заполнено'
+                CC_CEO_NAME_EMPTY: 'Имя руководителя не заполнено',
+                DUBLICATE_FOUND: 'Компания с таким названием уже есть'
             },
             onFail: function(){
                 $('.checklist .item[data-step="1"]').removeClass('active');

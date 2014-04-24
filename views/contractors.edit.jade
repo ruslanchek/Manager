@@ -14,119 +14,118 @@ block content
     form#form-edit-contractor.form.form-with-tools.forms.forms-columnar(action='')
         .form-message
 
-        .units-row-end
-            .unit-50
-                .form-item.no-margin
-                    h3 Данные организации
+        div.form-tabs
+            nav
+                a.active(data-tab='1', style='width: 33.333333%', href='#') Данные организации
+                a(data-tab='2', style='width: 33.333333%', href='#') Банковские реквизиты
+                a(data-tab='3', style='width: 33.333333%', href='#') Адрес и контактная информация
 
-                .form-item
-                    label(for="cc_type") Тип
-                    select#cc_type
-                        option(value="1", selected=data.cc_type == 1) #{utils.getCompanyTypeName(1)}
-                        option(value="2", selected=data.cc_type == 2) #{utils.getCompanyTypeName(2)}
-                        option(value="3", selected=data.cc_type == 3) #{utils.getCompanyTypeName(3)}
-                        option(value="4", selected=data.cc_type == 4) #{utils.getCompanyTypeName(4)}
-                        option(value="5", selected=data.cc_type == 5) #{utils.getCompanyTypeName(5)}
-                        option(value="6", selected=data.cc_type == 6) #{utils.getCompanyTypeName(6)}
-                        option(value="7", selected=data.cc_type == 7) #{utils.getCompanyTypeName(7)}
-                        option(value="8", selected=data.cc_type == 8) #{utils.getCompanyTypeName(8)}
+        .tab-content(data-tab='1')
+            .units-row-end
+                .unit-50
+                    .form-item
+                        label(for="cc_type") Тип
+                        select#cc_type
+                            option(value="1", selected=data.cc_type == 1) #{utils.getCompanyTypeName(1)}
+                            option(value="2", selected=data.cc_type == 2) #{utils.getCompanyTypeName(2)}
+                            option(value="3", selected=data.cc_type == 3) #{utils.getCompanyTypeName(3)}
+                            option(value="4", selected=data.cc_type == 4) #{utils.getCompanyTypeName(4)}
+                            option(value="5", selected=data.cc_type == 5) #{utils.getCompanyTypeName(5)}
+                            option(value="6", selected=data.cc_type == 6) #{utils.getCompanyTypeName(6)}
+                            option(value="7", selected=data.cc_type == 7) #{utils.getCompanyTypeName(7)}
+                            option(value="8", selected=data.cc_type == 8) #{utils.getCompanyTypeName(8)}
 
-                .form-item
-                    label(for="cc_name") Наименование
-                    input#cc_name.width-100(type='text', value='#{data.cc_name}')
+                    .form-item#cc_ceo_type_block
+                        label(for="cc_ceo_type") Руководитель
+                        select#cc_ceo_type
+                            option(value="1", selected=data.cc_ceo_type == 1) #{utils.getCEOType(1)}
+                            option(value="2", selected=data.cc_ceo_type == 2) #{utils.getCEOType(2)}
+                            option(value="3", selected=data.cc_ceo_type == 3) #{utils.getCEOType(3)}
+                            option(value="4", selected=data.cc_ceo_type == 4) #{utils.getCEOType(4)}
 
-                .form-item.no-margin
-                    h3 Руководство
+                    .form-item
+                        label(for="cc_ceo_name") Имя руководителя
+                        input#cc_ceo_name.width-100(type='text', value=data.cc_ceo_name)
 
-                .form-item#cc_ceo_type_block
-                    label(for="cc_ceo_type") Руководитель
-                    select#cc_ceo_type
-                        option(value="1", selected=data.cc_ceo_type == 1) #{utils.getCEOType(1)}
-                        option(value="2", selected=data.cc_ceo_type == 2) #{utils.getCEOType(2)}
-                        option(value="3", selected=data.cc_ceo_type == 3) #{utils.getCEOType(3)}
-                        option(value="4", selected=data.cc_ceo_type == 4) #{utils.getCEOType(4)}
+                    .form-item
+                        label(for="cc_accountant_type") Бухгалтер
+                        select#cc_accountant_type
+                            option(value="1", selected=data.cc_accountant_type == 1) #{utils.getAccountantType(1)}
+                            option(value="2", selected=data.cc_accountant_type == 2) #{utils.getAccountantType(2)}
+                            option(value="3", selected=data.cc_accountant_type == 3) #{utils.getAccountantType(3)}
 
-                .form-item
-                    label(for="cc_ceo_name") Имя руководителя
-                    input#cc_ceo_name.width-100(type='text', value=data.cc_ceo_name)
+                    .form-item#cc_accountant_name_block(style=(data.cc_accountant_type == 1) ? 'display: none' : '')
+                        label(for="cc_accountant_name") Имя бухгалтера
+                        input#cc_accountant_name.width-100(type='text', value=data.cc_accountant_name)
 
-                .form-item
-                    label(for="cc_accountant_type") Бухгалтер
-                    select#cc_accountant_type
-                        option(value="1", selected=data.cc_accountant_type == 1) #{utils.getAccountantType(1)}
-                        option(value="2", selected=data.cc_accountant_type == 2) #{utils.getAccountantType(2)}
-                        option(value="3", selected=data.cc_accountant_type == 3) #{utils.getAccountantType(3)}
+                .unit-50
+                    .form-item
+                        label(for="cc_name") Наименование
+                        input#cc_name.width-100(type='text', value='#{data.cc_name}')
 
-                .form-item#cc_accountant_name_block(style=(data.cc_accountant_type == 1) ? 'display: none' : '')
-                    label(for="cc_accountant_name") Имя бухгалтера
-                    input#cc_accountant_name.width-100(type='text', value=data.cc_accountant_name)
+                    .form-item
+                        label(for="cc_inn") ИНН
+                        input#cc_inn.width-100(type='text', value=data.cc_inn)
 
-                .form-item.no-margin
-                    h3 Регистрационные данные
+                    .form-item
+                        label(for="cc_ogrn") #{((data.cc_type == 4) ? 'ОГРНИП' : 'ОГРН')}
+                        input#cc_ogrn.width-100(type='text', value=data.cc_ogrn)
 
-                .form-item
-                    label(for="cc_inn") ИНН
-                    input#cc_inn.width-100(type='text', value=data.cc_inn)
+                    .form-item#kpp-item(style="display: #{((data.cc_type == 4) ? 'none' : 'block')}")
+                        label(for="cc_kpp") КПП
+                        input#cc_kpp.width-100(type='text', value=data.cc_kpp)
 
-                .form-item#kpp-item(style="display: #{((data.cc_type == 4) ? 'none' : 'block')}")
-                    label(for="cc_kpp") КПП
-                    input#cc_kpp.width-100(type='text', value=data.cc_kpp)
+            .tab-content(data-tab='2', style='display: none')
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="bank_bik") БИК
+                            input#bank_bik.width-100(type='text', value=data.bank_bik)
 
-                .form-item
-                    label(for="cc_ogrn") #{((data.cc_type == 4) ? 'ОГРНИП' : 'ОГРН')}
-                    input#cc_ogrn.width-100(type='text', value=data.cc_ogrn)
+                        .form-item
+                            label(for="bank_name") Название банка
+                            input#bank_name.width-100(type='text', value=data.bank_name)
 
-                .form-item.no-margin
-                    h3 Банковские реквизиты
+                    .unit-50
+                        .form-item
+                            label(for="bank_pay_account") Расчетный счет
+                            input#bank_pay_account.width-100(type='text', value=data.bank_pay_account)
 
-                .form-item
-                    label(for="bank_pay_account") Расчетный счет
-                    input#bank_pay_account.width-100(type='text', value=data.bank_pay_account)
-                .form-item
-                    label(for="bank_bik") БИК
-                    input#bank_bik.width-100(type='text', value=data.bank_bik)
-                .form-item
-                    label(for="bank_name") Название банка
-                    input#bank_name.width-100(type='text', value=data.bank_name)
-                .form-item
-                    label(for="bank_corr_account") Корр. счет
-                    input#bank_corr_account.width-100(type='text', value=data.bank_corr_account)
+                        .form-item
+                            label(for="bank_corr_account") Корр. счет
+                            input#bank_corr_account.width-100(type='text', value=data.bank_corr_account)
 
-            .unit-50
-                .form-item.no-margin
-                    h3 Адрес организации
+            .tab-content(data-tab='3', style='display: none')
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_city") Населенный пункт
+                            input#cc_city.width-100(type='text', value=data.cc_city)
+                        .form-item
+                            label(for="cc_street") Улица
+                            input#cc_street.width-100(type='text', value=data.cc_street)
+                        .form-item
+                            label(for="cc_house") Дом
+                            input#cc_house.width-100(type='text', value=data.cc_house)
+                        .form-item
+                            label(for="cc_index") Почтовый индекс
+                            input#cc_index.width-100(type='text', value=data.cc_index)
 
-                .form-item
-                    label(for="cc_city") Населенный пункт
-                    input#cc_city.width-100(type='text', value=data.cc_city)
-                .form-item
-                    label(for="cc_street") Улица
-                    input#cc_street.width-100(type='text', value=data.cc_street)
-                .form-item
-                    label(for="cc_house") Дом
-                    input#cc_house.width-100(type='text', value=data.cc_house)
-                .form-item
-                    label(for="cc_index") Почтовый индекс
-                    input#cc_index.width-100(type='text', value=data.cc_index)
-
-                .form-item.no-margin
-                    h3 Контактная информация
-
-                .form-item
-                    label(for="cc_phone") Телефон
-                    input#cc_phone.width-100(type='tel', value=data.cc_phone)
-                .form-item
-                    label(for="cc_fax") Факс
-                    input#cc_fax.width-100(type='tel', value=data.cc_fax)
-                .form-item
-                    label(for="cc_email") E-mail
-                    input#cc_email.width-100(type='email', value=data.cc_email)
-                .form-item
-                    label(for="cc_website") Сайт
-                    input#cc_website.width-100(type='text', value=data.cc_website)
-                .form-item
-                    label(for="cc_skype") Skype
-                    input#cc_skype.width-100(type='text', value=data.cc_skype)
+                .units-row-end
+                    .unit-50
+                        .form-item
+                            label(for="cc_phone") Телефон
+                            input#cc_phone.width-100(type='tel', value=data.cc_phone)
+                        .form-item
+                            label(for="cc_fax") Факс
+                            input#cc_fax.width-100(type='tel', value=data.cc_fax)
+                        .form-item
+                            label(for="cc_email") E-mail
+                            input#cc_email.width-100(type='email', value=data.cc_email)
+                        .form-item
+                            label(for="cc_website") Сайт
+                            input#cc_website.width-100(type='text', value=data.cc_website)
+        hr
 
         .units-row-end
             .unit-100
