@@ -160,107 +160,99 @@ h1 {
 
 // Header
 header {
-  height: @ui-header-height;
+  height: 181px;
   position: relative;
+  width: 100%;
+  padding: 0 30px;
+  margin: 0 0 30px -30px;
+  background: #FBF8FD url(../images/header-bg.png) repeat-x bottom;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
 
-  .logo {
-    height: 66px;
-    line-height: 66px;
-    top: 50%;
-    left: 0;
-    margin-top: -33px;
-    position: absolute;
-    font-size: 30px;
-    color: #34495E;
-    font-weight: bold;
-    text-decoration: none;
-    padding-left: 81px;
-
-    i {
+  .top-menu {
+    .menu-icon {
       display: block;
-      background: url(../images/logo.png);
-      background-size: 100%;
-      width: 66px;
-      height: 66px;
-      position: absolute;
-      top: 0;
-      left: 0;
+      float: left;
+      width: 12.5%;
+      text-align: center;
+      padding: 6px 0;
+
+      .animation-150-easeInOutQuart;
+      
+      i {
+        height: 68px;
+        width: 68px;
+        display: block;
+        margin: 0 auto 0;
+      }
+
+      span {
+        color: #545259;
+        font-size: 1.05em;
+        font-weight: bold;
+      }
     }
-  }
 
-  strong {
-    margin-right: 10px;
-    color: #777;
-  }
-}
+    .menu-icon.active {
+      background: @panel-bg-light - 20;
+      border-radius: @ui-border-radius;
+      opacity: 1 !important;
+    }
 
-// Nav top
-.top-menu {
-  background: @panel-bg-light;
-  border-bottom: 3px solid @panel-bg-light - 15;
-  height: @ui-top-nav-height;
+    .menu-icon .i1 {
+      background: url(../images/icons/nav/1.png);
+    }
 
-  border-radius: @ui-border-radius;
-  -webkit-border-radius: @ui-border-radius;
-  -moz-border-radius: @ui-border-radius;
+    .menu-icon .i2 {
+      background: url(../images/icons/nav/2.png);
+    }
 
-  margin: 0 0 20px;
+    .menu-icon .i3 {
+      background: url(../images/icons/nav/3.png);
+    }
 
-  a {
-    color: #59575E;
-    font-weight: bold;
-    display: block;
-    height: @ui-top-nav-height;
-    line-height: @ui-top-nav-height;
-    padding: 0 20px;
-    text-decoration: none;
-    font-size: 16px;
-    float: left;
+    .menu-icon .i4 {
+      background: url(../images/icons/nav/4.png);
+    }
 
-    background-color: @panel-bg-light;
-    border-bottom: 3px solid @panel-bg-light - 15;
+    .menu-icon .i5 {
+      background: url(../images/icons/nav/5.png);
+    }
 
-    @transition: all 150ms cubic-bezier(0.770, 0.000, 0.175, 1.000);
+    .menu-icon .i6 {
+      background: url(../images/icons/nav/6.png);
+    }
 
-    -webkit-transition: @transition;
-    -moz-transition: @transition;
-    -o-transition: @transition;
-    transition: @transition;
-  }
+    .menu-icon .i7 {
+      background: url(../images/icons/nav/7.png);
+    }
 
-  a:first-of-type {
-    border-radius: @ui-border-radius-left;
-    -webkit-border-radius: @ui-border-radius-left;
-    -moz-border-radius: @ui-border-radius-left;
-  }
+    .menu-icon .i8 {
+      background: url(../images/icons/nav/8.png);
+    }
 
-  a:last-of-type {
-    border-radius: @ui-border-radius-right;
-    -webkit-border-radius: @ui-border-radius-right;
-    -moz-border-radius: @ui-border-radius-right;
-  }
+    .menu-icon:hover {
+      opacity: 0.75;
+    }
+  } 
 
-  a:hover {
-    background-color: @panel-bg-light - 8;
-    border-bottom: 3px solid @panel-bg-light - 25;
-  }
+  .top {
+    height: 44px;
+    background: #4F5770;
+    width: 100%;
+    position: relative;
+    padding: 0 30px;
+    margin: 0 0 16px -30px;
 
-  a.active {
-    background: @panel-bg-light - 15;
-    border-bottom: 3px solid @panel-bg-light - 35;
-  }
-
-  .links {
-    float: left;
-  }
-
-  .tools {
-    float: right;
-  }
-
-  .tools a {
-    font-size: 1.3em;
-    line-height: 54px;
+    .logo {
+      width: 152px;
+      height: 30px;
+      position: absolute;
+      display: block;
+      left: 30px;
+      top: 50%;
+      margin: -15px 0 0 0;
+      background: url(../images/logo.png) no-repeat;
+    }
   }
 }
 
@@ -859,8 +851,8 @@ input.action-button {
 
 .user-params {
   position: absolute;
-  top: 35px;
-  right: 0px;
+  top: 7px;
+  right: 30px;
 
   a:first-of-type {
     border-radius: 3px 0 0 3px;

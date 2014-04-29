@@ -1,25 +1,29 @@
 header
-    a.logo(href="/")
-        i
-        |Менеджер
+    .top
+        a.logo(href="/")
 
-    .user-params
-        a.company-selector.action-button.filled(href="#", style=(user.cc_name) ? '' : 'display: none;')
-            if user.cc_name
-                i.icon-briefcase
-                span#global-company-type #{utils.getCompanyTypeName(user.cc_type)}
-                |&nbsp;&laquo;
-                span#global-company-name #{user.cc_name}
-                |&raquo;
+        .user-params
+            a.company-selector.action-button.filled(href="#", style=(user.cc_name) ? '' : 'display: none;')
+                if user.cc_name
+                    i.icon-briefcase
+                    span#global-company-type #{utils.getCompanyTypeName(user.cc_type)}
+                    |&nbsp;&laquo;
+                    span#global-company-name #{user.cc_name}
+                    |&raquo;
 
-        a.action-button.filled(href="/user")
-            i.icon-user-female
+            a.action-button.filled(href="/user")
+                i.icon-user-female
 
-            if user.display_name
-                |#{user.display_name}
-            else
-                |#{user.username}
+                if user.display_name
+                    |#{user.display_name}
+                else
+                    |#{user.username}
 
-        a.action-button.red.logout(href="#")
-            i.icon-off
-            |Выйти
+            a.action-button.red.logout(href="#")
+                i.icon-off
+                |Выйти
+
+    if user && user.companies > 0
+        include ../includes/nav-top
+
+

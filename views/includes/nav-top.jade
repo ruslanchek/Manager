@@ -1,12 +1,28 @@
 nav.top-menu
     .links
-        a(href="/accounts?date_range=last_month", class=(section=='accounts' ? 'active' : '')) Счета
-        a(href="/offers", class=(section=='offers' ? 'active' : '')) Счета-фактуры
-        a(href="/waybills", class=(section=='waybills' ? 'active' : '')) Накладные
-        a(href="/offers", class=(section=='offers' ? 'active' : '')) Акты
-        a(href="/offers", class=(section=='offers' ? 'active' : '')) Договоры
-        a(href="/offers", class=(section=='offers' ? 'active' : '')) Предложения
-        a(href="/nomenclature", class=(section=='nomenclature' ? 'active' : '')) Номенклатура
-        a(href="/contractors", class=(section=='contractors' ? 'active' : '')) Контрагенты
+        a.menu-icon(href="/accounts?date_range=last_month", class=(section=='accounts' ? 'active' : '')) 
+            i.i1
+            span Счета
+        a.menu-icon(href="/offers", class=(section=='offers' ? 'active' : '')) 
+            i.i2
+            span Счета-фактуры
+        a.menu-icon(href="/waybills", class=(section=='waybills' ? 'active' : '')) 
+            i.i3
+            span Накладные
+        a.menu-icon(href="/acts", class=(section=='acts' ? 'active' : '')) 
+            i.i4
+            span Акты
+        a.menu-icon(href="/contracts", class=(section=='contracts' ? 'active' : '')) 
+            i.i5
+            span Договоры
+        a.menu-icon(href="/nomenclature", class=(section=='nomenclature' ? 'active' : '')) 
+            i.i6
+            span Номенклатура
+        a.menu-icon(href="/contractors", class=(section=='contractors' ? 'active' : '')) 
+            i.i7
+            span Контрагенты
+        a.menu-icon(href="/configure", class=(section=='configure' ? 'active' : '')) 
+            i.i8
+            span Настройка
 
     div.clearfix
