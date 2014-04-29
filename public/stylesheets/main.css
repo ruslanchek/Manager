@@ -2450,6 +2450,7 @@ audio {
   font-weight: bold;
   margin: 0 0 18px;
   width: 238px;
+  background: #f4f3f5;
 }
 .login .form-message {
   padding: 6px 12px;

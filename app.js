@@ -11,7 +11,6 @@ var app             = express(),
     models          = {},
     controllers     = {};
 
-
 /**
  * Variables
  * */
@@ -33,7 +32,6 @@ models.contractor = require('./models/contractor')(app).model;
 models.nomenclature = require('./models/nomenclature')(app).model;
 models.nomgroup = require('./models/nomgroup')(app).model;
 models.company = require('./models/company')(app).model;
-
 
 /**
  * Controllers
