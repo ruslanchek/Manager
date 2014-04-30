@@ -1,9 +1,10 @@
 <form id="form-contractor-create" class="form forms forms-linear" action="">
     <div class="form-tabs">
         <nav>
-            <a data-tab="1" style="width: 33.333333%" class="active" href="#">Данные организации</a>
-            <a data-tab="3" style="width: 33.333333%" href="#">Адрес</a>
-            <a data-tab="2" style="width: 33.333333%" href="#">Банковские реквизиты</a>
+            <a data-tab="1" style="width: 25%" class="active" href="#">Основное</a>
+            <a data-tab="2" style="width: 25%" href="#">Руководство</a>
+            <a data-tab="3" style="width: 25%" href="#">Адрес</a>
+            <a data-tab="4" style="width: 25%" href="#">Банк</a>
         </nav>
     </div>
 
@@ -32,8 +33,10 @@
                     Наименование
                     <input id="cc_name" class="width-100" type="text"/>
                 </label>
-            </div>
+            </div>            
+        </div>
 
+        <div class="unit-50">
             <div class="form-item">
                 <label for="cc_inn">
                     ИНН
@@ -55,7 +58,9 @@
                 </label>
             </div>
         </div>
+    </div>
 
+    <div class="units-row-end tab-content" data-tab="2" style="display: none">
         <div class="unit-50">
             <div class="form-item" id="cc_ceo_type_block">
                 <label for="cc_ceo_type">
@@ -75,7 +80,9 @@
                     <input id="cc_ceo_name" class="width-100" type="text"/>
                 </label>
             </div>
+        </div>
 
+        <div class="unit-50">
             <div class="form-item">
                 <label for="cc_accountant_type">
                     Бухгалтер
@@ -96,7 +103,7 @@
         </div>
     </div>
 
-    <div class="units-row-end tab-content" data-tab="2" style="display: none">
+    <div class="units-row-end tab-content" data-tab="3" style="display: none">
         <div class="unit-50">
             <div class="form-item">
                 <label for="bank_bik">
@@ -126,7 +133,7 @@
         </div>
     </div>
 
-    <div class="units-row-end tab-content" data-tab="3" style="display: none">
+    <div class="units-row-end tab-content" data-tab="4" style="display: none">
         <div class="unit-50">
             <div class="form-item">
                 <label for="cc_city">
