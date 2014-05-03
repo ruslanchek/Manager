@@ -1,21 +1,21 @@
-module.exports = function (app, models) {
-    this.findItems = function (user, filters, done) {
+module.exports = function(app, models) {
+    this.findItems = function(user, filters, done) {
         var filters_query = {
             _user_id: user._id,
             _company_id: user.current_company
         };
 
-        if(filters){
-            if(filters.date_from || filters.date_to){
+        if (filters) {
+            if (filters.date_from || filters.date_to) {
                 filters_query.date = {};
 
-                if(filters.date_from){
+                if (filters.date_from) {
                     var from = app.utils.parseDate(filters.date_from);
 
                     filters_query.date.$gte = new Date(from.getFullYear(), from.getMonth(), from.getDate());
                 }
 
-                if(filters.date_to){
+                if (filters.date_to) {
                     var to = app.utils.parseDate(filters.date_to);
 
                     to.setDate(to.getDate() + 1);
@@ -24,18 +24,31 @@ module.exports = function (app, models) {
                 }
             }
 
-            if(filters._id && filters._id.$in){
+            if (filters._id && filters._id.$in) {
                 filters_query._id = filters._id;
             }
         }
 
+        console.log(filters_query)
+
         models.account
-            .find(filters_query, { _id: 1, number: 1, date: 1, sum: 1, status: 1, count: 1, contractor: 1 })
-            .sort({ date: -1, number: -1 })
+            .find(filters_query, {
+                _id: 1,
+                number: 1,
+                date: 1,
+                sum: 1,
+                status: 1,
+                count: 1,
+                contractor: 1
+            })
+            .sort({
+                date: -1,
+                number: -1
+            })
             .populate('contractor', 'cc_name cc_type')
-            .exec(function (err, data) {
+            .exec(function(err, data) {
                 if (err) {
-                    app.log.error('findOne error', err);
+                    app.log.error('find error', err);
                     return done(err);
                 }
 
@@ -55,8 +68,11 @@ module.exports = function (app, models) {
             });
     };
 
-    this.countAll = function(user, done){
-        models.account.count({ _user_id: user._id, _company_id: user.current_company }, function(err, data){
+    this.countAll = function(user, done) {
+        models.account.count({
+            _user_id: user._id,
+            _company_id: user.current_company
+        }, function(err, data) {
             if (err) {
                 return done(data);
             }
@@ -69,8 +85,12 @@ module.exports = function (app, models) {
         });
     };
 
-    this.findOne = function (user, id, done) {
-        models.account.find({ _user_id: user._id, _company_id: user.current_company, _id: id }).populate('contractor').exec(function (err, data) {
+    this.findOne = function(user, id, done) {
+        models.account.find({
+            _user_id: user._id,
+            _company_id: user.current_company,
+            _id: id
+        }).populate('contractor').exec(function(err, data) {
             if (err) {
                 app.log.error('findOne error', err);
                 return done(err);
@@ -78,14 +98,14 @@ module.exports = function (app, models) {
 
             if (data[0]) {
                 return done(false, data[0]);
-            }else{
+            } else {
                 return done(true);
             }
         });
     };
 
-    this.validateInputs = function(data){
-        if(!data.number || data.number == ''){
+    this.validateInputs = function(data) {
+        if (!data.number || data.number == '') {
             return {
                 success: false,
                 message: 'NUMBER_EMPTY',
@@ -101,7 +121,7 @@ module.exports = function (app, models) {
             };
         }
 
-        if(!data.date || data.date == ''){
+        if (!data.date || data.date == '') {
             return {
                 success: false,
                 message: 'DATE_EMPTY',
@@ -109,7 +129,7 @@ module.exports = function (app, models) {
             };
         }
 
-        if(!data.contractor || data.contractor == ''){
+        if (!data.contractor || data.contractor == '') {
             return {
                 success: false,
                 message: 'CONTRACTOR_EMPTY',
@@ -125,10 +145,10 @@ module.exports = function (app, models) {
             };
         }
 
-        if(data.items){
-            try{
+        if (data.items) {
+            try {
                 JSON.parse(decodeURIComponent(data.items));
-            }catch(e){
+            } catch (e) {
                 return {
                     success: false,
                     message: 'SERVER_ERROR'
@@ -139,7 +159,7 @@ module.exports = function (app, models) {
         return true;
     };
 
-    this.countNds = function(price, nds){
+    this.countNds = function(price, nds) {
         var price = parseFloat(price),
             nds = parseFloat(nds),
             nds_converted = (price / 100) * ((nds > 0) ? nds : 0);
@@ -147,7 +167,7 @@ module.exports = function (app, models) {
         return parseFloat(price + nds_converted);
     };
 
-    this.getValues = function(data){
+    this.getValues = function(data) {
         var values = {
             items: [],
             count: 0,
@@ -155,33 +175,40 @@ module.exports = function (app, models) {
             nds_sum: 0
         };
 
-        try{
+        try {
             values.items = JSON.parse(decodeURIComponent(data.items));
             values.sum = 0;
             values.nds_sum = 0;
             values.count = values.items.length;
 
-            for(var i = 0; i < values.items.length; i++){
+            for (var i = 0; i < values.items.length; i++) {
                 values.sum += this.countNds(values.items[i].price, values.items[i].nds) * parseInt(values.items[i].count);
                 values.nds_sum += this.countNds(values.items[i].price, values.items[i].nds) * parseInt(values.items[i].count) - values.items[i].price * parseInt(values.items[i].count);
             }
-        }catch(e){
+        } catch (e) {
 
         }
 
         return values;
     };
 
-    this.editItem = function(user, id, data, done){
+    this.editItem = function(user, id, data, done) {
         var validate = this.validateInputs(data);
 
-        if(validate !== true){
+        if (validate !== true) {
             return done(validate);
         }
 
         var values = this.getValues(data);
 
-        models.account.findOne({ _user_id: user._id, _company_id: user.current_company, number: data.number, _id: { $ne: id } }, function (err, item) {
+        models.account.findOne({
+            _user_id: user._id,
+            _company_id: user.current_company,
+            number: data.number,
+            _id: {
+                $ne: id
+            }
+        }, function(err, item) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -197,8 +224,12 @@ module.exports = function (app, models) {
                     message: 'DUBLICATE_NUMBER_FOUND',
                     fields: ['number']
                 });
-            }else{
-                models.account.findOne({ _user_id: user._id, _company_id: user.current_company, _id: id }, function (err, item) {
+            } else {
+                models.account.findOne({
+                    _user_id: user._id,
+                    _company_id: user.current_company,
+                    _id: id
+                }, function(err, item) {
                     if (err) {
                         app.log.error('findOne error', err);
 
@@ -208,17 +239,17 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    item.number     = data.number;
-                    item.date       = app.utils.parseDate(data.date);
+                    item.number = data.number;
+                    item.date = app.utils.parseDate(data.date);
                     item.contractor = data.contractor;
-                    item.comment    = data.comment;
-                    item.status     = data.status;
-                    item.items      = values.items;
-                    item.sum        = values.sum;
-                    item.nds        = values.nds_sum;
-                    item.count      = values.count;
+                    item.comment = data.comment;
+                    item.status = data.status;
+                    item.items = values.items;
+                    item.sum = values.sum;
+                    item.nds = values.nds_sum;
+                    item.count = values.count;
 
-                    item.save(function (err, data) {
+                    item.save(function(err, data) {
                         if (err) {
                             app.log.error('Account edit error', err);
 
@@ -239,16 +270,20 @@ module.exports = function (app, models) {
         });
     };
 
-    this.addItem = function(user, data, session, done){
+    this.addItem = function(user, data, session, done) {
         var validate = this.validateInputs(data);
 
-        if(validate !== true){
+        if (validate !== true) {
             return done(validate);
         }
 
         var values = this.getValues(data);
 
-        models.account.findOne({ _user_id: user._id, _company_id: user.current_company, number: data.number }, function (err, item) {
+        models.account.findOne({
+            _user_id: user._id,
+            _company_id: user.current_company,
+            number: data.number
+        }, function(err, item) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -264,7 +299,7 @@ module.exports = function (app, models) {
                     message: 'DUBLICATE_NUMBER_FOUND',
                     fields: ['number']
                 });
-            }else{
+            } else {
                 var new_item = new models.account();
 
                 new_item._user_id = user._id;
@@ -279,7 +314,7 @@ module.exports = function (app, models) {
                 new_item.nds = values.nds_sum;
                 new_item.count = values.count;
 
-                new_item.save(function (err, account_data) {
+                new_item.save(function(err, account_data) {
                     if (err) {
                         app.log.error('Account create error', err);
 
@@ -289,7 +324,13 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    models.company.findOneAndUpdate({ _id: user.current_company }, { $inc: { mc_account: 1 } }, function(err, company_data){
+                    models.company.findOneAndUpdate({
+                        _id: user.current_company
+                    }, {
+                        $inc: {
+                            mc_account: 1
+                        }
+                    }, function(err, company_data) {
                         if (err) {
                             app.log.error('findOne error', err);
 
@@ -299,7 +340,7 @@ module.exports = function (app, models) {
                             });
                         }
 
-                        if(session && session.passport && session.passport.user){
+                        if (session && session.passport && session.passport.user) {
                             session.passport.user.mc_account = company_data.mc_account;
                             session.save();
                         }
@@ -315,8 +356,16 @@ module.exports = function (app, models) {
         });
     };
 
-    this.deleteItems = function(user, ids, done){
-        models.account.find({ _user_id: user._id, _company_id: user.current_company, _id: { $in: ids } }, { _id: 1 }).exec(function (err, data) {
+    this.deleteItems = function(user, ids, done) {
+        models.account.find({
+            _user_id: user._id,
+            _company_id: user.current_company,
+            _id: {
+                $in: ids
+            }
+        }, {
+            _id: 1
+        }).exec(function(err, data) {
             if (err) {
                 app.log.error('findOne error', err);
 
@@ -327,7 +376,7 @@ module.exports = function (app, models) {
             }
 
             if (data) {
-                for(var i = 0, l = data.length; i < l; i++){
+                for (var i = 0, l = data.length; i < l; i++) {
                     data[i].remove();
                 }
 
@@ -344,8 +393,8 @@ module.exports = function (app, models) {
         });
     };
 
-    this.send = function(req, done){
-        if(!req.body.email){
+    this.send = function(req, done) {
+        if (!req.body.email) {
             return done({
                 success: false,
                 message: 'EMAIL_EMPTY',
@@ -361,18 +410,18 @@ module.exports = function (app, models) {
             };
         }
 
-        this.findOne(req.user, req.params.id, function(err, data){
-            if(err === true || !data){
+        this.findOne(req.user, req.params.id, function(err, data) {
+            if (err === true || !data) {
                 return done({
                     success: false,
                     message: 'SERVER_ERROR'
                 });
-            }else{
+            } else {
                 var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + data._id,
                     filename = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
-                app.utils.generatePDF(url, req.cookies['connect.sid'], null, filename, function(filedata){
-                    if(filedata === null){
+                app.utils.generatePDF(url, req.cookies['connect.sid'], null, filename, function(filedata) {
+                    if (filedata === null) {
                         return done({
                             success: false,
                             message: 'SERVER_ERROR'
@@ -383,7 +432,7 @@ module.exports = function (app, models) {
                         template: 'mailer/common.senddoc.jade',
                         to: req.body.email,
                         subject: 'Account sended',
-                        attachments : [{
+                        attachments: [{
                             fileName: filename,
                             contents: filedata,
                             contentType: 'application/pdf'
@@ -391,7 +440,7 @@ module.exports = function (app, models) {
                     }, {
                         header: 'Вам счет',
                         message: 'Привет!!!'
-                    }, function (err) {
+                    }, function(err) {
                         if (err) {
                             app.log.error('Sending email error', err);
 

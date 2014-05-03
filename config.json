@@ -6,8 +6,8 @@
     "session_time": 36000000,
 
     "mongoose": {
-        "development": "mongodb://admin:lordaeron@ds035617.mongolab.com:35617/managercrm",
-		"production": "mongodb://admin:lordaeron@ds035617.mongolab.com:35617/managercrm"
+        "development": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm",
+		"production": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm"
     },
 
     "redis": {
