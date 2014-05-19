@@ -724,6 +724,57 @@ this.generatePDF = function(url, sid, res, fname, done){
 
 
 /**
+ * Create image
+ * */
+this.generatePDF = function(url, sid, res, fname, done){
+    var random_name = this.generateRandomSeed(sid),
+        path = __dirname + '/../generated/tmp/pdf/',
+        pdf_filename = path + random_name + '.pdf';
+
+    fs.mkdirp(path, function (err) {
+        if (err) {
+            if(done){
+                done(false);
+            }else{
+                res.writeHead(400);
+                res.end("" + err);
+                return;
+            }
+        }
+
+        exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
+            if(!err){
+                fs.readFile(pdf_filename, function (err, data) {
+                    fs.unlink(pdf_filename, function(){});
+
+                    if(done){
+                        done(data);
+                    }else{
+                        if (err) {
+                            res.writeHead(400);
+                            res.end("" + err);
+                            return;
+                        } // TODO make here a 500 error (for testing use an wrong var pdf_filename)
+
+                        res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
+                        res.setHeader('Content-type', 'application/pdf');
+
+                        res.end(data);
+                    }
+                });
+            }else{
+                if(done){
+                    done(null);
+                }else{
+                    res.end('PDF generate error');
+                }
+            }
+        });
+    });
+};
+
+
+/**
  * Is file exists in fs
  * */
 this.fsExists = function(path, done){
