@@ -29,8 +29,6 @@ module.exports = function(app, models) {
             }
         }
 
-        console.log(filters_query)
-
         models.account
             .find(filters_query, {
                 _id: 1,

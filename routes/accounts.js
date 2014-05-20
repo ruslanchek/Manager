@@ -149,6 +149,19 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.get('/accounts/jpg/:id', app.ensureAuthenticated, function(req, res){
+        controllers.account.findOne(req.user, req.params.id, function(err, data){
+            if(err === true || !data){
+                res.redirect('/404');
+            }else{
+                var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + req.params.id,
+                    name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
+
+                app.utils.generateIMG(url, req.user._id, 'account', req.params.id, req.cookies['connect.sid'], res, name);
+            }
+        });
+    });
+
     app.post('/accounts/send/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.send(req, function(result){
             res.json(result);
