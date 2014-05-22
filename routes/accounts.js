@@ -157,7 +157,13 @@ module.exports = function(app, controllers){
                 var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + req.params.id,
                     name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
-                app.utils.generateIMG(url, req.user._id, 'account', req.params.id, req.cookies['connect.sid'], res, name);
+                app.utils.generateIMG(url, req.user._id, 'account', req.params.id, req.cookies['connect.sid'], res, name, function(path_to_file){
+                    //res.redirect('/404');
+
+                    app.utils.createThumbs(path_to_file, 100, function(result){
+                        console.log(result);
+                    });
+                });                
             }
         });
     });

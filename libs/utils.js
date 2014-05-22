@@ -1,7 +1,8 @@
 var fs = require('fs.extra'),
     numeral = require('numeral'),
     exec = require('child_process').exec,
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    easyimg = require('easyimage');
 
 numeral.language('ru', {
     delimiters: {
@@ -724,11 +725,62 @@ this.generatePDF = function(url, sid, res, fname, done){
 
 
 /**
+* Resize image
+* */
+this.createThumbs = function(path_to_image, width, done){
+    // Create resized file name
+    var _this = this,
+        file_ext = path_to_image.split('.').pop(),
+        file_name = path_to_image.replace(/.[^.]+$/, ''),
+        resized_file_path = file_name + '-w' + width.toString() + '.' + file_ext;
+
+    // Check for resized file 
+    this.fsExists(__dirname + '/../' + resized_file_path, function(exists){
+        if(exists) {
+            return done({
+                success: true,
+                file: resized_file_path
+            });
+        }
+
+        _this.fsExists(__dirname + '/../' + path_to_image, function(exists){
+            if(!exists){
+                return done({
+                    success: false,
+                    message: 'FILE_DOES_NOT_EXISTS'
+                });
+            }
+
+            easyimg.resize({
+                src: __dirname + '/../' + path_to_image, 
+                dst: __dirname + '/../' + resized_file_path,
+                width: width,
+                quality: 95
+            }, function(err, image){
+                if(err){
+                    return done({
+                        success: false,
+                        message: 'RESIZE_FAILED'
+                    });
+                }
+
+                return done({
+                    success: true,
+                    file: resized_file_path
+                }); 
+            });
+        });
+    });
+};
+
+
+/**
  * Create image
  * */
 this.generateIMG = function(url, uid, doc_type, doc_id, sid, res, fname, done){
-    var path = __dirname + '/../public/user/' + uid + '/document/' + doc_type + '/' + doc_id + '/',
-        img_filename = path + 'original.jpg';
+    var relative_path = 'public/user/' + uid + '/document/' + doc_type + '/' + doc_id + '/';
+        path = __dirname + '/../' + relative_path,
+        img_filename = 'original.jpg';
 
     fs.mkdirp(path, function (err) {
         if (err) {
@@ -741,11 +793,11 @@ this.generateIMG = function(url, uid, doc_type, doc_id, sid, res, fname, done){
             }
         }
 
-        exec('wkhtmltoimage --cookie connect.sid ' + sid + ' ' + url + ' ' + img_filename, function (err, stdout, stderr) {
+        exec('wkhtmltoimage --cookie connect.sid ' + sid + ' ' + url + ' ' + path + img_filename, function (err, stdout, stderr) {
             if(!err){
                 fs.readFile(img_filename, function (err, data) {
                     if(done){
-                        done(data);
+                        done(relative_path + img_filename);
                     }else{
                         if (err) {
                             res.writeHead(400);
