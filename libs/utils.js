@@ -696,17 +696,17 @@ this.generateDocument = function(url, sid, type, done){
         }
 
         exec(command + ' --cookie connect.sid ' + sid + ' ' + url + ' ' + file_name, function (err, stdout, stderr) {
-            if(!err){
-                fs.readFile(tmp_name, function (err, data) {
-                    fs.unlink(file_name, function(err){
-                        // TODO: Do something here!
-                    });
-
-                    return done(data);
-                });
-            }else{
+            if(err) {
                 return done(false);
             }
+
+            fs.readFile(file_name, function (err, data) {
+                fs.unlink(file_name, function(err){
+                    // TODO: Do something here!
+                });
+
+                return done(data);
+            });
         });
     });
 };
@@ -903,7 +903,7 @@ this.uploadPicture = function(options){
                 }
 
                 fs.readFile(tmp_filename, function (err, data) {
-                    var mmm = require('mmmagic'),
+                    var mmm = require('mmmagic'),// TODO: Replace this shit!!!
                         Magic = mmm.Magic;
 
                     var magic = new Magic(mmm.MAGIC_MIME_TYPE);

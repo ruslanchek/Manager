@@ -419,14 +419,14 @@ module.exports = function(app, models) {
                     file_name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
                 app.utils.generateDocument(url, req.cookies['connect.sid'], 'pdf', function(file_data) {
-                    if (file_data == false) {
+                    if (!file_data) {
                         return done({
                             success: false,
                             message: 'SERVER_ERROR'
                         });
                     }
 
-                    console.log(file_data)
+                    // TODO: Create swith between PDF and Image
 
                     app.mailer.send({
                         template: 'mailer/common.senddoc.jade',
