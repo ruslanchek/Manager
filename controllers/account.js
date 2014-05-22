@@ -416,23 +416,25 @@ module.exports = function(app, models) {
                 });
             } else {
                 var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + data._id,
-                    filename = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
+                    file_name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
-                app.utils.generateDocument(url, req.cookies['connect.sid'], 'pdf', function(filedata) {
-                    if (filedata === null) {
+                app.utils.generateDocument(url, req.cookies['connect.sid'], 'pdf', function(file_data) {
+                    if (file_data == false) {
                         return done({
                             success: false,
                             message: 'SERVER_ERROR'
                         });
                     }
 
+                    console.log(file_data)
+
                     app.mailer.send({
                         template: 'mailer/common.senddoc.jade',
                         to: req.body.email,
                         subject: 'Account sended',
                         attachments: [{
-                            fileName: filename,
-                            contents: filedata,
+                            fileName: file_name,
+                            contents: file_data,
                             contentType: 'application/pdf'
                         }]
                     }, {
