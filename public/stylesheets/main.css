@@ -2541,7 +2541,7 @@ audio {
   display: block;
 }
 .modal .close-window i {
-  margin-left: 0px;
+  margin-left: 5px;
 }
 .modal .form {
   margin-bottom: 0;

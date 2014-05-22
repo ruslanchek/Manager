@@ -160,7 +160,7 @@ module.exports = function(app, controllers){
                 app.utils.generateIMG(url, req.user._id, 'account', req.params.id, req.cookies['connect.sid'], res, name, function(path_to_file){
                     //res.redirect('/404');
 
-                    app.utils.createThumbs(path_to_file, 100, function(result){
+                    app.utils.createThumb(path_to_file, 100, function(result){
                         console.log(result);
                     });
                 });                

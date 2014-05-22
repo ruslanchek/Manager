@@ -674,7 +674,46 @@ this.generateRandomSeed = function(){
 
 
 /**
- * Create pdf
+ * Generate document
+ * */
+this.generateDocument = function(url, sid, type, done){
+    var tmp_name = this.generateRandomSeed(type.toString() + sid.toString() + url.toString()),
+        path = __dirname + '/../generated/tmp/',
+        file_name = path + tmp_name,
+        command = '';
+
+    if(type == 'pdf'){
+        command = 'wkhtmltopdf';
+        file_name += '.pdf';
+    }else{
+        command = 'wkhtmltoimage';
+        file_name += '.jpg';
+    }
+
+    fs.mkdirp(path, function (err) {
+        if (err) {
+            done(false);
+        }
+
+        exec(command + ' --cookie connect.sid ' + sid + ' ' + url + ' ' + file_name, function (err, stdout, stderr) {
+            if(!err){
+                fs.readFile(tmp_name, function (err, data) {
+                    fs.unlink(file_name, function(err){
+                        // TODO: Do something here!
+                    });
+
+                    return done(data);
+                });
+            }else{
+                return done(false);
+            }
+        });
+    });
+};
+
+
+/**
+ * Create pdf DEPRECATED!!!
  * */
 this.generatePDF = function(url, sid, res, fname, done){
     var random_name = this.generateRandomSeed(sid),
@@ -683,13 +722,7 @@ this.generatePDF = function(url, sid, res, fname, done){
 
     fs.mkdirp(path, function (err) {
         if (err) {
-            if(done){
-                done(false);
-            }else{
-                res.writeHead(400);
-                res.end("" + err);
-                return;
-            }
+            return done(false);
         }
 
         exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
@@ -725,60 +758,10 @@ this.generatePDF = function(url, sid, res, fname, done){
 
 
 /**
-* Resize image
-* */
-this.createThumbs = function(path_to_image, width, done){
-    // Create resized file name
-    var _this = this,
-        file_ext = path_to_image.split('.').pop(),
-        file_name = path_to_image.replace(/.[^.]+$/, ''),
-        resized_file_path = file_name + '-w' + width.toString() + '.' + file_ext;
-
-    // Check for resized file 
-    this.fsExists(__dirname + '/../' + resized_file_path, function(exists){
-        if(exists) {
-            return done({
-                success: true,
-                file: resized_file_path
-            });
-        }
-
-        _this.fsExists(__dirname + '/../' + path_to_image, function(exists){
-            if(!exists){
-                return done({
-                    success: false,
-                    message: 'FILE_DOES_NOT_EXISTS'
-                });
-            }
-
-            easyimg.resize({
-                src: __dirname + '/../' + path_to_image, 
-                dst: __dirname + '/../' + resized_file_path,
-                width: width,
-                quality: 95
-            }, function(err, image){
-                if(err){
-                    return done({
-                        success: false,
-                        message: 'RESIZE_FAILED'
-                    });
-                }
-
-                return done({
-                    success: true,
-                    file: resized_file_path
-                }); 
-            });
-        });
-    });
-};
-
-
-/**
- * Create image
+ * Create image DEPRECATED!!!
  * */
 this.generateIMG = function(url, uid, doc_type, doc_id, sid, res, fname, done){
-    var relative_path = 'public/user/' + uid + '/document/' + doc_type + '/' + doc_id + '/';
+    var relative_path = 'public/user/' + uid + '/document/' + doc_type + '/' + doc_id + '/',
         path = __dirname + '/../' + relative_path,
         img_filename = 'original.jpg';
 
@@ -818,6 +801,56 @@ this.generateIMG = function(url, uid, doc_type, doc_id, sid, res, fname, done){
                     res.end('Image generate error');
                 }
             }
+        });
+    });
+};
+
+
+/**
+ * Resize image
+ * */
+this.createThumb = function(path_to_image, width, done){
+    // Create resized file name
+    var _this = this,
+        file_ext = path_to_image.split('.').pop(),
+        file_name = path_to_image.replace(/.[^.]+$/, ''),
+        resized_file_path = file_name + '-w' + width.toString() + '.' + file_ext;
+
+    // Check for resized file
+    this.fsExists(__dirname + '/../' + resized_file_path, function(exists){
+        if(exists) {
+            return done({
+                success: true,
+                file: resized_file_path
+            });
+        }
+
+        _this.fsExists(__dirname + '/../' + path_to_image, function(exists){
+            if(!exists){
+                return done({
+                    success: false,
+                    message: 'FILE_DOES_NOT_EXISTS'
+                });
+            }
+
+            easyimg.resize({
+                src: __dirname + '/../' + path_to_image,
+                dst: __dirname + '/../' + resized_file_path,
+                width: width,
+                quality: 95
+            }, function(err, image){
+                if(err){
+                    return done({
+                        success: false,
+                        message: 'RESIZE_FAILED'
+                    });
+                }
+
+                return done({
+                    success: true,
+                    file: resized_file_path
+                });
+            });
         });
     });
 };

@@ -418,7 +418,7 @@ module.exports = function(app, models) {
                 var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + data._id,
                     filename = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
-                app.utils.generatePDF(url, req.cookies['connect.sid'], null, filename, function(filedata) {
+                app.utils.generateDocument(url, req.cookies['connect.sid'], 'pdf', function(filedata) {
                     if (filedata === null) {
                         return done({
                             success: false,
@@ -456,6 +456,14 @@ module.exports = function(app, models) {
                 });
             }
         });
+    };
+
+    this.createImage = function(){
+
+    };
+
+    this.createPdf = function(){
+
     };
 
     return this;
