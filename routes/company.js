@@ -51,7 +51,7 @@ module.exports = function(app, controllers){
                     mode: 'edit',
                     data: data,
                     stamp_exists: false,
-                    stamp_path: '/user/' + req.user._id + '/company/' + data._id + '/stamp.png',
+                    stamp_path: '/user/' + req.user._id + '/company/' + data._id + '/assets/stamp.png',
                     metadata: {
                         title: 'Загрузка печати'
                     }

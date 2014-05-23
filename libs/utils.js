@@ -713,55 +713,28 @@ this.generateDocument = function(url, sid, type, done){
 
 
 /**
- * Create pdf DEPRECATED!!!
- * */
-this.generatePDF = function(url, sid, res, fname, done){
-    var random_name = this.generateRandomSeed(sid),
-        path = __dirname + '/../generated/tmp/pdf/',
-        pdf_filename = path + random_name + '.pdf';
+ * File data to download
+ */
+this.downloadStream = function(file_name, content_type, file_data, res){
+    if (!file_data) {
+        res.writeHead(400);
+        res.end("" + err);
 
-    fs.mkdirp(path, function (err) {
-        if (err) {
-            return done(false);
-        }
+        return;
+    }
 
-        exec('wkhtmltopdf --cookie connect.sid ' + sid + ' ' + url + ' ' + pdf_filename, function (err, stdout, stderr) {
-            if(!err){
-                fs.readFile(pdf_filename, function (err, data) {
-                    fs.unlink(pdf_filename, function(){});
+    res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(file_name));
+    res.setHeader('Content-type', content_type);
 
-                    if(done){
-                        done(data);
-                    }else{
-                        if (err) {
-                            res.writeHead(400);
-                            res.end("" + err);
-                            return;
-                        } // TODO make here a 500 error (for testing use an wrong var pdf_filename)
-
-                        res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".pdf");
-                        res.setHeader('Content-type', 'application/pdf');
-
-                        res.end(data);
-                    }
-                });
-            }else{
-                if(done){
-                    done(null);
-                }else{
-                    res.end('PDF generate error');
-                }
-            }
-        });
-    });
+    res.end(file_data);
 };
 
 
 /**
- * Create image DEPRECATED!!!
+ * Create document image
  * */
-this.generateIMG = function(url, uid, doc_type, doc_id, sid, res, fname, done){
-    var relative_path = 'public/user/' + uid + '/document/' + doc_type + '/' + doc_id + '/',
+this.generateDocumentImage = function(url, relative_path, session_id, done){
+    var _this = this,
         path = __dirname + '/../' + relative_path,
         img_filename = 'original.jpg';
 
@@ -769,36 +742,21 @@ this.generateIMG = function(url, uid, doc_type, doc_id, sid, res, fname, done){
         if (err) {
             if(done){
                 done(false);
-            }else{
-                res.writeHead(400);
-                res.end("" + err);
-                return;
             }
         }
 
-        exec('wkhtmltoimage --cookie connect.sid ' + sid + ' ' + url + ' ' + path + img_filename, function (err, stdout, stderr) {
+        exec('wkhtmltoimage --cookie connect.sid ' + session_id + ' ' + url + ' ' + path + img_filename, function (err, stdout, stderr) {
             if(!err){
                 fs.readFile(img_filename, function (err, data) {
-                    if(done){
-                        done(relative_path + img_filename);
-                    }else{
-                        if (err) {
-                            res.writeHead(400);
-                            res.end("" + err);
-                            return;
-                        } // TODO make here a 500 error (for testing use an wrong var img_filename)
-
-                        res.setHeader('Content-disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(fname) + ".jpg");
-                        res.setHeader('Content-type', 'image/jpeg');
-
-                        res.end(data);
-                    }
+                    _this.createThumb(relative_path + img_filename, 60, function(result){
+                        if(done){
+                            done(relative_path + img_filename);
+                        }
+                    });
                 });
             }else{
                 if(done){
                     done(null);
-                }else{
-                    res.end('Image generate error');
                 }
             }
         });
@@ -816,40 +774,30 @@ this.createThumb = function(path_to_image, width, done){
         file_name = path_to_image.replace(/.[^.]+$/, ''),
         resized_file_path = file_name + '-w' + width.toString() + '.' + file_ext;
 
-    // Check for resized file
-    this.fsExists(__dirname + '/../' + resized_file_path, function(exists){
-        if(exists) {
+    _this.fsExists(__dirname + '/../' + path_to_image, function(exists){
+        if(!exists){
             return done({
-                success: true,
-                file: resized_file_path
+                success: false,
+                message: 'FILE_DOES_NOT_EXISTS'
             });
         }
 
-        _this.fsExists(__dirname + '/../' + path_to_image, function(exists){
-            if(!exists){
+        easyimg.resize({
+            src: __dirname + '/../' + path_to_image,
+            dst: __dirname + '/../' + resized_file_path,
+            width: width,
+            quality: 95
+        }, function(err, image){
+            if(err){
                 return done({
                     success: false,
-                    message: 'FILE_DOES_NOT_EXISTS'
+                    message: 'RESIZE_FAILED'
                 });
             }
 
-            easyimg.resize({
-                src: __dirname + '/../' + path_to_image,
-                dst: __dirname + '/../' + resized_file_path,
-                width: width,
-                quality: 95
-            }, function(err, image){
-                if(err){
-                    return done({
-                        success: false,
-                        message: 'RESIZE_FAILED'
-                    });
-                }
-
-                return done({
-                    success: true,
-                    file: resized_file_path
-                });
+            return done({
+                success: true,
+                file: resized_file_path
             });
         });
     });

@@ -82,7 +82,7 @@ module.exports = function(app, controllers){
         });
     });
 
-    app.post('/accounts/viewlist', app.ensureAuthenticated, function(req, res){
+    app.post('/accounts/renderlist', app.ensureAuthenticated, function(req, res){
         if(req.body.ids){
             var ids_in = req.body.ids.split(',');
         }
@@ -92,7 +92,7 @@ module.exports = function(app, controllers){
                 err: err,
                 data: data,
                 user: req.user,
-                stamp_path: '/user/' + req.user._id + '/company/' + req.user.current_company + '/stamp.png',
+                stamp_path: '/user/' + req.user._id + '/company/' + req.user.current_company + '/assets/stamp.png',
                 stamp_exists: false,
                 metadata: {
                     title: 'Счета'
@@ -104,12 +104,12 @@ module.exports = function(app, controllers){
                     params.stamp_exists = true;
                 }
 
-                res.render('accounts.list.view.jade', params);
+                res.render('accounts.list.render.jade', params);
             });
         });
     });
 
-    app.get('/accounts/view/:id', app.ensureAuthenticated, function(req, res){
+    app.get('/accounts/render/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.findOne(req.user, req.params.id, function(err, data){
             if(err === true || !data){
                 res.redirect('/404');
@@ -118,7 +118,7 @@ module.exports = function(app, controllers){
                     err : err,
                     data: data,
                     user: req.user,
-                    stamp_path: '/user/' + req.user._id + '/company/' + req.user.current_company + '/stamp.png',
+                    stamp_path: '/user/' + req.user._id + '/company/' + req.user.current_company + '/assets/stamp.png',
                     stamp_exists: false,
                     metadata: {
                         title: 'Просмотр счета'
@@ -130,7 +130,7 @@ module.exports = function(app, controllers){
                         params.stamp_exists = true;
                     }
 
-                    res.render('accounts.view.jade', params);
+                    res.render('accounts.render.jade', params);
                 });
             }
         });
@@ -142,28 +142,11 @@ module.exports = function(app, controllers){
                 res.redirect('/404');
             }else{
                 var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + req.params.id,
-                    name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
+                    file_name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
-                app.utils.generatePDF(url, req.cookies['connect.sid'], res, name);
-            }
-        });
-    });
-
-    app.get('/accounts/jpg/:id', app.ensureAuthenticated, function(req, res){
-        controllers.account.findOne(req.user, req.params.id, function(err, data){
-            if(err === true || !data){
-                res.redirect('/404');
-            }else{
-                var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + req.params.id,
-                    name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
-
-                app.utils.generateIMG(url, req.user._id, 'account', req.params.id, req.cookies['connect.sid'], res, name, function(path_to_file){
-                    //res.redirect('/404');
-
-                    app.utils.createThumb(path_to_file, 100, function(result){
-                        console.log(result);
-                    });
-                });                
+                app.utils.generateDocument(url, req.cookies['connect.sid'], 'pdf', function(file_data){
+                    app.utils.downloadStream(file_name, 'application/pdf', file_data, res);
+                });
             }
         });
     });
@@ -187,19 +170,17 @@ module.exports = function(app, controllers){
         params.data.items = JSON.parse(decodeURIComponent(params.data.items));
         params.data.contractor = JSON.parse(decodeURIComponent(params.data.contractor));
 
-        console.log(params.data)
-
-        res.render('accounts.view.jade', params);
+        res.render('accounts.render.jade', params);
     });
 
     app.post('/accounts/add', app.ensureAuthenticated, function(req, res){
-        controllers.account.addItem(req.user, req.body, req.session, function(result){
+        controllers.account.addItem(req.user, req.body, req, function(result){
             res.json(result);
         });
     });
 
     app.post('/accounts/edit/:id', app.ensureAuthenticated, function(req, res){
-        controllers.account.editItem(req.user, req.params.id, req.body, function(result){
+        controllers.account.editItem(req, function(result){
             res.json(result);
         });
     });

@@ -676,7 +676,7 @@ module.exports = function (app, models) {
                 });
             }
 
-            var path = '/user/' + req.user._id + '/company/' + company_data._id + '/';
+            var path = '/user/' + req.user._id + '/company/' + company_data._id + '/assets/';
 
             app.utils.uploadPicture({
                 path: __dirname + '/../public/' + path,

@@ -4252,6 +4252,7 @@ h1 a:hover {
 #loading-global {
   background: url(../images/global-loading.png) 0 0;
   position: fixed;
+  opacity: 0.75;
   width: 1060px;
   margin-left: -530px;
   height: 5px;

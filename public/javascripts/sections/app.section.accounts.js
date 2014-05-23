@@ -103,8 +103,8 @@ app.sections.accounts = {
         print: function(){
             var print_list_controller = new app.print.PrintListController({
                 ids: this.selected,
-                list_url: '/accounts/viewlist',
-                doc_by_doc_url: '/accounts/view'
+                list_url: '/accounts/renderlist',
+                doc_by_doc_url: '/accounts/render'
             });
 
             print_list_controller.select();
@@ -206,7 +206,7 @@ app.sections.accounts = {
                 url: '/accounts/add',
                 fields: app.sections.accounts.fields,
                 messages: $.extend(app.sections.accounts.messages, {
-                    OK: 'Изменения сохранены'
+                    OK: 'Счет создан'
                 }),
                 onSuccess: function(data){
                     if(data.data && data.data._id){
@@ -261,7 +261,7 @@ app.sections.accounts = {
                 onSend: function () {
                     app.sections.accounts.edit.send();
                 },
-                url: '/accounts/view/' + id
+                url: '/accounts/render/' + id
             });
 
             docview_controller.open();
@@ -280,8 +280,8 @@ app.sections.accounts = {
         print: function(){
             var print_list_controller = new app.print.PrintListController({
                 ids: [ this.id ],
-                list_url: '/accounts/viewlist',
-                doc_by_doc_url: '/accounts/view'
+                list_url: '/accounts/renderlist',
+                doc_by_doc_url: '/accounts/render'
             });
 
             print_list_controller.select('doc-by-doc');

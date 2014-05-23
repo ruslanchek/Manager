@@ -1,4 +1,8 @@
+var fs = require('fs.extra');
+
 module.exports = function(app, models) {
+    var _this = this;
+
     this.findItems = function(user, filters, done) {
         var filters_query = {
             _user_id: user._id,
@@ -190,8 +194,11 @@ module.exports = function(app, models) {
         return values;
     };
 
-    this.editItem = function(user, id, data, done) {
-        var validate = this.validateInputs(data);
+    this.editItem = function(req, done) {
+        var user = req.user,
+            id = req.params.id,
+            data = req.body,
+            validate = this.validateInputs(data);
 
         if (validate !== true) {
             return done(validate);
@@ -247,7 +254,7 @@ module.exports = function(app, models) {
                     item.nds = values.nds_sum;
                     item.count = values.count;
 
-                    item.save(function(err, data) {
+                    item.save(function(err, account_data) {
                         if (err) {
                             app.log.error('Account edit error', err);
 
@@ -257,10 +264,12 @@ module.exports = function(app, models) {
                             });
                         }
 
-                        return done({
-                            success: true,
-                            message: 'OK',
-                            data: data
+                        _this.createImage(account_data._id, req, function(){
+                            return done({
+                                success: true,
+                                message: 'OK',
+                                data: account_data
+                            });
                         });
                     });
                 });
@@ -268,7 +277,7 @@ module.exports = function(app, models) {
         });
     };
 
-    this.addItem = function(user, data, session, done) {
+    this.addItem = function(user, data, req, done) {
         var validate = this.validateInputs(data);
 
         if (validate !== true) {
@@ -338,15 +347,17 @@ module.exports = function(app, models) {
                             });
                         }
 
-                        if (session && session.passport && session.passport.user) {
-                            session.passport.user.mc_account = company_data.mc_account;
-                            session.save();
+                        if (req.session && req.session.passport && req.session.passport.user) {
+                            req.session.passport.user.mc_account = company_data.mc_account;
+                            req.session.save();
                         }
 
-                        return done({
-                            success: true,
-                            message: 'OK',
-                            data: account_data
+                        _this.createImage(account_data._id, req, function(){
+                            return done({
+                                success: true,
+                                message: 'OK',
+                                data: account_data
+                            });
                         });
                     });
                 });
@@ -375,6 +386,12 @@ module.exports = function(app, models) {
 
             if (data) {
                 for (var i = 0, l = data.length; i < l; i++) {
+                    fs.rmrf(__dirname + '/../public/user/' + user._id + '/company/' + user.current_company + '/document/account/' + data[i]._id, function (err) {
+                        if (err) {
+                            console.error(err); // TODO: Think about it
+                        }
+                    });
+
                     data[i].remove();
                 }
 
@@ -460,12 +477,15 @@ module.exports = function(app, models) {
         });
     };
 
-    this.createImage = function(){
+    this.createImage = function(doc_id, req, done){
+        var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/render/' + doc_id,
+            file_path = 'public/user/' + req.user._id + '/company/' + req.user.current_company + '/document/account/' + doc_id + '/';
 
-    };
-
-    this.createPdf = function(){
-
+        app.utils.generateDocumentImage(url, file_path, req.cookies['connect.sid'], function(path_to_file){
+            if(done){
+                done(path_to_file);
+            }
+        });
     };
 
     return this;
