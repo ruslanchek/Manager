@@ -49,6 +49,7 @@ block content
                             input.cb-all(type="checkbox")
                         th(data-sort="string") Номер счета
                             i.arrow.icon-down-dir
+                        th
                         th(data-sort="string") Дата
                             i.arrow
                         th(data-sort="string") Сумма
@@ -66,6 +67,8 @@ block content
                                 input.cb-item(type="checkbox", data-id="#{val._id}")
                             td(data-sort-value=val.number)
                                 a(href="/accounts/edit/#{val._id}") Счет №#{val.number}
+                            td
+                                img(src="/user/#{user._id}/company/#{user.current_company}/document/account/#{val._id}/original-w60.jpg")
                             td(data-sort-value=val.date) #{utils.humanizeDate(val.date)}
                             td(data-sort-value=val.sum) #{utils.priceFormat(val.sum)}&nbsp;
                                 span.rub &#8399;
