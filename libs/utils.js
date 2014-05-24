@@ -718,7 +718,7 @@ this.generateDocument = function(url, sid, type, done){
 this.downloadStream = function(file_name, content_type, file_data, res){
     if (!file_data) {
         res.writeHead(400);
-        res.end("" + err);
+        res.end('No file data');
 
         return;
     }
