@@ -5,7 +5,7 @@ block content
 
     h1 Контрагенты
 
-    .section-tools
+    .section-tools.section-tools-divided
         a#add.action-button.green(href= '/contractors/add')
             i.icon-plus
             | Создать
@@ -14,7 +14,7 @@ block content
             | Удалить
 
     if !list_empty
-        .table-container.table-container-with-tools
+        .table-container
             table.items-table.width-100.table-sort.table-striped.table-hovered
                 thead
                     tr

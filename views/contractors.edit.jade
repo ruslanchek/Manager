@@ -6,19 +6,19 @@ block content
         | &nbsp;/&nbsp;
         span#contractor-global-name #{utils.getCompanyTypeName(data.cc_type)} &laquo;#{data.cc_name}&raquo;
 
-    .section-tools
+    .section-tools.section-tools-divided
         a.action-delete.action-button.warning(href="#")
             i.icon-cancel
             | Удалить
 
-    form#form-edit-contractor.form.form-with-tools.forms.forms-columnar(action='')
+    form#form-edit-contractor.form.forms.forms-columnar(action='')
         .form-message
 
         div.form-tabs
             nav
-                a.active(data-tab='1', style='width: 33.333333%', href='#') Данные организации
-                a(data-tab='2', style='width: 33.333333%', href='#') Банковские реквизиты
-                a(data-tab='3', style='width: 33.333333%', href='#') Адрес и контактная информация
+                a.active(data-tab='1', href='#') Данные организации
+                a(data-tab='2', href='#') Банковские реквизиты
+                a(data-tab='3', href='#') Адрес и контактная информация
 
         .tab-content(data-tab='1')
             .units-row-end

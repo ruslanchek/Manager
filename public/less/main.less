@@ -165,7 +165,7 @@ header {
   width: 100%;
   padding: 0 30px 20px;
   margin: 0 0 25px -30px;
-  border-bottom: 1px solid @panel-bg-light - 10;
+  background: rgba(0, 0, 0, 0.02);
 
   .top-menu {
     .menu-icon {
@@ -174,7 +174,6 @@ header {
       width: 12.5%;
       text-align: center;
       padding: 6px 0;
-      border: 1px solid transparent;
       box-sizing: border-box;
 
       .animation-150-easeInOutQuart;
@@ -195,8 +194,9 @@ header {
 
     .menu-icon.active {
       border-radius: @ui-border-radius + 2;
-      border-color: rgba(0, 0, 0, 0.125);
+      background: #fff;
       opacity: 1 !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     }
 
     .menu-icon .i1 {
