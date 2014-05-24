@@ -161,13 +161,11 @@ h1 {
 
 // Header
 header {
-  height: 181px;
   position: relative;
   width: 100%;
-  padding: 0 30px;
-  margin: 0 0 30px -30px;
-  background: #FBF8FD url(../images/header-bg.png) repeat-x bottom;
-  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 30px 20px;
+  margin: 0 0 25px -30px;
+  border-bottom: 1px solid @panel-bg-light - 10;
 
   .top-menu {
     .menu-icon {
@@ -176,6 +174,8 @@ header {
       width: 12.5%;
       text-align: center;
       padding: 6px 0;
+      border: 1px solid transparent;
+      box-sizing: border-box;
 
       .animation-150-easeInOutQuart;
       
@@ -194,8 +194,8 @@ header {
     }
 
     .menu-icon.active {
-      background: @panel-bg-light - 20;
       border-radius: @ui-border-radius;
+      border-color: rgba(0, 0, 0, 0.125);
       opacity: 1 !important;
     }
 
@@ -237,12 +237,12 @@ header {
   } 
 
   .top {
-    height: 44px;
+    height: 60px;
     background: #4F5770;
     width: 100%;
     position: relative;
     padding: 0 30px;
-    margin: 0 0 16px -30px;
+    margin: 0 0 20px -30px;
 
     .logo {
       width: 152px;
@@ -566,6 +566,14 @@ header {
     -webkit-box-shadow: @box-shadow;
     -moz-box-shadow: @box-shadow;
   }
+}
+
+.section-tools-divided {
+  border-radius: @ui-border-radius;
+  -webkit-border-radius: @ui-border-radius;
+  -moz-border-radius: @ui-border-radius;
+  margin-bottom: 20px;
+  border-bottom: 3px solid @panel-bg-light - 30;
 }
 
 .action-button {

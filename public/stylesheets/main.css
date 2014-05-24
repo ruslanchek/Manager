@@ -4281,13 +4281,11 @@ h1 a:hover {
   position: relative;
 }
 header {
-  height: 181px;
   position: relative;
   width: 100%;
-  padding: 0 30px;
-  margin: 0 0 30px -30px;
-  background: #fbf8fd url(../images/header-bg.png) repeat-x bottom;
-  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 30px 20px;
+  margin: 0 0 25px -30px;
+  border-bottom: 1px solid #eae9eb;
 }
 header .top-menu .menu-icon {
   display: block;
@@ -4295,6 +4293,8 @@ header .top-menu .menu-icon {
   width: 12.5%;
   text-align: center;
   padding: 6px 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
   -webkit-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
   -moz-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
   -o-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
@@ -4312,8 +4312,8 @@ header .top-menu .menu-icon span {
   font-weight: bold;
 }
 header .top-menu .menu-icon.active {
-  background: #e0dfe1;
   border-radius: 3px;
+  border-color: rgba(0, 0, 0, 0.125);
   opacity: 1 !important;
 }
 header .top-menu .menu-icon .i1 {
@@ -4344,12 +4344,12 @@ header .top-menu .menu-icon:hover {
   opacity: 0.75;
 }
 header .top {
-  height: 44px;
+  height: 60px;
   background: #4F5770;
   width: 100%;
   position: relative;
   padding: 0 30px;
-  margin: 0 0 16px -30px;
+  margin: 0 0 20px -30px;
 }
 header .top .logo {
   width: 152px;
@@ -4591,6 +4591,13 @@ header .top .logo {
   box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+.section-tools-divided {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #d6d5d7;
 }
 .action-button {
   background-image: url(../images/gradient.png);
