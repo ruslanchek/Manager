@@ -3,7 +3,7 @@ header
         a.logo(href="/")
 
         .user-params
-            a.company-selector.action-button.filled(href="#", style=(user.cc_name) ? '' : 'display: none;')
+            a.company-selector(href="#", style=(user.cc_name) ? '' : 'display: none;')
                 if user.cc_name
                     i.icon-briefcase
                     span#global-company-type #{utils.getCompanyTypeName(user.cc_type)}
@@ -11,7 +11,7 @@ header
                     span#global-company-name #{user.cc_name}
                     |&raquo;
 
-            a.action-button.filled(href="/user")
+            a.action-button.user-button(href="/user")
                 i.icon-user-female
 
                 if user.display_name

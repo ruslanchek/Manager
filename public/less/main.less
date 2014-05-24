@@ -194,7 +194,7 @@ header {
     }
 
     .menu-icon.active {
-      border-radius: @ui-border-radius;
+      border-radius: @ui-border-radius + 2;
       border-color: rgba(0, 0, 0, 0.125);
       opacity: 1 !important;
     }
@@ -477,12 +477,12 @@ header {
 }
 
 .button.red {
-  background-color: @color-red;
+  background-color: @color-red-dark;
   color: #fff;
 }
 
 .button.red:hover {
-  background: @color-red-dark;
+  background: @color-red;
 }
 
 // Action buttons
@@ -739,8 +739,8 @@ input.action-button {
 
 .action-button.red {
   background-image: url(../images/gradient.png);
-  background-color: @color-red;
-  border-color: @color-red;
+  background-color: @color-red-dark;
+  border-color: @color-red-dark;
   color: #fff;
 
   @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
@@ -752,8 +752,8 @@ input.action-button {
 
 .action-button.red:hover {
   background-image: url(../images/gradient.png);
-  background-color: @color-red-dark;
-  border-color: @color-red-dark;
+  background-color: @color-red;
+  border-color: @color-red;
   color: #fff;
 }
 
@@ -860,19 +860,34 @@ input.action-button {
 
 .user-params {
   position: absolute;
-  top: 7px;
+  top: 15px;
   right: 30px;
 
-  a:first-of-type {
-    border-radius: 3px 0 0 3px;
+  .company-selector {
+    color: #fff;
+    margin-right: 25px;
+    font-weight: normal;
+
+    i {
+      margin-right: 6px;
+    }
   }
 
-  a {
-    border-radius: 0;
+  .company-selector:hover {
+    color: #DDDFE0;
   }
 
-  a:last-of-type {
-    border-radius: 0 3px 3px 0;
+  .user-button {
+    margin-right: 25px;
+    background-image: url(../images/gradient.png) top repeat-x;
+    background-color: rgba(255, 255, 255, 0.04);
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.125);
+  }
+
+  .user-button:hover {
+    background-color: rgba(255, 255, 255, 0.13);
   }
 }
 
