@@ -7,7 +7,7 @@
 
     "mongoose": {
         "development": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm",
-		      "production": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm"
+		"production": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm"
     },
 
     "redis": {
