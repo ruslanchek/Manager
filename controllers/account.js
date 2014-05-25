@@ -429,17 +429,19 @@ module.exports = function(app, models) {
             if (err === true || !data) {
                 return done({
                     success: false,
-                    message: 'SERVER_ERROR'
+                    message: 'SERVER_ERROR',
+                    code: '01'
                 });
             } else {
-                var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/view/' + data._id,
+                var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/render/' + data._id,
                     file_name = 'Счет №' + data.number + ' от ' + app.utils.humanizeDate(data.date);
 
                 app.utils.generateDocument(url, req.cookies['connect.sid'], 'pdf', function(file_data) {
                     if (!file_data) {
                         return done({
                             success: false,
-                            message: 'SERVER_ERROR'
+                            message: 'SERVER_ERROR',
+                            code: '02'
                         });
                     }
 

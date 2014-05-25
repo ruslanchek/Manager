@@ -682,6 +682,8 @@ this.generateDocument = function(url, sid, type, done){
         file_name = path + tmp_name,
         command = '';
 
+    console.log(arguments)
+
     if(type == 'pdf'){
         command = 'wkhtmltopdf';
         file_name += '.pdf';
@@ -696,6 +698,8 @@ this.generateDocument = function(url, sid, type, done){
         }
 
         exec(command + ' --cookie connect.sid ' + sid + ' ' + url + ' ' + file_name, function (err, stdout, stderr) {
+            console.log(err, stdout, stderr)
+
             if(err) {
                 return done(false);
             }
