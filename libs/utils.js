@@ -827,6 +827,19 @@ this.unlinkFile = function(path, done){
 
 
 /**
+ * Delete file
+ * */
+this.unlinkDir = function(path, done){
+    fs.rmrf(path, function(){
+        done({
+            success: true
+        });
+    });
+};
+
+
+
+/**
  * Pic uploading
  * */
 this.uploadPicture = function(options){
@@ -851,13 +864,8 @@ this.uploadPicture = function(options){
                 }
 
                 fs.readFile(tmp_filename, function (err, data) {
-                    var mmm = require('mmmagic'),// TODO: Replace this shit!!!
-                        Magic = mmm.Magic;
-
-                    var magic = new Magic(mmm.MAGIC_MIME_TYPE);
-
-                    magic.detectFile(tmp_filename, function(err, result) {
-                        if (err) {
+                    easyimg.info(tmp_filename, function(err, stdout, stderr) {
+                        if (err || stderr || !stdout) {
                             return options.done({
                                 success: false,
                                 message: 'SERVER_ERROR',
@@ -867,13 +875,13 @@ this.uploadPicture = function(options){
 
                         var ext = '';
 
-                        if(result == 'image/jpeg' || result == 'image/png'){
-                            switch(result){
-                                case 'image/jpeg' : {
+                        if(stdout.type == 'JPEG' || stdout.type == 'PNG'){
+                            switch(stdout.type){
+                                case 'JPEG' : {
                                     ext = 'jpeg';
                                 } break;
 
-                                case 'image/png' : {
+                                case 'PNG' : {
                                     ext = 'png';
                                 } break;
                             }

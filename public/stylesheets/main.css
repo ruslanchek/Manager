@@ -2465,10 +2465,7 @@ audio {
   -moz-border-radius: 3px;
 }
 .login .form-message .close {
-  position: absolute;
-  right: 2px;
-  top: 4px;
-  color: #fff !important;
+  display: none;
 }
 .login .form-message.success {
   background: #4abfb4;

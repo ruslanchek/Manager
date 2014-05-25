@@ -89,7 +89,7 @@ module.exports = function (app, models) {
         });
     };
 
-    this.setCounters = function(res, user, done){
+    this.setCounters = function(req, user, done){
         models.company.findOne({ _user_id: user._id, _id: user.current_company }, function (err, company_data) {
             if (err) {
                 app.log.error('findOne error', err);
@@ -97,10 +97,10 @@ module.exports = function (app, models) {
             }
 
             if(company_data) {
-                res.session.passport.user.mc_account = company_data.mc_account;
-                res.session.passport.user.mc_nomgroup = company_data.mc_nomgroup;
+                req.session.passport.user.mc_account = company_data.mc_account;
+                req.session.passport.user.mc_nomgroup = company_data.mc_nomgroup;
 
-                res.session.save(function () {
+                req.session.save(function () {
                     return done(true);
                 });
             }else{

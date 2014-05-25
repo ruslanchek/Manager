@@ -386,7 +386,7 @@ module.exports = function(app, models) {
 
             if (data) {
                 for (var i = 0, l = data.length; i < l; i++) {
-                    fs.rmrf(__dirname + '/../public/user/' + user._id + '/company/' + user.current_company + '/document/account/' + data[i]._id, function (err) {
+                    app.utils.unlinkDir(__dirname + '/../public/user/' + user._id + '/company/' + user.current_company + '/document/account/' + data[i]._id, function (err) {
                         if (err) {
                             console.error(err); // TODO: Think about it
                         }

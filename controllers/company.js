@@ -664,6 +664,10 @@ module.exports = function (app, models) {
                     }
                 }
             }, 20);
+
+            app.utils.unlinkDir(__dirname + '/../public/user/' + user._id + '/company/' + user.current_company + '/', function(result){
+                console.log(result, __dirname + '/../public/user/' + user._id + '/company/' + user.current_company + '/');
+            });
         });
     };
 
@@ -700,7 +704,7 @@ module.exports = function (app, models) {
                 });
             }
 
-            app.utils.unlinkFile(__dirname + '/../public/user/' + req.user._id + '/company/' + company_data._id + '/stamp.png', function(result){
+            app.utils.unlinkFile(__dirname + '/../public/user/' + req.user._id + '/company/' + company_data._id + '/assets/stamp.png', function(result){
                 return done(result);
             });
         });
