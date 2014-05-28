@@ -31,6 +31,8 @@
 @color-green: #4ABFB4;
 @color-green-dark: #3fb2a8;
 
+@color-link-default: #2F82B9;
+
 @color-red: #FD5559;
 @color-red-dark: #e83a3e;
 
@@ -59,12 +61,12 @@ a {
   text-decoration: none;
 }
 
-a, a:link, a:active {
-
+a:link, a:active {
+  color: @color-link-default;
 }
 
 a:hover, a:active {
-  color: @colorLinkHover;
+  color: @color-red-dark;
 }
 
 a.dashed-link, a.dashed-link:link, a.dashed-link:active {
@@ -196,7 +198,7 @@ header {
       border-radius: @ui-border-radius + 2;
       background: #fff;
       opacity: 1 !important;
-      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
     }
 
     .menu-icon .i1 {
@@ -245,7 +247,7 @@ header {
     margin: 0 0 20px -30px;
 
     .logo {
-      width: 152px;
+      width: 138px;
       height: 30px;
       position: absolute;
       display: block;
@@ -410,7 +412,7 @@ header {
   line-height: 40px;
   font-size: 15px !important;
   font-family: inherit;
-  color: #59575E;
+  color: #59575E !important;
   text-align: center;
   border: none;
   border-radius: @ui-border-radius + 1;
@@ -868,6 +870,14 @@ input.action-button {
     color: #fff;
     margin-right: 25px;
     font-weight: normal;
+    padding: 3px 12px;
+    line-height: 23px;
+    display: inline-block;
+    -moz-border-radius: @ui-border-radius;
+    -webkit-border-radius: @ui-border-radius;
+    border-radius: @ui-border-radius;
+
+    .animation-150-easeInOutQuart;
 
     i {
       margin-right: 6px;
@@ -875,7 +885,8 @@ input.action-button {
   }
 
   .company-selector:hover {
-    color: #DDDFE0;
+    color: #eee;
+    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.3);
   }
 
   .user-button {

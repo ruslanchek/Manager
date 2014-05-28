@@ -2831,16 +2831,18 @@ select.input-error,
 }
 .form-tabs {
   padding: 0 20px;
-  height: 45px;
+  height: 40px;
+  margin-bottom: 15px;
   position: relative;
   -moz-border-radius: 3px 3px 0 0;
   -webkit-border-radius: 3px 3px 0 0;
   border-radius: 3px 3px 0 0;
+  border-bottom: 1px solid #e0dfe1;
 }
 .form-tabs nav {
   width: 100%;
   position: absolute;
-  height: 45px;
+  height: 40px;
   line-height: 26px;
   left: 0;
   clear: both;
@@ -2869,7 +2871,6 @@ select.input-error,
   background: #3498db url(../images/gradient.png) repeat-x top;
   color: #fff;
   display: block;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 .form-tabs nav:after {
   content: '';
@@ -4209,9 +4210,13 @@ img.jcrop-preview {
 a {
   text-decoration: none;
 }
+a:link,
+a:active {
+  color: #2f82b9;
+}
 a:hover,
 a:active {
-  color: #ef6465;
+  color: #e83a3e;
 }
 a.dashed-link,
 a.dashed-link:link,
@@ -4328,7 +4333,7 @@ header .top-menu .menu-icon.active {
   border-radius: 5px;
   background: #fff;
   opacity: 1 !important;
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
 }
 header .top-menu .menu-icon .i1 {
   background: url(../images/icons/nav/1.png);
@@ -4366,7 +4371,7 @@ header .top {
   margin: 0 0 20px -30px;
 }
 header .top .logo {
-  width: 152px;
+  width: 138px;
   height: 30px;
   position: absolute;
   display: block;
@@ -4493,7 +4498,7 @@ header .top .logo {
   line-height: 40px;
   font-size: 15px !important;
   font-family: inherit;
-  color: #59575E;
+  color: #59575E !important;
   text-align: center;
   border: none;
   border-radius: 4px;
@@ -4830,12 +4835,23 @@ input.action-button {
   color: #fff;
   margin-right: 25px;
   font-weight: normal;
+  padding: 3px 12px;
+  line-height: 23px;
+  display: inline-block;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
+  -moz-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
+  -o-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
+  transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
 }
 .user-params .company-selector i {
   margin-right: 6px;
 }
 .user-params .company-selector:hover {
-  color: #DDDFE0;
+  color: #eee;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.3);
 }
 .user-params .user-button {
   margin-right: 25px;

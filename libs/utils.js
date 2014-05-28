@@ -330,8 +330,8 @@ this.getCompanyTypeName = function(id){
  * */
 this.getCEOType = function(id){
     switch (parseInt(id)) {
-        case 1 : { return 'Генеральный директор' } break;
-        case 2 : { return 'Директор' } break;
+        case 1 : { return 'Директор' } break;
+        case 2 : { return 'Генеральный директор' } break;
         case 3 : { return 'Председатель' } break;
         case 4 : { return 'Руководитель' } break;
         case 5 : { return 'Другое' } break;

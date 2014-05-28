@@ -65,114 +65,159 @@ module.exports = function (app, models) {
         });
     };
 
-    this.validateInputs = function (data) {
-        if (!data.cc_name) {
-            return {
-                success: false,
-                message: 'CC_NAME_EMPTY',
-                fields: ['cc_name']
-            };
+    this.validateInputs = function (data, part) {
+        function part1(){
+            if (!data.cc_name) {
+                return {
+                    success: false,
+                    message: 'CC_NAME_EMPTY',
+                    fields: ['cc_name']
+                };
+            }
+
+            if (!data.cc_inn) {
+                return {
+                    success: false,
+                    message: 'CC_INN_EMPTY',
+                    fields: ['cc_inn']
+                };
+            }
+
+            if (!data.cc_ogrn) {
+                return {
+                    success: false,
+                    message: 'CC_OGRN_EMPTY',
+                    fields: ['cc_ogrn']
+                };
+            }
+
+            if (!data.cc_kpp && data.cc_type != '4') {
+                return {
+                    success: false,
+                    message: 'CC_KPP_EMPTY',
+                    fields: ['cc_kpp']
+                };
+            }
         }
 
-        if (!data.cc_inn) {
-            return {
-                success: false,
-                message: 'CC_INN_EMPTY',
-                fields: ['cc_inn']
-            };
+        function part2(){
+            if (!data.cc_ceo_name) {
+                return {
+                    success: false,
+                    message: 'CC_CEO_NAME_EMPTY',
+                    fields: ['cc_ceo_name']
+                };
+            }
         }
 
-        if (!data.cc_ogrn) {
-            return {
-                success: false,
-                message: 'CC_OGRN_EMPTY',
-                fields: ['cc_ogrn']
-            };
+        function part3(){
+            if (!data.bank_bik) {
+                return {
+                    success: false,
+                    message: 'BANK_BIK_EMPTY',
+                    fields: ['bank_bik']
+                };
+            }
+
+            if (!data.bank_name) {
+                return {
+                    success: false,
+                    message: 'BANK_NAME_EMPTY',
+                    fields: ['bank_name']
+                };
+            }
+
+            if (!data.bank_pay_account) {
+                return {
+                    success: false,
+                    message: 'BANK_PAY_ACCOUNT_EMPTY',
+                    fields: ['bank_pay_account']
+                };
+            }
+
+            if (!data.bank_corr_account) {
+                return {
+                    success: false,
+                    message: 'BANK_CORR_ACCOUNT_EMPTY',
+                    fields: ['bank_corr_account']
+                };
+            }
         }
 
-        if (!data.cc_kpp && data.cc_type != '4') {
-            return {
-                success: false,
-                message: 'CC_KPP_EMPTY',
-                fields: ['cc_kpp']
-            };
+        function part4(){
+            if (!data.cc_city) {
+                return {
+                    success: false,
+                    message: 'CC_CITY_EMPTY',
+                    fields: ['cc_city']
+                };
+            }
+
+            if (!data.cc_street) {
+                return {
+                    success: false,
+                    message: 'CC_STREET_EMPTY',
+                    fields: ['cc_street']
+                };
+            }
+
+            if (!data.cc_house) {
+                return {
+                    success: false,
+                    message: 'CC_HOUSE_EMPTY',
+                    fields: ['cc_house']
+                };
+            }
+
+            if (!data.cc_index) {
+                return {
+                    success: false,
+                    message: 'CC_INDEX_EMPTY',
+                    fields: ['cc_index']
+                };
+            }
         }
 
-        if (!data.cc_ceo_name) {
-            return {
-                success: false,
-                message: 'CC_CEO_NAME_EMPTY',
-                fields: ['cc_ceo_name']
-            };
-        }
+        switch(part){
+            case 1 : {
+                return part1();
+            } break;
 
-        if (!data.cc_city) {
-            return {
-                success: false,
-                message: 'CC_CITY_EMPTY',
-                fields: ['cc_city']
-            };
-        }
+            case 2 : {
+                return part2();
+            } break;
 
-        if (!data.cc_street) {
-            return {
-                success: false,
-                message: 'CC_STREET_EMPTY',
-                fields: ['cc_street']
-            };
-        }
+            case 3 : {
+                return part3();
+            } break;
 
-        if (!data.cc_house) {
-            return {
-                success: false,
-                message: 'CC_HOUSE_EMPTY',
-                fields: ['cc_house']
-            };
-        }
+            case 4 : {
+                return part4();
+            } break;
 
-        if (!data.cc_index) {
-            return {
-                success: false,
-                message: 'CC_INDEX_EMPTY',
-                fields: ['cc_index']
-            };
-        }
+            default : {
+                var p1 = part1(),
+                    p2 = part2(),
+                    p3 = part3(),
+                    p4 = part4();
 
-        if (!data.bank_bik) {
-            return {
-                success: false,
-                message: 'BANK_BIK_EMPTY',
-                fields: ['bank_bik']
-            };
-        }
+                if(!p1.success){
+                    return p1;
+                }
 
-        if (!data.bank_name) {
-            return {
-                success: false,
-                message: 'BANK_NAME_EMPTY',
-                fields: ['bank_name']
-            };
-        }
+                if(!p2.success){
+                    return p2;
+                }
 
-        if (!data.bank_pay_account) {
-            return {
-                success: false,
-                message: 'BANK_PAY_ACCOUNT_EMPTY',
-                fields: ['bank_pay_account']
-            };
-        }
+                if(!p3.success){
+                    return p3;
+                }
 
-        if (!data.bank_corr_account) {
-            return {
-                success: false,
-                message: 'BANK_CORR_ACCOUNT_EMPTY',
-                fields: ['bank_corr_account']
-            };
+                if(!p4.success){
+                    return p4;
+                }
+            }
         }
-
-        return {
-            success: true
-        };
     };
 
     this.editItem = function(user, id, data, done){
