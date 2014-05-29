@@ -100,7 +100,8 @@ module.exports = function (app, models) {
             }
 
             return {
-                success: true
+                success: true,
+                message: 'OK'
             }
         }
 
@@ -114,7 +115,8 @@ module.exports = function (app, models) {
             }
 
             return {
-                success: true
+                success: true,
+                message: 'OK'
             }
         }
 
@@ -152,7 +154,8 @@ module.exports = function (app, models) {
             }
 
             return {
-                success: true
+                success: true,
+                message: 'OK'
             }
         }
 
@@ -190,7 +193,8 @@ module.exports = function (app, models) {
             }
 
             return {
-                success: true
+                success: true,
+                message: 'OK'
             }
         }
 
@@ -231,6 +235,11 @@ module.exports = function (app, models) {
 
                 if(!p4.success){
                     return p4;
+                }
+
+                return {
+                    success: true,
+                    message: 'OK'
                 }
             }
         }
