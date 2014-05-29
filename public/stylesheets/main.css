@@ -2510,14 +2510,13 @@ audio {
   top: 50%;
   left: 50%;
   background: #fff;
-  box-shadow: 0 10px 45px rgba(0, 0, 0, 0.12), 0 0 25px rgba(0, 0, 0, 0.1);
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  -moz-transform: scale(0);
-  -webkit-transform: scale(0);
-  -o-transform: scale(0);
-  transform: scale(0);
+  -moz-transform: scale(0.75);
+  -webkit-transform: scale(0.75);
+  -o-transform: scale(0.75);
+  transform: scale(0.75);
 }
 .modal .modal_scrollable_content {
   max-height: 500px;
@@ -2586,12 +2585,6 @@ audio {
 }
 .modal .content {
   padding: 20px;
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
-  -moz-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
-  -o-transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
-  transition: all 150ms cubic-bezier(0.77, 0, 0.175, 1);
 }
 .modal .content.no-padding {
   padding: 0;

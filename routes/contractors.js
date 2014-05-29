@@ -79,6 +79,10 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.post('/contractors/check/:step', app.ensureAuthenticated, function(req, res){
+        res.json(controllers.contractor.validateInputs(req.body, parseInt(req.params.step)));
+    });
+
     app.post('/contractors/delete', app.ensureAuthenticated, function(req, res){
         controllers.contractor.deleteItems(req.user, req.body.ids, function(result){
             res.json(result);

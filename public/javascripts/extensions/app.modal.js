@@ -83,7 +83,12 @@ app.modal = {
 
         this.open = function(){
             this.close(function(){
-                app.templates.render('modal.window.html', { title: _this.options.title, content: _this.options.content, closeable: _this.options.closeable }, function(html){
+                app.templates.render('modal.window.html', {
+                    title: _this.options.title,
+                    content: _this.options.content,
+                    closeable: _this.options.closeable
+
+                }, function(html){
                     app.modal.overlayDraw();
 
                     var $body = $('body');
@@ -94,26 +99,21 @@ app.modal = {
 
                     _this.position();
 
-                    setTimeout(function(){
-                        _this.$modal.addClass('ready');
-
-                        setTimeout(function(){
-                            _this.$modal.find('.content').css({
-                                visibility: 'visible',
-                                opacity: 1
-                            });
-                        }, 300);
-                    }, 50);
+                    _this.options.onShow(_this);
 
                     _this.opened = true;
 
-                    _this.options.onShow(_this);
+                    setTimeout(function(){
+                        _this.$modal.addClass('ready');
+                    }, 50);
 
                     if(_this.options.draggable === true){
                         setTimeout(function(){
-                        _this.$modal.addClass('draggable');
+                            _this.$modal.addClass('draggable');
                         }, _this.options.animation_time);
+
                         _this.$modal.draggable({
+                            handle: $('.modal .header'),
                             addClasses: false
                         });
                     }
@@ -138,10 +138,6 @@ app.modal = {
         this.close = function(done){
             if(this.$modal !== null || this.opened === true){
                 this.$modal.removeClass('ready draggable');
-
-                _this.$modal.find('.content').css({
-                    visibility: 'hidden'
-                });
 
                 setTimeout(function(){
                     _this.$modal.remove();

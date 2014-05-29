@@ -98,6 +98,10 @@ module.exports = function (app, models) {
                     fields: ['cc_kpp']
                 };
             }
+
+            return {
+                success: true
+            }
         }
 
         function part2(){
@@ -107,6 +111,10 @@ module.exports = function (app, models) {
                     message: 'CC_CEO_NAME_EMPTY',
                     fields: ['cc_ceo_name']
                 };
+            }
+
+            return {
+                success: true
             }
         }
 
@@ -142,6 +150,10 @@ module.exports = function (app, models) {
                     fields: ['bank_corr_account']
                 };
             }
+
+            return {
+                success: true
+            }
         }
 
         function part4(){
@@ -175,6 +187,10 @@ module.exports = function (app, models) {
                     message: 'CC_INDEX_EMPTY',
                     fields: ['cc_index']
                 };
+            }
+
+            return {
+                success: true
             }
         }
 
