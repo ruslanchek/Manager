@@ -1,4 +1,4 @@
-var fs = require('fs.extra');
+ var fs = require('fs.extra');
 
 module.exports = function(app, models) {
     var _this = this;
