@@ -752,9 +752,12 @@ this.generateDocumentImage = function(url, relative_path, session_id, done){
         exec('wkhtmltoimage --cookie connect.sid ' + session_id + ' ' + url + ' ' + path + img_filename, function (err, stdout, stderr) {
             if(!err){
                 fs.readFile(img_filename, function (err, data) {
-                    _this.createThumb(relative_path + img_filename, 60, function(result){
+                    _this.createThumb(relative_path + img_filename, 60, function(resized_file_path){
                         if(done){
-                            done(relative_path + img_filename);
+                            done({
+                                original: relative_path + img_filename,
+                                thumbnail: resized_file_path
+                            });
                         }
                     });
                 });
@@ -840,7 +843,6 @@ this.unlinkDir = function(path, done){
         });
     });
 };
-
 
 
 /**

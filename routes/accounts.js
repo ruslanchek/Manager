@@ -151,6 +151,12 @@ module.exports = function(app, controllers){
         });
     });
 
+    app.get('/accounts/image/:id', app.ensureAuthenticated, function(req, res){
+        controllers.account.createImage(req.params.id, req, function(result){
+            res.json(result);
+        });
+    });
+
     app.post('/accounts/send/:id', app.ensureAuthenticated, function(req, res){
         controllers.account.send(req, function(result){
             res.json(result);

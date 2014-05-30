@@ -264,12 +264,10 @@ module.exports = function(app, models) {
                             });
                         }
 
-                        _this.createImage(account_data._id, req, function(){
-                            return done({
-                                success: true,
-                                message: 'OK',
-                                data: account_data
-                            });
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: account_data
                         });
                     });
                 });
@@ -352,12 +350,10 @@ module.exports = function(app, models) {
                             req.session.save();
                         }
 
-                        _this.createImage(account_data._id, req, function(){
-                            return done({
-                                success: true,
-                                message: 'OK',
-                                data: account_data
-                            });
+                        return done({
+                            success: true,
+                            message: 'OK',
+                            data: account_data
                         });
                     });
                 });
@@ -483,10 +479,19 @@ module.exports = function(app, models) {
         var url = app.config.get('protocol') + '://localhost:' + app.config.get('port') + '/accounts/render/' + doc_id,
             file_path = 'public/user/' + req.user._id + '/company/' + req.user.current_company + '/document/account/' + doc_id + '/';
 
-        app.utils.generateDocumentImage(url, file_path, req.cookies['connect.sid'], function(path_to_file){
-            if(done){
-                done(path_to_file);
-            }
+        app.utils.generateDocumentImage(url, file_path, req.cookies['connect.sid'], function(files){
+			if(!files){
+				return done({
+					status: false,
+					message: 'CREATE_IMAGE_FAILED'
+				});
+			}else{
+				return done({
+					status: true,
+					message: 'OK',
+                    date: files
+				});
+			}
         });
     };
 
