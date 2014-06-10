@@ -3,6 +3,7 @@
 @import 'kube/kube';
 @import '/fontello/css/fontello.css';
 @import '/fontello/css/animation.css';
+@import 'mixins';
 @import 'login';
 @import 'modal';
 @import 'animation';
@@ -14,7 +15,6 @@
 @import 'docview';
 @import 'crop';
 @import 'requisites';
-
 @import 'meow';
 @import 'kladr';
 @import 'chosen';
@@ -81,7 +81,6 @@ a.dashed-link:hover, a.dashed-link:active {
   border-bottom: 1px dashed @colorLinkHover;
 }
 
-
 a.gray-link, a.gray-link:link, a.gray-link:active {
   color: #b8bdc0;
 }
@@ -116,13 +115,14 @@ h1 {
   font-size: 1.8em;
   margin-bottom: 20px;
   color: #777;
+  font-weight: normal;
 
   a {
-    color: @panel-bg-light - 70;
+    color: @panel-bg-light - 70 !important;
   }
 
   a:hover {
-    border-color: #ff8841;
+    color: @color-red-dark !important;
   }
 }
 
@@ -131,8 +131,8 @@ h1 {
   background: url(../images/global-loading.png) 0 0;
   position: fixed;
   opacity: 0.75;
-  width: @app-width + 60;
-  margin-left: -@app-width / 2 - 30;
+  width: @app-width + 230;
+  margin-left: -@app-width / 2 - 115;
   height: 5px;
   left: 50%;
   top: -5px;
@@ -145,15 +145,15 @@ h1 {
 
 // Layout
 .wrap {
-	position: relative;
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	background: #fff;
-	padding: 0 30px 0 90px;
-	margin: 0 auto;
-	width: @app-width;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  background: #fff;
+  padding: 0 30px 0 200px;
+  margin: 0 auto;
+  width: @app-width;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 // App
@@ -165,11 +165,38 @@ h1 {
 }
 
 .nav-left {
-	position: absolute;
-	width: 60px;
-	height: 100%;
-	top: 0;
-	left: 0;
+  position: absolute;
+  background: @panel-bg-light url(../images/right-shadow.png) repeat-y right;
+  width: 170px;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+  .links {
+    padding-top: 77px;
+  }
+
+  .menu-icon {
+    display: block;
+    padding: 8px 20px 8px 30px;
+    box-sizing: border-box;
+
+    .animation-150-easeInOutQuart;
+
+    span {
+      color: #545259;
+    }
+  }
+
+  .menu-icon.active {
+    background: #fff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  .menu-icon:hover {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+  }
 }
 
 // Header
@@ -180,82 +207,14 @@ header {
   margin: 0 0 25px -30px;
   background: rgba(0, 0, 0, 0.02);
 
-  .top-menu {
-    .menu-icon {
-      display: block;
-      float: left;
-      width: 12.5%;
-      text-align: center;
-      padding: 6px 0;
-      box-sizing: border-box;
-
-      .animation-150-easeInOutQuart;
-      
-      i {
-        height: 68px;
-        width: 68px;
-        display: block;
-        margin: 0 auto 0;
-      }
-
-      span {
-        color: #545259;
-        font-size: 1.05em;
-        font-weight: bold;
-      }
-    }
-
-    .menu-icon.active {
-      border-radius: @ui-border-radius + 2;
-      background: #fff;
-      opacity: 1 !important;
-      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
-    }
-
-    .menu-icon .i1 {
-      background: url(../images/icons/nav/1.png);
-    }
-
-    .menu-icon .i2 {
-      background: url(../images/icons/nav/2.png);
-    }
-
-    .menu-icon .i3 {
-      background: url(../images/icons/nav/3.png);
-    }
-
-    .menu-icon .i4 {
-      background: url(../images/icons/nav/4.png);
-    }
-
-    .menu-icon .i5 {
-      background: url(../images/icons/nav/5.png);
-    }
-
-    .menu-icon .i6 {
-      background: url(../images/icons/nav/6.png);
-    }
-
-    .menu-icon .i7 {
-      background: url(../images/icons/nav/7.png);
-    }
-
-    .menu-icon .i8 {
-      background: url(../images/icons/nav/8.png);
-    }
-
-    .menu-icon:hover {
-      opacity: 0.75;
-    }
-  } 
-
   .top {
     height: 60px;
     background: #4F5770;
-    width: 100%;
+    width: 1170px;
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.15);
     position: relative;
     padding: 0 30px;
-    margin: 0 0 20px -30px;
+    margin: 0 0 20px -200px;
 
     .logo {
       width: 138px;
@@ -491,7 +450,7 @@ header {
 
 .button.red {
   background-color: @color-red-dark;
-  color: #fff;
+  color: #fff !important;
 }
 
 .button.red:hover {
@@ -555,6 +514,7 @@ header {
     border-color: transparent;
     background: none;
     box-shadow: none;
+    color: #59575E;
   }
 
   .action-button.only-icon {
@@ -594,6 +554,7 @@ header {
   background-image: url(../images/gradient.png);
   background-repeat: repeat-x;
   background-position: top;
+  color: #59575E;
 
   border: none;
   display: inline-block;
@@ -701,7 +662,7 @@ input.action-button {
   background-color: @color-green;
   background-image: url(../images/gradient.png);
   border: none;
-  color: #fff;
+  color: #fff !important;
 
   @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 
@@ -755,7 +716,7 @@ input.action-button {
   background-image: url(../images/gradient.png);
   background-color: @color-red-dark;
   border-color: @color-red-dark;
-  color: #fff;
+  color: #fff !important;
 
   @box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 
@@ -987,7 +948,6 @@ input.action-button {
   }
 }
 
-
 // Main actions
 .main-actions {
   .item {
@@ -1048,11 +1008,11 @@ input.action-button {
 
 .notice.yellow {
   color: #5b4c1c;
-  background-color: rgba(255,208,44,1);
+  background-color: rgba(255, 208, 44, 1);
 }
 
 .notice.yellow:hover {
-  background-color: rgba(255,208,44,0.7);
+  background-color: rgba(255, 208, 44, 0.7);
 }
 
 //Company selector
@@ -1193,7 +1153,7 @@ footer {
 }
 
 // Media queries
-@media (-webkit-device-pixel-ratio: 2){
+@media (-webkit-device-pixel-ratio: 2) {
   body {
     background: url(../images/stacked-circles@2X.png);
   }
