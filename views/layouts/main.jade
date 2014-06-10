@@ -6,6 +6,9 @@ html
         include ../includes/scripts
     body
         .wrap
+            if user && user.companies > 0
+                .nav-left
+        
             .app
                 #loading-global
 

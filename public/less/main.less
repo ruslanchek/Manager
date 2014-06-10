@@ -1,4 +1,5 @@
 // Imports
+// TODO: Needs to remove a LESS compilation from project
 @import 'kube/kube';
 @import '/fontello/css/fontello.css';
 @import '/fontello/css/animation.css';
@@ -114,6 +115,7 @@ h1, h2, h3, h4 {
 h1 {
   font-size: 1.8em;
   margin-bottom: 20px;
+  color: #777;
 
   a {
     color: @panel-bg-light - 70;
@@ -143,14 +145,15 @@ h1 {
 
 // Layout
 .wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  background: #fff;
-  padding: 0 30px;
-  margin: 0 auto;
-  width: @app-width;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	position: relative;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	background: #fff;
+	padding: 0 30px 0 90px;
+	margin: 0 auto;
+	width: @app-width;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 // App
@@ -161,11 +164,19 @@ h1 {
   position: relative;
 }
 
+.nav-left {
+	position: absolute;
+	width: 60px;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
 // Header
 header {
   position: relative;
   width: 100%;
-  padding: 0 30px 20px;
+  padding: 0 30px 0;
   margin: 0 0 25px -30px;
   background: rgba(0, 0, 0, 0.02);
 
