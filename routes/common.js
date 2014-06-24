@@ -4,9 +4,9 @@ module.exports = function(app, controllers){
     };
 
     /**
-     * Get routes
+     * Main bootstrap route
      * */
-    app.get('/', app.ensureAuthenticated, function(req, res){
+     app.get('/', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
             user: req.user,
             section: 'main',
@@ -15,9 +15,12 @@ module.exports = function(app, controllers){
             }
         });
 
-        res.render('main', params);
+        res.render('bootstrap', params);
     });
 
+
+
+    // Deprecated
     app.post('/view', app.ensureAuthenticated, function(req, res){
         var params = app.utils.extend(common, {
             user: req.user,

@@ -1,5 +1,4 @@
-var path = require('path'),
-    lessMiddleware = require('less-middleware');
+var path = require('path');
 
 module.exports = function(app, express){
     var RedisStore = require('connect-redis')(express);
@@ -21,15 +20,7 @@ module.exports = function(app, express){
     app.use(app.passport.initialize());
     app.use(app.passport.session());
     app.use(app.router);
-
-    app.use(lessMiddleware({
-        dest: '/stylesheets',
-        src: '/less',
-        compress: (app.get('env') != 'development'),
-        root: path.join(__dirname, '../public')
-    }));
-
-    app.use(express.static(path.join(__dirname, '../public')));
+    app.use(express.static(path.join(__dirname, '../public'))); // TODO: Нужно ли это?
 
     /**
      * HTTP errors
