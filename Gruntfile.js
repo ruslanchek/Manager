@@ -17,11 +17,11 @@ module.exports = function(grunt) {
             dist: {
                 src: [
                     // Libs
-                    'assets/js/app/libs/ejs.js',
-                    'assets/js/app/libs/ejs.view.js',
-                    'assets/js/app/libs/underscore.js',
-                    'assets/js/app/libs/backbone.js',
-                    'assets/js/app/libs/marionette.js',
+                    'assets/js/libs/ejs.js',
+                    'assets/js/libs/ejs.view.js',
+                    'assets/js/libs/underscore.js',
+                    'assets/js/libs/backbone.js',
+                    'assets/js/libs/marionette.js',
 
                     // App
                     'assets/js/app.js'
