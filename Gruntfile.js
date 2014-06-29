@@ -18,21 +18,13 @@ module.exports = function(grunt) {
                 src: [
                     // Libs
                     'assets/js/libs/jquery.js',
-                    'assets/js/libs/ejs.js',
                     'assets/js/libs/underscore.js',
-                    'assets/js/libs/backbone.js',
+                    'assets/js/libs/handlebars.js',
+                    'assets/js/libs/ember.js',
+                    'assets/js/libs/ember-data.js',
 
                     // App
-                    'assets/js/app.js',
-
-                    // Controllers
-                    'assets/js/controllers/main.controller.js',
-
-                    // Routes
-                    'assets/js/router.js',
-
-                    // Inits
-                    'assets/js/init.js'
+                    'assets/js/app.js'
                 ],
                 dest: 'public/js/app.js'
             }
