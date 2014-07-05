@@ -197,7 +197,7 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    app.mailer.send('mailer/auth.password-recovery.jade', {
+                    app.mailer.send('../_OLD/views/mailer/auth.password-recovery.jade', {
                         to: user.email,
                         subject: 'Password recovery',
                         username: user.username,
@@ -264,7 +264,7 @@ module.exports = function (app, models) {
                         });
                     }
 
-                    app.mailer.send('mailer/auth.password-recovery-new-password.jade', {
+                    app.mailer.send('../_OLD/views/mailer/auth.password-recovery-new-password.jade', {
                         to: user.email,
                         subject: 'New password',
                         username: user.username,

@@ -67943,14 +67943,16 @@ Ember.State = generateRemovedClass("Ember.State");
 
 
 })();
-App = Ember.Application.create();
+Manager = function(){};
 
-App.Router.map(function() {
-    this.resource('test');
-});
+Manager.prototype.routes = {
+    a: 'ss'
+};
 
-App.IndexRoute = Ember.Route.extend({
-    model: function() {
-        return ['red', 'yellow', 'blue'];
-    }
-});
+
+
+$(function(){
+    var a = new Manager();
+
+    alert(a.routes.a)
+})

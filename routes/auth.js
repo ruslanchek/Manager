@@ -131,7 +131,7 @@ module.exports = function (app, controllers) {
             }
         });
 
-        res.render('auth.password-recovery.jade', params);
+        res.render('../_OLD/views/auth.password-recovery.jade', params);
     });
 
 
@@ -148,7 +148,7 @@ module.exports = function (app, controllers) {
                 }
             });
 
-            res.render('auth.password-recovery-code.jade', params);
+            res.render('../_OLD/auth.password-recovery-code.jade', params);
         });
     });
 
