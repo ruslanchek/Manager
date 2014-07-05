@@ -1,5 +1,5 @@
-var app = function(){};
+window.App = Ember.Application.create();
 
-app.prototype.routes = {
-    a: 'ss'
-};
+App.Router.map(function() {
+    this.route('favorites');
+});

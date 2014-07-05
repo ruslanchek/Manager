@@ -67943,16 +67943,8 @@ Ember.State = generateRemovedClass("Ember.State");
 
 
 })();
-Manager = function(){};
+window.App = Ember.Application.create();
 
-Manager.prototype.routes = {
-    a: 'ss'
-};
-
-
-
-$(function(){
-    var a = new Manager();
-
-    alert(a.routes.a)
-})
+App.Router.map(function() {
+    this.route('favorites');
+});

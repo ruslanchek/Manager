@@ -43,8 +43,8 @@ module.exports = function(grunt) {
             options: {
                 livereload: true
             },
-            files: ['less/*.less'],
-            tasks: ['less']
+            files: ['assets/less/*.less', 'assets/js/*.js'],
+            tasks: ['less', 'concat']
         }
     });
 

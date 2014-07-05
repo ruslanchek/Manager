@@ -10,8 +10,12 @@
     </head>
 
     <body id="app">
-
+        {{outlet}}
     </body>
 
-    <script type="text/x-handlebars"> Hello <b>{{Songs.mixmaster}}</b> </script>
+    <script type="text/x-handlebars">
+        <div>
+            {{outlet}}
+        </div>
+    </script>
 </html>
