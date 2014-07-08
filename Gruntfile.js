@@ -88,5 +88,5 @@ module.exports = function(grunt) {
 
     //grunt.registerTask('default', ['less:development', 'clean', 'copy', 'fileblocks', 'watch']);
     grunt.registerTask('default', ['less:production', 'clean', 'concat', 'uglify']);
-    // TODO: доделать production и протестить
+    // TODO: сделать копирование img и прочей херни, наладить правильное копирование js файлов, сделать создание ejs со скриптамидля dev/prod отделные чтобы сувались туда правильные файлы
 };
