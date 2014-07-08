@@ -41,5 +41,10 @@
   "subdomain": "manager",
   "engines": {
     "node": "0.10.x"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-file-blocks": "^0.3.0"
   }
 }

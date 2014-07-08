@@ -1,3 +1,15 @@
+var js_src = [
+    // Libs
+    'assets/js/libs/jquery.js',
+    'assets/js/libs/underscore.js',
+    'assets/js/libs/handlebars.js',
+    'assets/js/libs/ember.js',
+    'assets/js/libs/ember-data.js',
+
+    // App
+    'assets/js/app.js'
+];
+
 module.exports = function(grunt) {
     grunt.initConfig({
         less: {
@@ -23,22 +35,30 @@ module.exports = function(grunt) {
                 }
             }
         },
+        copy: {
+            main: {
+                flatten: true,
+                src: 'assets/js/',
+                dest: 'public/js/'
+            }
+        },
+        fileblocks: {
+            todos: {
+                src: 'views/include/scripts.dev.ejs',
+                    blocks: {
+                    app: {
+                        src: js_src
+                    }
+                }
+            }
+        },
+        clean: ['public/js/'],
         concat: {
             options: {
 
             },
             dist: {
-                src: [
-                    // Libs
-                    'assets/js/libs/jquery.js',
-                    'assets/js/libs/underscore.js',
-                    'assets/js/libs/handlebars.js',
-                    'assets/js/libs/ember.js',
-                    'assets/js/libs/ember-data.js',
-
-                    // App
-                    'assets/js/app.js'
-                ],
+                src: js_src,
                 dest: 'public/js/app.js'
             }
         },
@@ -53,7 +73,7 @@ module.exports = function(grunt) {
         watch: {
             development: {
                 files: ['assets/less/*.less', 'assets/js/*.js'],
-                tasks: ['less', 'concat']
+                tasks: ['less', 'copy', 'fileblocks']
             }
         }
     });
@@ -62,8 +82,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-file-blocks');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('default', ['less:development', 'watch']);
-    grunt.registerTask('production', ['less:production', 'concat', 'uglify']);
+    //grunt.registerTask('default', ['less:development', 'clean', 'copy', 'fileblocks', 'watch']);
+    grunt.registerTask('default', ['less:production', 'clean', 'concat', 'uglify']);
     // TODO: доделать production и протестить
 };
