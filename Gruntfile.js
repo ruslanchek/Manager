@@ -10,6 +10,12 @@ var js_src = [
     'assets/js/app.js'
 ];
 
+var js_src_pub = [];
+
+for(var i = 0; i < js_src.length; i++){
+    js_src_pub.push(js_src[i].replace('assets', 'public'));
+}
+
 module.exports = function(grunt) {
     grunt.initConfig({
         less: {
@@ -36,23 +42,64 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            main: {
-                flatten: true,
-                src: 'assets/js/',
-                dest: 'public/js/'
+            js: {
+                cwd: './assets/js/',
+                expand: true,
+                flatten: false,
+                src: ['**/*'],
+                dest: './public/js/'
+            },
+            img: {
+                cwd: './assets/img/',
+                expand: true,
+                flatten: false,
+                src: ['**/*'],
+                dest: './public/img/'
+            },
+            views: {
+                cwd: './assets/views/',
+                expand: true,
+                flatten: false,
+                src: ['**/*'],
+                dest: './public/views/'
+            }
+        },
+        'file-creator': {
+            basic: {
+                'views/include/scripts.dev.ejs': function(fs, fd, done) {
+                    fs.writeSync(fd, '<!-- fileblock:js app --><!-- endfileblock -->');
+                    done();
+                }
             }
         },
         fileblocks: {
-            todos: {
+            development: {
                 src: 'views/include/scripts.dev.ejs',
-                    blocks: {
+                options: {
+                    prefix: '/'
+                },
+                blocks: {
                     app: {
-                        src: js_src
+                        src: js_src_pub
+                    }
+                }
+            },
+            production: {
+                src: 'views/include/scripts.dev.ejs',
+                options: {
+                    prefix: '/'
+                },
+                blocks: {
+                    app: {
+                        src: 'public/js/app.js'
                     }
                 }
             }
         },
-        clean: ['public/js/'],
+        clean: [
+            'public/js/',
+            'views/include/scripts.dev.ejs'
+        ],
         concat: {
             options: {
 
@@ -64,15 +111,18 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
+                compress: true,
                 sourceMap: false
             },
-            files: {
-                'public/js/app.js': ['public/js/app.js']
+            my_target: {
+                files: {
+                    'public/js/app.js': ['public/js/app.js']
+                }
             }
         },
         watch: {
             development: {
-                files: ['assets/less/*.less', 'assets/js/*.js'],
+                files: ['assets/less/*.less', 'assets/js/*.js', 'assets/views/*', 'assets/img/*'],
                 tasks: ['less', 'copy', 'fileblocks']
             }
         }
@@ -85,8 +135,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-file-blocks');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-file-creator');
 
-    //grunt.registerTask('default', ['less:development', 'clean', 'copy', 'fileblocks', 'watch']);
-    grunt.registerTask('default', ['less:production', 'clean', 'concat', 'uglify']);
-    // TODO: сделать копирование img и прочей херни, наладить правильное копирование js файлов, сделать создание ejs со скриптамидля dev/prod отделные чтобы сувались туда правильные файлы
+    grunt.registerTask('default', ['less:development', 'copy:js', 'copy:img', 'copy:views', 'fileblocks:development', 'watch']);
+    grunt.registerTask('development', ['less:development', 'clean', 'copy:js', 'copy:img', 'file-creator', 'copy:views', 'fileblocks:development']);
+    grunt.registerTask('production', ['less:production', 'copy:img', 'copy:views', 'clean', 'file-creator', 'concat', 'uglify', 'fileblocks:production']);
 };
