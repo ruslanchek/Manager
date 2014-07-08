@@ -3,7 +3,20 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    paths: ['assets/less']
+                    paths: ['assets/less'],
+                    sourceMap: true,
+                    sourceMapFilename: 'public/css/main.css.map',
+                    sourceMapURL: '/css/main.css.map',
+                    outputSourceFiles: true
+                },
+                files: {
+                    'public/css/main.css': 'assets/less/main.less'
+                }
+            },
+            production: {
+                options: {
+                    paths: ['assets/less'],
+                    cleancss: true
                 },
                 files: {
                     'public/css/main.css': 'assets/less/main.less'
@@ -31,20 +44,17 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                beautify: true,
-                sourceMap: false,
-                sourceMapName: 'public/app.js.map'
+                sourceMap: false
             },
             files: {
                 'public/js/app.js': ['public/js/app.js']
             }
         },
         watch: {
-            options: {
-                livereload: true
-            },
-            files: ['assets/less/*.less', 'assets/js/*.js'],
-            tasks: ['less', 'concat']
+            development: {
+                files: ['assets/less/*.less', 'assets/js/*.js'],
+                tasks: ['less', 'concat']
+            }
         }
     });
 
@@ -53,5 +63,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['less', 'concat', 'watch']);
+    grunt.registerTask('default', ['less:development', 'watch']);
+    grunt.registerTask('production', ['less:production', 'concat', 'uglify']);
+    // TODO: доделать production и протестить
 };
