@@ -12,11 +12,11 @@ var js_src = [
 
 var js_src_pub = [];
 
-for(var i = 0; i < js_src.length; i++){
-    js_src_pub.push(js_src[i].replace('assets', 'public'));
+for (var i = 0; i < js_src.length; i++) {
+    js_src_pub.push(js_src[i].replace('assets/', ''));
 }
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         less: {
             development: {
@@ -64,41 +64,38 @@ module.exports = function(grunt) {
                 dest: './public/views/'
             }
         },
-        'file-creator': {
-            basic: {
-                'views/include/scripts.dev.ejs': function(fs, fd, done) {
-                    fs.writeSync(fd, '<!-- fileblock:js app --><!-- endfileblock -->');
-                    done();
-                }
-            }
-        },
         fileblocks: {
             development: {
                 src: 'views/include/scripts.dev.ejs',
                 options: {
-                    prefix: '/'
+                    prefix: '/',
+                    removeAnchors: false,
+                    rebuild: true
                 },
                 blocks: {
                     app: {
-                        src: js_src_pub
+                        src: js_src_pub,
+                        cwd: 'public/'
                     }
                 }
             },
             production: {
                 src: 'views/include/scripts.dev.ejs',
                 options: {
-                    prefix: '/'
+                    prefix: '/',
+                    removeAnchors: false,
+                    rebuild: true
                 },
                 blocks: {
                     app: {
-                        src: 'public/js/app.js'
+                        src: 'js/app.js',
+                        cwd: 'public/'
                     }
                 }
             }
         },
         clean: [
-            'public/js/',
-            'views/include/scripts.dev.ejs'
+            'public/js/'
         ],
         concat: {
             options: {
@@ -122,8 +119,8 @@ module.exports = function(grunt) {
         },
         watch: {
             development: {
-                files: ['assets/less/*.less', 'assets/js/*.js', 'assets/views/*', 'assets/img/*'],
-                tasks: ['less', 'copy', 'fileblocks']
+                files: ['assets/less/*.less', 'assets/js/*.js', 'assets/views/*', 'assets/img/*', 'Gruntfile.js'],
+                tasks: ['less:development', 'copy:js', 'copy:img', 'copy:views', 'fileblocks:development']
             }
         }
     });
@@ -135,9 +132,24 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-file-blocks');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-file-creator');
 
-    grunt.registerTask('default', ['less:development', 'copy:js', 'copy:img', 'copy:views', 'fileblocks:development', 'watch']);
-    grunt.registerTask('development', ['less:development', 'clean', 'copy:js', 'copy:img', 'file-creator', 'copy:views', 'fileblocks:development']);
-    grunt.registerTask('production', ['less:production', 'copy:img', 'copy:views', 'clean', 'file-creator', 'concat', 'uglify', 'fileblocks:production']);
+    grunt.registerTask('development', [
+        'less:development',
+        'clean',
+        'copy:js',
+        'copy:img',
+        'copy:views',
+        'fileblocks:development',
+        'watch'
+    ]);
+
+    grunt.registerTask('production', [
+        'less:production',
+        'copy:img',
+        'copy:views',
+        'clean',
+        'concat',
+        'uglify',
+        'fileblocks:production'
+    ]);
 };

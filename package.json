@@ -45,7 +45,6 @@
   "devDependencies": {
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-copy": "^0.5.0",
-    "grunt-file-blocks": "^0.3.0",
-    "grunt-file-creator": "^0.1.1"
+    "grunt-file-blocks": "^0.3.0"
   }
 }
