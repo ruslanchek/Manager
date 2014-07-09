@@ -162,7 +162,7 @@ module.exports = function (grunt) {
         'clean',
         'concat',
         'uglify',
-        'fileblocks:production',
-        'htmlmin:production'
+        'fileblocks:production'
+        //'htmlmin:production'
     ]);
 };
