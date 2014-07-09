@@ -117,6 +117,17 @@ module.exports = function (grunt) {
                 }
             }
         },
+        htmlmin: { // TODO: разобраться почему компилит в один файл все
+            production: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: {
+                    'public/views/*.*': 'public/views/*.*'
+                }
+            }
+        },
         watch: {
             development: {
                 files: ['assets/less/*.less', 'assets/js/*.js', 'assets/views/*', 'assets/img/*', 'Gruntfile.js'],
@@ -132,6 +143,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-file-blocks');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
     grunt.registerTask('development', [
         'less:development',
@@ -150,6 +162,7 @@ module.exports = function (grunt) {
         'clean',
         'concat',
         'uglify',
-        'fileblocks:production'
+        'fileblocks:production',
+        'htmlmin:production'
     ]);
 };
