@@ -2,12 +2,12 @@
     "protocol": "http",
     "domain_name": "managercrm.ru",
     "port": 2000,
-    "session_secret": "sadkj3l439Kjn3lk4nlJn",
+    "session_secret": "",
     "session_time": 36000000,
 
     "mongoose": {
-        "development": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm",
-		"production": "mongodb://admin:lordaeron@oceanic.mongohq.com:10028/managercrm"
+        "development": "",
+		"production": ""
     },
 
     "redis": {
@@ -23,23 +23,23 @@
 
     "oauth": {
         "facebook": {
-            "clientID": "376331375837378",
-            "clientSecret": "985e868833e17b228090904536c23576"
+            "clientID": "",
+            "clientSecret": ""
         },
 
         "twitter": {
-            "consumerKey": "KGrtpNFTY6llYyFRl2LKg",
-            "consumerSecret": "IKKE5cPUPmtD1bPaC8DJwi9VyU7Z8xDz51nCtpZyeo"
+            "consumerKey": "",
+            "consumerSecret": ""
         },
 
         "vk": {
-            "clientID": "4081894",
-            "clientSecret": "q9jx51H7XtUgwTuyozJt"
+            "clientID": "",
+            "clientSecret": ""
         },
 
         "yandex": {
-            "clientID": "8911a1b8cb444a298ad05408139a2c77",
-            "clientSecret": "8de38c10e2bc427cae2f1a7f717f4c9e"
+            "clientID": "",
+            "clientSecret": ""
         }
     }
 }
